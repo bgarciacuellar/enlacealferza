@@ -22,12 +22,12 @@ class CreateAdditionalUserInfosTable extends Migration
             $table->string('office')->nullable();
             $table->string('company')->nullable();
             $table->string('gender')->nullable();
-            $table->timestamp('birthday')->nullable();
+            $table->date('birthday')->nullable();
             $table->string('municipality')->nullable();
             $table->string('civil_status')->nullable();
             $table->string('phone_number')->nullable();
-            $table->timestamp('entry_date')->nullable();
-            $table->timestamp('departure_dates')->nullable();
+            $table->date('entry_date')->nullable();
+            $table->date('departure_dates')->nullable();
             $table->timestamps();
         });
     }
