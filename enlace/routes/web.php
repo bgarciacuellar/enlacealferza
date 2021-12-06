@@ -23,3 +23,9 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 
 Route::get('/users/list', [App\Http\Controllers\UserController::class, 'userList'])
     ->name('users.userList');
+
+Route::get('/user/detail/{userId}', [App\Http\Controllers\UserController::class, 'userDetails'])
+    ->name('users.userDetails');
+
+Route::post('/users/disable', [App\Http\Controllers\UserController::class, 'disableUser'])
+    ->name('users.disableUser');

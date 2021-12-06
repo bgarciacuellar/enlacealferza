@@ -19,4 +19,14 @@
     </tbody>
 </table>
 
+<form action="{{ route('users.disableUser') }}" method="POST">
+    @csrf
+    <select name="user_id" id="">
+        @foreach ($users as $user)
+        <option value="{{ $user->id }}">{{ $user->name . ' / ' . $user->email }}</option>
+        @endforeach
+    </select>
+    <button type="submit">Enviar</button>
+</form>
+
 @endsection
