@@ -19,6 +19,8 @@ Route::get('/', function () {
 
 Auth::routes();
 
+Route::post('/login-customized', [App\Http\Controllers\LoginCustomizedController::class, 'login'])->name('auth.login');
+
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 Route::get('/users/list', [App\Http\Controllers\UserController::class, 'userList'])
