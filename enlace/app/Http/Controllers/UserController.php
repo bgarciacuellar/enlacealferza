@@ -13,11 +13,6 @@ class UserController extends Controller
         return view('users.users_list', compact('users'));
     }
 
-    public function userDetails($userId){
-        $user = User::findOrFail($userId);
-        return view('users.users_details', compact('user'));
-    }
-
     public function updateUser(Request $request, $userId){
         $request->validate(
             [

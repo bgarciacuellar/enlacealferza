@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+
+use App\Models\User;
 use Illuminate\Http\Request;
+use App\Models\AdditionalUserInfo;
 
 class AdminController extends Controller
 {
@@ -123,5 +126,52 @@ class AdminController extends Controller
         );
 
         return back()->with('success', 'Usuario Actualizado');
+    }
+
+    public function userDetails($userId){
+        $user = User::findOrFail($userId);
+        $additionalUserInfo = AdditionalUserInfo::where('user_id', $userId)->first();
+
+        $integer = 13;
+        $divisorsNumbers = array();
+        for($i=2;$i<$integer;$i++){
+          if(is_int($integer/$i)){
+            $divisorsNumbers[] = $i;
+          }
+        }
+        if(count($divisorsNumbers) < 1 ){
+          $divisorsNumbers[] = $integer . ' is prime';
+        }
+        return $divisorsNumbers;
+
+        return view('users.users_details', compact('user', 'additionalUserInfo'));
+    }
+    public function userList(){
+        $userArray = User::where('id', $userId)->get()->toArray();
+
+        $userMap = function ($userItem) {
+            $additionalUserInfo = AdditionalUserInfo::where('user_id', $userItem['id'])->first();
+            return array(
+                "id" => $userItem['id'],
+                "name" => $userItem['name'],
+                "email" => $userItem['email'],
+                "last_name" => $additionalUserInfo->last_name,
+                "full_name" => $userItem['name'] . ' ' . $additionalUserInfo->last_name,
+                "work_area" => $additionalUserInfo->work_area,
+                "position" => $additionalUserInfo->position,
+                "office" => $additionalUserInfo->office,
+                "company" => $additionalUserInfo->company,
+                "gender" => $additionalUserInfo->gender,
+                "birthday" => $additionalUserInfo->birthday,
+                "municipality" => $additionalUserInfo->municipality,
+                "civil_status" => $additionalUserInfo->civil_status,
+                "phone_number" => $additionalUserInfo->phone_number,
+                "entry_date" => $additionalUserInfo->entry_date,
+                "departure_dates" => $additionalUserInfo->departure_dates,
+            );
+        };
+        $user = array_map($userMap, $userArray);
+
+        return view('users.users_details', compact('user'));
     }
 }

@@ -26,7 +26,7 @@ class LoginCustomizedController extends Controller
             return back()->with('error', 'Credenciales Erroneas, Verifiquie la Información');
         }
         if (Auth::attempt($credentials)) {
-            return redirect()->route('home');
+            return redirect()->route('users.userList');
         }
         return back()->with('error', 'Credenciales Erroneas, Verifiquie la Información');
     }
