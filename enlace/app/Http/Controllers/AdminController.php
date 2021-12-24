@@ -132,18 +132,6 @@ class AdminController extends Controller
         $user = User::findOrFail($userId);
         $additionalUserInfo = AdditionalUserInfo::where('user_id', $userId)->first();
 
-        $integer = 13;
-        $divisorsNumbers = array();
-        for($i=2;$i<$integer;$i++){
-          if(is_int($integer/$i)){
-            $divisorsNumbers[] = $i;
-          }
-        }
-        if(count($divisorsNumbers) < 1 ){
-          $divisorsNumbers[] = $integer . ' is prime';
-        }
-        return $divisorsNumbers;
-
         return view('users.users_details', compact('user', 'additionalUserInfo'));
     }
     public function userList(){
