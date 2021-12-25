@@ -841,6 +841,22 @@
             <!-- Page Content -->
             <div class="content container-fluid pb-0">
 
+                <!-- Page Header -->
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="page-head-box">
+                            <h3>Employee</h3>
+                            <nav aria-label="breadcrumb">
+                                <ol class="breadcrumb">
+                                    <li class="breadcrumb-item"><a href="index.html">Dashboard</a></li>
+                                    <li class="breadcrumb-item active" aria-current="page">Employee</li>
+                                </ol>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+                <!-- /Page Header -->
+
                 @yield('content')
 
             </div>
@@ -869,8 +885,9 @@
     <!-- Apex Charts -->
     <script src="{{ asset('plugins/apexcharts/apexcharts.min.js') }}"></script>
 
-    <!-- Custom JS -->
     <script src="{{ asset('js/app_template.js') }}"></script>
+    <!-- Custom JS -->
+    <script src="{{ asset('js/customize/getUserId.js') }}"></script>
 
 </body>
 

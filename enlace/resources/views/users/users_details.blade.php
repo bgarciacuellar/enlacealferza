@@ -854,7 +854,8 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form>
+                <form action="{{ route('users.updateUser', $user->id) }}" method="POST">
+                    @csrf
                     <div class="row">
                         <div class="col-md-12">
                             <div class="profile-img-wrap edit-img">
@@ -868,32 +869,39 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label>First Name</label>
-                                        <input type="text" class="form-control" value="{{ $user->name }}">
+                                        <input type="text" class="form-control" value="{{ $user->name }}" name="name">
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label>Last Name</label>
                                         <input type="text" class="form-control"
-                                            value="{{ $additionalUserInfo->last_name }}">
+                                            value="{{ $additionalUserInfo->last_name }}" name="last_name">
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label>Birth Date</label>
-                                        <div class="cal-icon">
-                                            <input class="form-control datetimepicker" type="text"
-                                                value="{{ $additionalUserInfo->birthday }}">
-                                        </div>
+                                        <input class="form-control" type="date"
+                                            value="{{ $additionalUserInfo->birthday }}" name="birthday">
                                     </div>
                                 </div>
+                                {{-- <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Birth Date</label>
+                                        <div class="cal-icon">
+                                            <input class="form-control datetimepicker" type="text"
+                                                value="{{ $additionalUserInfo->birthday }}" name="birthday">
+                                        </div>
+                                    </div>
+                                </div> --}}
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label>Gender</label>
-                                        <select class="select form-control">
-                                            <option value="male selected" {{ $additionalUserInfo->gender == 'Male' ?
+                                        <select class="select form-control" name="gender">
+                                            <option value="male selected" {{ $additionalUserInfo->gender == 'male' ?
                                                 'selected' : null }}>Male</option>
-                                            <option value="female" {{ $additionalUserInfo->gender == 'Female' ?
+                                            <option value="female" {{ $additionalUserInfo->gender == 'female' ?
                                                 'selected' : null }} >Female</option>
                                         </select>
                                     </div>
@@ -902,37 +910,63 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-md-12">
+                        <div class="col-md-6">
                             <div class="form-group">
-                                <label>Address</label>
-                                <input type="text" class="form-control" value="4487 Snowbird Lane">
+                                <label>Area de trabajo</label>
+                                <input type="text" class="form-control" value="{{ $additionalUserInfo->work_area }}"
+                                    name="work_area">
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label>State</label>
-                                <input type="text" class="form-control" value="New York">
+                                <label>Posición</label>
+                                <input type="text" class="form-control" value="{{ $additionalUserInfo->position }}"
+                                    name="position">
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label>Country</label>
-                                <input type="text" class="form-control" value="United States">
+                                <label>Oficina</label>
+                                <input type="text" class="form-control" value="{{ $additionalUserInfo->office }}"
+                                    name="office">
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label>Pin Code</label>
-                                <input type="text" class="form-control" value="10523">
+                                <label>Compañía</label>
+                                <input type="text" class="form-control" value="{{ $additionalUserInfo->company }}"
+                                    name="company">
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label>Phone Number</label>
-                                <input type="text" class="form-control" value="631-889-3206">
+                                <label>Teléfono</label>
+                                <input type="text" class="form-control" value="{{ $additionalUserInfo->phone_number }}"
+                                    name="phone_number">
                             </div>
                         </div>
                         <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Municipio</label>
+                                <input type="text" class="form-control" value="{{ $additionalUserInfo->municipality }}"
+                                    name="municipality">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Fecha de entrada</label>
+                                <input type="date" class="form-control" value="{{ $additionalUserInfo->entry_date }}"
+                                    name="entry_date">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Fecha de salida</label>
+                                <input type="date" class="form-control"
+                                    value="{{ $additionalUserInfo->departure_dates }}" name="departure_dates">
+                            </div>
+                        </div>
+                        {{-- <div class="col-md-6">
                             <div class="form-group">
                                 <label>Department <span class="text-danger">*</span></label>
                                 <select class="select">
@@ -964,10 +998,10 @@
                                     <option>Jeffery Lalor</option>
                                 </select>
                             </div>
-                        </div>
+                        </div> --}}
                     </div>
                     <div class="submit-section">
-                        <button class="btn btn-primary submit-btn">Submit</button>
+                        <button class="btn btn-primary submit-btn">Actualizar</button>
                     </div>
                 </form>
             </div>

@@ -69,10 +69,7 @@ class AdminController extends Controller
         $request->validate(
             [
                 'name' => 'required',
-                'email' => 'required|unique:users,email,' . $userId,
-                'password' => 'nullable',
-                'role' => 'required',
-                'is_active' => 'required',
+                /* 'email' => 'required|unique:users,email,' . $userId, */
                 'last_name' => 'nullable',
                 'work_area' => 'nullable',
                 'position' => 'nullable',
@@ -88,24 +85,16 @@ class AdminController extends Controller
             ],
             [
                 'name.required' => 'Es obligatorio  un nombre',
-                'email.required' => 'Es obligatorio un correo',
-                'email.unique' => 'Correo duplicado',
-                'role.required' => 'Es obligatorio un rol',
+                // 'email.required' => 'Es obligatorio un correo',
+                // 'email.unique' => 'Correo duplicado',
             ]
         );
 
         $user = User::findOrFail($userId);
         $user->update([
             'name' => $request->name,
-            'email' => $request->email,
-            'role' => $request->role,
-            'is_active' => $request->is_active,
         ]);
-        if ($request->password) {
-            $user->update([
-                'password' => bcrypt($request->password),
-            ]); 
-        }
+        
         $userAdditionalInfo = AdditionalUserInfo::updateOrCreate(
             ['user_id' => $user->id],
             [
@@ -134,13 +123,16 @@ class AdminController extends Controller
 
         return view('users.users_details', compact('user', 'additionalUserInfo'));
     }
-    public function userList(){
-        $userArray = User::where('id', $userId)->get()->toArray();
 
-        $userMap = function ($userItem) {
+    public function usersList(){
+        $usersArray = User::all()->toArray();
+
+        $usersMap = function ($userItem) {
             $additionalUserInfo = AdditionalUserInfo::where('user_id', $userItem['id'])->first();
             return array(
                 "id" => $userItem['id'],
+                "employee_id" => $userItem['employee_id'],
+                "role" => $userItem['role'],
                 "name" => $userItem['name'],
                 "email" => $userItem['email'],
                 "last_name" => $additionalUserInfo->last_name,
@@ -158,8 +150,8 @@ class AdminController extends Controller
                 "departure_dates" => $additionalUserInfo->departure_dates,
             );
         };
-        $user = array_map($userMap, $userArray);
+        $users = array_map($usersMap, $usersArray);
 
-        return view('users.users_details', compact('user'));
+        return view('users.users_list', compact('users'));
     }
 }

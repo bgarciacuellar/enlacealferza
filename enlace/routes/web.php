@@ -23,11 +23,14 @@ Route::post('/login-customized', [App\Http\Controllers\LoginCustomizedController
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-Route::get('/users/list', [App\Http\Controllers\UserController::class, 'userList'])
+Route::get('/users/list', [App\Http\Controllers\AdminController::class, 'usersList'])
     ->name('users.userList');
 
 Route::get('/user/detail/{userId}', [App\Http\Controllers\AdminController::class, 'userDetails'])
     ->name('users.userDetails');
+
+Route::post('/user/update/{userId}', [App\Http\Controllers\AdminController::class, 'updateUser'])
+    ->name('users.updateUser');
 
 Route::post('/users/disable', [App\Http\Controllers\UserController::class, 'disableUser'])
     ->name('users.disableUser');
