@@ -13,24 +13,36 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// Route::get('/', function () {
+//     return view('welcome');
+// });
 
 Auth::routes();
 
+Route::get('/', [App\Http\Controllers\LoginCustomizedController::class, 'loginView'])->name('auth.loginView');
 Route::post('/login-customized', [App\Http\Controllers\LoginCustomizedController::class, 'login'])->name('auth.login');
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
+// Admin
 Route::get('/users/list', [App\Http\Controllers\AdminController::class, 'usersList'])
-    ->name('users.userList');
+    ->name('admin.userList');
 
 Route::get('/user/detail/{userId}', [App\Http\Controllers\AdminController::class, 'userDetails'])
-    ->name('users.userDetails');
+    ->name('admin.userDetails');
+
+Route::post('/user/create', [App\Http\Controllers\AdminController::class, 'createNewUser'])
+    ->name('admin.createNewUser');
 
 Route::post('/user/update/{userId}', [App\Http\Controllers\AdminController::class, 'updateUser'])
-    ->name('users.updateUser');
+    ->name('admin.updateUser');
 
 Route::post('/users/disable', [App\Http\Controllers\UserController::class, 'disableUser'])
-    ->name('users.disableUser');
+    ->name('admin.disableUser');
+
+Route::get('/users/search', [App\Http\Controllers\AdminController::class, 'searchUsers'])
+    ->name('admin.searchUsers');
+
+// User
+Route::get('/user', [App\Http\Controllers\UserController::class, 'userDetails'])
+    ->name('user.userDetails');

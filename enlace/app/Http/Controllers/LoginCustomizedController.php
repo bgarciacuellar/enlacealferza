@@ -8,6 +8,11 @@ use Illuminate\Http\Request;
 
 class LoginCustomizedController extends Controller
 {
+    public function loginView()
+    {
+        return view('auth.login_customized');
+    }
+
     public function login(Request $request)
     {
         $credentials = $request->validate(
@@ -26,7 +31,11 @@ class LoginCustomizedController extends Controller
             return back()->with('error', 'Credenciales Erroneas, Verifiquie la Información');
         }
         if (Auth::attempt($credentials)) {
-            return redirect()->route('users.userList');
+            if ($user->role == 'admin') {
+                return redirect()->route('admin.userList');
+            }else if($user->role == 'operador'){
+                return redirect()->route('user.userDetails');
+            }
         }
         return back()->with('error', 'Credenciales Erroneas, Verifiquie la Información');
     }

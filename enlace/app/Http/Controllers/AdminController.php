@@ -14,20 +14,21 @@ class AdminController extends Controller
             [
                 'name' => 'required',
                 'email' => 'required|unique:users,email',
+                'employee_id' => 'nullable',
                 'password' => 'nullable',
                 'role' => 'required',
                 'last_name' => 'nullable',
-                'work_area' => 'nullable',
-                'position' => 'nullable',
-                'office' => 'nullable',
-                'company' => 'nullable',
-                'gender' => 'nullable',
-                'birthday' => 'nullable',
-                'municipality' => 'nullable',
-                'civil_status' => 'nullable',
-                'phone_number' => 'nullable',
-                'entry_date' => 'nullable',
-                'departure_dates' => 'nullable',
+                // 'work_area' => 'nullable',
+                // 'position' => 'nullable',
+                // 'office' => 'nullable',
+                // 'company' => 'nullable',
+                // 'gender' => 'nullable',
+                // 'birthday' => 'nullable',
+                // 'municipality' => 'nullable',
+                // 'civil_status' => 'nullable',
+                // 'phone_number' => 'nullable',
+                // 'entry_date' => 'nullable',
+                // 'departure_dates' => 'nullable',
             ],
             [
                 'name.required' => 'Es obligatorio  un nombre',
@@ -48,21 +49,21 @@ class AdminController extends Controller
             [
                 'user_id' => $newUser->id,
                 'last_name' => $request->last_name,
-                'work_area' => $request->work_area,
-                'position' => $request->position,
-                'office' => $request->office,
-                'company' => $request->company,
-                'gender' => $request->gender,
-                'birthday' => $request->birthday,
-                'municipality' => $request->municipality,
-                'civil_status' => $request->civil_status,
-                'phone_number' => $request->phone_number,
-                'entry_date' => $request->entry_date,
-                'departure_dates' => $request->departure_dates,
+                // 'work_area' => $request->work_area,
+                // 'position' => $request->position,
+                // 'office' => $request->office,
+                // 'company' => $request->company,
+                // 'gender' => $request->gender,
+                // 'birthday' => $request->birthday,
+                // 'municipality' => $request->municipality,
+                // 'civil_status' => $request->civil_status,
+                // 'phone_number' => $request->phone_number,
+                // 'entry_date' => $request->entry_date,
+                // 'departure_dates' => $request->departure_dates,
             ]
         );
 
-        return redirect()->route('users.userList')->with('success', 'Usuario Creado');
+        return redirect()->route('admin.userDetails', $newUser->id)->with('success', 'Usuario Creado');
     }
 
     public function updateUser(Request $request, $userId){
@@ -121,7 +122,7 @@ class AdminController extends Controller
         $user = User::findOrFail($userId);
         $additionalUserInfo = AdditionalUserInfo::where('user_id', $userId)->first();
 
-        return view('users.users_details', compact('user', 'additionalUserInfo'));
+        return view('admin.users_details', compact('user', 'additionalUserInfo'));
     }
 
     public function usersList(){
@@ -152,6 +153,38 @@ class AdminController extends Controller
         };
         $users = array_map($usersMap, $usersArray);
 
-        return view('users.users_list', compact('users'));
+        return view('admin.users_list', compact('users'));
+    }
+
+    public function searchUsers(Request $request){
+        
+        $usersArray = User::where("name", "like", "%" . $request->name . "%")->orWhere("employee_id", "like", "%" . $request->employee_id . "%")->get()->toArray();
+
+        $usersMap = function ($userItem) {
+            $additionalUserInfo = AdditionalUserInfo::where('user_id', $userItem['id'])->first();
+            return array(
+                "id" => $userItem['id'],
+                "employee_id" => $userItem['employee_id'],
+                "role" => $userItem['role'],
+                "name" => $userItem['name'],
+                "email" => $userItem['email'],
+                "last_name" => $additionalUserInfo->last_name,
+                "full_name" => $userItem['name'] . ' ' . $additionalUserInfo->last_name,
+                "work_area" => $additionalUserInfo->work_area,
+                "position" => $additionalUserInfo->position,
+                "office" => $additionalUserInfo->office,
+                "company" => $additionalUserInfo->company,
+                "gender" => $additionalUserInfo->gender,
+                "birthday" => $additionalUserInfo->birthday,
+                "municipality" => $additionalUserInfo->municipality,
+                "civil_status" => $additionalUserInfo->civil_status,
+                "phone_number" => $additionalUserInfo->phone_number,
+                "entry_date" => $additionalUserInfo->entry_date,
+                "departure_dates" => $additionalUserInfo->departure_dates,
+            );
+        };
+        $users = array_map($usersMap, $usersArray);
+
+        return view('admin.users_list', compact('users'));
     }
 }

@@ -8,42 +8,43 @@
     <!-- Search Filter -->
     <div class="row filter-row">
         <div class="col-md-8">
-            <div class="row">
-                <div class="col-sm-6 col-md-3">
-                    <div class="form-group form-focus mb-0">
-                        <input type="text" class="form-control floating">
-                        <label class="focus-label">Employee ID</label>
+            <form action="{{ route('admin.searchUsers') }}">
+                <div class="row">
+                    <div class="col-sm-6 col-md-3">
+                        <div class="form-group form-focus mb-0">
+                            <input type="text" class="form-control floating" name="employee_id">
+                            <label class="focus-label">ID</label>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-md-3">
+                        <div class="form-group form-focus mb-0">
+                            <input type="text" class="form-control floating" name="name">
+                            <label class="focus-label">Nombre</label>
+                        </div>
+                    </div>
+                    {{-- <div class="col-sm-6 col-md-3">
+                        <div class="form-group form-focus select-focus mb-0">
+                            <select class="select floating">
+                                <option>Select Designation</option>
+                                <option>Web Developer</option>
+                                <option>Web Designer</option>
+                                <option>Android Developer</option>
+                                <option>Ios Developer</option>
+                            </select>
+                            <label class="focus-label">Designation</label>
+                        </div>
+                    </div> --}}
+                    <div class="col-sm-6 col-md-3">
+                        <button type="submit" href="#" class="btn btn-success btn-search"><i
+                                class="fas fa-search me-2"></i> Buscar </button>
                     </div>
                 </div>
-                <div class="col-sm-6 col-md-3">
-                    <div class="form-group form-focus mb-0">
-                        <input type="text" class="form-control floating">
-                        <label class="focus-label">Employee Name</label>
-                    </div>
-                </div>
-                <div class="col-sm-6 col-md-3">
-                    <div class="form-group form-focus select-focus mb-0">
-                        <select class="select floating">
-                            <option>Select Designation</option>
-                            <option>Web Developer</option>
-                            <option>Web Designer</option>
-                            <option>Android Developer</option>
-                            <option>Ios Developer</option>
-                        </select>
-                        <label class="focus-label">Designation</label>
-                    </div>
-                </div>
-                <div class="col-sm-6 col-md-3">
-                    <a href="#" class="btn btn-success btn-search"><i class="fas fa-search me-2"></i> Search </a>
-                </div>
-            </div>
+            </form>
         </div>
         <div class="col-md-4">
             <div class="add-emp-section">
-                <a href="employees.html" class="grid-icon"><i class="fas fa-th"></i></a>
-                <a href="employees-list.html" class="list-icon active"><i class="fas fa-bars"></i></a>
                 <a href="#" class="btn btn-success btn-add-emp" data-bs-toggle="modal" data-bs-target="#add_employee"><i
-                        class="fas fa-plus"></i> Add Employee</a>
+                        class="fas fa-plus"></i> Agregar Empleado</a>
             </div>
         </div>
     </div>
@@ -72,12 +73,12 @@
                     <thead>
                         <tr>
                             <th>Nombre</th>
-                            <th>Employee ID</th>
-                            <th>Email</th>
-                            <th>Mobile</th>
-                            <th class="text-nowrap">Join Date</th>
-                            <th>Role</th>
-                            <th class="text-end no-sort">Action</th>
+                            <th>ID</th>
+                            <th>Correo electrónico</th>
+                            <th>Teléfono</th>
+                            <th class="text-nowrap">Fecha de ingreso</th>
+                            <th>Rol</th>
+                            <th class="text-end no-sort">Deshabilitar</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -85,9 +86,9 @@
                         <tr>
                             <td>
                                 <h2 class="table-avatar">
-                                    <a href="{{ route('users.userDetails', $user['id']) }}" class="avatar"><img alt=""
+                                    <a href="{{ route('admin.userDetails', $user['id']) }}" class="avatar"><img alt=""
                                             src="assets/img/profiles/avatar-02.jpg"></a>
-                                    <a href="{{ route('users.userDetails', $user['id']) }}">{{ $user['name'] }} <span>{{
+                                    <a href="{{ route('admin.userDetails', $user['id']) }}">{{ $user['name'] }} <span>{{
                                             $user['position'] }}</span></a>
                                 </h2>
                             </td>

@@ -16,41 +16,44 @@
                             <div class="col-md-5">
                                 <div class="profile-info-left">
                                     <h3 class="user-name m-t-0 mb-0">{{ $user->name }}</h3>
-                                    <h6 class="text-muted">UI/UX Design Team</h6>
-                                    <small class="text-muted">Web Designer</small>
-                                    <div class="staff-id">Employee ID : FT-0001</div>
-                                    <div class="small doj text-muted">Date of Join : 1st Jan 2013</div>
-                                    <div class="staff-msg"><a class="btn btn-custom" href="chat.html">Send
-                                            Message</a></div>
+                                    <h6 class="text-muted">{{ $additionalUserInfo->position ?
+                                        $additionalUserInfo->position : '-' }}</h6>
+                                    <small class="text-muted">{{ $additionalUserInfo->work_area ?
+                                        $additionalUserInfo->work_area : '-' }}</small>
+                                    <div class="staff-id">ID : {{ $user->employee_id ? $user->employee_id : '-' }}</div>
+                                    <div class="small doj text-muted">Fecha de ingreso : {{
+                                        $additionalUserInfo->entry_date ? $additionalUserInfo->entry_date : '-' }}</div>
+                                    {{-- <div class="staff-msg"><a class="btn btn-custom" href="chat.html">Send
+                                            Message</a></div> --}}
                                 </div>
                             </div>
                             <div class="col-md-7">
                                 <ul class="personal-info">
                                     <li>
-                                        <div class="title">Phone:</div>
+                                        <div class="title">Teléfono:</div>
                                         <div class="text"><a href="">{{ $additionalUserInfo->phone_number ?
                                                 $additionalUserInfo->phone_number : '-' }}</a></div>
                                     </li>
                                     <li>
-                                        <div class="title">Email:</div>
+                                        <div class="title">Correo electrónico:</div>
                                         <div class="text"><a href="">{{ $user->email }}</a></div>
                                     </li>
                                     <li>
-                                        <div class="title">Birthday:</div>
+                                        <div class="title">Fecha de nacimiento:</div>
                                         <div class="text">{{ $additionalUserInfo->birthday ?
                                             $additionalUserInfo->birthday : '-' }}</div>
                                     </li>
-                                    <li>
-                                        <div class="title">Address:</div>
+                                    {{-- <li>
+                                        <div class="title">Dirección:</div>
                                         <div class="text">1861 Bayonne Ave, Manchester Township, NJ, 08759
                                         </div>
-                                    </li>
+                                    </li> --}}
                                     <li>
-                                        <div class="title">Gender:</div>
+                                        <div class="title">Genero:</div>
                                         <div class="text">{{ $additionalUserInfo->gender ? $additionalUserInfo->gender :
                                             '-' }}</div>
                                     </li>
-                                    <li>
+                                    {{-- <li>
                                         <div class="title">Reports to:</div>
                                         <div class="text">
                                             <div class="avatar-box">
@@ -62,7 +65,7 @@
                                                 Jeffery Lalor
                                             </a>
                                         </div>
-                                    </li>
+                                    </li> --}}
                                 </ul>
                             </div>
                         </div>
@@ -851,7 +854,7 @@
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Profile Information</h5>
+                <h5 class="modal-title">Editar Información</h5>
                 <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                     <i class="fas fa-times"></i>
                 </button>
@@ -864,27 +867,27 @@
                             <div class="profile-img-wrap edit-img">
                                 <img class="inline-block" src="assets/img/profiles/avatar-02.jpg" alt="user">
                                 <div class="fileupload btn">
-                                    <span class="btn-text">edit</span>
+                                    <span class="btn-text">editar</span>
                                     <input class="upload" type="file">
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label>First Name</label>
+                                        <label>Nombre(s)</label>
                                         <input type="text" class="form-control" value="{{ $user->name }}" name="name">
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label>Last Name</label>
+                                        <label>Apellido(s)</label>
                                         <input type="text" class="form-control"
                                             value="{{ $additionalUserInfo->last_name }}" name="last_name">
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label>Birth Date</label>
+                                        <label>Fecha de nacimiento</label>
                                         <input class="form-control" type="date"
                                             value="{{ $additionalUserInfo->birthday }}" name="birthday">
                                     </div>
@@ -900,12 +903,12 @@
                                 </div> --}}
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label>Gender</label>
+                                        <label>Genero</label>
                                         <select class="select form-control" name="gender">
-                                            <option value="male selected" {{ $additionalUserInfo->gender == 'male' ?
-                                                'selected' : null }}>Male</option>
+                                            <option value="male" {{ $additionalUserInfo->gender == 'male' ?
+                                                'selected' : null }}>Hombre</option>
                                             <option value="female" {{ $additionalUserInfo->gender == 'female' ?
-                                                'selected' : null }} >Female</option>
+                                                'selected' : null }} >Mujer</option>
                                         </select>
                                     </div>
                                 </div>

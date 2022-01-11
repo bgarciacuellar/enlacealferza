@@ -2,15 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use Auth;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Models\AdditionalUserInfo;
 
 class UserController extends Controller
 {
-    public function userList(){
-        $users = User::all();
-        return view('users.users_list', compact('users'));
+    public function userDetails(){
+        $user = User::findOrFail(Auth::user()->id);
+        $additionalUserInfo = AdditionalUserInfo::where('user_id', Auth::user()->id)->first();
+        return view('users.users_details', compact('user', 'additionalUserInfo'));
     }
 
     public function updateUser(Request $request, $userId){

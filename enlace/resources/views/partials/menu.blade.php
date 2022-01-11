@@ -9,7 +9,7 @@
         content="admin, estimates, bootstrap, business, corporate, creative, management, minimal, modern, accounts, invoice, html5, responsive, CRM, Projects">
     <meta name="author" content="Dreamguys - Bootstrap Admin Template">
     <meta name="robots" content="noindex, nofollow">
-    <title>Dashboard - HRMS admin template</title>
+    <title>Enlace</title>
 
     <!-- Favicon -->
     <link rel="shortcut icon" type="image/x-icon" href="{{ asset('img/favicon.png') }}">
@@ -54,18 +54,18 @@
             <!-- /Logo -->
 
             <div class="header-center">
-                <h1>Smarthr</h1>
+                <h1>Enlace</h1>
             </div>
 
-            <a id="toggle_btn" href="javascript:void(0);">
+            {{-- <a id="toggle_btn" href="javascript:void(0);">
                 <span class="bar-icon">
                     <span></span>
                     <span></span>
                     <span></span>
                 </span>
-            </a>
+            </a> --}}
 
-            <ul class="header-new-menu">
+            {{-- <ul class="header-new-menu">
                 <li>
                     <a href="#" data-bs-toggle="dropdown" role="button" aria-haspopup="true"
                         aria-expanded="false">Clients</a>
@@ -96,24 +96,24 @@
                         <a class="dropdown-item" href="tickets.html">Tickets</a>
                     </div>
                 </li>
-            </ul>
+            </ul> --}}
 
             <a id="mobile_btn" class="mobile_btn" href="#sidebar"><i class="fa fa-bars"></i></a>
 
             <!-- Header Menu -->
             <ul class="nav user-menu">
 
-                <li>
+                {{-- <li>
                     <a href="#" class="report-btn">
                         <span class="material-icons-outlined">
                             text_snippet
                         </span>
                     </a>
-                </li>
+                </li> --}}
 
                 <li>
                     <!-- Header Search -->
-                    <div class="page-title-box">
+                    {{-- <div class="page-title-box">
                         <div class="top-nav-search">
                             <a href="javascript:void(0);" class="responsive-search">
                                 <i class="fa fa-search"></i>
@@ -131,12 +131,12 @@
                                 </div>
                             </form>
                         </div>
-                    </div>
+                    </div> --}}
                     <!-- /Header Search -->
                 </li>
 
                 <!-- Notifications -->
-                <li class="nav-item dropdown">
+                {{-- <li class="nav-item dropdown">
                     <a href="#" class="dropdown-toggle nav-link" data-bs-toggle="dropdown">
                         <i class="far fa-bell"></i> <span class="badge rounded-pill">3</span>
                     </a>
@@ -234,18 +234,19 @@
                             <a href="activities.html">View all Notifications</a>
                         </div>
                     </div>
-                </li>
+                </li> --}}
                 <!-- /Notifications -->
 
                 <li class="nav-item dropdown has-arrow main-drop">
                     <a href="#" class="dropdown-toggle nav-link" data-bs-toggle="dropdown">
                         <span class="user-img"><img src="{{ asset('img/profiles/avatar-21.jpg') }}" alt=""></span>
-                        <span>Admin</span>
+                        <span>{{ auth()->user()->name }}</span>
                     </a>
                     <div class="dropdown-menu">
-                        <a class="dropdown-item" href="profile.html">My Profile</a>
-                        <a class="dropdown-item" href="settings.html">Settings</a>
-                        <a class="dropdown-item" href="login.html">Logout</a>
+                        {{-- <a class="dropdown-item" href="profile.html">My Profile</a>
+                        <a class="dropdown-item" href="settings.html">Settings</a> --}}
+                        <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
+                                      document.getElementById('logout-form').submit();">Cerrar Sesión</a>
                     </div>
                 </li>
             </ul>
@@ -256,12 +257,17 @@
                 <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"><i
                         class="fa fa-ellipsis-v"></i></a>
                 <div class="dropdown-menu dropdown-menu-right">
-                    <a class="dropdown-item" href="profile.html">My Profile</a>
-                    <a class="dropdown-item" href="settings.html">Settings</a>
-                    <a class="dropdown-item" href="login.html">Logout</a>
+                    {{-- <a class="dropdown-item" href="profile.html">My Profile</a>
+                    <a class="dropdown-item" href="settings.html">Settings</a> --}}
+                    <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
+                                  document.getElementById('logout-form').submit();">Cerrar Sesión</a>
                 </div>
             </div>
             <!-- /Mobile Menu -->
+
+            <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                @csrf
+            </form>
 
         </div>
         <!-- /Header -->
@@ -271,13 +277,14 @@
             <div class="sidebar-left slimscroll">
                 <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
                     <a class="nav-link active" id="v-pills-dashboard-tab" data-bs-toggle="pill"
-                        href="#v-pills-dashboard" role="tab" aria-controls="v-pills-dashboard" aria-selected="true">
+                        href="{{ route('admin.userList') }}" role="tab" aria-controls="v-pills-dashboard"
+                        aria-selected="true">
                         <span class="material-icons-outlined">
                             home
                         </span>
                     </a>
-                    <a class="nav-link" id="v-pills-apps-tab" title="Apps" data-bs-toggle="pill" href="#v-pills-apps"
-                        role="tab" aria-controls="v-pills-apps" aria-selected="false">
+                    {{-- <a class="nav-link" id="v-pills-apps-tab" title="Apps" data-bs-toggle="pill"
+                        href="#v-pills-apps" role="tab" aria-controls="v-pills-apps" aria-selected="false">
                         <span class="material-icons-outlined">
                             dashboard
                         </span>
@@ -330,11 +337,6 @@
                             request_quote
                         </span>
                     </a>
-                    <!-- <a class="nav-link" id="v-pills-policies-tab" title="Policies" data-bs-toggle="pill" href="#v-pills-policies" role="tab" aria-controls="v-pills-policies" aria-selected="false">
-							<span class="material-icons-outlined">
-								request_quote
-							</span>
-						</a> -->
                     <a class="nav-link" id="v-pills-policies-tab" title="Policies" data-bs-toggle="pill"
                         href="#v-pills-policies" role="tab" aria-controls="v-pills-policies" aria-selected="false">
                         <span class="material-icons-outlined">
@@ -485,7 +487,7 @@
                         <span class="material-icons-outlined">
                             library_add_check
                         </span>
-                    </a>
+                    </a>--}}
                 </div>
             </div>
 
@@ -493,17 +495,18 @@
                 <div class="tab-content" id="v-pills-tabContent">
                     <div class="tab-pane fade show active" id="v-pills-dashboard" role="tabpanel"
                         aria-labelledby="v-pills-dashboard-tab">
-                        <p>Dashboard</p>
+                        <p>Panel de administración</p>
                         <ul>
                             <li>
-                                <a href="index.html" class="active">Admin Dashboard</a>
+                                <a href="{{ route('admin.userList') }}" class="active">Lista de Empleados</a>
                             </li>
-                            <li>
+                            {{-- <li>
                                 <a href="employee-dashboard.html">Employee Dashboard</a>
-                            </li>
+                            </li> --}}
                         </ul>
                     </div>
-                    <div class="tab-pane fade" id="v-pills-apps" role="tabpanel" aria-labelledby="v-pills-apps-tab">
+                    {{-- <div class="tab-pane fade" id="v-pills-apps" role="tabpanel"
+                        aria-labelledby="v-pills-apps-tab">
                         <p>App</p>
                         <ul>
                             <li>
@@ -829,7 +832,7 @@
                             <li><a href="javascript:void(0);">Level 2</a></li>
                             <li><a href="javascript:void(0);">Level 3</a></li>
                         </ul>
-                    </div>
+                    </div> --}}
                 </div>
             </div>
         </div>
@@ -842,7 +845,7 @@
             <div class="content container-fluid pb-0">
 
                 <!-- Page Header -->
-                <div class="row">
+                {{-- <div class="row">
                     <div class="col-md-12">
                         <div class="page-head-box">
                             <h3>Employee</h3>
@@ -854,7 +857,7 @@
                             </nav>
                         </div>
                     </div>
-                </div>
+                </div> --}}
                 <!-- /Page Header -->
 
                 @yield('content')
