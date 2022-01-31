@@ -100,8 +100,8 @@
                                 <span class="role-info role-bg-one">{{ ucfirst($user['role']) }}</span>
                             </td>
                             <td class="text-end ico-sec">
-                                <a href="#" data-bs-toggle="modal" data-bs-target="#edit_employee"><i
-                                        class="fas fa-pen"></i></a>
+                                {{-- <a href="#" data-bs-toggle="modal" data-bs-target="#edit_employee"><i
+                                        class="fas fa-pen"></i></a> --}}
                                 <a href="#" data-bs-toggle="modal"
                                     onclick="getUserId({{ $user['id'] }}, 'delete_user_id')"
                                     data-bs-target="#delete_employee"><i class="far fa-trash-alt"></i></a>

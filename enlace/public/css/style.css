@@ -1413,7 +1413,7 @@ label {
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	background: #FF7849;
+	background: #002856;
 }
 .header .header-left .logo {
 	display: flex;
@@ -1745,10 +1745,10 @@ label {
     padding: 10px 15px;
 }
 .sidebar-menu ul ul a.active {
-	color: #FE612C;
+	color: #002856;
 }
 .sidebar .sidebar-left {
-	background: #FF7849;
+	background: #002856;
     width: 70px;
 	padding: 10px;
 }
@@ -1761,7 +1761,7 @@ label {
     color: #fff;
 }
 .sidebar .sidebar-left .nav-pills .nav-link.active, .sidebar .sidebar-left .nav-pills .show>.nav-link {
-	background-color: #ff8d66;
+	background-color: #002856;
 }
 .sidebar .sidebar-right {
 	background: #FFFFFF;
