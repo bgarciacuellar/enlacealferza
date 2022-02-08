@@ -500,6 +500,9 @@
                             <li>
                                 <a href="{{ route('admin.userList') }}" class="active">Lista de Empleados</a>
                             </li>
+                            <li>
+                                <a href="{{ route('incidents.list') }}" class="active">Incidencias</a>
+                            </li>
                             {{-- <li>
                                 <a href="employee-dashboard.html">Employee Dashboard</a>
                             </li> --}}

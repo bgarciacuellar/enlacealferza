@@ -46,3 +46,11 @@ Route::get('/users/search', [App\Http\Controllers\AdminController::class, 'searc
 // User
 Route::get('/user', [App\Http\Controllers\UserController::class, 'userDetails'])
     ->name('user.userDetails');
+
+    
+// Incidents
+Route::get('/incidencias', [App\Http\Controllers\IncidentController::class, 'list'])
+    ->name('incidents.list');
+
+Route::get('/incidencias/1', [App\Http\Controllers\IncidentController::class, 'details'])
+    ->name('incidents.details');
