@@ -17,3 +17,19 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Route::get('/get-cities', [App\Http\Controllers\AirlineController::class, 'getCities']);
+
+Route::get('/get-schedule', [App\Http\Controllers\AirlineController::class, 'getSchedules']);
+
+Route::get('/get-flights', [App\Http\Controllers\AirlineController::class, 'getFlights']);
+
+Route::post('/pre-booking', [App\Http\Controllers\AirlineController::class, 'preBooking']);
+
+Route::get('/get-booking', [App\Http\Controllers\AirlineController::class, 'getBookings']);
+
+Route::post('/cancel-booking', [App\Http\Controllers\AirlineController::class, 'cancelBooking']);
+
+Route::post('/booking', [App\Http\Controllers\AirlineController::class, 'booking']);
+
+Route::get('/get-reservation', [App\Http\Controllers\AirlineController::class, 'getReservation']);
