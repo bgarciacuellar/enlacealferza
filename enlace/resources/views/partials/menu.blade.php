@@ -501,11 +501,14 @@
                                 <a href="{{ route('admin.userList') }}" class="active">Lista de Empleados</a>
                             </li>
                             <li>
-                                <a href="{{ route('incidents.list') }}" class="active">Incidencias</a>
+                                <a href="{{ route('ticket.list') }}" class="active">Incidencias</a>
                             </li>
-                            {{-- <li>
-                                <a href="employee-dashboard.html">Employee Dashboard</a>
-                            </li> --}}
+                            <li>
+                                <a href="{{ route('customer.list') }}" class="active">Clientes</a>
+                            </li>
+                            <li>
+                                <a href="{{ route('company.list') }}" class="active">Compañías</a>
+                            </li>
                         </ul>
                     </div>
                     {{-- <div class="tab-pane fade" id="v-pills-apps" role="tabpanel"
