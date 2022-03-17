@@ -16,36 +16,38 @@
                             <div class="col-md-5">
                                 <div class="profile-info-left">
                                     <h3 class="user-name m-t-0 mb-0">Creado Por:</h3>
-                                    <h6 class="text-muted">Isaac <br> Nóminas</h6>
-                                    <small class="text-muted">Nóminas</small>
-                                    <div class="staff-id">ID : 05</div>
+                                    <h6 class="text-muted">{{ $ticketowner->name . " " .
+                                        $ticketownerAdditionalInfo->last_name }} <br> {{
+                                        $ticketownerAdditionalInfo->work_area }}</h6>
+                                    <small class="text-muted">{{ $ticketownerAdditionalInfo->position }}</small>
+                                    <div class="staff-id">ID : {{ $ticketowner->employee_id }}</div>
                                 </div>
                             </div>
                             <div class="col-md-7">
                                 <ul class="personal-info">
                                     <li>
                                         <div class="title">Titulo:</div>
-                                        <div class="text"><a href="">Incidencias de Enero</a></div>
+                                        <div class="text"><a href="">{{ $ticket->title }}</a></div>
                                     </li>
                                     <li>
                                         <div class="title">Categoría:</div>
-                                        <div class="text"><a href="">Incidencias</a></div>
+                                        <div class="text"><a href="">{{ $ticket->category }}</a></div>
                                     </li>
                                     <li>
                                         <div class="title">Prioridad:</div>
-                                        <div class="text">Media</div>
+                                        <div class="text">{{ $ticket->priority }}</div>
                                     </li>
                                     <li>
                                         <div class="title">Empresa:</div>
-                                        <div class="text">Facebook</div>
+                                        <div class="text">{{ $ticket->company }}</div>
                                     </li>
                                     <li>
                                         <div class="title">Estatus:</div>
-                                        <div class="text">Media</div>
+                                        <div class="text">{{ $ticket->status }}</div>
                                     </li>
                                     <li>
                                         <div class="title">Fecha de creación:</div>
-                                        <div class="text">25/01/2021</div>
+                                        <div class="text">{{ $ticket->created_at->format('d/m/Y') }}</div>
                                     </li>
                                     {{-- <li>
                                         <div class="title">Reports to:</div>
@@ -64,7 +66,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="pro-edit"><a data-bs-target="#profile_info" data-bs-toggle="modal" class="edit-icon"
+                    <div class="pro-edit"><a data-bs-target="#edit_ticket" data-bs-toggle="modal" class="edit-icon"
                             href="#"><i class="fas fa-pencil-alt"></i></a></div>
                 </div>
             </div>
@@ -76,11 +78,11 @@
     <div class="row user-tabs">
         <div class="col-lg-12 col-md-12 col-sm-12 line-tabs">
             <ul class="nav nav-tabs nav-tabs-bottom pt-3 pb-2">
-                <li class="nav-item"><a href="#emp_profile" data-bs-toggle="tab" class="nav-link active">Incidencia</a>
+                <li class="nav-item"><a href="#emp_profile" data-bs-toggle="tab" class="nav-link active">Archivos</a>
                 </li>
-                {{-- <li class="nav-item"><a href="#emp_projects" data-bs-toggle="tab" class="nav-link">Projects</a>
+                <li class="nav-item"><a href="#emp_projects" data-bs-toggle="tab" class="nav-link">Comentarios</a>
                 </li>
-                <li class="nav-item"><a href="#bank_statutory" data-bs-toggle="tab" class="nav-link">Bank &
+                {{--<li class="nav-item"><a href="#bank_statutory" data-bs-toggle="tab" class="nav-link">Bank &
                         Statutory <small class="text-danger">(Admin Only)</small></a></li> --}}
             </ul>
         </div>
@@ -95,17 +97,20 @@
             <div class="col-6">
                 <div class="card profile-box flex-fill">
                     <div class="card-body">
-                        <h3 class="card-title">Archivo</h3>
-                        <div class="row">
-                            <div class="col-3 offset-lg-1 align-self-center">
-                                <i class="fas fa-file-download" style="font-size: 50px;"></i>
+                        <h3 class="card-title">Historial de archivos</h3>
+                        <div class="row align-content-center" style=" max-height: 400px; overflow: auto;">
+                            @foreach ($ticketFilesHistory as $ticketFileHistory)
+                            <div class="col-6 align-self-center">
+                                <span> Creado el: <strong>{{ $ticketFileHistory['created_at'] }}</strong> por:
+                                    <strong>{{ $ticketFileHistory['user_name'] }}</strong></span>
                             </div>
-                            <div class="col-8">
-                                <label class="col-form-label">Remplazar archivo<span
-                                        class="text-danger">*</span></label>
-                                <input type="file" class="form-control">
-                                <button type="submit" class="btn btn-primary mt-3 submit-btn">Remplazar</button>
+                            <div class="col-6 pb-3">
+                                <a href="{{ asset('storage/'. $ticket->category .'/' . $ticketFileHistory['file']) }}"
+                                    target="_blank"><button class="btn btn-primary mt-3 submit-btn">Descargar <i
+                                            class="fas fa-download"></i></button>
+                                </a>
                             </div>
+                            @endforeach
                         </div>
                     </div>
                 </div>
@@ -113,19 +118,24 @@
             <div class="col-6">
                 <div class="card profile-box flex-fill">
                     <div class="card-body">
-                        <h3 class="card-title">Comentarios</h3>
+                        <h3 class="card-title">Archivo</h3>
                         <div class="row">
-                            <div class="col-6">
-                                <p><strong>Isaac - 25/01/2021: </strong> elementum sagittis vitae et leo duis ut diam
-                                    quam nulla
-                                    porttitor massa id neque aliquam vestibulum morbi blandit cursus risus at ultrices
-                                    mi tempus
-                                    imperdiet</p>
-                            </div>
-                            <div class="col-6">
-                                <label class="col-form-label">Agregar Comentario</label>
-                                <textarea name="" class="form-control" id="" cols="30" rows="10"></textarea>
-                                <button type="submit" class="btn btn-primary mt-3 submit-btn">Agregar</button>
+                            {{-- <div class="col-4 offset-lg-1 align-self-center text-center">
+                                <div>
+                                    <i class="fas fa-file-download" style="font-size: 50px;"></i>
+                                    <button class="btn btn-primary mt-3 submit-btn">Descargar <i
+                                            class="fas fa-download"></i></button>
+                                </div>
+                            </div> --}}
+                            <div class="col-7">
+                                <form action="{{ route('ticket.uploadFile', $ticket->id) }}" method="POST"
+                                    enctype="multipart/form-data">
+                                    @csrf
+                                    <label class="col-form-label">Subir nuevo archivo<span
+                                            class="text-danger">*</span></label>
+                                    <input type="file" class="form-control" name="file">
+                                    <button type="submit" class="btn btn-primary mt-3 submit-btn">Subir</button>
+                                </form>
                             </div>
                         </div>
                     </div>
@@ -377,6 +387,43 @@
     <!-- Projects Tab -->
     <div class="tab-pane fade" id="emp_projects">
         <div class="row">
+            <div class="col-6">
+                <div class="card profile-box flex-fill">
+                    <div class="card-body">
+                        <h3 class="card-title">Comentarios</h3>
+                        <div class="row" style=" max-height: 400px; overflow: auto;">
+                            <div class="col-11">
+                                @foreach ($ticketComments as $ticketComment)
+                                <p>
+                                    <strong>{{ $ticketComment['user_name'] . ' - ' . $ticketComment['created_at']}}:
+                                    </strong>
+                                    {{ $ticketComment['comment'] }}
+                                <div style="height: 2px; background:#7870704c"></div>
+                                </p>
+                                @endforeach
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-6">
+                <div class="card profile-box flex-fill">
+                    <div class="card-body">
+                        <h3 class="card-title">Agregar Comentario</h3>
+                        <div class="row">
+                            <div class="col-11 justify-content-center">
+                                <form action="{{ route('ticket.addComment', $ticket->id) }}" method="POST">
+                                    @csrf
+                                    <textarea name="comment" class="form-control" id="" cols="30" rows="10"></textarea>
+                                    <button type="submit" class="btn btn-primary mt-3 submit-btn">Agregar</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {{-- <div class="row">
             <div class="col-lg-4 col-sm-6 col-md-4 col-xl-3">
                 <div class="card">
                     <div class="card-body">
@@ -665,7 +712,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> --}}
     </div>
     <!-- /Projects Tab -->
 
@@ -886,152 +933,72 @@
 <!-- /Page Content -->
 
 <!-- Profile Modal -->
-<div id="profile_info" class="modal custom-modal fade" role="dialog">
+<div id="edit_ticket" class="modal custom-modal fade" role="dialog">
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Editar Información</h5>
+                <h5 class="modal-title">Editar Ticket</h5>
                 <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                     <i class="fas fa-times"></i>
                 </button>
             </div>
             <div class="modal-body">
-                <form method="POST">
+                <form action="{{ route('ticket.update', $ticket->id) }}" method="POST">
                     @csrf
                     <div class="row">
-                        <div class="col-md-12">
-                            <div class="profile-img-wrap edit-img">
-                                <img class="inline-block" src="assets/img/profiles/avatar-02.jpg" alt="user">
-                                <div class="fileupload btn">
-                                    <span class="btn-text">editar</span>
-                                    <input class="upload" type="file">
-                                </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="col-form-label">Titulo <span class="text-danger">*</span></label>
+                                <input class="form-control" name="title" type="text" value="{{ $ticket->title }}">
                             </div>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label>Nombre(s)</label>
-                                        <input type="text" class="form-control" value="{" name="name">
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label>Apellido(s)</label>
-                                        <input type="text" class="form-control" value="" name="last_name">
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label>Fecha de nacimiento</label>
-                                        <input class="form-control" type="date" value="" name="birthday">
-                                    </div>
-                                </div>
-                                {{-- <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label>Birth Date</label>
-                                        <div class="cal-icon">
-                                            <input class="form-control datetimepicker" type="text"
-                                                value="{{ $additionalUserInfo->birthday }}" name="birthday">
-                                        </div>
-                                    </div>
-                                </div> --}}
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label>Genero</label>
-                                        <select class="select form-control" name="gender">
-                                            <option value="male">Hombre</option>
-                                            <option value="female">Mujer</option>
-                                        </select>
-                                    </div>
-                                </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="col-form-label">Estatus <span class="text-danger">*</span></label>
+                                <select class="form-control" name="status">
+                                    <option value="">Selecciona una opción</option>
+                                    <option value="abierto" {{ $ticket->status == "abierto" ? "selected" : null
+                                        }}>Abierto</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="col-form-label">Prioridad <span class="text-danger">*</span></label>
+                                <select class="form-control" name="priority" id="">
+                                    <option value="">Selecciona una opción</option>
+                                    <option value="normal" {{ $ticket->priority == "normal" ? "selected" : null
+                                        }}>Normal</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="col-form-label">Categoría <span class="text-danger">*</span></label>
+                                <select class="form-control" name="category" id="">
+                                    <option value="">Selecciona una opción</option>
+                                    <option value="incidencia" {{ $ticket->category == "incidencia" ? "selected" : null
+                                        }}>
+                                        Incidencia</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="col-form-label">Empresa<span class="text-danger">*</span></label>
+                                <select class="form-control" name="company" id="">
+                                    <option value="">Selecciona una opción</option>
+                                    <option value="alferza" {{ $ticket->company == "alferza" ? "selected" :
+                                        null}}>Alferza</option>
+                                </select>
                             </div>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label>Area de trabajo</label>
-                                <input type="text" class="form-control" value="" name="work_area">
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label>Posición</label>
-                                <input type="text" class="form-control" value="" name="position">
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label>Oficina</label>
-                                <input type="text" class="form-control" value="" name="office">
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label>Compañía</label>
-                                <input type="text" class="form-control" value="" name="company">
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label>Teléfono</label>
-                                <input type="text" class="form-control" value="" name="phone_number">
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label>Municipio</label>
-                                <input type="text" class="form-control" value="" name="municipality">
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label>Fecha de entrada</label>
-                                <input type="date" class="form-control" value="" name="entry_date">
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label>Fecha de salida</label>
-                                <input type="date" class="form-control" value="" name="departure_dates">
-                            </div>
-                        </div>
-                        {{-- <div class="col-md-6">
-                            <div class="form-group">
-                                <label>Department <span class="text-danger">*</span></label>
-                                <select class="select">
-                                    <option>Select Department</option>
-                                    <option>Web Development</option>
-                                    <option>IT Management</option>
-                                    <option>Marketing</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label>Designation <span class="text-danger">*</span></label>
-                                <select class="select">
-                                    <option>Select Designation</option>
-                                    <option>Web Designer</option>
-                                    <option>Web Developer</option>
-                                    <option>Android Developer</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label>Reports To <span class="text-danger">*</span></label>
-                                <select class="select">
-                                    <option>-</option>
-                                    <option>Wilmer Deluna</option>
-                                    <option>Lesley Grauer</option>
-                                    <option>Jeffery Lalor</option>
-                                </select>
-                            </div>
-                        </div> --}}
-                    </div>
+
                     <div class="submit-section">
-                        <button class="btn btn-primary submit-btn">Actualizar</button>
+                        <button class="btn btn-primary cancel-btn" data-bs-dismiss="modal"
+                            aria-label="Close">Cancel</button>
+                        <button type="submit" class="btn btn-primary submit-btn">Editar</button>
                     </div>
                 </form>
             </div>

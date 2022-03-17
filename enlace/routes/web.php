@@ -48,9 +48,37 @@ Route::get('/user', [App\Http\Controllers\UserController::class, 'userDetails'])
     ->name('user.userDetails');
 
     
-// Incidents
-Route::get('/incidencias', [App\Http\Controllers\IncidentController::class, 'list'])
-    ->name('incidents.list');
+// Ticket
+Route::get('/tickets', [App\Http\Controllers\TicketController::class, 'list'])
+    ->name('ticket.list');
 
-Route::get('/incidencias/1', [App\Http\Controllers\IncidentController::class, 'details'])
-    ->name('incidents.details');
+Route::post('/tickets/crear', [App\Http\Controllers\TicketController::class, 'create'])
+    ->name('ticket.create');
+
+Route::get('/ticket/{ticketId}', [App\Http\Controllers\TicketController::class, 'details'])
+    ->name('ticket.details');
+
+Route::post('/ticket/upload-file/{ticket}', [App\Http\Controllers\TicketController::class, 'uploadFile'])
+    ->name('ticket.uploadFile');
+
+Route::post('/ticket/add-comment/{ticket}', [App\Http\Controllers\TicketController::class, 'addComment'])
+    ->name('ticket.addComment');
+
+Route::post('/ticket/update/{ticket}', [App\Http\Controllers\TicketController::class, 'update'])
+    ->name('ticket.update');
+
+    
+// Customer
+Route::get('/customer/list', [App\Http\Controllers\CustomerController::class, 'list'])
+    ->name('customer.list');
+
+// Company
+Route::get('/company/list', [App\Http\Controllers\CompanyController::class, 'list'])
+    ->name('company.list');
+
+
+Route::post('/company/create', [App\Http\Controllers\CompanyController::class, 'create'])
+    ->name('company.create');
+
+Route::get('/company/details/{id}', [App\Http\Controllers\CompanyController::class, 'details'])
+    ->name('company.details');

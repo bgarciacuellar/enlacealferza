@@ -31,8 +31,8 @@
         </div>
         <div class="col-md-4">
             <div class="add-emp-section">
-                <a href="#" class="btn btn-success btn-add-emp" data-bs-toggle="modal" data-bs-target="#create_incident"><i
-                        class="fas fa-plus"></i> Crear Incidencia</a>
+                <a href="#" class="btn btn-success btn-add-emp" data-bs-toggle="modal"
+                    data-bs-target="#create_incident"><i class="fas fa-plus"></i> Crear Incidencia</a>
             </div>
         </div>
     </div>
@@ -69,21 +69,25 @@
                         </tr>
                     </thead>
                     <tbody>
+                        @foreach ($tickets as $ticket)
                         <tr>
                             <td>
-                                Incidencias de Enero 
+                                <a href="{{ route('ticket.details', $ticket->id) }}">
+                                    {{ $ticket->title }}
+                                </a>
                             </td>
-                            <td>Incidencias</td>
-                            <td>Media</td>
-                            <td>Facebook</td>
+                            <td>{{ $ticket->category }}</td>
+                            <td>{{ $ticket->priority }}</td>
+                            <td>{{ $ticket->company }}</td>
                             <td>
-                                <span class="role-info role-bg-one">Abierto</span>
+                                <span class="role-info role-bg-one">{{ $ticket->status }}</span>
                             </td>
                             <td class="text-end ico-sec">
-                                <a href="#" data-bs-toggle="modal"
-                                    data-bs-target="#delete_employee"><i class="far fa-trash-alt"></i></a>
+                                <a href="#" data-bs-toggle="modal" data-bs-target="#delete_employee"><i
+                                        class="far fa-trash-alt"></i></a>
                             </td>
                         </tr>
+                        @endforeach
                     </tbody>
                 </table>
             </div>
@@ -97,71 +101,71 @@
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Crear Incidencia</h5>
+                <h5 class="modal-title">Crear Ticket</h5>
                 <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                     <i class="fas fa-times"></i>
                 </button>
             </div>
             <div class="modal-body">
-                <form action="{{ route('admin.createNewUser') }}" method="POST">
+                <form action="{{ route('ticket.create') }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <div class="row">
                         <div class="col-sm-6">
                             <div class="form-group">
                                 <label class="col-form-label">Titulo <span class="text-danger">*</span></label>
-                                <input class="form-control" name="name" type="text">
+                                <input class="form-control" name="title" type="text">
                             </div>
                         </div>
                         <div class="col-sm-6">
                             <div class="form-group">
-                                <label class="col-form-label">Estado <span class="text-danger">*</span></label>
-                                <select class="form-control" name="role" id="">
+                                <label class="col-form-label">Estatus <span class="text-danger">*</span></label>
+                                <select class="form-control" name="status">
                                     <option value="">Selecciona una opción</option>
-                                    <option value="operador">Operador</option>
+                                    <option value="abierto">Abierto</option>
                                 </select>
                             </div>
                         </div>
                         <div class="col-sm-6">
                             <div class="form-group">
                                 <label class="col-form-label">Prioridad <span class="text-danger">*</span></label>
-                                <select class="form-control" name="role" id="">
+                                <select class="form-control" name="priority" id="">
                                     <option value="">Selecciona una opción</option>
-                                    <option value="operador">Operador</option>
+                                    <option value="normal">Normal</option>
                                 </select>
                             </div>
                         </div>
                         <div class="col-sm-6">
                             <div class="form-group">
                                 <label class="col-form-label">Categoría <span class="text-danger">*</span></label>
-                                <select class="form-control" name="role" id="">
+                                <select class="form-control" name="category" id="">
                                     <option value="">Selecciona una opción</option>
-                                    <option value="operador">Operador</option>
+                                    <option value="incidencia">Incidencia</option>
                                 </select>
                             </div>
                         </div>
                         <div class="col-sm-6">
                             <div class="form-group">
                                 <label class="col-form-label">Empresa<span class="text-danger">*</span></label>
-                                <select class="form-control" name="role" id="">
+                                <select class="form-control" name="company" id="">
                                     <option value="">Selecciona una opción</option>
-                                    <option value="operador">Operador</option>
+                                    <option value="alferza">Alferza</option>
                                 </select>
                             </div>
                         </div>
                         <div class="col-sm-6">
                             <div class="form-group">
                                 <label class="col-form-label">Archivo<span class="text-danger">*</span></label>
-                                <input type="file" class="form-control">
+                                <input type="file" name="file" class="form-control">
                             </div>
                         </div>
                         <div class="col-sm-12">
                             <div class="form-group">
                                 <label class="col-form-label">Comentarios</label>
-                                <textarea name="" class="form-control" id="" cols="30" rows="10"></textarea>
+                                <textarea name="comment" class="form-control" id="" cols="30" rows="10"></textarea>
                             </div>
                         </div>
                     </div>
-                    
+
                     <div class="submit-section">
                         <button class="btn btn-primary cancel-btn" data-bs-dismiss="modal"
                             aria-label="Close">Cancel</button>
