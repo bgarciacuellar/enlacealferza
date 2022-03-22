@@ -71,14 +71,14 @@
                         @foreach ($tickets as $ticket)
                         <tr>
                             <td>
-                                <a href="{{ route('ticket.details', $ticket->id) }}">
-                                    {{ $ticket->category }}
+                                <a href="{{ route('ticket.details', $ticket['id']) }}">
+                                    {{ $ticket['category'] }}
                                 </a>
                             </td>
-                            <td>{{ $ticket->limit_date }}</td>
-                            <td>{{ $ticket->company }}</td>
+                            <td>{{ $ticket['limit_date'] }}</td>
+                            <td>{{ $ticket['company'] }}</td>
                             <td>
-                                <span class="role-info role-bg-one">{{ $ticket->status }}</span>
+                                <span class="role-info role-bg-one">{{ $ticket['status'] }}</span>
                             </td>
                             <td class="text-end ico-sec">
                                 <a href="#" data-bs-toggle="modal" data-bs-target="#delete_employee"><i

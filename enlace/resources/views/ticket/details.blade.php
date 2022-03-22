@@ -35,7 +35,7 @@
                                     </li>
                                     <li>
                                         <div class="title">Empresa:</div>
-                                        <div class="text">{{ $ticket->company }}</div>
+                                        <div class="text">{{ $company->name }}</div>
                                     </li>
                                     <li>
                                         <div class="title">Estatus:</div>
@@ -983,9 +983,7 @@
                             <div class="form-group">
                                 <label class="col-form-label">Empresa<span class="text-danger">*</span></label>
                                 <select class="form-control" name="company" id="">
-                                    <option value="">Selecciona una opción</option>
-                                    <option value="alferza" {{ $ticket->company == "alferza" ? "selected" :
-                                        null}}>Alferza</option>
+                                    <option value="{{ $company->name }}">{{ $company->name }}</option>
                                 </select>
                             </div>
                         </div>

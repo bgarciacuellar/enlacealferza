@@ -21,8 +21,21 @@ class TicketController extends Controller
 
     public function list()
     {
-        $tickets = Ticket::all();
+        $ticketsArray = Ticket::all()->toArray();
         $companies = Company::all();
+
+        $ticketsMap = function ($ticketItem) {
+            $company = Company::where('id', $ticketItem['company'])->first();
+            $limit_date = Carbon::parse($ticketItem['limit_date']);
+            return array(
+                "id" => $ticketItem['id'],
+                "category" => $ticketItem['category'],
+                "limit_date" => $limit_date->format('d/m/Y'),
+                "company" => $company->name,
+                "status" => $ticketItem['status'],
+            );
+        };
+        $tickets = array_map($ticketsMap, $ticketsArray);
 
         return view('ticket.list', compact('tickets', 'companies'));
     }
@@ -65,6 +78,7 @@ class TicketController extends Controller
     public function details($ticketId)
     {
         $ticket = Ticket::findOrFail($ticketId);
+        $company = Company::findOrFail($ticket->company);
 
         $ticketFilesHistoryArray = TicketFileHistory::where('ticket_id', $ticketId)->orderBy('id', 'DESC')->get()->toArray();
         $ticketFilesHistoryMap = function ($ticketFileHistoryItem) {
@@ -95,7 +109,7 @@ class TicketController extends Controller
         $ticketowner = User::where('id', $ticket->user_id)->first();
         $ticketownerAdditionalInfo = AdditionalUserInfo::where('id', $ticket->user_id)->first();
 
-        return view('ticket.details', compact('ticket', 'ticketComments', 'ticketFilesHistory', 'ticketowner', 'ticketownerAdditionalInfo'));
+        return view('ticket.details', compact('ticket', 'ticketComments', 'ticketFilesHistory', 'ticketowner', 'ticketownerAdditionalInfo', 'company'));
     }
 
     public function uploadFile(Request $request, $ticket)
