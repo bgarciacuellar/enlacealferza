@@ -112,7 +112,7 @@ class TicketController extends Controller
         return view('ticket.details', compact('ticket', 'ticketComments', 'ticketFilesHistory', 'ticketowner', 'ticketownerAdditionalInfo', 'company'));
     }
 
-    public function uploadFile(Request $request, $ticket)
+    public function uploadFileToRecord(Request $request, $ticket)
     {
         $request->validate([
             "file" => "required"

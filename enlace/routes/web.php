@@ -58,7 +58,7 @@ Route::post('/tickets/crear', [App\Http\Controllers\TicketController::class, 'cr
 Route::get('/ticket/{ticketId}', [App\Http\Controllers\TicketController::class, 'details'])
     ->name('ticket.details');
 
-Route::post('/ticket/upload-file/{ticket}', [App\Http\Controllers\TicketController::class, 'uploadFile'])
+Route::post('/ticket/upload-file/{ticket}', [App\Http\Controllers\TicketController::class, 'uploadFileToRecord'])
     ->name('ticket.uploadFile');
 
 Route::post('/ticket/add-comment/{ticket}', [App\Http\Controllers\TicketController::class, 'addComment'])
