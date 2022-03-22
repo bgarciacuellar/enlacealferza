@@ -60,9 +60,8 @@
                 <table class="table table-striped custom-table datatable">
                     <thead>
                         <tr>
-                            <th>Titulo</th>
                             <th>Categoría</th>
-                            <th>Prioridad</th>
+                            <th>Fecha limite</th>
                             <th class="text-nowrap">Empresa</th>
                             <th>Estatus</th>
                             <th class="text-end no-sort">Eliminar</th>
@@ -73,11 +72,10 @@
                         <tr>
                             <td>
                                 <a href="{{ route('ticket.details', $ticket->id) }}">
-                                    {{ $ticket->title }}
+                                    {{ $ticket->category }}
                                 </a>
                             </td>
-                            <td>{{ $ticket->category }}</td>
-                            <td>{{ $ticket->priority }}</td>
+                            <td>{{ $ticket->limit_date }}</td>
                             <td>{{ $ticket->company }}</td>
                             <td>
                                 <span class="role-info role-bg-one">{{ $ticket->status }}</span>
@@ -112,12 +110,6 @@
                     <div class="row">
                         <div class="col-sm-6">
                             <div class="form-group">
-                                <label class="col-form-label">Titulo <span class="text-danger">*</span></label>
-                                <input class="form-control" name="title" type="text">
-                            </div>
-                        </div>
-                        <div class="col-sm-6">
-                            <div class="form-group">
                                 <label class="col-form-label">Estatus <span class="text-danger">*</span></label>
                                 <select class="form-control" name="status">
                                     <option value="">Selecciona una opción</option>
@@ -127,11 +119,8 @@
                         </div>
                         <div class="col-sm-6">
                             <div class="form-group">
-                                <label class="col-form-label">Prioridad <span class="text-danger">*</span></label>
-                                <select class="form-control" name="priority" id="">
-                                    <option value="">Selecciona una opción</option>
-                                    <option value="normal">Normal</option>
-                                </select>
+                                <label class="col-form-label">Fecha limite <span class="text-danger">*</span></label>
+                                <input class="form-control" type="date" name="limit_date">
                             </div>
                         </div>
                         <div class="col-sm-6">
@@ -139,7 +128,10 @@
                                 <label class="col-form-label">Categoría <span class="text-danger">*</span></label>
                                 <select class="form-control" name="category" id="">
                                     <option value="">Selecciona una opción</option>
-                                    <option value="incidencia">Incidencia</option>
+                                    <option value="Nomina 1">Nomina 1</option>
+                                    <option value="Nomina 2">Nomina 2</option>
+                                    <option value="Nomina 3">Nomina 3</option>
+                                    <option value="Nomina 4">Nomina 4</option>
                                 </select>
                             </div>
                         </div>
@@ -148,14 +140,10 @@
                                 <label class="col-form-label">Empresa<span class="text-danger">*</span></label>
                                 <select class="form-control" name="company" id="">
                                     <option value="">Selecciona una opción</option>
-                                    <option value="alferza">Alferza</option>
+                                    @foreach ($companies as $company)
+                                    <option value="{{ $company->id }}">{{ $company->name }}</option>
+                                    @endforeach
                                 </select>
-                            </div>
-                        </div>
-                        <div class="col-sm-6">
-                            <div class="form-group">
-                                <label class="col-form-label">Archivo<span class="text-danger">*</span></label>
-                                <input type="file" name="file" class="form-control">
                             </div>
                         </div>
                         <div class="col-sm-12">

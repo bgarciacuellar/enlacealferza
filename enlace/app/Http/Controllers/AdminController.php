@@ -9,7 +9,8 @@ use App\Models\AdditionalUserInfo;
 
 class AdminController extends Controller
 {
-    public function createNewUser(Request $request){
+    public function createNewUser(Request $request)
+    {
         $request->validate(
             [
                 'name' => 'required',
@@ -43,7 +44,7 @@ class AdminController extends Controller
             'email' => $request->email,
             'role' => $request->role,
             'password' => bcrypt($request->password),
-            
+
         ]);
         AdditionalUserInfo::create(
             [
@@ -66,7 +67,8 @@ class AdminController extends Controller
         return redirect()->route('admin.userDetails', $newUser->id)->with('success', 'Usuario Creado');
     }
 
-    public function updateUser(Request $request, $userId){
+    public function updateUser(Request $request, $userId)
+    {
         $request->validate(
             [
                 'name' => 'required',
@@ -95,7 +97,7 @@ class AdminController extends Controller
         $user->update([
             'name' => $request->name,
         ]);
-        
+
         $userAdditionalInfo = AdditionalUserInfo::updateOrCreate(
             ['user_id' => $user->id],
             [
@@ -118,15 +120,17 @@ class AdminController extends Controller
         return back()->with('success', 'Usuario Actualizado');
     }
 
-    public function userDetails($userId){
+    public function userDetails($userId)
+    {
         $user = User::findOrFail($userId);
         $additionalUserInfo = AdditionalUserInfo::where('user_id', $userId)->first();
 
         return view('admin.users_details', compact('user', 'additionalUserInfo'));
     }
 
-    public function usersList(){
-        $usersArray = User::all()->toArray();
+    public function usersList()
+    {
+        $usersArray = User::where('role', 'operador')->get()->toArray();
 
         $usersMap = function ($userItem) {
             $additionalUserInfo = AdditionalUserInfo::where('user_id', $userItem['id'])->first();
@@ -156,8 +160,9 @@ class AdminController extends Controller
         return view('admin.users_list', compact('users'));
     }
 
-    public function searchUsers(Request $request){
-        
+    public function searchUsers(Request $request)
+    {
+
         $usersArray = User::where("name", "like", "%" . $request->name . "%")->orWhere("employee_id", "like", "%" . $request->employee_id . "%")->get()->toArray();
 
         $usersMap = function ($userItem) {

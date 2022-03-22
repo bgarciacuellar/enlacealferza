@@ -47,7 +47,7 @@ Route::get('/users/search', [App\Http\Controllers\AdminController::class, 'searc
 Route::get('/user', [App\Http\Controllers\UserController::class, 'userDetails'])
     ->name('user.userDetails');
 
-    
+
 // Ticket
 Route::get('/tickets', [App\Http\Controllers\TicketController::class, 'list'])
     ->name('ticket.list');
@@ -67,7 +67,7 @@ Route::post('/ticket/add-comment/{ticket}', [App\Http\Controllers\TicketControll
 Route::post('/ticket/update/{ticket}', [App\Http\Controllers\TicketController::class, 'update'])
     ->name('ticket.update');
 
-    
+
 // Customer
 Route::get('/customer/list', [App\Http\Controllers\CustomerController::class, 'list'])
     ->name('customer.list');
@@ -82,3 +82,6 @@ Route::post('/company/create', [App\Http\Controllers\CompanyController::class, '
 
 Route::get('/company/details/{id}', [App\Http\Controllers\CompanyController::class, 'details'])
     ->name('company.details');
+
+Route::post('/company/create/employee/{id}', [App\Http\Controllers\CompanyController::class, 'createEmployee'])
+    ->name('company.createEmployee');

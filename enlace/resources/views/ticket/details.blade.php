@@ -26,16 +26,12 @@
                             <div class="col-md-7">
                                 <ul class="personal-info">
                                     <li>
-                                        <div class="title">Titulo:</div>
-                                        <div class="text"><a href="">{{ $ticket->title }}</a></div>
-                                    </li>
-                                    <li>
                                         <div class="title">Categoría:</div>
                                         <div class="text"><a href="">{{ $ticket->category }}</a></div>
                                     </li>
                                     <li>
-                                        <div class="title">Prioridad:</div>
-                                        <div class="text">{{ $ticket->priority }}</div>
+                                        <div class="title">Fecha Limite:</div>
+                                        <div class="text">{{ $ticket->limit_date->format('d/m/Y') }}</div>
                                     </li>
                                     <li>
                                         <div class="title">Empresa:</div>

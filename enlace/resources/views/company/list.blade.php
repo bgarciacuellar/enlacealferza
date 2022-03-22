@@ -73,7 +73,7 @@
                                 <h2 class="table-avatar">
                                     {{-- <a href="{{ route('admin.userDetails', $user['id']) }}" class="avatar"><img
                                             alt="" src="assets/img/profiles/avatar-02.jpg"></a> --}}
-                                    <a href="{{ route('admin.userDetails', $company->id) }}">{{ $company->name }}</a>
+                                    <a href="{{ route('company.details', $company->id) }}">{{ $company->name }}</a>
                                 </h2>
                             </td>
                             <td>{{ $company->address }}</td>
@@ -95,7 +95,7 @@
 </div>
 <!-- /Page Content -->
 
-<!-- Add Employee Modal -->
+<!-- Add company Modal -->
 <div id="add_company" class="modal custom-modal fade" role="dialog">
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Mail\TicketCreated;
 use App\Models\AdditionalUserInfo;
+use App\Models\Company;
 use Auth;
 use App\Models\Ticket;
 use App\Models\TicketComment;
@@ -18,50 +19,41 @@ class TicketController extends Controller
 {
     use File;
 
-    public function list(){
+    public function list()
+    {
         $tickets = Ticket::all();
+        $companies = Company::all();
 
-        return view('ticket.list', compact('tickets'));
+        return view('ticket.list', compact('tickets', 'companies'));
     }
 
-    public function create(Request $request){
+    public function create(Request $request)
+    {
         $request->validate(
             [
-                'title' => 'required',
                 'status' => 'required',
-                'priority' => 'required',
                 'category' => 'required',
                 'company' => 'required',
-                'file' => 'required',
+                'limit_date' => 'required',
                 'comment' => 'nullable',
             ],
         );
 
         $currentUser = Auth::user();
 
-        $fileName = $this->uploadFile($request->category, $request->file('file'));
-
         $ticketCreated = Ticket::create([
             'user_id' => $currentUser->id,
-            'title' => $request->title,
             'status' => $request->status,
-            'priority' => $request->priority,
+            'limit_date' => $request->limit_date,
             'category' => $request->category,
             'company' => $request->company,
-            'file' => $fileName,
-        ]);
-
-        TicketFileHistory::create([
-            'user_id' => $currentUser->id,
-            'ticket_id' => $ticketCreated->id,
-            'file' => $fileName,
         ]);
 
         if (trim($request->comment)) {
             TicketComment::create([
                 'user_id' => $currentUser->id,
                 'ticket_id' => $ticketCreated->id,
-                'comment' => $request->comment, 
+                'comment' => $request->comment,
             ]);
         }
         $message = new TicketCreated($currentUser->name, $ticketCreated->id);
@@ -70,7 +62,8 @@ class TicketController extends Controller
         return redirect()->route('ticket.details', $ticketCreated->id)->with('success', 'Ticket Creado');
     }
 
-    public function details($ticketId){
+    public function details($ticketId)
+    {
         $ticket = Ticket::findOrFail($ticketId);
 
         $ticketFilesHistoryArray = TicketFileHistory::where('ticket_id', $ticketId)->orderBy('id', 'DESC')->get()->toArray();
@@ -105,7 +98,8 @@ class TicketController extends Controller
         return view('ticket.details', compact('ticket', 'ticketComments', 'ticketFilesHistory', 'ticketowner', 'ticketownerAdditionalInfo'));
     }
 
-    public function uploadFile(Request $request, $ticket){
+    public function uploadFile(Request $request, $ticket)
+    {
         $request->validate([
             "file" => "required"
         ]);
@@ -128,12 +122,13 @@ class TicketController extends Controller
         TicketFileHistory::create([
             'user_id' => $currentUser->id,
             'ticket_id' => $ticket,
-            'file' => $fileName, 
+            'file' => $fileName,
         ]);
         return back()->with('success', 'Archivo agregado');
     }
 
-    public function addComment(Request $request, $ticket){
+    public function addComment(Request $request, $ticket)
+    {
         $request->validate([
             "comment" => "required"
         ]);
@@ -147,12 +142,13 @@ class TicketController extends Controller
         TicketComment::create([
             'user_id' => $currentUser->id,
             'ticket_id' => $ticket,
-            'comment' => $request->comment, 
+            'comment' => $request->comment,
         ]);
         return back()->with('success', 'Comentario agregado');
     }
 
-    public function update(Request $request, $ticket){
+    public function update(Request $request, $ticket)
+    {
         $request->validate(
             [
                 'title' => 'required',
