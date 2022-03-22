@@ -33,8 +33,10 @@ class LoginCustomizedController extends Controller
         if (Auth::attempt($credentials)) {
             if ($user->role == 'admin') {
                 return redirect()->route('admin.userList');
-            }else if($user->role == 'operador'){
+            } else if ($user->role == 'operador') {
                 return redirect()->route('user.userDetails');
+            } else if ($user->role == 'employee') {
+                return redirect()->route('admin.userList');
             }
         }
         return back()->with('error', 'Credenciales Erroneas, Verifiquie la Información');

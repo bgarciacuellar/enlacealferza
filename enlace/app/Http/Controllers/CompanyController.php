@@ -53,7 +53,6 @@ class CompanyController extends Controller
 
     public function createEmployee(Request $request, $id)
     {
-
         $request->validate([
             "name" => "required",
             "email" => "required|unique:users,email",
@@ -66,8 +65,8 @@ class CompanyController extends Controller
         $employeeCreated = User::create([
             "name" => $request->name,
             "email" => $request->email,
-            "password" => bcrypt($request->password),
             "role" => 'employee',
+            "password" => bcrypt($request->password),
         ]);
 
         CompanyEmployee::create([
@@ -76,6 +75,6 @@ class CompanyController extends Controller
             "role" => $request->role,
         ]);
 
-        return view('company.details', compact('company'));
+        return back()->with('success', '');
     }
 }
