@@ -504,7 +504,7 @@
                                 <a href="{{ route('ticket.list') }}" class="active">Incidencias</a>
                             </li>
                             <li>
-                                <a href="{{ route('company.list') }}" class="active">Compañías</a>
+                                <a href="{{ route('company.list') }}" class="active">Empresa</a>
                             </li>
                         </ul>
                     </div>

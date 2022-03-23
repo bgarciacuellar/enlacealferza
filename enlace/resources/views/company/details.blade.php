@@ -28,11 +28,15 @@
                                 <ul class="personal-info">
                                     <li>
                                         <div class="title">Dirección:</div>
-                                        <div class="text"><a href="">{{ $company->address }}</a></div>
+                                        <div class="text">
+                                            <span>{{ $company->address }}</span>
+                                        </div>
                                     </li>
                                     <li>
                                         <div class="title">Teléfono:</div>
-                                        <div class="text"><a href="">{{ $company->phone_number }}</a></div>
+                                        <div class="text">
+                                            <span>{{ $company->phone_number }}</span>
+                                        </div>
                                     </li>
                                     {{-- <li>
                                         <div class="title">Birthday:</div>
@@ -78,7 +82,7 @@
     <div class="row user-tabs">
         <div class="col-lg-12 col-md-12 col-sm-12 line-tabs">
             <ul class="nav nav-tabs nav-tabs-bottom pt-3 pb-2">
-                <li class="nav-item"><a href="#emp_profile" data-bs-toggle="tab" class="nav-link active">Mi compañía</a>
+                <li class="nav-item"><a href="#emp_profile" data-bs-toggle="tab" class="nav-link active">Mi Empresa</a>
                 </li>
                 {{-- <li class="nav-item"><a href="#emp_projects" data-bs-toggle="tab" class="nav-link">Comentarios</a>
                 </li> --}}

@@ -32,7 +32,7 @@
         <div class="col-md-4">
             <div class="add-emp-section">
                 <a href="#" class="btn btn-success btn-add-emp" data-bs-toggle="modal" data-bs-target="#add_company"><i
-                        class="fas fa-plus"></i> Agregar Compañía</a>
+                        class="fas fa-plus"></i> Agregar Empresa</a>
             </div>
         </div>
     </div>
@@ -63,7 +63,7 @@
                             <th>Nombre</th>
                             <th>Dirección</th>
                             <th>Teléfono</th>
-                            <th class="text-end no-sort">Deshabilitar</th>
+                            {{-- <th class="text-end no-sort">Deshabilitar</th> --}}
                         </tr>
                     </thead>
                     <tbody>
@@ -78,13 +78,13 @@
                             </td>
                             <td>{{ $company->address }}</td>
                             <td>{{ $company->phone_number }}</td>
-                            <td class="text-end ico-sec">
-                                {{-- <a href="#" data-bs-toggle="modal" data-bs-target="#edit_employee"><i
-                                        class="fas fa-pen"></i></a> --}}
+                            {{-- <td class="text-end ico-sec">
+                                <a href="#" data-bs-toggle="modal" data-bs-target="#edit_employee"><i
+                                        class="fas fa-pen"></i></a>
                                 <a href="#" data-bs-toggle="modal"
                                     onclick="getUserId({{ $company->id }}, 'delete_user_id')"
                                     data-bs-target="#delete_employee"><i class="far fa-trash-alt"></i></a>
-                            </td>
+                            </td> --}}
                         </tr>
                         @endforeach
                     </tbody>
@@ -100,7 +100,7 @@
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Agregar Compañía</h5>
+                <h5 class="modal-title">Agregar Empresa</h5>
                 <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                     <i class="fas fa-times"></i>
                 </button>
