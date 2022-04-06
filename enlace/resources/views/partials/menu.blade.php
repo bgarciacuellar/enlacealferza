@@ -895,6 +895,10 @@
     <!-- Custom JS -->
     <script src="{{ asset('js/customize/getUserId.js') }}"></script>
 
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    @yield('js')
+
 </body>
 
 </html>

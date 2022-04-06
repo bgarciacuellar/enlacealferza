@@ -6,6 +6,8 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Models\AdditionalUserInfo;
+use App\Models\Company;
+use App\Models\CompanyOnCharge;
 
 class AdminController extends Controller
 {
@@ -124,8 +126,15 @@ class AdminController extends Controller
     {
         $user = User::findOrFail($userId);
         $additionalUserInfo = AdditionalUserInfo::where('user_id', $userId)->first();
+        $companies = Company::all();
 
-        return view('admin.users_details', compact('user', 'additionalUserInfo'));
+        $userCompanies = CompanyOnCharge::where('user_id', $user->id)->get();
+        foreach ($userCompanies as $userCompany) {
+            $company = Company::find($userCompany->company_id);
+            $userCompany->company_name = $company->name;
+        }
+
+        return view('admin.users_details', compact('user', 'additionalUserInfo', 'companies', 'userCompanies'));
     }
 
     public function usersList()
@@ -191,5 +200,47 @@ class AdminController extends Controller
         $users = array_map($usersMap, $usersArray);
 
         return view('admin.users_list', compact('users'));
+    }
+
+    public function assignToCompany(Request $request, $id)
+    {
+        $request->validate(
+            [
+                'company' => 'required',
+            ]
+        );
+
+        $user = User::where('id', $id)->where('role', 'operador')->first('id');
+        if (!$user) {
+            return back()->with('error', 'Ocurrio un error, intentelo de nuevo');
+        }
+        $companyOnCharge = CompanyOnCharge::where('user_id', $user->id)->where('company_id', $request->company)->first('id');
+        if ($companyOnCharge) {
+            return back()->with('error', 'Ya está asignado a esa empresa');
+        }
+
+        CompanyOnCharge::create([
+            'user_id' => $user->id,
+            'company_id' => $request->company,
+
+        ]);
+
+        return back()->with('success', 'Empresa asignada');
+    }
+    public function unassignCompany($userID, $companyID)
+    {
+        $user = User::where('id', $userID)->where('role', 'operador')->first('id');
+        if (!$user) {
+            return back()->with('error', 'Ocurrio un error, intentelo de nuevo');
+        }
+
+        $companyOnCharge = CompanyOnCharge::where('company_id', $companyID)->where('user_id', $user->id)->first();
+        if (!$companyOnCharge) {
+            return back()->with('error', 'Ocurrio un error, intentelo de nuevo');
+        } else {
+            $companyOnCharge->delete();
+        }
+
+        return back()->with('success', 'Empresa Desasignada');
     }
 }

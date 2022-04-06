@@ -43,6 +43,12 @@ Route::post('/users/disable', [App\Http\Controllers\UserController::class, 'disa
 Route::get('/users/search', [App\Http\Controllers\AdminController::class, 'searchUsers'])
     ->name('admin.searchUsers');
 
+Route::post('/assign-to-company/{id}', [App\Http\Controllers\AdminController::class, 'assignToCompany'])
+    ->name('admin.assignToCompany');
+
+Route::post('/unassign-company/{user}/{company}', [App\Http\Controllers\AdminController::class, 'unassignCompany'])
+    ->name('admin.unassignCompany');
+
 // User
 Route::get('/user', [App\Http\Controllers\UserController::class, 'userDetails'])
     ->name('user.userDetails');
