@@ -1,4 +1,4 @@
-@extends('partials.menu')
+@extends('partials.menu-user')
 
 @section('content')
 
@@ -6,6 +6,7 @@
 <div class="content container-fluid">
 
     <!-- Search Filter -->
+    @if (auth()->user()->hasRoles(['ejecutivo']))
     <div class="row filter-row">
         <div class="col-md-8">
             {{-- <form action="{{ route('admin.searchUsers') }}">
@@ -29,6 +30,7 @@
                 </div>
             </form> --}}
         </div>
+
         <div class="col-md-4">
             <div class="add-emp-section">
                 <a href="#" class="btn btn-success btn-add-emp" data-bs-toggle="modal"
@@ -36,6 +38,7 @@
             </div>
         </div>
     </div>
+    @endif
     <!-- /Search Filter -->
     @if ($errors->any())
     <div class="mx-auto text-center">
@@ -55,8 +58,22 @@
     </div>
     @endif
     <div class="row">
+        <div class="col-12 col-lg-4">
+            <form action="{{ route('user.ticketList') }}">
+                <label for="company">Selecciona una compañía</label>
+                <select name="company" class="form-control" required>
+                    <option value="">Selecciona una opción</option>
+                    @foreach ($myCompanies as $myCompany)
+                    <option value="{{ $myCompany['id'] }}" {{ $selectedCompany==$myCompany['id'] ? 'selected' : null}}>
+                        {{ $myCompany['name'] }}</option>
+                    @endforeach
+                </select>
+                <button type="submit" class="btn btn-success btn-add-emp">Elegir</button>
+            </form>
+        </div>
         <div class="col-md-12">
             <div class="table-responsive">
+                @if ($tickets)
                 <table class="table table-striped custom-table datatable">
                     <thead>
                         <tr>
@@ -71,14 +88,14 @@
                         @foreach ($tickets as $ticket)
                         <tr>
                             <td>
-                                <a href="{{ route('ticket.details', $ticket['id']) }}">
+                                <a href="{{ route('ticket.details', $ticket->id) }}">
                                     {{ $ticket['category'] }}
                                 </a>
                             </td>
-                            <td>{{ $ticket['limit_date'] }}</td>
-                            <td>{{ $ticket['company'] }}</td>
+                            <td>{{ $ticket->limit_date->format('d/m/Y') }}</td>
+                            <td>{{ $ticket->company }}</td>
                             <td>
-                                <span class="role-info role-bg-one">{{ $ticket['status'] }}</span>
+                                <span class="role-info role-bg-one">{{ $ticket->status }}</span>
                             </td>
                             <td class="text-end ico-sec">
                                 <a href="#" data-bs-toggle="modal" data-bs-target="#delete_employee"><i
@@ -88,6 +105,7 @@
                         @endforeach
                     </tbody>
                 </table>
+                @endif
             </div>
         </div>
     </div>
@@ -138,12 +156,12 @@
                         <div class="col-sm-6">
                             <div class="form-group">
                                 <label class="col-form-label">Empresa<span class="text-danger">*</span></label>
-                                <select class="form-control" name="company" id="">
+                                {{-- <select class="form-control" name="company" id="">
                                     <option value="">Selecciona una opción</option>
                                     @foreach ($companies as $company)
                                     <option value="{{ $company->id }}">{{ $company->name }}</option>
                                     @endforeach
-                                </select>
+                                </select> --}}
                             </div>
                         </div>
                         <div class="col-sm-12">

@@ -10,6 +10,12 @@ use Illuminate\Http\Request;
 
 class CompanyController extends Controller
 {
+
+    function __construct()
+    {
+        $this->middleware(['auth', 'roles:admin']);
+    }
+
     public function list()
     {
         $companies = Company::all();
@@ -35,6 +41,7 @@ class CompanyController extends Controller
 
     public function details($id)
     {
+        $roles = ['cliente', 'capturista', 'validador'];
         $company = Company::findOrFail($id);
         $companyEmployeesArray = CompanyEmployee::where("company_id", $company->id)->get()->toArray();
         $companyEmployeesMap = function ($companyEmployeeItem) {
@@ -48,7 +55,7 @@ class CompanyController extends Controller
         $companyEmployees = array_map($companyEmployeesMap, $companyEmployeesArray);
 
         $incidents = Ticket::where("company", $company->id)->orderBy('id', 'DESC')->get();
-        return view('company.details', compact('company', 'companyEmployees', 'incidents'));
+        return view('company.details', compact('company', 'companyEmployees', 'incidents', 'roles'));
     }
 
     public function createEmployee(Request $request, $id)
@@ -65,7 +72,7 @@ class CompanyController extends Controller
         $employeeCreated = User::create([
             "name" => $request->name,
             "email" => $request->email,
-            "role" => 'employee',
+            "role" => $request->role,
             "password" => bcrypt($request->password),
         ]);
 

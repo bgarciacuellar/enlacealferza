@@ -8,7 +8,8 @@
                 <div class="profile-view">
                     <div class="profile-img-wrap">
                         <div class="profile-img">
-                            <a href="#"><img alt="" src="{{ asset('img/profiles/avatar-02.jpg')}}"></a>
+                            <a href="#"><img alt=""
+                                    src="{{ $additionalUserInfo->profile_image ? asset('storage/profile_images/' . $additionalUserInfo->profile_image ) : asset('img/profiles/avatar-02.jpg')}}"></a>
                         </div>
                     </div>
                     <div class="profile-basic">
@@ -851,7 +852,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form action="{{ route('admin.updateUser', $user->id) }}" method="POST">
+                <form action="{{ route('admin.updateUser', $user->id) }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <div class="row">
                         <div class="col-md-12">
@@ -859,12 +860,13 @@
                                 <img class="inline-block" src="assets/img/profiles/avatar-02.jpg" alt="user">
                                 <div class="fileupload btn">
                                     <span class="btn-text">editar</span>
-                                    <input class="upload" type="file">
+                                    {{-- <input class="upload" type="file" name="profile_image"> --}}
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
+                                        <input class="form-control" type="file" name="profile_image">
                                         <label>Nombre(s)</label>
                                         <input type="text" class="form-control" value="{{ $user->name }}" name="name">
                                     </div>

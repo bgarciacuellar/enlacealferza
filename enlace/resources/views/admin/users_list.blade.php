@@ -87,7 +87,7 @@
                             <td>
                                 <h2 class="table-avatar">
                                     <a href="{{ route('admin.userDetails', $user['id']) }}" class="avatar"><img alt=""
-                                            src="assets/img/profiles/avatar-02.jpg"></a>
+                                            src="{{ asset('/storage/profile_images/' . $user['profile_image'])}}"></a>
                                     <a href="{{ route('admin.userDetails', $user['id']) }}">{{ $user['name'] }} <span>{{
                                             $user['position'] }}</span></a>
                                 </h2>
@@ -153,7 +153,9 @@
                                 <label class="col-form-label">Rol <span class="text-danger">*</span></label>
                                 <select class="form-control" name="role" id="">
                                     <option value="">Selecciona el tipo de rol</option>
-                                    <option value="operador">Operador</option>
+                                    @foreach ($roles as $role)
+                                    <option value="{{ $role }}">{{ ucfirst($role) }}</option>
+                                    @endforeach
                                 </select>
                             </div>
                         </div>

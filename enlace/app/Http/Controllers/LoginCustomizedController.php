@@ -3,14 +3,21 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Traits\redirect;
 use Auth;
 use Illuminate\Http\Request;
 
 class LoginCustomizedController extends Controller
 {
+    use redirect;
     public function loginView()
     {
-        return view('auth.login_customized');
+        $currentUser = Auth::user();
+        if (!$currentUser) {
+            return view('auth.login_customized');
+        }
+        $redirect = $this->checkRole();
+        return $redirect;
     }
 
     public function login(Request $request)
@@ -31,13 +38,8 @@ class LoginCustomizedController extends Controller
             return back()->with('error', 'Credenciales Erroneas, Verifiquie la Información');
         }
         if (Auth::attempt($credentials)) {
-            if ($user->role == 'admin') {
-                return redirect()->route('admin.userList');
-            } else if ($user->role == 'operador') {
-                return redirect()->route('user.userDetails');
-            } else if ($user->role == 'employee') {
-                return redirect()->route('admin.userList');
-            }
+            $redirect = $this->checkRole();
+            return $redirect;
         }
         return back()->with('error', 'Credenciales Erroneas, Verifiquie la Información');
     }

@@ -6,16 +6,43 @@ use Auth;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Models\AdditionalUserInfo;
+use App\Models\Company;
+use App\Models\CompanyOnCharge;
+use App\Models\Ticket;
+use Carbon\Carbon;
 
 class UserController extends Controller
 {
-    public function userDetails(){
+    public function ticketList(Request $request)
+    {
+        $user = Auth::user();
+        $myCompaniesArray = CompanyOnCharge::where("user_id", $user->id)->get()->toArray();
+        $selectedCompany = $request->has('company') ? $request->company : 0;
+        // $companies = Company::all();
+
+        $myCompaniesMap = function ($myCompanyItem) {
+            $company = Company::where('id', $myCompanyItem['company_id'])->first();
+            return array(
+                "id" => $company->id,
+                "name" => $company->name,
+            );
+        };
+        $myCompanies = array_map($myCompaniesMap, $myCompaniesArray);
+
+        $tickets = Ticket::where("company", $selectedCompany)->get();
+
+        return view('users.ticket.list', compact('myCompanies', 'tickets', 'selectedCompany'));
+    }
+
+    public function userDetails()
+    {
         $user = User::findOrFail(Auth::user()->id);
         $additionalUserInfo = AdditionalUserInfo::where('user_id', Auth::user()->id)->first();
         return view('users.users_details', compact('user', 'additionalUserInfo'));
     }
 
-    public function updateUser(Request $request, $userId){
+    public function updateUser(Request $request, $userId)
+    {
         $request->validate(
             [
                 'name' => 'required',
@@ -54,7 +81,7 @@ class UserController extends Controller
         if ($request->password) {
             $user->update([
                 'password' => bcrypt($request->password),
-            ]); 
+            ]);
         }
         $userAdditionalInfo = AdditionalUserInfo::updateOrCreate(
             ['user_id' => $user->id],
@@ -78,13 +105,14 @@ class UserController extends Controller
         return back()->with('success', 'Usuario Actualizado');
     }
 
-    public function disableUser(Request $request){
+    public function disableUser(Request $request)
+    {
         $user = User::find($request->user_id);
         if ($user->is_active) {
             $user->update([
                 'is_active' => 0
             ]);
-        }else {
+        } else {
             return back()->with('error', 'Este usuario ya esta deshabilitado');
         }
 

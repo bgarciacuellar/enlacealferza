@@ -50,6 +50,9 @@ Route::post('/unassign-company/{user}/{company}', [App\Http\Controllers\AdminCon
     ->name('admin.unassignCompany');
 
 // User
+Route::get('/user/tickets', [App\Http\Controllers\UserController::class, 'ticketList'])
+    ->name('user.ticketList');
+
 Route::get('/user', [App\Http\Controllers\UserController::class, 'userDetails'])
     ->name('user.userDetails');
 
@@ -73,10 +76,8 @@ Route::post('/ticket/add-comment/{ticket}', [App\Http\Controllers\TicketControll
 Route::post('/ticket/update/{ticket}', [App\Http\Controllers\TicketController::class, 'update'])
     ->name('ticket.update');
 
-
-// Customer
-Route::get('/customer/list', [App\Http\Controllers\CustomerController::class, 'list'])
-    ->name('customer.list');
+Route::post('/ticket/next-step/{id}', [App\Http\Controllers\TicketController::class, 'nextStep'])
+    ->name('ticket.nextStep');
 
 // Company
 Route::get('/company/list', [App\Http\Controllers\CompanyController::class, 'list'])
@@ -91,3 +92,17 @@ Route::get('/company/details/{id}', [App\Http\Controllers\CompanyController::cla
 
 Route::post('/company/create/employee/{id}', [App\Http\Controllers\CompanyController::class, 'createEmployee'])
     ->name('company.createEmployee');
+
+// Employee
+
+Route::group(
+    [
+        'prefix' => 'employee',
+    ],
+    function () {
+        Route::get('/tickets', [App\Http\Controllers\EmployeeController::class, 'tiketsList'])
+            ->name('employee.tiketsList');
+        Route::get('/tickets/detalles/{id}', [App\Http\Controllers\EmployeeController::class, 'details'])
+            ->name('employee.details');
+    }
+);

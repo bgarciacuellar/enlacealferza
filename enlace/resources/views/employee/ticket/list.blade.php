@@ -1,4 +1,4 @@
-@extends('partials.menu')
+@extends('partials.menu-employee')
 
 @section('content')
 
@@ -29,12 +29,12 @@
                 </div>
             </form> --}}
         </div>
-        <div class="col-md-4">
+        {{-- <div class="col-md-4">
             <div class="add-emp-section">
                 <a href="#" class="btn btn-success btn-add-emp" data-bs-toggle="modal"
                     data-bs-target="#create_incident"><i class="fas fa-plus"></i> Crear Incidencia</a>
             </div>
-        </div>
+        </div> --}}
     </div>
     <!-- /Search Filter -->
     @if ($errors->any())
@@ -62,23 +62,21 @@
                         <tr>
                             <th>Categoría</th>
                             <th>Fecha limite</th>
-                            <th class="text-nowrap">Empresa</th>
                             <th>Estatus</th>
-                            <th class="text-end no-sort">Eliminar</th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach ($tickets as $ticket)
                         <tr>
                             <td>
-                                <a href="{{ route('ticket.details', $ticket['id']) }}">
-                                    {{ $ticket['category'] }}
+                                <a href="{{ route('employee.details', $ticket->id) }}">
+                                    {{ $ticket->category }}
                                 </a>
                             </td>
-                            <td>{{ $ticket['limit_date'] }}</td>
-                            <td>{{ $ticket['company'] }}</td>
+                            <td>{{ $ticket->limit_date->format('d/m/Y') }}</td>
+                            <td>{{ $company->name }}</td>
                             <td>
-                                <span class="role-info role-bg-one">{{ $ticket['status'] }}</span>
+                                <span class="role-info role-bg-one">{{ $ticket->status }}</span>
                             </td>
                             <td class="text-end ico-sec">
                                 <a href="#" data-bs-toggle="modal" data-bs-target="#delete_employee"><i
@@ -95,7 +93,7 @@
 <!-- /Page Content -->
 
 <!-- Add Employee Modal -->
-<div id="create_incident" class="modal custom-modal fade" role="dialog">
+{{-- <div id="create_incident" class="modal custom-modal fade" role="dialog">
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -108,7 +106,7 @@
                 <form action="{{ route('ticket.create') }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <div class="row">
-                        {{-- <div class="col-sm-6">
+                        <div class="col-sm-6">
                             <div class="form-group">
                                 <label class="col-form-label">Estatus <span class="text-danger">*</span></label>
                                 <select class="form-control" name="status">
@@ -116,7 +114,7 @@
                                     <option value="abierto">Abierto</option>
                                 </select>
                             </div>
-                        </div> --}}
+                        </div>
                         <div class="col-sm-6">
                             <div class="form-group">
                                 <label class="col-form-label">Fecha limite <span class="text-danger">*</span></label>
@@ -163,7 +161,7 @@
             </div>
         </div>
     </div>
-</div>
+</div> --}}
 
 
 <!-- Delete Employee Modal -->

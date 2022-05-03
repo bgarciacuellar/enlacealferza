@@ -8,9 +8,21 @@ use Illuminate\Http\Request;
 use App\Models\AdditionalUserInfo;
 use App\Models\Company;
 use App\Models\CompanyOnCharge;
+use App\Traits\helpers;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\File;
 
 class AdminController extends Controller
 {
+    use helpers;
+
+    public $usersRoles = ['ejecutivo', 'nominista', 'finanzas', 'pagos', 'cobranza'];
+
+    function __construct()
+    {
+        $this->middleware(['auth', 'roles:admin']);
+    }
+
     public function createNewUser(Request $request)
     {
         $request->validate(
@@ -45,6 +57,7 @@ class AdminController extends Controller
             'name' => $request->name,
             'email' => $request->email,
             'role' => $request->role,
+            'employee_id' => $request->employee_id,
             'password' => bcrypt($request->password),
 
         ]);
@@ -52,17 +65,6 @@ class AdminController extends Controller
             [
                 'user_id' => $newUser->id,
                 'last_name' => $request->last_name,
-                // 'work_area' => $request->work_area,
-                // 'position' => $request->position,
-                // 'office' => $request->office,
-                // 'company' => $request->company,
-                // 'gender' => $request->gender,
-                // 'birthday' => $request->birthday,
-                // 'municipality' => $request->municipality,
-                // 'civil_status' => $request->civil_status,
-                // 'phone_number' => $request->phone_number,
-                // 'entry_date' => $request->entry_date,
-                // 'departure_dates' => $request->departure_dates,
             ]
         );
 
@@ -100,7 +102,19 @@ class AdminController extends Controller
             'name' => $request->name,
         ]);
 
-        $userAdditionalInfo = AdditionalUserInfo::updateOrCreate(
+        $userAdditionalInfo = AdditionalUserInfo::where("user_id", $user->id)->first();
+        if ($request->hasFile('profile_image')) {
+            $profile_image = $this->uploadImage($request->file('profile_image'), 'profile_images');
+            if ($userAdditionalInfo) {
+                if ($userAdditionalInfo->profile_image) {
+                    File::delete('storage/profile_images/' . $userAdditionalInfo->profile_image);
+                }
+            }
+        } else {
+            $profile_image = $userAdditionalInfo ? $userAdditionalInfo->profile_image : '';
+        }
+
+        AdditionalUserInfo::updateOrCreate(
             ['user_id' => $user->id],
             [
                 'user_id' => $user->id,
@@ -116,6 +130,7 @@ class AdminController extends Controller
                 'phone_number' => $request->phone_number,
                 'entry_date' => $request->entry_date,
                 'departure_dates' => $request->departure_dates,
+                'profile_image' => $profile_image,
             ]
         );
 
@@ -139,7 +154,9 @@ class AdminController extends Controller
 
     public function usersList()
     {
-        $usersArray = User::where('role', 'operador')->get()->toArray();
+        $roles = ['ejecutivo', 'nominista', 'finanzas', 'pagos', 'cobranza'];
+
+        $usersArray = User::whereIn("role", $this->usersRoles)->get()->toArray();
 
         $usersMap = function ($userItem) {
             $additionalUserInfo = AdditionalUserInfo::where('user_id', $userItem['id'])->first();
@@ -162,17 +179,19 @@ class AdminController extends Controller
                 "phone_number" => $additionalUserInfo->phone_number,
                 "entry_date" => $additionalUserInfo->entry_date,
                 "departure_dates" => $additionalUserInfo->departure_dates,
+                "profile_image" => $additionalUserInfo->profile_image,
             );
         };
         $users = array_map($usersMap, $usersArray);
 
-        return view('admin.users_list', compact('users'));
+        return view('admin.users_list', compact('users', 'roles'));
     }
 
     public function searchUsers(Request $request)
     {
 
-        $usersArray = User::where("name", "like", "%" . $request->name . "%")->orWhere("employee_id", "like", "%" . $request->employee_id . "%")->get()->toArray();
+        $roles = ['ejecutivo', 'nominista', 'finanzas', 'pagos', 'cobranza'];
+        $usersArray = $this->searchUser($request);
 
         $usersMap = function ($userItem) {
             $additionalUserInfo = AdditionalUserInfo::where('user_id', $userItem['id'])->first();
@@ -195,11 +214,12 @@ class AdminController extends Controller
                 "phone_number" => $additionalUserInfo->phone_number,
                 "entry_date" => $additionalUserInfo->entry_date,
                 "departure_dates" => $additionalUserInfo->departure_dates,
+                "profile_image" => $additionalUserInfo->profile_image,
             );
         };
         $users = array_map($usersMap, $usersArray);
 
-        return view('admin.users_list', compact('users'));
+        return view('admin.users_list', compact('users', 'roles'));
     }
 
     public function assignToCompany(Request $request, $id)
@@ -210,7 +230,7 @@ class AdminController extends Controller
             ]
         );
 
-        $user = User::where('id', $id)->where('role', 'operador')->first('id');
+        $user = User::where('id', $id)->whereIn("role", $this->usersRoles)->first('id');
         if (!$user) {
             return back()->with('error', 'Ocurrio un error, intentelo de nuevo');
         }
@@ -229,7 +249,7 @@ class AdminController extends Controller
     }
     public function unassignCompany($userID, $companyID)
     {
-        $user = User::where('id', $userID)->where('role', 'operador')->first('id');
+        $user = User::where('id', $userID)->whereIn("role", $this->usersRoles)->first('id');
         if (!$user) {
             return back()->with('error', 'Ocurrio un error, intentelo de nuevo');
         }
