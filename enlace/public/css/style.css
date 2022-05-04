@@ -135,7 +135,7 @@ h6, .h6 {
 	font-size: 0.75rem;
 }
 a {
-	color: #ff7849;
+	color: #0D2754;
 }
 a,
 a:hover,
@@ -548,8 +548,8 @@ table.table td,table.table th {
 .btn-primary.active,
 .btn-primary:active,
 .open > .dropdown-toggle.btn-primary {
-	background-color: #fd5f2b;
-	border: 1px solid #fd5f2b;
+	background-color: #0D2754;
+	border: 1px solid #0D2754;
 }
 .btn-primary.active.focus,
 .btn-primary.active:focus,
@@ -1381,9 +1381,9 @@ label {
 	margin-right: 10px;
 }
 .custom-modal .cancel-btn {
-	background: #fff8f6;
-	border-color: #fff8f6;
-    color: #ff7849;
+	background: #FAEEED;
+	border-color: #FAEEED;
+    color: #E06D65;
 }
 
 
@@ -1791,7 +1791,7 @@ label {
 	color: #38414A;
 }
 .sidebar .sidebar-right ul li a.active {
-	color: #FF7849;
+	color: #343835;
 }
 .sidebar .sidebar-right .bg-primary {
 	background-color: #FF7849 !important;
@@ -2201,7 +2201,7 @@ label {
     font-weight: 700;
     margin-bottom: 5px;
     text-align: center;
-	color: #FF7849;
+	color: #0D2754;
 }
 .account-subtitle {
     color: #4c4c4c;
@@ -2229,7 +2229,7 @@ label {
 	margin-bottom: 25px;
 }
 .account-box .account-btn {
-	background: #FF7849;
+	background: #0D2754;
 	border: 0;
     border-radius: 4px;
     display: block;
@@ -2264,10 +2264,10 @@ label {
     margin-bottom: 0;
 }
 .account-footer a {
-	color: #FF7849;
+	color: #0D2754;
 }
 .account-footer a:hover {
-	color: #FF7849;
+	color: #0D2754;
 }
 
 /*-----------------
@@ -2322,7 +2322,7 @@ label {
 .dash-widget-icon {
 	background-color: rgba(0, 197, 251, 0.2);
 	border-radius: 100%;
-	color: #FF7849;
+	color: #0D2754;
 	display: inline-block;
 	float: left;
 	font-size: 30px;
@@ -2519,7 +2519,7 @@ label {
 	line-height: 42px;
 }
 .select2-container--default .select2-results__option--highlighted[aria-selected] {
-	background-color: #FF7849;
+	background-color: #0D2754;
 }
 .select2-dropdown {
 	z-index: 1055;
@@ -3637,18 +3637,18 @@ table.dataTable>thead .sorting:before, table.dataTable>thead .sorting:after, tab
 	color: #90A8D9;
 } */
 .btn-add-emp, .btn-add-emp:focus {
-	background-color: #FA3644;
-	border-color: #FA3644;
+	background-color: #6BAE7A;
+	border-color: #6BAE7A;
 	width: 200px;
 	border-radius: 50px;
-	border: 4px solid #FFE3E5;
+	border: 4px solid #6BAE7A;
 }
 .btn-add-emp:hover {
-	background-color: #FF7849;
-	border: 4px solid rgb(24 144 255 / 10%);
+	background-color: #558B61;
+	border: 4px solid #558B61;
 }
 .btn-add-emp:not(:disabled):not(.disabled).active, .btn-add-emp:not(:disabled):not(.disabled):active, .show>.btn-add-emp.dropdown-toggle {
-	background-color: #FF7849;
+	background-color: #558B61;
 	border: 4px solid rgb(24 144 255 / 10%);
 }
 .btn-add-emp i {
@@ -6856,7 +6856,7 @@ table.table-inbox tbody tr.checked {
     content: '';
     display: block;
     width: 5px;
-    background-color: #FF7849;
+    background-color: #0D2754;
     height: 100%;
     position: absolute;
     top: 0px;
@@ -8329,7 +8329,7 @@ ul.comment-list li ul.children {
 	content: '';
     display: block;
     width: 100%;
-    background-color: #ff9a45;
+    background-color: #0D2754;
     height: 5px;
     position: relative;
     top: 20px;
@@ -9952,7 +9952,7 @@ span.userrole-info {
 		content: '';
 		display: block;
 		width: 100%;
-		background-color: #ff9648;
+		background-color: #0D2754;
 		height: 5px;
 		position: relative;
 		top: 10px;
