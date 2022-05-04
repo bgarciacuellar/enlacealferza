@@ -28,6 +28,7 @@ class CreateAdditionalUserInfosTable extends Migration
             $table->string('phone_number')->nullable();
             $table->date('entry_date')->nullable();
             $table->date('departure_dates')->nullable();
+            $table->string('profile_image')->nullable();
             $table->timestamps();
         });
     }

@@ -1,4 +1,4 @@
-@extends('partials.menu')
+@extends('partials.menu-user')
 
 @section('content')
 <div class="card mb-0">
@@ -20,8 +20,6 @@
                                     <small class="text-muted">Web Designer</small>
                                     <div class="staff-id">Employee ID : FT-0001</div>
                                     <div class="small doj text-muted">Date of Join : 1st Jan 2013</div>
-                                    <div class="staff-msg"><a class="btn btn-custom" href="chat.html">Send
-                                            Message</a></div>
                                 </div>
                             </div>
                             <div class="col-md-7">

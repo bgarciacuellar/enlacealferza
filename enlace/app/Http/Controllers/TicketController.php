@@ -3,8 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Mail\TicketCreated;
+use App\Mail\UploadFileMail;
 use App\Models\AdditionalUserInfo;
 use App\Models\Company;
+use App\Models\CompanyEmployee;
+use App\Models\CompanyOnCharge;
 use Auth;
 use App\Models\Ticket;
 use App\Models\TicketComment;
@@ -18,6 +21,11 @@ use Illuminate\Support\Facades\Mail;
 class TicketController extends Controller
 {
     use File;
+
+    function __construct()
+    {
+        $this->middleware(['auth', 'roles:admin'])->except('details');
+    }
 
     public function list()
     {
@@ -44,7 +52,6 @@ class TicketController extends Controller
     {
         $request->validate(
             [
-                'status' => 'required',
                 'category' => 'required',
                 'company' => 'required',
                 'limit_date' => 'required',
@@ -56,7 +63,7 @@ class TicketController extends Controller
 
         $ticketCreated = Ticket::create([
             'user_id' => $currentUser->id,
-            'status' => $request->status,
+            'status' => 1,
             'limit_date' => $request->limit_date,
             'category' => $request->category,
             'company' => $request->company,
@@ -69,9 +76,18 @@ class TicketController extends Controller
                 'comment' => $request->comment,
             ]);
         }
+
+        $employees = CompanyEmployee::where('company_id', $request->company)->get('user_id');
+
         $message = new TicketCreated($currentUser->name, $ticketCreated->id);
+        foreach ($employees as $employee) {
+            $employeeEmail = User::where('id', $employee->user_id)->first('email');
+            // Production
+            // Mail::to($employeeEmail->email)->send($message);
+            Mail::to("alammduran@gmail.com")->send($message);
+        }
+
         // Mail::to("socialmedia@alferza.mx")->send($message);
-        Mail::to("alammduran@gmail.com")->send($message);
         return redirect()->route('ticket.details', $ticketCreated->id)->with('success', 'Ticket Creado');
     }
 
@@ -133,11 +149,25 @@ class TicketController extends Controller
         $fileName = end($getFileName);
 
         $currentUser = Auth::user();
+
+
+
         TicketFileHistory::create([
             'user_id' => $currentUser->id,
             'ticket_id' => $ticket,
             'file' => $fileName,
         ]);
+
+        $employees = CompanyEmployee::where('company_id', $ticketExists->company)->get('user_id');
+
+        $message = new UploadFileMail($ticketExists->id);
+        foreach ($employees as $employee) {
+            $employeeEmail = User::where('id', $employee->user_id)->first('email');
+            // Production
+            // Mail::to($employeeEmail->email)->send($message);
+            Mail::to("alammduran@gmail.com")->send($message);
+        }
+
         return back()->with('success', 'Archivo agregado');
     }
 
@@ -165,9 +195,6 @@ class TicketController extends Controller
     {
         $request->validate(
             [
-                'title' => 'required',
-                'status' => 'required',
-                'priority' => 'required',
                 'category' => 'required',
                 'company' => 'required',
             ],
@@ -184,5 +211,16 @@ class TicketController extends Controller
         ]);
 
         return back()->with('success', 'Ticket Modificado');
+    }
+
+    public function nextStep($id)
+    {
+        $ticket = Ticket::findOrFail($id);
+
+        $ticket->update([
+            'status' => $ticket->status + 1,
+        ]);
+
+        return back()->with('success', 'Siguiente Paso');
     }
 }

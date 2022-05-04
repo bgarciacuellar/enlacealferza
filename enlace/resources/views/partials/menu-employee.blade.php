@@ -498,13 +498,7 @@
                         <p>Panel de administración</p>
                         <ul>
                             <li>
-                                <a href="{{ route('admin.userList') }}" class="active">Lista de Empleados</a>
-                            </li>
-                            <li>
-                                <a href="{{ route('ticket.list') }}" class="active">Incidencias</a>
-                            </li>
-                            <li>
-                                <a href="{{ route('company.list') }}" class="active">Empresa</a>
+                                <a href="{{ route('employee.tiketsList') }}" class="active">Incidencias</a>
                             </li>
                         </ul>
                     </div>

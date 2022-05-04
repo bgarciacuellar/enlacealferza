@@ -1,58 +1,46 @@
-@extends('partials.menu')
+@extends('partials.menu-employee')
 
 @section('content')
-<div class="card mb-0">
+<div class="mb-4 card mb-0">
     <div class="card-body">
         <div class="row">
             <div class="col-md-12">
                 <div class="profile-view">
-                    {{-- <div class="profile-img-wrap">
+                    <div class="profile-img-wrap">
                         <div class="profile-img">
                             <a href="#"><img alt="" src="{{ asset('img/profiles/avatar-02.jpg')}}"></a>
                         </div>
-                    </div> --}}
+                    </div>
                     <div class="profile-basic">
                         <div class="row">
                             <div class="col-md-5">
                                 <div class="profile-info-left">
-                                    <h3 class="user-name m-t-0 mb-0">{{ $company->name }}</h3>
-                                    {{-- <h6 class="text-muted">UI/UX Design Team</h6>
-                                    <small class="text-muted">Web Designer</small>
-                                    <div class="staff-id">Employee ID : FT-0001</div>
-                                    <div class="small doj text-muted">Date of Join : 1st Jan 2013</div>
-                                    <div class="staff-msg"><a class="btn btn-custom" href="chat.html">Send
-                                            Message</a></div> --}}
+                                    <h3 class="user-name m-t-0 mb-0">Creado Por:</h3>
+                                    <h6 class="text-muted">{{ $ticketowner->name . " " .
+                                        $ticketownerAdditionalInfo->last_name }} <br> {{
+                                        $ticketownerAdditionalInfo->work_area }}</h6>
+                                    <small class="text-muted">{{ $ticketownerAdditionalInfo->position }}</small>
+                                    <div class="staff-id">ID : {{ $ticketowner->employee_id }}</div>
                                 </div>
                             </div>
                             <div class="col-md-7">
                                 <ul class="personal-info">
                                     <li>
-                                        <div class="title">Dirección:</div>
-                                        <div class="text">
-                                            <span>{{ $company->address }}</span>
-                                        </div>
+                                        <div class="title">Categoría:</div>
+                                        <div class="text"><a href="">{{ $ticket->category }}</a></div>
                                     </li>
                                     <li>
-                                        <div class="title">Teléfono:</div>
-                                        <div class="text">
-                                            <span>{{ $company->phone_number }}</span>
-                                        </div>
-                                    </li>
-                                    {{-- <li>
-                                        <div class="title">Birthday:</div>
-                                        <div class="text">{{ $additionalUserInfo->birthday ?
-                                            $additionalUserInfo->birthday : '-' }}</div>
+                                        <div class="title">Fecha Limite:</div>
+                                        <div class="text">{{ $ticket->limit_date->format('d/m/Y') }}</div>
                                     </li>
                                     <li>
-                                        <div class="title">Address:</div>
-                                        <div class="text">1861 Bayonne Ave, Manchester Township, NJ, 08759
-                                        </div>
+                                        <div class="title">Empresa:</div>
+                                        <div class="text">{{ $company->name }}</div>
                                     </li>
                                     <li>
-                                        <div class="title">Gender:</div>
-                                        <div class="text">{{ $additionalUserInfo->gender ? $additionalUserInfo->gender :
-                                            '-' }}</div>
-                                    </li> --}}
+                                        <div class="title">Fecha de creación:</div>
+                                        <div class="text">{{ $ticket->created_at->format('d/m/Y') }}</div>
+                                    </li>
                                     {{-- <li>
                                         <div class="title">Reports to:</div>
                                         <div class="text">
@@ -70,7 +58,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="pro-edit"><a data-bs-target="#profile_info" data-bs-toggle="modal" class="edit-icon"
+                    <div class="pro-edit"><a data-bs-target="#edit_ticket" data-bs-toggle="modal" class="edit-icon"
                             href="#"><i class="fas fa-pencil-alt"></i></a></div>
                 </div>
             </div>
@@ -82,10 +70,10 @@
     <div class="row user-tabs">
         <div class="col-lg-12 col-md-12 col-sm-12 line-tabs">
             <ul class="nav nav-tabs nav-tabs-bottom pt-3 pb-2">
-                <li class="nav-item"><a href="#emp_profile" data-bs-toggle="tab" class="nav-link active">Mi Empresa</a>
+                <li class="nav-item"><a href="#emp_profile" data-bs-toggle="tab" class="nav-link active">Archivos</a>
                 </li>
-                {{-- <li class="nav-item"><a href="#emp_projects" data-bs-toggle="tab" class="nav-link">Comentarios</a>
-                </li> --}}
+                <li class="nav-item"><a href="#emp_projects" data-bs-toggle="tab" class="nav-link">Comentarios</a>
+                </li>
                 {{--<li class="nav-item"><a href="#bank_statutory" data-bs-toggle="tab" class="nav-link">Bank &
                         Statutory <small class="text-danger">(Admin Only)</small></a></li> --}}
             </ul>
@@ -98,56 +86,138 @@
     <!-- Profile Info Tab -->
     <div id="emp_profile" class="pro-overview tab-pane fade show active">
         <div class="row">
-            <div class="col-md-6 d-flex">
+            <div class="col-6">
                 <div class="card profile-box flex-fill">
                     <div class="card-body">
-                        <h3 class="card-title">Ejecutivos de cuenta <a href="#" class="edit-icon" data-bs-toggle="modal"
-                                data-bs-target="#create_employee"><i class="fas fa-plus-circle"></i></a></h3>
-                        <table class="table table-striped custom-table datatable">
-                            <thead>
-                                <tr>
-                                    <th>Nombre</th>
-                                    <th>Correo</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach ($companyEmployees as $companyEmployee)
-                                <tr>
-                                    <td>{{ $companyEmployee['name'] }}</td>
-                                    <td>{{ $companyEmployee['email'] }}</td>
-                                </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
+                        <h3 class="card-title">Último Archivo</h3>
+                        <div class="row align-content-center" style=" max-height: 400px; overflow: auto;">
+                            <div class="col-6 align-self-center">
+                                <span> Creado el: <strong>{{ $ticketFileHistory->created_at->format('d/m/Y') }}</strong>
+                                    por:
+                                    <strong>{{ $ticketFileUser->name }}</strong></span>
+                            </div>
+                            <div class="col-6 pb-3">
+                                <a href="{{ asset('storage/'. $ticket->category .'/' . $ticketFileHistory->file) }}"
+                                    target="_blank"><button class="btn btn-primary mt-3 submit-btn">Descargar <i
+                                            class="fas fa-download"></i></button>
+                                </a>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-            <div class="col-md-6 d-flex">
+            <div class="col-6">
                 <div class="card profile-box flex-fill">
                     <div class="card-body">
-                        <h3 class="card-title">Incidencias <a href="#" class="edit-icon" data-bs-toggle="modal"
-                                data-bs-target="#create_incident"><i class="fas fa-plus-circle"></i></a></h3>
-                        <table class="table table-striped custom-table datatable">
-                            <thead>
-                                <tr>
-                                    <th>Nombre</th>
-                                    <th>Correo</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach ($incidents as $incident)
-                                <tr>
-                                    <td>{{ $incident->status }}</td>
-                                    <td>{{ $incident->limit_date->format('d/m/Y') }}</td>
-                                </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
+                        <h3 class="card-title">Archivo</h3>
+                        <div class="row">
+                            {{-- <div class="col-4 offset-lg-1 align-self-center text-center">
+                                <div>
+                                    <i class="fas fa-file-download" style="font-size: 50px;"></i>
+                                    <button class="btn btn-primary mt-3 submit-btn">Descargar <i
+                                            class="fas fa-download"></i></button>
+                                </div>
+                            </div> --}}
+                            <div class="col-7">
+                                <form action="{{ route('ticket.uploadFile', $ticket->id) }}" method="POST"
+                                    enctype="multipart/form-data">
+                                    @csrf
+                                    <label class="col-form-label">Subir nuevo archivo<span
+                                            class="text-danger">*</span></label>
+                                    <input type="file" class="form-control" name="file">
+                                    <button type="submit" class="btn btn-primary mt-3 submit-btn">Subir</button>
+                                </form>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-        {{--<div class="row">
+        {{-- <div class="row">
+            <div class="col-md-6 d-flex">
+                <div class="card profile-box flex-fill">
+                    <div class="card-body">
+                        <h3 class="card-title">Personal Informations <a href="#" class="edit-icon"
+                                data-bs-toggle="modal" data-bs-target="#personal_info_modal"><i
+                                    class="fas fa-pencil-alt"></i></a></h3>
+                        <ul class="personal-info">
+                            <li>
+                                <div class="title">Passport No.</div>
+                                <div class="text">9876543210</div>
+                            </li>
+                            <li>
+                                <div class="title">Passport Exp Date.</div>
+                                <div class="text">9876543210</div>
+                            </li>
+                            <li>
+                                <div class="title">Tel</div>
+                                <div class="text"><a href="">9876543210</a></div>
+                            </li>
+                            <li>
+                                <div class="title">Nationality</div>
+                                <div class="text">Indian</div>
+                            </li>
+                            <li>
+                                <div class="title">Religion</div>
+                                <div class="text">Christian</div>
+                            </li>
+                            <li>
+                                <div class="title">Marital status</div>
+                                <div class="text">Married</div>
+                            </li>
+                            <li>
+                                <div class="title">Employment of spouse</div>
+                                <div class="text">No</div>
+                            </li>
+                            <li>
+                                <div class="title">No. of children</div>
+                                <div class="text">2</div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 d-flex">
+                <div class="card profile-box flex-fill">
+                    <div class="card-body">
+                        <h3 class="card-title">Emergency Contact <a href="#" class="edit-icon" data-bs-toggle="modal"
+                                data-bs-target="#emergency_contact_modal"><i class="fas fa-pencil-alt"></i></a></h3>
+                        <h5 class="section-title">Primary</h5>
+                        <ul class="personal-info">
+                            <li>
+                                <div class="title">Name</div>
+                                <div class="text">John Doe</div>
+                            </li>
+                            <li>
+                                <div class="title">Relationship</div>
+                                <div class="text">Father</div>
+                            </li>
+                            <li>
+                                <div class="title">Phone </div>
+                                <div class="text">9876543210, 9876543210</div>
+                            </li>
+                        </ul>
+                        <hr>
+                        <h5 class="section-title">Secondary</h5>
+                        <ul class="personal-info">
+                            <li>
+                                <div class="title">Name</div>
+                                <div class="text">Karen Wills</div>
+                            </li>
+                            <li>
+                                <div class="title">Relationship</div>
+                                <div class="text">Brother</div>
+                            </li>
+                            <li>
+                                <div class="title">Phone </div>
+                                <div class="text">9876543210, 9876543210</div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
             <div class="col-md-6 d-flex">
                 <div class="card profile-box flex-fill">
                     <div class="card-body">
@@ -301,13 +371,50 @@
                     </div>
                 </div>
             </div>
-        </div>--}}
+        </div> --}}
     </div>
     <!-- /Profile Info Tab -->
 
     <!-- Projects Tab -->
     <div class="tab-pane fade" id="emp_projects">
         <div class="row">
+            <div class="col-6">
+                <div class="card profile-box flex-fill">
+                    <div class="card-body">
+                        <h3 class="card-title">Comentarios</h3>
+                        <div class="row" style=" max-height: 400px; overflow: auto;">
+                            <div class="col-11">
+                                @foreach ($ticketComments as $ticketComment)
+                                <p>
+                                    <strong>{{ $ticketComment['user_name'] . ' - ' . $ticketComment['created_at']}}:
+                                    </strong>
+                                    {{ $ticketComment['comment'] }}
+                                <div style="height: 2px; background:#7870704c"></div>
+                                </p>
+                                @endforeach
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-6">
+                <div class="card profile-box flex-fill">
+                    <div class="card-body">
+                        <h3 class="card-title">Agregar Comentario</h3>
+                        <div class="row">
+                            <div class="col-11 justify-content-center">
+                                <form action="{{ route('ticket.addComment', $ticket->id) }}" method="POST">
+                                    @csrf
+                                    <textarea name="comment" class="form-control" id="" cols="30" rows="10"></textarea>
+                                    <button type="submit" class="btn btn-primary mt-3 submit-btn">Agregar</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {{-- <div class="row">
             <div class="col-lg-4 col-sm-6 col-md-4 col-xl-3">
                 <div class="card">
                     <div class="card-body">
@@ -596,7 +703,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> --}}
     </div>
     <!-- /Projects Tab -->
 
@@ -813,47 +920,74 @@
     <!-- /Bank Statutory Tab -->
 
 </div>
-</div>
+
 <!-- /Page Content -->
 
 <!-- Profile Modal -->
-<div id="profile_info" class="modal custom-modal fade" role="dialog">
+<div id="edit_ticket" class="modal custom-modal fade" role="dialog">
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Profile Information</h5>
+                <h5 class="modal-title">Editar Ticket</h5>
                 <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                     <i class="fas fa-times"></i>
                 </button>
             </div>
             <div class="modal-body">
-                <form action="{{ route('company.create') }}" method="POST">
+                <form action="{{ route('ticket.update', $ticket->id) }}" method="POST">
                     @csrf
                     <div class="row">
                         <div class="col-sm-6">
                             <div class="form-group">
-                                <label class="col-form-label">Nombre <span class="text-danger">*</span></label>
-                                <input class="form-control" name="name" type="text" value="{{ $company->name }}">
+                                <label class="col-form-label">Titulo <span class="text-danger">*</span></label>
+                                <input class="form-control" name="title" type="text" value="{{ $ticket->title }}">
                             </div>
                         </div>
                         <div class="col-sm-6">
                             <div class="form-group">
-                                <label class="col-form-label">Dirección</label>
-                                <input class="form-control" name="address" type="text" value="{{ $company->address }}">
+                                <label class="col-form-label">Estatus <span class="text-danger">*</span></label>
+                                <select class="form-control" name="status">
+                                    <option value="">Selecciona una opción</option>
+                                    <option value="abierto" {{ $ticket->status == "abierto" ? "selected" : null
+                                        }}>Abierto</option>
+                                </select>
                             </div>
                         </div>
                         <div class="col-sm-6">
                             <div class="form-group">
-                                <label class="col-form-label">Teléfono <span class="text-danger">*</span></label>
-                                <input class="form-control" name="phone_number" type="text"
-                                    value="{{ $company->phone_number }}">
+                                <label class="col-form-label">Prioridad <span class="text-danger">*</span></label>
+                                <select class="form-control" name="priority" id="">
+                                    <option value="">Selecciona una opción</option>
+                                    <option value="normal" {{ $ticket->priority == "normal" ? "selected" : null
+                                        }}>Normal</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="col-form-label">Categoría <span class="text-danger">*</span></label>
+                                <select class="form-control" name="category" id="">
+                                    <option value="">Selecciona una opción</option>
+                                    <option value="incidencia" {{ $ticket->category == "incidencia" ? "selected" : null
+                                        }}>
+                                        Incidencia</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="col-form-label">Empresa<span class="text-danger">*</span></label>
+                                <select class="form-control" name="company" id="">
+                                    <option value="{{ $company->name }}">{{ $company->name }}</option>
+                                </select>
                             </div>
                         </div>
                     </div>
+
                     <div class="submit-section">
                         <button class="btn btn-primary cancel-btn" data-bs-dismiss="modal"
                             aria-label="Close">Cancel</button>
-                        <button type="submit" class="btn btn-primary submit-btn">Agregar</button>
+                        <button type="submit" class="btn btn-primary submit-btn">Editar</button>
                     </div>
                 </form>
             </div>
@@ -863,46 +997,72 @@
 <!-- /Profile Modal -->
 
 <!-- Personal Info Modal -->
-<div id="create_employee" class="modal custom-modal fade" role="dialog">
+<div id="personal_info_modal" class="modal custom-modal fade" role="dialog">
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Create ejecutivo de cuenta</h5>
+                <h5 class="modal-title">Personal Information</h5>
                 <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                     <i class="fas fa-times"></i>
                 </button>
             </div>
             <div class="modal-body">
-                <form action="{{ route('company.createEmployee', $company->id) }}" method="POST">
-                    @csrf
+                <form>
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label>Nombre</label>
-                                <input type="text" class="form-control" name="name">
+                                <label>Passport No</label>
+                                <input type="text" class="form-control">
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label>Correo</label>
-                                <input class="form-control" type="text" name="email">
+                                <label>Passport Expiry Date</label>
+                                <div class="cal-icon">
+                                    <input class="form-control datetimepicker" type="text">
+                                </div>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label>Rol</label>
-                                <select class="form-control" name="role">
-                                    <option value="">Selecciona el tipo de rol</option>
-                                    @foreach ($roles as $role)
-                                    <option value="operador">{{ ucfirst($role) }}</option>
-                                    @endforeach
+                                <label>Tel</label>
+                                <input class="form-control" type="text">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Nationality <span class="text-danger">*</span></label>
+                                <input class="form-control" type="text">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Religion</label>
+                                <div class="cal-icon">
+                                    <input class="form-control" type="text">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Marital status <span class="text-danger">*</span></label>
+                                <select class="select form-control">
+                                    <option>-</option>
+                                    <option>Single</option>
+                                    <option>Married</option>
                                 </select>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label>Contraseña <span class="text-danger">*</span></label>
-                                <input class="form-control" type="password" name="password">
+                                <label>Employment of spouse</label>
+                                <input class="form-control" type="text">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>No. of children </label>
+                                <input class="form-control" type="text">
                             </div>
                         </div>
                     </div>
@@ -1008,67 +1168,83 @@
 </div>
 <!-- /Family Info Modal -->
 
-<!-- create new ticket -->
-<div id="create_incident" class="modal custom-modal fade" role="dialog">
+<!-- Emergency Contact Modal -->
+<div id="emergency_contact_modal" class="modal custom-modal fade" role="dialog">
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Crear Incidencia</h5>
+                <h5 class="modal-title">Personal Information</h5>
                 <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                     <i class="fas fa-times"></i>
                 </button>
             </div>
             <div class="modal-body">
-                <form action="{{ route('ticket.create') }}" method="POST" enctype="multipart/form-data">
-                    @csrf
-                    <div class="row">
-                        <div class="col-sm-6">
-                            <div class="form-group">
-                                <label class="col-form-label">Estatus <span class="text-danger">*</span></label>
-                                <select class="form-control" name="status">
-                                    <option value="">Selecciona una opción</option>
-                                    <option value="abierto">Abierto</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-sm-6">
-                            <div class="form-group">
-                                <label class="col-form-label">Fecha limite <span class="text-danger">*</span></label>
-                                <input class="form-control" type="date" name="limit_date">
-                            </div>
-                        </div>
-                        <div class="col-sm-6">
-                            <div class="form-group">
-                                <label class="col-form-label">Categoría <span class="text-danger">*</span></label>
-                                <select class="form-control" name="category" id="">
-                                    <option value="">Selecciona una opción</option>
-                                    <option value="Nomina 1">Nomina 1</option>
-                                    <option value="Nomina 2">Nomina 2</option>
-                                    <option value="Nomina 3">Nomina 3</option>
-                                    <option value="Nomina 4">Nomina 4</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-sm-6">
-                            <div class="form-group">
-                                <label class="col-form-label">Empresa<span class="text-danger">*</span></label>
-                                <select class="form-control" name="company" id="">
-                                    <option value="{{ $company->id }}">{{ $company->name }}</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-sm-12">
-                            <div class="form-group">
-                                <label class="col-form-label">Comentarios</label>
-                                <textarea name="comment" class="form-control" id="" cols="30" rows="10"></textarea>
+                <form>
+                    <div class="card">
+                        <div class="card-body">
+                            <h3 class="card-title">Primary Contact</h3>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Name <span class="text-danger">*</span></label>
+                                        <input type="text" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Relationship <span class="text-danger">*</span></label>
+                                        <input class="form-control" type="text">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Phone <span class="text-danger">*</span></label>
+                                        <input class="form-control" type="text">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Phone 2</label>
+                                        <input class="form-control" type="text">
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
 
+                    <div class="card">
+                        <div class="card-body">
+                            <h3 class="card-title">Primary Contact</h3>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Name <span class="text-danger">*</span></label>
+                                        <input type="text" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Relationship <span class="text-danger">*</span></label>
+                                        <input class="form-control" type="text">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Phone <span class="text-danger">*</span></label>
+                                        <input class="form-control" type="text">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Phone 2</label>
+                                        <input class="form-control" type="text">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     <div class="submit-section">
-                        <button class="btn btn-primary cancel-btn" data-bs-dismiss="modal"
-                            aria-label="Close">Cancel</button>
-                        <button type="submit" class="btn btn-primary submit-btn">Crear</button>
+                        <button class="btn btn-primary submit-btn">Submit</button>
                     </div>
                 </form>
             </div>
@@ -1324,9 +1500,4 @@
     </div>
 </div>
 <!-- /Experience Modal -->
-
-</div>
-<!-- /Page Wrapper -->
-
-</div>
 @endsection

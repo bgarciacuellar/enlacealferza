@@ -8,7 +8,8 @@
                 <div class="profile-view">
                     <div class="profile-img-wrap">
                         <div class="profile-img">
-                            <a href="#"><img alt="" src="{{ asset('img/profiles/avatar-02.jpg')}}"></a>
+                            <a href="#"><img alt=""
+                                    src="{{ $additionalUserInfo->profile_image ? asset('storage/profile_images/' . $additionalUserInfo->profile_image ) : asset('img/profiles/avatar-02.jpg')}}"></a>
                         </div>
                     </div>
                     <div class="profile-basic">
@@ -78,69 +79,60 @@
     </div>
 </div>
 
-{{-- <div class="card tab-box mt-3">
+<div class="card tab-box mt-3">
     <div class="row user-tabs">
         <div class="col-lg-12 col-md-12 col-sm-12 line-tabs">
             <ul class="nav nav-tabs nav-tabs-bottom pt-3 pb-2">
-                <li class="nav-item"><a href="#emp_profile" data-bs-toggle="tab" class="nav-link active">Profile</a>
+                <li class="nav-item"><a href="#emp_profile" data-bs-toggle="tab" class="nav-link active">Empresas</a>
                 </li>
-                <li class="nav-item"><a href="#emp_projects" data-bs-toggle="tab" class="nav-link">Projects</a></li>
+                {{-- <li class="nav-item"><a href="#emp_projects" data-bs-toggle="tab" class="nav-link">Projects</a>
+                </li>
                 <li class="nav-item"><a href="#bank_statutory" data-bs-toggle="tab" class="nav-link">Bank &
-                        Statutory <small class="text-danger">(Admin Only)</small></a></li>
+                        Statutory <small class="text-danger">(Admin Only)</small></a></li> --}}
             </ul>
         </div>
     </div>
-</div> --}}
+</div>
 
 <div class="tab-content">
 
     <!-- Profile Info Tab -->
-    {{-- <div id="emp_profile" class="pro-overview tab-pane fade show active">
+    <div id="emp_profile" class="pro-overview tab-pane fade show active">
         <div class="row">
-            <div class="col-md-6 d-flex">
+            <div class="col-md-10 mx-auto d-flex">
                 <div class="card profile-box flex-fill">
                     <div class="card-body">
-                        <h3 class="card-title">Personal Informations <a href="#" class="edit-icon"
-                                data-bs-toggle="modal" data-bs-target="#personal_info_modal"><i
-                                    class="fas fa-pencil-alt"></i></a></h3>
-                        <ul class="personal-info">
-                            <li>
-                                <div class="title">Passport No.</div>
-                                <div class="text">9876543210</div>
-                            </li>
-                            <li>
-                                <div class="title">Passport Exp Date.</div>
-                                <div class="text">9876543210</div>
-                            </li>
-                            <li>
-                                <div class="title">Tel</div>
-                                <div class="text"><a href="">9876543210</a></div>
-                            </li>
-                            <li>
-                                <div class="title">Nationality</div>
-                                <div class="text">Indian</div>
-                            </li>
-                            <li>
-                                <div class="title">Religion</div>
-                                <div class="text">Christian</div>
-                            </li>
-                            <li>
-                                <div class="title">Marital status</div>
-                                <div class="text">Married</div>
-                            </li>
-                            <li>
-                                <div class="title">Employment of spouse</div>
-                                <div class="text">No</div>
-                            </li>
-                            <li>
-                                <div class="title">No. of children</div>
-                                <div class="text">2</div>
-                            </li>
-                        </ul>
+                        <h3 class="card-title">Empresas a cargo <a href="#" class="edit-icon" data-bs-toggle="modal"
+                                data-bs-target="#personal_info_modal"><i class="fas fa-plus-circle"></i></a></h3>
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Nombre</th>
+                                    <th scope="col">Desasignar</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($userCompanies as $userCompany)
+                                <tr>
+                                    <th scope="row">{{ $userCompany->company_name }}</th>
+                                    <td class="text-center">
+                                        <form
+                                            action="{{ route('admin.unassignCompany', [$userCompany->user_id, $userCompany->company_id]) }}"
+                                            method="POST" class="unassign-company">
+                                            @csrf
+                                            <button type="submit" class="button-icon">
+                                                <i class="fas fa-trash text-danger"></i>
+                                            </button>
+                                        </form>
+                                    </td>
+                                </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
-            <div class="col-md-6 d-flex">
+            {{-- <div class="col-md-6 d-flex">
                 <div class="card profile-box flex-fill">
                     <div class="card-body">
                         <h3 class="card-title">Emergency Contact <a href="#" class="edit-icon" data-bs-toggle="modal"
@@ -178,9 +170,9 @@
                         </ul>
                     </div>
                 </div>
-            </div>
+            </div> --}}
         </div>
-        <div class="row">
+        {{-- <div class="row">
             <div class="col-md-6 d-flex">
                 <div class="card profile-box flex-fill">
                     <div class="card-body">
@@ -334,12 +326,12 @@
                     </div>
                 </div>
             </div>
-        </div>
-    </div> --}}
+        </div> --}}
+    </div>
     <!-- /Profile Info Tab -->
 
     <!-- Projects Tab -->
-    <div class="tab-pane fade" id="emp_projects">
+    {{-- <div class="tab-pane fade" id="emp_projects">
         <div class="row">
             <div class="col-lg-4 col-sm-6 col-md-4 col-xl-3">
                 <div class="card">
@@ -630,11 +622,11 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> --}}
     <!-- /Projects Tab -->
 
     <!-- Bank Statutory Tab -->
-    <div class="tab-pane fade" id="bank_statutory">
+    {{-- <div class="tab-pane fade" id="bank_statutory">
         <div class="card">
             <div class="card-body">
                 <h3 class="card-title"> Basic Salary Information</h3>
@@ -842,7 +834,7 @@
                 </form>
             </div>
         </div>
-    </div>
+    </div> --}}
     <!-- /Bank Statutory Tab -->
 
 </div>
@@ -860,7 +852,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form action="{{ route('admin.updateUser', $user->id) }}" method="POST">
+                <form action="{{ route('admin.updateUser', $user->id) }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <div class="row">
                         <div class="col-md-12">
@@ -868,12 +860,13 @@
                                 <img class="inline-block" src="assets/img/profiles/avatar-02.jpg" alt="user">
                                 <div class="fileupload btn">
                                     <span class="btn-text">editar</span>
-                                    <input class="upload" type="file">
+                                    {{-- <input class="upload" type="file" name="profile_image"> --}}
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
+                                        <input class="form-control" type="file" name="profile_image">
                                         <label>Nombre(s)</label>
                                         <input type="text" class="form-control" value="{{ $user->name }}" name="name">
                                     </div>
@@ -1021,68 +1014,24 @@
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Personal Information</h5>
+                <h5 class="modal-title">Asignar empresa</h5>
                 <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                     <i class="fas fa-times"></i>
                 </button>
             </div>
             <div class="modal-body">
-                <form>
+                <form action="{{ route('admin.assignToCompany', $user->id) }}" method="POST">
+                    @csrf
                     <div class="row">
-                        <div class="col-md-6">
+                        <div class="col-md-10">
                             <div class="form-group">
-                                <label>Passport No</label>
-                                <input type="text" class="form-control">
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label>Passport Expiry Date</label>
-                                <div class="cal-icon">
-                                    <input class="form-control datetimepicker" type="text">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label>Tel</label>
-                                <input class="form-control" type="text">
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label>Nationality <span class="text-danger">*</span></label>
-                                <input class="form-control" type="text">
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label>Religion</label>
-                                <div class="cal-icon">
-                                    <input class="form-control" type="text">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label>Marital status <span class="text-danger">*</span></label>
-                                <select class="select form-control">
-                                    <option>-</option>
-                                    <option>Single</option>
-                                    <option>Married</option>
+                                <label>Empresas</label>
+                                <select name="company" class="form-control">
+                                    <option value="">Selecciona una opción</option>
+                                    @foreach ($companies as $company)
+                                    <option value="{{ $company->id }}">{{ $company->name }}</option>
+                                    @endforeach
                                 </select>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label>Employment of spouse</label>
-                                <input class="form-control" type="text">
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label>No. of children </label>
-                                <input class="form-control" type="text">
                             </div>
                         </div>
                     </div>
@@ -1525,4 +1474,27 @@
 <!-- /Page Wrapper -->
 
 </div>
+@endsection
+
+@section('js')
+{{-- delete a recurrency service --}}
+<script>
+    $('.unassign-company').submit(function(e) {
+            e.preventDefault();
+            Swal.fire({
+                title: 'Desasignar Empresa',
+                text: "¿Estas seguro(a) que quieres desasignar esta empresa?",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Si, desasignar',
+                cancelButtonText: 'Regresar'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    this.submit();
+                }
+            })
+        });
+</script>
 @endsection
