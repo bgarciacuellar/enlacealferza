@@ -65,11 +65,13 @@
                     <div class="pro-edit"><a data-bs-target="#edit_ticket" data-bs-toggle="modal" class="edit-icon"
                             href="#"><i class="fas fa-pencil-alt"></i></a></div>
                 </div>
-                <h4>Estatus actual: <strong>{{ $ticket->status }}</strong></h4>
+                <h4>Estatus actual: <strong>{{ $ticket->statusString }}</strong></h4>
+                @if ($ticket->status > 5)
                 <form action="{{ route('ticket.nextStep', $ticket->id) }}" method="POST">
                     @csrf
                     <button type="submit" class="btn btn-success">Siguiente estatus</button>
                 </form>
+                @endif
             </div>
         </div>
     </div>
@@ -106,7 +108,7 @@
                                     <strong>{{ $ticketFileHistory['user_name'] }}</strong></span>
                             </div>
                             <div class="col-6 pb-3">
-                                <a href="{{ asset('storage/'. $ticket->category .'/' . $ticketFileHistory['file']) }}"
+                                <a href="{{ asset('storage/incidencias/' . $ticketFileHistory['file']) }}"
                                     target="_blank"><button class="btn btn-primary mt-3 submit-btn">Descargar <i
                                             class="fas fa-download"></i></button>
                                 </a>
@@ -147,6 +149,52 @@
                 </div>
             </div>
         </div>
+        @if ($ticket->status == 4)
+        <div class="row">
+            <div class="col-6">
+                <div class="card profile-box flex-fill">
+                    <div class="card-body">
+                        <h3 class="card-title">Archivo Pre-factura</h3>
+                        <div class="row align-content-center" style=" max-height: 400px; overflow: auto;">
+                            {{-- <div class="col-6 align-self-center">
+                                <span> Creado el: <strong>{{ $ticketFileHistory['created_at'] }}</strong> por:
+                                    <strong>{{ $ticketFileHistory['user_name'] }}</strong></span>
+                            </div> --}}
+                            <div class="col-6 pb-3">
+                                @if ($ticket->preinvoices)
+                                <a href="{{ asset('storage/incidencias/' . $ticket->preinvoices) }}"
+                                    target="_blank"><button class="btn btn-primary mt-3 submit-btn">Descargar <i
+                                            class="fas fa-download"></i></button>
+                                </a>
+                                @else
+                                <h2 class="ps-4 pt-4">No se ha subido ningún archivo</h2>
+                                @endif
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-6">
+                <div class="card profile-box flex-fill">
+                    <div class="card-body">
+                        <h3 class="card-title">Archivo Pre-factura</h3>
+                        <div class="row">
+                            <div class="col-7">
+                                <form action="{{ route('ticket.uploadPreinvoice', $ticket->id) }}" method="POST"
+                                    enctype="multipart/form-data">
+                                    @csrf
+                                    <label class="col-form-label">Subir nuevo archivo<span
+                                            class="text-danger">*</span></label>
+                                    <input type="file" class="form-control" name="preinvoice">
+                                    <button type="submit" class="btn btn-primary mt-3 submit-btn">Subir</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        @endif
         {{-- <div class="row">
             <div class="col-md-6 d-flex">
                 <div class="card profile-box flex-fill">

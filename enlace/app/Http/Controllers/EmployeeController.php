@@ -9,13 +9,14 @@ use App\Models\Ticket;
 use App\Models\TicketComment;
 use App\Models\TicketFileHistory;
 use App\Models\User;
+use App\Traits\helpers;
 use Illuminate\Http\Request;
 use Auth;
 use Carbon\Carbon;
 
 class EmployeeController extends Controller
 {
-
+    use helpers;
     function __construct()
     {
         $this->middleware(['auth', 'roles:cliente,capturista,validador']);
@@ -24,9 +25,9 @@ class EmployeeController extends Controller
     public function tiketsList()
     {
         $currentUser = Auth::user();
-        $companyID = CompanyEmployee::where('user_id', $currentUser->id)->first('company_id');
-        $company = Company::findOrFail($companyID->company_id);
-        $tickets = Ticket::where('company', $companyID->company_id)->get();
+        $companyID = CompanyEmployee::where('user_id', $currentUser->id)->first('company_id')->company_id;
+        $company = Company::findOrFail($companyID);
+        $tickets = Ticket::where('company', $companyID)->get();
 
         return view('employee.ticket.list', compact('tickets', 'company'));
     }
@@ -34,10 +35,15 @@ class EmployeeController extends Controller
     public function details($ticketId)
     {
         $ticket = Ticket::findOrFail($ticketId);
+        $ticket->statusString = $this->statusConvert($ticket->status);
         $company = Company::findOrFail($ticket->company);
 
         $ticketFileHistory = TicketFileHistory::where('ticket_id', $ticketId)->orderBy('id', 'DESC')->first();
-        $ticketFileUser = User::where('id', $ticketFileHistory->user_id)->first();
+        if ($ticketFileHistory) {
+            $ticketFileUser = User::where('id', $ticketFileHistory->user_id)->first();
+        } else {
+            $ticketFileUser = false;
+        }
 
         $ticketCommentsArray = TicketComment::where('ticket_id', $ticket->id)->orderBy('id', 'DESC')->get()->toArray();
         $ticketCommentsMap = function ($ticketCommentItem) {

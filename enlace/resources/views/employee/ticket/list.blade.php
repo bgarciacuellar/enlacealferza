@@ -74,13 +74,8 @@
                                 </a>
                             </td>
                             <td>{{ $ticket->limit_date->format('d/m/Y') }}</td>
-                            <td>{{ $company->name }}</td>
                             <td>
                                 <span class="role-info role-bg-one">{{ $ticket->status }}</span>
-                            </td>
-                            <td class="text-end ico-sec">
-                                <a href="#" data-bs-toggle="modal" data-bs-target="#delete_employee"><i
-                                        class="far fa-trash-alt"></i></a>
                             </td>
                         </tr>
                         @endforeach

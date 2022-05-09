@@ -54,7 +54,7 @@
             <!-- /Logo -->
 
             <div class="header-center">
-                <h1>Enlace</h1>
+                <img src="{{ asset('img/logo-menu.png') }}" alt="" class="img-fluid">
             </div>
 
             {{-- <a id="toggle_btn" href="javascript:void(0);">

@@ -106,7 +106,7 @@
                                     <strong>{{ $ticketFileHistory['user_name'] }}</strong></span>
                             </div>
                             <div class="col-6 pb-3">
-                                <a href="{{ asset('storage/'. $ticket->category .'/' . $ticketFileHistory['file']) }}"
+                                <a href="{{ asset('storage/incidencias/' . $ticketFileHistory['file']) }}"
                                     target="_blank"><button class="btn btn-primary mt-3 submit-btn">Descargar <i
                                             class="fas fa-download"></i></button>
                                 </a>

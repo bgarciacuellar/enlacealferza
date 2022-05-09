@@ -4,12 +4,14 @@ namespace App\Traits;
 
 use App\Models\User;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\File;
 use Image;
 use Auth;
 
 trait helpers
 {
     public $usersRoles = ['ejecutivo', 'nominista', 'finanzas', 'pagos', 'cobranza'];
+    public $PAYROLL = ['ejecutivo', 'nominista', 'finanzas', 'pagos', 'cobranza'];
 
 
     public function searchUser($request)
@@ -38,5 +40,35 @@ trait helpers
             })
             ->save($imageRoute, 72);
         return $imageName;
+    }
+
+    public function statusConvert($status)
+    {
+        switch ($status) {
+            case 1:
+                $statusConverted = "Cargar incidencia";
+                break;
+            case 2:
+                $statusConverted = "Calculo de nómina";
+                break;
+            case 3:
+                $statusConverted = "Autorización";
+                break;
+            case 4:
+                $statusConverted = "Nómina Autorizada";
+                break;
+            case 5:
+                $statusConverted = "Pagada";
+                break;
+            default:
+                $statusConverted = '-';
+                break;
+        }
+        return $statusConverted;
+    }
+
+    public function deleteFile($image, $route)
+    {
+        File::delete('storage/' . $route . '/' . $image);
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\PaidTicket;
 use App\Mail\TicketCreated;
 use App\Mail\UploadFileMail;
 use App\Models\AdditionalUserInfo;
@@ -14,17 +15,18 @@ use App\Models\TicketComment;
 use App\Models\TicketFileHistory;
 use App\Models\User;
 use App\Traits\File;
+use App\Traits\helpers;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 
 class TicketController extends Controller
 {
-    use File;
+    use File, helpers;
 
     function __construct()
     {
-        $this->middleware(['auth', 'roles:admin'])->except('details');
+        $this->middleware(['auth', 'roles:admin,ejecutivo'])->except('details', 'uploadFileToRecord', 'addComment', 'nextStep', 'lastStep', 'uploadPreinvoice');
     }
 
     public function list()
@@ -78,13 +80,13 @@ class TicketController extends Controller
         }
 
         $employees = CompanyEmployee::where('company_id', $request->company)->get('user_id');
+        $company = Company::where('id', $request->company)->first('name')->name;
 
-        $message = new TicketCreated($currentUser->name, $ticketCreated->id);
+        $message = new TicketCreated($currentUser->name, $ticketCreated->id, $company);
         foreach ($employees as $employee) {
             $employeeEmail = User::where('id', $employee->user_id)->first('email');
-            // Production
-            // Mail::to($employeeEmail->email)->send($message);
-            Mail::to("alammduran@gmail.com")->send($message);
+
+            Mail::to($employeeEmail->email)->send($message);
         }
 
         // Mail::to("socialmedia@alferza.mx")->send($message);
@@ -94,6 +96,7 @@ class TicketController extends Controller
     public function details($ticketId)
     {
         $ticket = Ticket::findOrFail($ticketId);
+        $ticket->statusString = $this->statusConvert($ticket->status);
         $company = Company::findOrFail($ticket->company);
 
         $ticketFilesHistoryArray = TicketFileHistory::where('ticket_id', $ticketId)->orderBy('id', 'DESC')->get()->toArray();
@@ -140,32 +143,31 @@ class TicketController extends Controller
             return back()->with('error', 'Ocurrio un error, intentelo de nuevo');
         }
 
-        $path = storage_path('app/public/' . $ticketExists->category);
+        $path = storage_path('app/public/incidencias');
         if (!file_exists($path)) {
             mkdir($path, 0777, true);
         }
-        $completePath = $request->file('file')->store('public/' . $ticketExists->category);
+        $completePath = $request->file('file')->store('public/incidencias');
         $getFileName = explode("/", $completePath);
         $fileName = end($getFileName);
 
         $currentUser = Auth::user();
 
-
-
-        TicketFileHistory::create([
+        $fileCreated = TicketFileHistory::create([
             'user_id' => $currentUser->id,
             'ticket_id' => $ticket,
             'file' => $fileName,
         ]);
 
         $employees = CompanyEmployee::where('company_id', $ticketExists->company)->get('user_id');
+        $company = Company::where('id', $ticketExists->company)->first('name')->name;
 
-        $message = new UploadFileMail($ticketExists->id);
+        $message = new UploadFileMail($currentUser->name, $ticketExists->id, $company, $ticketExists->category);
+        $message->attach(public_path() . '/storage/incidencias/' . $fileCreated->file);
         foreach ($employees as $employee) {
-            $employeeEmail = User::where('id', $employee->user_id)->first('email');
-            // Production
-            // Mail::to($employeeEmail->email)->send($message);
-            Mail::to("alammduran@gmail.com")->send($message);
+            $employeeEmail = User::where('id', $employee->user_id)->first('email')->email;
+
+            Mail::to($employeeEmail)->send($message);
         }
 
         return back()->with('success', 'Archivo agregado');
@@ -222,5 +224,94 @@ class TicketController extends Controller
         ]);
 
         return back()->with('success', 'Siguiente Paso');
+    }
+    public function lastStep($id)
+    {
+        $ticket = Ticket::findOrFail($id);
+
+        $ticket->update([
+            'status' => $ticket->status - 1,
+        ]);
+
+        if ($ticket->status == 3) {
+            # code...
+        }
+
+        return back()->with('success', 'Paso Anterior');
+    }
+
+    public function uploadPreinvoice(Request $request, $ticket)
+    {
+        $request->validate(
+            [
+                'preinvoice' => 'required',
+            ],
+        );
+
+        $updateTicket = Ticket::findOrFail($ticket);
+
+        $path = storage_path('app/public/preinvoice');
+        if (!file_exists($path)) {
+            mkdir($path, 0777, true);
+        }
+
+        $completePath = $request->file('preinvoice')->store('public/preinvoice');
+        $getFileName = explode("/", $completePath);
+        $fileName = end($getFileName);
+
+        if ($updateTicket->preinvoices) {
+            $this->deleteFile($updateTicket->preinvoices, 'preinvoice');
+        }
+
+        $updateTicket->update([
+            'preinvoices' => $fileName,
+        ]);
+
+        // $employees = CompanyEmployee::where('company_id', $updateTicket->company)->get('user_id');
+        // $company = Company::where('id', $updateTicket->company)->first('name')->name;
+
+        // $message = new PaidTicket();
+        // foreach ($employees as $employee) {
+        //     $employeeEmail = User::where('id', $employee->user_id)->first('email');
+
+        //     Mail::to($employeeEmail->email)->send($message);
+        // }
+
+        return back()->with('success', 'Ticket Modificado');
+    }
+
+    public function sendReminder(Request $request, $ticket)
+    {
+        $request->validate(
+            [
+                'day' => 'required',
+            ],
+        );
+
+        $updateTicket = Ticket::findOrFail($ticket);
+
+        $completePath = $request->file('preinvoice')->store('public/preinvoice');
+        $getFileName = explode("/", $completePath);
+        $fileName = end($getFileName);
+
+        if ($updateTicket->preinvoices) {
+            $this->deleteFile($updateTicket->preinvoices, 'preinvoice');
+        }
+
+        $updateTicket->update([
+            'preinvoices' => $fileName,
+        ]);
+
+        // $employees = CompanyEmployee::where('company_id', $updateTicket->company)->get('user_id');
+        // $company = Company::where('id', $updateTicket->company)->first('name')->name;
+
+        // $message = new PaidTicket();
+        // foreach ($employees as $employee) {
+        //     $employeeEmail = User::where('id', $employee->user_id)->first('email');
+
+        //     Mail::to($employeeEmail->email)->send($message);
+        // }
+
+        return back()->with('success', 'Ticket Modificado');
     }
 }

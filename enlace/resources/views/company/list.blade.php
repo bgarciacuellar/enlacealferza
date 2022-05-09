@@ -8,7 +8,7 @@
     <!-- Search Filter -->
     <div class="row filter-row">
         <div class="col-md-8">
-            <form action="{{ route('admin.searchUsers') }}">
+            {{-- <form action="{{ route('admin.searchUsers') }}">
                 <div class="row">
                     <div class="col-sm-6 col-md-3">
                         <div class="form-group form-focus mb-0">
@@ -27,7 +27,7 @@
                                 class="fas fa-search me-2"></i> Buscar </button>
                     </div>
                 </div>
-            </form>
+            </form> --}}
         </div>
         <div class="col-md-4">
             <div class="add-emp-section">

@@ -79,6 +79,12 @@ Route::post('/ticket/update/{ticket}', [App\Http\Controllers\TicketController::c
 Route::post('/ticket/next-step/{id}', [App\Http\Controllers\TicketController::class, 'nextStep'])
     ->name('ticket.nextStep');
 
+Route::post('/ticket/last-step/{id}', [App\Http\Controllers\TicketController::class, 'lastStep'])
+    ->name('ticket.lastStep');
+
+Route::post('/ticket/upload-preinvoice/{id}', [App\Http\Controllers\TicketController::class, 'uploadPreinvoice'])
+    ->name('ticket.uploadPreinvoice');
+
 // Company
 Route::get('/company/list', [App\Http\Controllers\CompanyController::class, 'list'])
     ->name('company.list');

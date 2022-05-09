@@ -894,7 +894,7 @@
                                 <select class="form-control" name="role">
                                     <option value="">Selecciona el tipo de rol</option>
                                     @foreach ($roles as $role)
-                                    <option value="operador">{{ ucfirst($role) }}</option>
+                                    <option value="{{ $role }}">{{ ucfirst($role) }}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -1022,15 +1022,6 @@
                 <form action="{{ route('ticket.create') }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <div class="row">
-                        <div class="col-sm-6">
-                            <div class="form-group">
-                                <label class="col-form-label">Estatus <span class="text-danger">*</span></label>
-                                <select class="form-control" name="status">
-                                    <option value="">Selecciona una opción</option>
-                                    <option value="abierto">Abierto</option>
-                                </select>
-                            </div>
-                        </div>
                         <div class="col-sm-6">
                             <div class="form-group">
                                 <label class="col-form-label">Fecha limite <span class="text-danger">*</span></label>

@@ -56,10 +56,27 @@
                                     </li> --}}
                                 </ul>
                             </div>
+                            <div class="col-12">
+                                <h4>Estatus actual: <strong>{{ $ticket->statusString }}</strong></h4>
+                                @if ($ticket->status == 3)
+                                <form action="{{ route('ticket.lastStep', $ticket->id) }}" method="POST"
+                                    class="d-inline">
+                                    @csrf
+                                    <button type="submit" class="btn btn-success">Regresar paso</button>
+                                </form>
+                                @endif
+                                @if ($ticket->status == 1 || $ticket->status == 3)
+                                <form action="{{ route('ticket.nextStep', $ticket->id) }}" method="POST"
+                                    class="d-inline">
+                                    @csrf
+                                    <button type="submit" class="btn btn-success">Siguiete paso</button>
+                                </form>
+                                @endif
+                            </div>
                         </div>
                     </div>
-                    <div class="pro-edit"><a data-bs-target="#edit_ticket" data-bs-toggle="modal" class="edit-icon"
-                            href="#"><i class="fas fa-pencil-alt"></i></a></div>
+                    {{-- <div class="pro-edit"><a data-bs-target="#edit_ticket" data-bs-toggle="modal" class="edit-icon"
+                            href="#"><i class="fas fa-pencil-alt"></i></a></div> --}}
                 </div>
             </div>
         </div>
@@ -88,22 +105,26 @@
         <div class="row">
             <div class="col-6">
                 <div class="card profile-box flex-fill">
+                    @if ($ticketFileHistory)
                     <div class="card-body">
                         <h3 class="card-title">Último Archivo</h3>
                         <div class="row align-content-center" style=" max-height: 400px; overflow: auto;">
                             <div class="col-6 align-self-center">
                                 <span> Creado el: <strong>{{ $ticketFileHistory->created_at->format('d/m/Y') }}</strong>
                                     por:
-                                    <strong>{{ $ticketFileUser->name }}</strong></span>
+                                    <strong>{{ $ticketFileUser ? $ticketFileUser->name : null }}</strong></span>
                             </div>
                             <div class="col-6 pb-3">
-                                <a href="{{ asset('storage/'. $ticket->category .'/' . $ticketFileHistory->file) }}"
+                                <a href="{{ asset('storage/incidencias/' . $ticketFileHistory->file) }}"
                                     target="_blank"><button class="btn btn-primary mt-3 submit-btn">Descargar <i
                                             class="fas fa-download"></i></button>
                                 </a>
                             </div>
                         </div>
                     </div>
+                    @else
+                    <h2 class="ps-4 pt-4">No se ha subido ningún archivo</h2>
+                    @endif
                 </div>
             </div>
             <div class="col-6">
@@ -133,6 +154,54 @@
                 </div>
             </div>
         </div>
+        @if ($ticket->status == 4)
+        <div class="row">
+            <div class="col-6">
+                <div class="card profile-box flex-fill">
+                    <div class="card-body">
+                        <h3 class="card-title">Archivo Pre-factura</h3>
+                        <div class="row align-content-center" style=" max-height: 400px; overflow: auto;">
+                            @foreach ($ticketFilesHistory as $ticketFileHistory)
+                            <div class="col-6 align-self-center">
+                                <span> Creado el: <strong>{{ $ticketFileHistory['created_at'] }}</strong> por:
+                                    <strong>{{ $ticketFileHistory['user_name'] }}</strong></span>
+                            </div>
+                            <div class="col-6 pb-3">
+                                <a href="{{ asset('storage/incidencias/' . $ticketFileHistory['file']) }}"
+                                    target="_blank"><button class="btn btn-primary mt-3 submit-btn">Descargar <i
+                                            class="fas fa-download"></i></button>
+                                </a>
+                            </div>
+                            @endforeach
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-6">
+                <div class="card profile-box flex-fill">
+                    <div class="card-body">
+                        <h3 class="card-title">Archivo Pre-factura</h3>
+                        <div class="row">
+                            <div class="col-7">
+                                @if ($ticket->status == 4)
+                                <form action="{{ route('ticket.uploadFile', $ticket->id) }}" method="POST"
+                                    enctype="multipart/form-data">
+                                    @csrf
+                                    <label class="col-form-label">Subir nuevo archivo<span
+                                            class="text-danger">*</span></label>
+                                    <input type="file" class="form-control" name="file">
+                                    <button type="submit" class="btn btn-primary mt-3 submit-btn">Subir</button>
+                                </form>
+                                @else
+                                <h3 class="text-center">En espera de autorización de nómina</h3>
+                                @endif
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        @endif
         {{-- <div class="row">
             <div class="col-md-6 d-flex">
                 <div class="card profile-box flex-fill">
@@ -924,7 +993,7 @@
 <!-- /Page Content -->
 
 <!-- Profile Modal -->
-<div id="edit_ticket" class="modal custom-modal fade" role="dialog">
+{{-- <div id="edit_ticket" class="modal custom-modal fade" role="dialog">
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -993,7 +1062,7 @@
             </div>
         </div>
     </div>
-</div>
+</div> --}}
 <!-- /Profile Modal -->
 
 <!-- Personal Info Modal -->

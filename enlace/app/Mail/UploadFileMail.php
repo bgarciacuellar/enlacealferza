@@ -10,15 +10,21 @@ use Illuminate\Queue\SerializesModels;
 class UploadFileMail extends Mailable
 {
     use Queueable, SerializesModels;
+    public $name;
     public $ticket;
+    public $company;
+    public $category;
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct($ticket)
+    public function __construct($name, $ticket, $company, $category)
     {
+        $this->name = $name;
         $this->ticket = $ticket;
+        $this->company = $company;
+        $this->category = $category;
     }
 
     /**

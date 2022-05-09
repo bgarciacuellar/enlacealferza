@@ -156,12 +156,12 @@
                         <div class="col-sm-6">
                             <div class="form-group">
                                 <label class="col-form-label">Empresa<span class="text-danger">*</span></label>
-                                {{-- <select class="form-control" name="company" id="">
+                                <select class="form-control" name="company" id="">
                                     <option value="">Selecciona una opción</option>
-                                    @foreach ($companies as $company)
-                                    <option value="{{ $company->id }}">{{ $company->name }}</option>
+                                    @foreach ($myCompanies as $myCompany)
+                                    <option value="{{ $myCompany['id'] }}">{{ $myCompany['name'] }}</option>
                                     @endforeach
-                                </select> --}}
+                                </select>
                             </div>
                         </div>
                         <div class="col-sm-12">
