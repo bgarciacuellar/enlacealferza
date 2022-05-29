@@ -75,7 +75,7 @@
                             </td>
                             <td>{{ $ticket->limit_date->format('d/m/Y') }}</td>
                             <td>
-                                <span class="role-info role-bg-one">{{ $ticket->status }}</span>
+                                <span class="role-info role-bg-one">{{ $ticket->statusString }}</span>
                             </td>
                         </tr>
                         @endforeach

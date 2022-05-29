@@ -28,6 +28,9 @@ class EmployeeController extends Controller
         $companyID = CompanyEmployee::where('user_id', $currentUser->id)->first('company_id')->company_id;
         $company = Company::findOrFail($companyID);
         $tickets = Ticket::where('company', $companyID)->get();
+        foreach ($tickets as $ticket) {
+            $ticket->statusString = $this->statusConvert($ticket->status);
+        }
 
         return view('employee.ticket.list', compact('tickets', 'company'));
     }
@@ -51,7 +54,7 @@ class EmployeeController extends Controller
             $createdAt = Carbon::parse($ticketCommentItem['created_at']);
             return array(
                 "id" => $ticketCommentItem['id'],
-                "user_name" => $user->name,
+                "user_name" => $user ? $user->name : "Usuario",
                 "comment" => $ticketCommentItem['comment'],
                 "created_at" => $createdAt->format('d/m/Y'),
             );

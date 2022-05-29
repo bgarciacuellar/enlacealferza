@@ -1,16 +1,18 @@
 @extends('partials.menu')
 
 @section('content')
-<div class="card mb-0">
+<div class="card mb-0 pb-5">
     <div class="card-body">
         <div class="row">
             <div class="col-md-12">
                 <div class="profile-view">
-                    {{-- <div class="profile-img-wrap">
+                    <div class="profile-img-wrap">
                         <div class="profile-img">
-                            <a href="#"><img alt="" src="{{ asset('img/profiles/avatar-02.jpg')}}"></a>
+                            <a href="#"><img alt="logo"
+                                    src="{{ $company ? asset('storage/logos/' . $company->logo) : asset('img/profiles/avatar-02.jpg') }}"
+                                    class="img-fluid"></a>
                         </div>
-                    </div> --}}
+                    </div>
                     <div class="profile-basic">
                         <div class="row">
                             <div class="col-md-5">
@@ -95,7 +97,7 @@
 
 <div class="tab-content">
 
-    <!-- Profile Info Tab -->
+    <!-- employees -->
     <div id="emp_profile" class="pro-overview tab-pane fade show active">
         <div class="row">
             <div class="col-md-6 d-flex">
@@ -108,6 +110,7 @@
                                 <tr>
                                     <th>Nombre</th>
                                     <th>Correo</th>
+                                    <th>Acciones</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -115,6 +118,14 @@
                                 <tr>
                                     <td>{{ $companyEmployee['name'] }}</td>
                                     <td>{{ $companyEmployee['email'] }}</td>
+                                    <td>
+                                        <a href="#" data-bs-toggle="modal"
+                                            onclick="geEmployeeData({{ json_encode($companyEmployee) }})"
+                                            data-bs-target="#update_employee"><i class="fas fa-edit"></i></a>
+                                        <a href="#" data-bs-toggle="modal" class="text-danger ps-3"
+                                            onclick="getUserId({{ $companyEmployee['id'] }}, 'delete_user_id')"
+                                            data-bs-target="#delete_employee"><i class="far fa-trash-alt"></i></a>
+                                    </td>
                                 </tr>
                                 @endforeach
                             </tbody>
@@ -303,7 +314,6 @@
             </div>
         </div>--}}
     </div>
-    <!-- /Profile Info Tab -->
 
     <!-- Projects Tab -->
     <div class="tab-pane fade" id="emp_projects">
@@ -816,18 +826,18 @@
 </div>
 <!-- /Page Content -->
 
-<!-- Profile Modal -->
+<!-- update company -->
 <div id="profile_info" class="modal custom-modal fade" role="dialog">
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Profile Information</h5>
+                <h5 class="modal-title">Actualizar datos</h5>
                 <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                     <i class="fas fa-times"></i>
                 </button>
             </div>
             <div class="modal-body">
-                <form action="{{ route('company.create') }}" method="POST">
+                <form action="{{ route('company.update', $company->id) }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <div class="row">
                         <div class="col-sm-6">
@@ -849,6 +859,12 @@
                                     value="{{ $company->phone_number }}">
                             </div>
                         </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="col-form-label">Logo</label>
+                                <input class="form-control" name="logo" type="file" accept="image/*">
+                            </div>
+                        </div>
                     </div>
                     <div class="submit-section">
                         <button class="btn btn-primary cancel-btn" data-bs-dismiss="modal"
@@ -860,9 +876,8 @@
         </div>
     </div>
 </div>
-<!-- /Profile Modal -->
 
-<!-- Personal Info Modal -->
+<!-- Create employee -->
 <div id="create_employee" class="modal custom-modal fade" role="dialog">
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
@@ -914,99 +929,60 @@
         </div>
     </div>
 </div>
-<!-- /Personal Info Modal -->
 
-<!-- Family Info Modal -->
-<div id="family_info_modal" class="modal custom-modal fade" role="dialog">
+<!-- Create employee -->
+<div id="update_employee" class="modal custom-modal fade" role="dialog">
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title"> Family Informations</h5>
+                <h5 class="modal-title">Actualizar ejecutivo de cuenta</h5>
                 <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                     <i class="fas fa-times"></i>
                 </button>
             </div>
             <div class="modal-body">
-                <form>
-                    <div class="form-scroll">
-                        <div class="card">
-                            <div class="card-body">
-                                <h3 class="card-title">Family Member <a href="javascript:void(0);"
-                                        class="delete-icon"><i class="far fa-trash-alt"></i></a></h3>
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label>Name <span class="text-danger">*</span></label>
-                                            <input class="form-control" type="text">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label>Relationship <span class="text-danger">*</span></label>
-                                            <input class="form-control" type="text">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label>Date of birth <span class="text-danger">*</span></label>
-                                            <input class="form-control" type="text">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label>Phone <span class="text-danger">*</span></label>
-                                            <input class="form-control" type="text">
-                                        </div>
-                                    </div>
-                                </div>
+                <form action="{{ route('company.udpateEmployee', $company->id) }}" method="POST">
+                    @csrf
+                    <input type="hidden" class="form-control update-employee-id" name="user_id">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Nombre</label>
+                                <input type="text" class="form-control update-employee-name" name="name">
                             </div>
                         </div>
-
-                        <div class="card">
-                            <div class="card-body">
-                                <h3 class="card-title">Education Informations <a href="javascript:void(0);"
-                                        class="delete-icon"><i class="far fa-trash-alt"></i></a></h3>
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label>Name <span class="text-danger">*</span></label>
-                                            <input class="form-control" type="text">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label>Relationship <span class="text-danger">*</span></label>
-                                            <input class="form-control" type="text">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label>Date of birth <span class="text-danger">*</span></label>
-                                            <input class="form-control" type="text">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label>Phone <span class="text-danger">*</span></label>
-                                            <input class="form-control" type="text">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="add-more">
-                                    <a href="javascript:void(0);"><i class="fa fa-plus-circle"></i> Add More</a>
-                                </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Correo</label>
+                                <input class="form-control update-employee-email" type="text" name="email">
                             </div>
                         </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Rol</label>
+                                <select class="form-control update-employee-role" name="role">
+                                    <option value="">Selecciona el tipo de rol</option>
+                                    @foreach ($roles as $role)
+                                    <option value="{{ $role }}">{{ ucfirst($role) }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                        {{-- <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Contraseña <span class="text-danger">*</span></label>
+                                <input class="form-control" type="password" name="password">
+                            </div>
+                        </div> --}}
                     </div>
                     <div class="submit-section">
-                        <button class="btn btn-primary submit-btn">Submit</button>
+                        <button class="btn btn-primary submit-btn">Actualizar</button>
                     </div>
                 </form>
             </div>
         </div>
     </div>
 </div>
-<!-- /Family Info Modal -->
 
 <!-- create new ticket -->
 <div id="create_incident" class="modal custom-modal fade" role="dialog">
@@ -1033,10 +1009,10 @@
                                 <label class="col-form-label">Categoría <span class="text-danger">*</span></label>
                                 <select class="form-control" name="category" id="">
                                     <option value="">Selecciona una opción</option>
-                                    <option value="Nomina 1">Nomina 1</option>
-                                    <option value="Nomina 2">Nomina 2</option>
-                                    <option value="Nomina 3">Nomina 3</option>
-                                    <option value="Nomina 4">Nomina 4</option>
+                                    @foreach ($payrolls as $payroll)
+                                    <option value="{{ $payroll->type }}">{{ $payroll->type . " - " . $payroll->name }}
+                                    </option>
+                                    @endforeach
                                 </select>
                             </div>
                         </div>
@@ -1066,7 +1042,6 @@
         </div>
     </div>
 </div>
-<!-- /Emergency Contact Modal -->
 
 <!-- Education Modal -->
 <div id="education_info" class="modal custom-modal fade" role="dialog">
@@ -1315,6 +1290,35 @@
     </div>
 </div>
 <!-- /Experience Modal -->
+
+<!-- Delete Employee Modal -->
+<div class="modal custom-modal fade" id="delete_employee" role="dialog">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="form-header">
+                    <h3>Eliminar Empleado</h3>
+                    <p>Estas seguro de eliminar a este empleado?</p>
+                </div>
+                <div class="modal-btn delete-action">
+                    <form action="{{ route('company.deleteEmployee') }}" method="POST">
+                        @csrf
+                        <div class="row">
+                            <div class="col-6">
+                                <input type="hidden" name="user_id" class="delete_user_id">
+                                <button type="submit" class="btn btn-primary continue-btn">Eliminar</button>
+                            </div>
+                            <div class="col-6">
+                                <a href="javascript:void(0);" data-bs-dismiss="modal"
+                                    class="btn btn-primary cancel-btn">Cancel</a>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 </div>
 <!-- /Page Wrapper -->

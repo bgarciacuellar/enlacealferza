@@ -9,10 +9,12 @@ use App\Models\AdditionalUserInfo;
 use App\Models\Company;
 use App\Models\CompanyOnCharge;
 use App\Models\Ticket;
+use App\Traits\helpers;
 use Carbon\Carbon;
 
 class UserController extends Controller
 {
+    use helpers;
     public function ticketList(Request $request)
     {
         $user = Auth::user();
@@ -30,6 +32,9 @@ class UserController extends Controller
         $myCompanies = array_map($myCompaniesMap, $myCompaniesArray);
 
         $tickets = Ticket::where("company", $selectedCompany)->get();
+        foreach ($tickets as $ticket) {
+            $ticket->statusString = $this->statusConvert($ticket->status);
+        }
 
         return view('users.ticket.list', compact('myCompanies', 'tickets', 'selectedCompany'));
     }
@@ -107,6 +112,9 @@ class UserController extends Controller
 
     public function disableUser(Request $request)
     {
+        $request->validate([
+            "user_id" => "required"
+        ]);
         $user = User::find($request->user_id);
         if ($user->is_active) {
             $user->update([

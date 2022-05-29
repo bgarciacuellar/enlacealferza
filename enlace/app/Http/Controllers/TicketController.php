@@ -9,6 +9,7 @@ use App\Models\AdditionalUserInfo;
 use App\Models\Company;
 use App\Models\CompanyEmployee;
 use App\Models\CompanyOnCharge;
+use App\Models\PayrollType;
 use Auth;
 use App\Models\Ticket;
 use App\Models\TicketComment;
@@ -33,21 +34,24 @@ class TicketController extends Controller
     {
         $ticketsArray = Ticket::all()->toArray();
         $companies = Company::all();
+        $payrolls = PayrollType::all();
 
         $ticketsMap = function ($ticketItem) {
             $company = Company::where('id', $ticketItem['company'])->first();
             $limit_date = Carbon::parse($ticketItem['limit_date']);
+            $status = $this->statusConvert($ticketItem['status']);
             return array(
                 "id" => $ticketItem['id'],
                 "category" => $ticketItem['category'],
                 "limit_date" => $limit_date->format('d/m/Y'),
                 "company" => $company->name,
-                "status" => $ticketItem['status'],
+                "status" => $status,
             );
         };
         $tickets = array_map($ticketsMap, $ticketsArray);
 
-        return view('ticket.list', compact('tickets', 'companies'));
+
+        return view('ticket.list', compact('tickets', 'companies', 'payrolls'));
     }
 
     public function create(Request $request)
@@ -83,11 +87,12 @@ class TicketController extends Controller
         $company = Company::where('id', $request->company)->first('name')->name;
 
         $message = new TicketCreated($currentUser->name, $ticketCreated->id, $company);
+        $emails = [];
         foreach ($employees as $employee) {
-            $employeeEmail = User::where('id', $employee->user_id)->first('email');
-
-            Mail::to($employeeEmail->email)->send($message);
+            $employeeEmail = User::where('id', $employee->user_id)->first('email')->email;
+            $emails[] = $employeeEmail;
         }
+        Mail::to($emails)->send($message);
 
         // Mail::to("socialmedia@alferza.mx")->send($message);
         return redirect()->route('ticket.details', $ticketCreated->id)->with('success', 'Ticket Creado');
@@ -98,6 +103,7 @@ class TicketController extends Controller
         $ticket = Ticket::findOrFail($ticketId);
         $ticket->statusString = $this->statusConvert($ticket->status);
         $company = Company::findOrFail($ticket->company);
+        $payrolls = PayrollType::all();
 
         $ticketFilesHistoryArray = TicketFileHistory::where('ticket_id', $ticketId)->orderBy('id', 'DESC')->get()->toArray();
         $ticketFilesHistoryMap = function ($ticketFileHistoryItem) {
@@ -105,7 +111,7 @@ class TicketController extends Controller
             $createdAt = Carbon::parse($ticketFileHistoryItem['created_at']);
             return array(
                 "id" => $ticketFileHistoryItem['id'],
-                "user_name" => $user->name,
+                "user_name" => $user ? $user->name : "Usuario",
                 "file" => $ticketFileHistoryItem['file'],
                 "created_at" => $createdAt->format('d/m/Y'),
             );
@@ -118,7 +124,7 @@ class TicketController extends Controller
             $createdAt = Carbon::parse($ticketCommentItem['created_at']);
             return array(
                 "id" => $ticketCommentItem['id'],
-                "user_name" => $user->name,
+                "user_name" => $user ? $user->name : "Usuario",
                 "comment" => $ticketCommentItem['comment'],
                 "created_at" => $createdAt->format('d/m/Y'),
             );
@@ -128,7 +134,7 @@ class TicketController extends Controller
         $ticketowner = User::where('id', $ticket->user_id)->first();
         $ticketownerAdditionalInfo = AdditionalUserInfo::where('id', $ticket->user_id)->first();
 
-        return view('ticket.details', compact('ticket', 'ticketComments', 'ticketFilesHistory', 'ticketowner', 'ticketownerAdditionalInfo', 'company'));
+        return view('ticket.details', compact('ticket', 'ticketComments', 'ticketFilesHistory', 'ticketowner', 'ticketownerAdditionalInfo', 'company', 'payrolls'));
     }
 
     public function uploadFileToRecord(Request $request, $ticket)
@@ -164,11 +170,12 @@ class TicketController extends Controller
 
         $message = new UploadFileMail($currentUser->name, $ticketExists->id, $company, $ticketExists->category);
         $message->attach(public_path() . '/storage/incidencias/' . $fileCreated->file);
+        $emails = [];
         foreach ($employees as $employee) {
             $employeeEmail = User::where('id', $employee->user_id)->first('email')->email;
-
-            Mail::to($employeeEmail)->send($message);
+            $emails[] = $employeeEmail;
         }
+        Mail::to($emails)->send($message);
 
         return back()->with('success', 'Archivo agregado');
     }
@@ -198,18 +205,15 @@ class TicketController extends Controller
         $request->validate(
             [
                 'category' => 'required',
-                'company' => 'required',
+                'limit_date' => 'required',
             ],
         );
 
         $updateTicket = Ticket::findOrFail($ticket);
 
         $updateTicket->update([
-            'title' => $request->title,
-            'status' => $request->status,
-            'priority' => $request->priority,
             'category' => $request->category,
-            'company' => $request->company,
+            'limit_date' => $request->limit_date,
         ]);
 
         return back()->with('success', 'Ticket Modificado');

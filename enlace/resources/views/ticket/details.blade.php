@@ -6,12 +6,12 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="profile-view">
-                    <div class="profile-img-wrap">
+                    {{-- <div class="profile-img-wrap">
                         <div class="profile-img">
                             <a href="#"><img alt="" src="{{ asset('img/profiles/avatar-02.jpg')}}"></a>
                         </div>
-                    </div>
-                    <div class="profile-basic">
+                    </div> --}}
+                    <div class="profile-basic ms-0">
                         <div class="row">
                             <div class="col-md-5">
                                 <div class="profile-info-left">
@@ -66,12 +66,11 @@
                             href="#"><i class="fas fa-pencil-alt"></i></a></div>
                 </div>
                 <h4>Estatus actual: <strong>{{ $ticket->statusString }}</strong></h4>
-                @if ($ticket->status > 5)
-                <form action="{{ route('ticket.nextStep', $ticket->id) }}" method="POST">
+                @if ($ticket->status < 5) <form action="{{ route('ticket.nextStep', $ticket->id) }}" method="POST">
                     @csrf
                     <button type="submit" class="btn btn-success">Siguiente estatus</button>
-                </form>
-                @endif
+                    </form>
+                    @endif
             </div>
         </div>
     </div>
@@ -149,7 +148,7 @@
                 </div>
             </div>
         </div>
-        @if ($ticket->status == 4)
+        @if ($ticket->status >= 4)
         <div class="row">
             <div class="col-6">
                 <div class="card profile-box flex-fill">
@@ -180,6 +179,9 @@
                         <h3 class="card-title">Archivo Pre-factura</h3>
                         <div class="row">
                             <div class="col-7">
+                                @if ($ticket->status == 5)
+                                <h3 class="text-center">Incidencia pagada</h3>
+                                @else
                                 <form action="{{ route('ticket.uploadPreinvoice', $ticket->id) }}" method="POST"
                                     enctype="multipart/form-data">
                                     @csrf
@@ -188,6 +190,7 @@
                                     <input type="file" class="form-control" name="preinvoice">
                                     <button type="submit" class="btn btn-primary mt-3 submit-btn">Subir</button>
                                 </form>
+                                @endif
                             </div>
                         </div>
                     </div>
@@ -985,7 +988,7 @@
 
 <!-- /Page Content -->
 
-<!-- Profile Modal -->
+<!-- update ticket -->
 <div id="edit_ticket" class="modal custom-modal fade" role="dialog">
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
@@ -1001,54 +1004,30 @@
                     <div class="row">
                         <div class="col-sm-6">
                             <div class="form-group">
-                                <label class="col-form-label">Titulo <span class="text-danger">*</span></label>
-                                <input class="form-control" name="title" type="text" value="{{ $ticket->title }}">
-                            </div>
-                        </div>
-                        <div class="col-sm-6">
-                            <div class="form-group">
-                                <label class="col-form-label">Estatus <span class="text-danger">*</span></label>
-                                <select class="form-control" name="status">
-                                    <option value="">Selecciona una opción</option>
-                                    <option value="abierto" {{ $ticket->status == "abierto" ? "selected" : null
-                                        }}>Abierto</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-sm-6">
-                            <div class="form-group">
-                                <label class="col-form-label">Prioridad <span class="text-danger">*</span></label>
-                                <select class="form-control" name="priority" id="">
-                                    <option value="">Selecciona una opción</option>
-                                    <option value="normal" {{ $ticket->priority == "normal" ? "selected" : null
-                                        }}>Normal</option>
-                                </select>
+                                <label class="col-form-label">Fecha limite <span class="text-danger">*</span></label>
+                                <input class="form-control" type="date" name="limit_date"
+                                    value="{{ $ticket->limit_date->format('Y-m-d') }}">
                             </div>
                         </div>
                         <div class="col-sm-6">
                             <div class="form-group">
                                 <label class="col-form-label">Categoría <span class="text-danger">*</span></label>
-                                <select class="form-control" name="category" id="">
+                                <select class="form-control" name="category">
                                     <option value="">Selecciona una opción</option>
-                                    <option value="incidencia" {{ $ticket->category == "incidencia" ? "selected" : null
-                                        }}>
-                                        Incidencia</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-sm-6">
-                            <div class="form-group">
-                                <label class="col-form-label">Empresa<span class="text-danger">*</span></label>
-                                <select class="form-control" name="company" id="">
-                                    <option value="{{ $company->name }}">{{ $company->name }}</option>
+                                    @foreach ($payrolls as $payroll)
+                                    <option value="{{ $payroll->type }}" {{ $ticket->category == $payroll->type ?
+                                        "selected" : null
+                                        }}>{{ $payroll->type . " - " . $payroll->name }}
+                                    </option>
+                                    @endforeach
                                 </select>
                             </div>
                         </div>
                     </div>
 
                     <div class="submit-section">
-                        <button class="btn btn-primary cancel-btn" data-bs-dismiss="modal"
-                            aria-label="Close">Cancel</button>
+                        <button class="btn btn-primary cancel-btn" data-bs-dismiss="modal" aria-label="Close"
+                            type="button">Cancel</button>
                         <button type="submit" class="btn btn-primary submit-btn">Editar</button>
                     </div>
                 </form>

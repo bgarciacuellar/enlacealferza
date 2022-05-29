@@ -506,6 +506,9 @@
                             <li>
                                 <a href="{{ route('company.list') }}" class="active">Empresa</a>
                             </li>
+                            <li>
+                                <a href="{{ route('payroll.list') }}" class="active">Nóminas</a>
+                            </li>
                         </ul>
                     </div>
                     {{-- <div class="tab-pane fade" id="v-pills-apps" role="tabpanel"

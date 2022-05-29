@@ -1020,8 +1020,8 @@
         <div class="modal-content">
             <div class="modal-body">
                 <div class="form-header">
-                    <h3>Delete Employee</h3>
-                    <p>Are you sure want to delete?</p>
+                    <h3>Deshabilitar Usuario</h3>
+                    <p>Estas seguro de deshabilitarlo? (No podra iniciar sesión nuevamente)</p>
                 </div>
                 <div class="modal-btn delete-action">
                     <form action="{{ route('admin.disableUser') }}" method="POST">

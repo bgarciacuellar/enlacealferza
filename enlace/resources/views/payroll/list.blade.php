@@ -32,7 +32,7 @@
         <div class="col-md-4">
             <div class="add-emp-section">
                 <a href="#" class="btn btn-success btn-add-emp" data-bs-toggle="modal" data-bs-target="#add_company"><i
-                        class="fas fa-plus"></i> Agregar Empresa</a>
+                        class="fas fa-plus"></i> Crear nómina</a>
             </div>
         </div>
     </div>
@@ -60,31 +60,27 @@
                 <table class="table table-striped custom-table datatable">
                     <thead>
                         <tr>
+                            <th>Tipo</th>
                             <th>Nombre</th>
-                            <th>Dirección</th>
-                            <th>Teléfono</th>
-                            {{-- <th class="text-end no-sort">Deshabilitar</th> --}}
+                            <th>Eliminar</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($companies as $company)
+                        @foreach ($payrolls as $payroll)
                         <tr>
                             <td>
                                 <h2 class="table-avatar">
                                     {{-- <a href="{{ route('admin.userDetails', $user['id']) }}" class="avatar"><img
                                             alt="" src="assets/img/profiles/avatar-02.jpg"></a> --}}
-                                    <a href="{{ route('company.details', $company->id) }}">{{ $company->name }}</a>
+                                    <a href="{{ route('payroll.details', $payroll->id) }}">{{ $payroll->type }}</a>
                                 </h2>
                             </td>
-                            <td>{{ $company->address }}</td>
-                            <td>{{ $company->phone_number }}</td>
-                            {{-- <td class="text-end ico-sec">
-                                <a href="#" data-bs-toggle="modal" data-bs-target="#edit_employee"><i
-                                        class="fas fa-pen"></i></a>
+                            <td>{{ $payroll->name }}</td>
+                            <td class="text-end ico-sec">
                                 <a href="#" data-bs-toggle="modal"
-                                    onclick="getUserId({{ $company->id }}, 'delete_user_id')"
-                                    data-bs-target="#delete_employee"><i class="far fa-trash-alt"></i></a>
-                            </td> --}}
+                                    onclick="getPayrollId({{ $payroll->id }}, 'delete_payroll')"
+                                    data-bs-target="#delete_employee"><i class="far fa-trash-alt text-danger"></i></a>
+                            </td>
                         </tr>
                         @endforeach
                     </tbody>
@@ -100,37 +96,25 @@
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Agregar Empresa</h5>
+                <h5 class="modal-title">Agregar Nómina</h5>
                 <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                     <i class="fas fa-times"></i>
                 </button>
             </div>
             <div class="modal-body">
-                <form action="{{ route('company.create') }}" method="POST" enctype="multipart/form-data">
+                <form action="{{ route('payroll.create') }}" method="POST">
                     @csrf
                     <div class="row">
                         <div class="col-sm-6">
                             <div class="form-group">
-                                <label class="col-form-label">Nombre <span class="text-danger">*</span></label>
+                                <label class="col-form-label">Tipo <span class="text-danger">*</span></label>
+                                <input class="form-control" name="type" type="text">
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="col-form-label">Nombre</label>
                                 <input class="form-control" name="name" type="text">
-                            </div>
-                        </div>
-                        <div class="col-sm-6">
-                            <div class="form-group">
-                                <label class="col-form-label">Dirección</label>
-                                <input class="form-control" name="address" type="text">
-                            </div>
-                        </div>
-                        <div class="col-sm-6">
-                            <div class="form-group">
-                                <label class="col-form-label">Teléfono <span class="text-danger">*</span></label>
-                                <input class="form-control" name="phone_number" type="text">
-                            </div>
-                        </div>
-                        <div class="col-sm-6">
-                            <div class="form-group">
-                                <label class="col-form-label">Logo</label>
-                                <input class="form-control" name="logo" type="file" accept="image/*">
                             </div>
                         </div>
                     </div>
@@ -145,22 +129,22 @@
     </div>
 </div>
 
-<!-- Delete Employee Modal -->
+<!-- Delete payroll -->
 <div class="modal custom-modal fade" id="delete_employee" role="dialog">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-body">
                 <div class="form-header">
-                    <h3>Delete Employee</h3>
-                    <p>Are you sure want to delete?</p>
+                    <h3>Eliminar Nómina</h3>
+                    <p>Esta seguro de eliminar está nómina?</p>
                 </div>
                 <div class="modal-btn delete-action">
-                    <form action="{{ route('admin.disableUser') }}" method="POST">
+                    <form action="{{ route('payroll.delete') }}" method="POST">
                         @csrf
                         <div class="row">
                             <div class="col-6">
-                                <input type="hidden" name="user_id" class="delete_user_id">
-                                <button type="submit" class="btn btn-primary continue-btn">Deshabilitar</button>
+                                <input type="hidden" name="payroll" class="delete_payroll">
+                                <button type="submit" class="btn btn-primary continue-btn">Eliminar</button>
                             </div>
                             <div class="col-6">
                                 <a href="javascript:void(0);" data-bs-dismiss="modal"
@@ -174,5 +158,11 @@
     </div>
 </div>
 <!-- /Delete Employee Modal -->
+
+@endsection
+
+@section('js')
+
+<script src="{{ asset('js/customize/payroll.js') }}"></script>
 
 @endsection

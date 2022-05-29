@@ -96,8 +96,35 @@ Route::post('/company/create', [App\Http\Controllers\CompanyController::class, '
 Route::get('/company/details/{id}', [App\Http\Controllers\CompanyController::class, 'details'])
     ->name('company.details');
 
+Route::post('/company/update/{id}', [App\Http\Controllers\CompanyController::class, 'update'])
+    ->name('company.update');
+
 Route::post('/company/create/employee/{id}', [App\Http\Controllers\CompanyController::class, 'createEmployee'])
     ->name('company.createEmployee');
+
+Route::post('/company/update/employee/{company}', [App\Http\Controllers\CompanyController::class, 'udpateEmployee'])
+    ->name('company.udpateEmployee');
+
+Route::post('/company/delete/', [App\Http\Controllers\CompanyController::class, 'deleteEmployee'])
+    ->name('company.deleteEmployee');
+// Company
+
+// Payroll
+Route::get('/payrolls', [App\Http\Controllers\PayrollController::class, 'list'])
+    ->name('payroll.list');
+
+Route::post('/payrolls/create', [App\Http\Controllers\PayrollController::class, 'create'])
+    ->name('payroll.create');
+
+Route::get('/payrolls/detalles/{id}', [App\Http\Controllers\PayrollController::class, 'details'])
+    ->name('payroll.details');
+
+Route::post('/payrolls/update/{id}', [App\Http\Controllers\PayrollController::class, 'update'])
+    ->name('payroll.update');
+
+Route::post('/payrolls/delete', [App\Http\Controllers\PayrollController::class, 'delete'])
+    ->name('payroll.delete');
+// Payroll
 
 // Employee
 

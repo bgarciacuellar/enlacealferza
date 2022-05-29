@@ -94,7 +94,7 @@
 </div>
 <!-- /Page Content -->
 
-<!-- Add Employee Modal -->
+<!-- create incident Modal -->
 <div id="create_incident" class="modal custom-modal fade" role="dialog">
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
@@ -108,15 +108,6 @@
                 <form action="{{ route('ticket.create') }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <div class="row">
-                        {{-- <div class="col-sm-6">
-                            <div class="form-group">
-                                <label class="col-form-label">Estatus <span class="text-danger">*</span></label>
-                                <select class="form-control" name="status">
-                                    <option value="">Selecciona una opción</option>
-                                    <option value="abierto">Abierto</option>
-                                </select>
-                            </div>
-                        </div> --}}
                         <div class="col-sm-6">
                             <div class="form-group">
                                 <label class="col-form-label">Fecha limite <span class="text-danger">*</span></label>
@@ -128,10 +119,10 @@
                                 <label class="col-form-label">Categoría <span class="text-danger">*</span></label>
                                 <select class="form-control" name="category" id="">
                                     <option value="">Selecciona una opción</option>
-                                    <option value="Nomina 1">Nomina 1</option>
-                                    <option value="Nomina 2">Nomina 2</option>
-                                    <option value="Nomina 3">Nomina 3</option>
-                                    <option value="Nomina 4">Nomina 4</option>
+                                    @foreach ($payrolls as $payroll)
+                                    <option value="{{ $payroll->type }}">{{ $payroll->type . " - " . $payroll->name }}
+                                    </option>
+                                    @endforeach
                                 </select>
                             </div>
                         </div>
@@ -155,8 +146,8 @@
                     </div>
 
                     <div class="submit-section">
-                        <button class="btn btn-primary cancel-btn" data-bs-dismiss="modal"
-                            aria-label="Close">Cancel</button>
+                        <button class="btn btn-primary cancel-btn" data-bs-dismiss="modal" aria-label="Close"
+                            type="button">Cancel</button>
                         <button type="submit" class="btn btn-primary submit-btn">Crear</button>
                     </div>
                 </form>
