@@ -540,8 +540,8 @@ table.table td,table.table th {
 	border: 1px solid #482fe9;
 }
 .btn-primary {
-	background-color: #FF7849;
-	border: 1px solid #FF7849;
+	background-color: #0D2754;
+	border: 1px solid #0D2754;
 }
 .btn-primary:hover,
 .btn-primary:focus,
@@ -2674,9 +2674,9 @@ label {
 .cancel-btn:hover,
 .cancel-btn:focus,
 .cancel-btn:active {
-	background-color: #FF7849;
-	border: 1px solid #FF7849;
-	color: #fff;
+	background-color: #E06D65;
+	border: 1px solid #E06D65;
+	color: #FAEEED;
 }
 
 /*-----------------
