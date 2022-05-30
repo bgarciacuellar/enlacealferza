@@ -10,6 +10,7 @@ use Illuminate\Queue\SerializesModels;
 class TicketCreated extends Mailable
 {
     use Queueable, SerializesModels;
+    public $subject = "Incidencia creada";
     public $name;
     public $ticket;
     public $company;

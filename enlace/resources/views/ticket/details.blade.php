@@ -26,7 +26,7 @@
                             <div class="col-md-7">
                                 <ul class="personal-info">
                                     <li>
-                                        <div class="title">Categoría:</div>
+                                        <div class="title">Tipo de nómina:</div>
                                         <div class="text"><a href="">{{ $ticket->category }}</a></div>
                                     </li>
                                     <li>
@@ -42,8 +42,8 @@
                                         <div class="text">{{ $ticket->status }}</div>
                                     </li> --}}
                                     <li>
-                                        <div class="title">Fecha de creación:</div>
-                                        <div class="text">{{ $ticket->created_at->format('d/m/Y') }}</div>
+                                        <div class="title">Periodo de pago:</div>
+                                        <div class="text">{{ $ticket->payment_period }}</div>
                                     </li>
                                     {{-- <li>
                                         <div class="title">Reports to:</div>
@@ -136,7 +136,7 @@
                                     @csrf
                                     <label class="col-form-label">Subir nuevo archivo<span
                                             class="text-danger">*</span></label>
-                                    <input type="file" class="form-control" name="file">
+                                    <input type="file" class="form-control" name="file" required>
                                     <button type="submit" class="btn btn-primary mt-3 submit-btn">Subir</button>
                                 </form>
                                 @else
@@ -187,7 +187,7 @@
                                     @csrf
                                     <label class="col-form-label">Subir nuevo archivo<span
                                             class="text-danger">*</span></label>
-                                    <input type="file" class="form-control" name="preinvoice">
+                                    <input type="file" class="form-control" name="preinvoice" required>
                                     <button type="submit" class="btn btn-primary mt-3 submit-btn">Subir</button>
                                 </form>
                                 @endif
@@ -470,7 +470,8 @@
                             <div class="col-11 justify-content-center">
                                 <form action="{{ route('ticket.addComment', $ticket->id) }}" method="POST">
                                     @csrf
-                                    <textarea name="comment" class="form-control" id="" cols="30" rows="10"></textarea>
+                                    <textarea name="comment" class="form-control" id="" cols="30" rows="10"
+                                        required></textarea>
                                     <button type="submit" class="btn btn-primary mt-3 submit-btn">Agregar</button>
                                 </form>
                             </div>
@@ -1006,18 +1007,32 @@
                             <div class="form-group">
                                 <label class="col-form-label">Fecha limite <span class="text-danger">*</span></label>
                                 <input class="form-control" type="date" name="limit_date"
-                                    value="{{ $ticket->limit_date->format('Y-m-d') }}">
+                                    value="{{ $ticket->limit_date->format('Y-m-d') }}" required>
                             </div>
                         </div>
                         <div class="col-sm-6">
                             <div class="form-group">
-                                <label class="col-form-label">Categoría <span class="text-danger">*</span></label>
-                                <select class="form-control" name="category">
+                                <label class="col-form-label">Tipo de nómina <span class="text-danger">*</span></label>
+                                <select class="form-control" name="category" required>
                                     <option value="">Selecciona una opción</option>
                                     @foreach ($payrolls as $payroll)
                                     <option value="{{ $payroll->type }}" {{ $ticket->category == $payroll->type ?
                                         "selected" : null
                                         }}>{{ $payroll->type . " - " . $payroll->name }}
+                                    </option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="col-form-label">Periodo de pago <span class="text-danger">*</span></label>
+                                <select class="form-control" name="payment_period" required>
+                                    <option value="">Selecciona una opción</option>
+                                    @foreach ($paymentsPeriod as $paymentPeriod)
+                                    <option value="{{ $paymentPeriod }}" {{ $ticket->payment_period == $paymentPeriod ?
+                                        "selected" : null
+                                        }}>{{ $paymentPeriod }}
                                     </option>
                                     @endforeach
                                 </select>

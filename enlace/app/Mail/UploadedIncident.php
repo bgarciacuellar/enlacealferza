@@ -7,26 +7,23 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
-class UploadFileMail extends Mailable
+class UploadedIncident extends Mailable
 {
     use Queueable, SerializesModels;
-    public $subject = "Archivo cargado";
+    public $subject = "Incidencia cargada";
     public $name;
     public $ticket;
     public $company;
-    public $category;
-
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct($name, $ticket, $company, $category)
+    public function __construct($name, $ticket, $company)
     {
         $this->name = $name;
         $this->ticket = $ticket;
         $this->company = $company;
-        $this->category = $category;
     }
 
     /**
@@ -36,6 +33,6 @@ class UploadFileMail extends Mailable
      */
     public function build()
     {
-        return $this->view('emails.upload-file');
+        return $this->view('view.name');
     }
 }

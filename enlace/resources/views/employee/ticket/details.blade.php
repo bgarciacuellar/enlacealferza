@@ -58,14 +58,12 @@
                             </div>
                             <div class="col-12">
                                 <h4>Estatus actual: <strong>{{ $ticket->statusString }}</strong></h4>
-                                @if ($ticket->status == 3)
-                                <form action="{{ route('ticket.lastStep', $ticket->id) }}" method="POST"
-                                    class="d-inline">
-                                    @csrf
-                                    <button type="submit" class="btn btn-success">Regresar paso</button>
-                                </form>
+                                @if ($ticket->status == 3 && auth()->user()->hasRoles(['cliente', 'validador']))
+                                <button class="btn btn-success" data-bs-toggle="modal"
+                                    data-bs-target="#step_back">Regresar paso</button>
                                 @endif
-                                @if ($ticket->status == 1 || $ticket->status == 3)
+                                @if ($ticket->status == 1 && auth()->user()->hasRoles(['cliente', 'capturista']) ||
+                                $ticket->status == 3 && auth()->user()->hasRoles(['cliente', 'validador']))
                                 <form action="{{ route('ticket.nextStep', $ticket->id) }}" method="POST"
                                     class="d-inline">
                                     @csrf
@@ -140,7 +138,8 @@
                                 </div>
                             </div> --}}
                             <div class="col-7">
-                                @if ($ticket->status == 1 || $ticket->status == 3)
+                                @if ($ticket->status == 1 && auth()->user()->hasRoles(['cliente', 'capturista']) ||
+                                $ticket->status == 3 && auth()->user()->hasRoles(['cliente', 'validador']))
                                 <form action="{{ route('ticket.uploadFile', $ticket->id) }}" method="POST"
                                     enctype="multipart/form-data">
                                     @csrf
@@ -158,14 +157,14 @@
                 </div>
             </div>
         </div>
-        @if ($ticket->status == 4)
+        @if ($ticket->status == 4 || $ticket->status == 5)
         <div class="row justify-content-center">
-            <div class="col-8">
+            <div class="col-6">
                 <div class="card profile-box flex-fill">
                     <div class="card-body">
-                        <h3 class="card-title">Archivo Pre-factura</h3>
+                        <h3 class="card-title text-center">Archivo Pre-factura</h3>
                         <div class="row align-content-center" style=" max-height: 400px; overflow: auto;">
-                            <div class="col-6 pb-3">
+                            <div class="col-12 pb-3 text-center">
                                 @if ($ticket->preinvoices)
                                 <a href="{{ asset('storage/incidencias/' . $ticket->preinvoices) }}"
                                     target="_blank"><button class="btn btn-primary mt-3 submit-btn">Descargar <i
@@ -1217,84 +1216,33 @@
 <!-- /Family Info Modal -->
 
 <!-- Emergency Contact Modal -->
-<div id="emergency_contact_modal" class="modal custom-modal fade" role="dialog">
+<div id="step_back" class="modal custom-modal fade" role="dialog">
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Personal Information</h5>
+                <h5 class="modal-title">Comentario</h5>
                 <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                     <i class="fas fa-times"></i>
                 </button>
             </div>
             <div class="modal-body">
-                <form>
-                    <div class="card">
-                        <div class="card-body">
-                            <h3 class="card-title">Primary Contact</h3>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label>Name <span class="text-danger">*</span></label>
-                                        <input type="text" class="form-control">
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label>Relationship <span class="text-danger">*</span></label>
-                                        <input class="form-control" type="text">
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label>Phone <span class="text-danger">*</span></label>
-                                        <input class="form-control" type="text">
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label>Phone 2</label>
-                                        <input class="form-control" type="text">
-                                    </div>
-                                </div>
+                <div class="card">
+                    <div class="card-body">
+                        <h3 class="card-title">Agregar Comentario</h3>
+                        <p class="">Por favor, anexe las observaciones correspondientes para corregir el
+                            cálculo de nómina.</p>
+                        <div class="row">
+                            <div class="col-11 justify-content-center">
+                                <form action="{{ route('ticket.lastStep', $ticket->id) }}" method="POST">
+                                    @csrf
+                                    <textarea name="comment" class="form-control" cols="30" rows="10"
+                                        required></textarea>
+                                    <button type="submit" class="btn btn-primary mt-3 submit-btn">Regresar</button>
+                                </form>
                             </div>
                         </div>
                     </div>
-
-                    <div class="card">
-                        <div class="card-body">
-                            <h3 class="card-title">Primary Contact</h3>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label>Name <span class="text-danger">*</span></label>
-                                        <input type="text" class="form-control">
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label>Relationship <span class="text-danger">*</span></label>
-                                        <input class="form-control" type="text">
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label>Phone <span class="text-danger">*</span></label>
-                                        <input class="form-control" type="text">
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label>Phone 2</label>
-                                        <input class="form-control" type="text">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="submit-section">
-                        <button class="btn btn-primary submit-btn">Submit</button>
-                    </div>
-                </form>
+                </div>
             </div>
         </div>
     </div>

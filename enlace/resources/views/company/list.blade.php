@@ -112,7 +112,7 @@
                         <div class="col-sm-6">
                             <div class="form-group">
                                 <label class="col-form-label">Nombre <span class="text-danger">*</span></label>
-                                <input class="form-control" name="name" type="text">
+                                <input class="form-control" name="name" type="text" required>
                             </div>
                         </div>
                         <div class="col-sm-6">
@@ -123,7 +123,7 @@
                         </div>
                         <div class="col-sm-6">
                             <div class="form-group">
-                                <label class="col-form-label">Teléfono <span class="text-danger">*</span></label>
+                                <label class="col-form-label">Teléfono</label>
                                 <input class="form-control" name="phone_number" type="text">
                             </div>
                         </div>
@@ -135,8 +135,8 @@
                         </div>
                     </div>
                     <div class="submit-section">
-                        <button class="btn btn-primary cancel-btn" data-bs-dismiss="modal"
-                            aria-label="Close">Cancel</button>
+                        <button class="btn btn-primary cancel-btn" data-bs-dismiss="modal" aria-label="Close"
+                            type="button">Cancel</button>
                         <button type="submit" class="btn btn-primary submit-btn">Agregar</button>
                     </div>
                 </form>

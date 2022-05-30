@@ -133,7 +133,7 @@
                         <div class="col-sm-6">
                             <div class="form-group">
                                 <label class="col-form-label">Nombre(s) <span class="text-danger">*</span></label>
-                                <input class="form-control" name="name" type="text">
+                                <input class="form-control" name="name" type="text" required>
                             </div>
                         </div>
                         <div class="col-sm-6">
@@ -145,13 +145,13 @@
                         <div class="col-sm-6">
                             <div class="form-group">
                                 <label class="col-form-label">Id de empleado <span class="text-danger">*</span></label>
-                                <input class="form-control" name="employee_id" type="text">
+                                <input class="form-control" name="employee_id" type="text" required>
                             </div>
                         </div>
                         <div class="col-sm-6">
                             <div class="form-group">
                                 <label class="col-form-label">Rol <span class="text-danger">*</span></label>
-                                <select class="form-control" name="role" id="">
+                                <select class="form-control" name="role" required>
                                     <option value="">Selecciona el tipo de rol</option>
                                     @foreach ($roles as $role)
                                     <option value="{{ $role }}">{{ ucfirst($role) }}</option>
@@ -162,19 +162,20 @@
                         <div class="col-sm-4">
                             <div class="form-group">
                                 <label class="col-form-label">Correo <span class="text-danger">*</span></label>
-                                <input class="form-control" name="email" type="email">
+                                <input class="form-control" name="email" type="email" required>
                             </div>
                         </div>
                         <div class="col-sm-4">
                             <div class="form-group">
-                                <label class="col-form-label">Contraseña</label>
-                                <input class="form-control" name="password" type="password">
+                                <label class="col-form-label">Contraseña <span class="text-danger">*</span></label>
+                                <input class="form-control" name="password" type="password" required>
                             </div>
                         </div>
                         <div class="col-sm-4">
                             <div class="form-group">
-                                <label class="col-form-label">Confirmar Contraseña</label>
-                                <input class="form-control" name="confirm_password" type="password">
+                                <label class="col-form-label">Confirmar Contraseña <span
+                                        class="text-danger">*</span></label>
+                                <input class="form-control" name="confirm_password" type="password" required>
                             </div>
                         </div>
                         {{-- <div class="col-sm-4">

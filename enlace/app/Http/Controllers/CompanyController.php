@@ -13,6 +13,7 @@ use Illuminate\Http\Request;
 class CompanyController extends Controller
 {
     use helpers;
+    public $paymentsPeriod = ['semanal', 'quincenal', 'mensual'];
 
     function __construct()
     {
@@ -29,8 +30,8 @@ class CompanyController extends Controller
     {
         $request->validate([
             "name" => "required",
-            "address" => "required",
-            "phone_number" => "required",
+            "address" => "nullable",
+            "phone_number" => "nullable",
             "logo" => "nullable",
         ]);
 
@@ -57,6 +58,7 @@ class CompanyController extends Controller
         $roles = ['cliente', 'capturista', 'validador'];
         $payrolls = PayrollType::all();
         $company = Company::findOrFail($id);
+        $paymentsPeriod = $this->paymentsPeriod;
         $companyEmployeesArray = CompanyEmployee::where("company_id", $company->id)->get()->toArray();
         $companyEmployeesMap = function ($companyEmployeeItem) {
             $user = User::where("id", $companyEmployeeItem["user_id"])->first();
@@ -70,7 +72,7 @@ class CompanyController extends Controller
         $companyEmployees = array_map($companyEmployeesMap, $companyEmployeesArray);
 
         $incidents = Ticket::where("company", $company->id)->orderBy('id', 'DESC')->get();
-        return view('company.details', compact('company', 'companyEmployees', 'incidents', 'roles', 'payrolls'));
+        return view('company.details', compact('company', 'companyEmployees', 'incidents', 'roles', 'payrolls', 'paymentsPeriod'));
     }
 
     public function update(Request $request, $id)

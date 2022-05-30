@@ -58,7 +58,7 @@ trait helpers
                 $statusConverted = "Nómina Autorizada";
                 break;
             case 5:
-                $statusConverted = "Pagada";
+                $statusConverted = "Proceso de Pago";
                 break;
             default:
                 $statusConverted = '-';

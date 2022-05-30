@@ -856,19 +856,19 @@
                     @csrf
                     <div class="row">
                         <div class="col-md-12">
-                            <div class="profile-img-wrap edit-img">
+                            {{-- <div class="profile-img-wrap edit-img">
                                 <img class="inline-block" src="assets/img/profiles/avatar-02.jpg" alt="user">
                                 <div class="fileupload btn">
                                     <span class="btn-text">editar</span>
-                                    {{-- <input class="upload" type="file" name="profile_image"> --}}
+                                    <input class="upload" type="file" name="profile_image">
                                 </div>
-                            </div>
+                            </div> --}}
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <input class="form-control" type="file" name="profile_image">
-                                        <label>Nombre(s)</label>
-                                        <input type="text" class="form-control" value="{{ $user->name }}" name="name">
+                                        <label>Nombre(s) <span class="text-danger">*</span></label>
+                                        <input type="text" class="form-control" value="{{ $user->name }}" name="name"
+                                            required>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
@@ -885,15 +885,6 @@
                                             value="{{ $additionalUserInfo->birthday }}" name="birthday">
                                     </div>
                                 </div>
-                                {{-- <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label>Birth Date</label>
-                                        <div class="cal-icon">
-                                            <input class="form-control datetimepicker" type="text"
-                                                value="{{ $additionalUserInfo->birthday }}" name="birthday">
-                                        </div>
-                                    </div>
-                                </div> --}}
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label>Genero</label>
@@ -965,6 +956,12 @@
                                     value="{{ $additionalUserInfo->departure_dates }}" name="departure_dates">
                             </div>
                         </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Foto de perfil</label>
+                                <input class="form-control" type="file" name="profile_image">
+                            </div>
+                        </div>
                         {{-- <div class="col-md-6">
                             <div class="form-group">
                                 <label>Department <span class="text-danger">*</span></label>
@@ -1009,7 +1006,7 @@
 </div>
 <!-- /Profile Modal -->
 
-<!-- Personal Info Modal -->
+<!-- Assign company -->
 <div id="personal_info_modal" class="modal custom-modal fade" role="dialog">
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
@@ -1026,7 +1023,7 @@
                         <div class="col-md-10">
                             <div class="form-group">
                                 <label>Empresas</label>
-                                <select name="company" class="form-control">
+                                <select name="company" class="form-control" required>
                                     <option value="">Selecciona una opción</option>
                                     @foreach ($companies as $company)
                                     <option value="{{ $company->id }}">{{ $company->name }}</option>
@@ -1036,7 +1033,7 @@
                         </div>
                     </div>
                     <div class="submit-section">
-                        <button class="btn btn-primary submit-btn">Submit</button>
+                        <button class="btn btn-primary submit-btn">Asignar</button>
                     </div>
                 </form>
             </div>

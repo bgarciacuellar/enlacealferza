@@ -119,8 +119,8 @@
                         </div>
                     </div>
                     <div class="submit-section">
-                        <button class="btn btn-primary cancel-btn" data-bs-dismiss="modal"
-                            aria-label="Close">Cancel</button>
+                        <button class="btn btn-primary cancel-btn" data-bs-dismiss="modal" aria-label="Close"
+                            type="button">Cancel</button>
                         <button type="submit" class="btn btn-primary submit-btn">Agregar</button>
                     </div>
                 </form>
@@ -147,8 +147,8 @@
                                 <button type="submit" class="btn btn-primary continue-btn">Eliminar</button>
                             </div>
                             <div class="col-6">
-                                <a href="javascript:void(0);" data-bs-dismiss="modal"
-                                    class="btn btn-primary cancel-btn">Cancel</a>
+                                <button type="button" data-bs-dismiss="modal"
+                                    class="btn btn-primary cancel-btn">Cancel</button>
                             </div>
                         </div>
                     </form>

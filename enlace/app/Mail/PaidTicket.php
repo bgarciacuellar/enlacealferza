@@ -10,15 +10,21 @@ use Illuminate\Queue\SerializesModels;
 class PaidTicket extends Mailable
 {
     use Queueable, SerializesModels;
+    public $subject = "Nómina Pagada";
+    public $name;
+    public $ticket;
+    public $company;
 
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct($name, $ticket, $company)
     {
-        //
+        $this->name = $name;
+        $this->ticket = $ticket;
+        $this->company = $company;
     }
 
     /**

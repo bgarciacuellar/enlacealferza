@@ -64,7 +64,6 @@
                             <th>Fecha limite</th>
                             <th class="text-nowrap">Empresa</th>
                             <th>Estatus</th>
-                            <th class="text-end no-sort">Eliminar</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -79,10 +78,6 @@
                             <td>{{ $ticket['company'] }}</td>
                             <td>
                                 <span class="role-info role-bg-one">{{ $ticket['status'] }}</span>
-                            </td>
-                            <td class="text-end ico-sec">
-                                <a href="#" data-bs-toggle="modal" data-bs-target="#delete_employee"><i
-                                        class="far fa-trash-alt"></i></a>
                             </td>
                         </tr>
                         @endforeach
@@ -110,14 +105,25 @@
                     <div class="row">
                         <div class="col-sm-6">
                             <div class="form-group">
-                                <label class="col-form-label">Fecha limite <span class="text-danger">*</span></label>
-                                <input class="form-control" type="date" name="limit_date">
+                                <label class="col-form-label">Empresa<span class="text-danger">*</span></label>
+                                <select class="form-control" name="company" required>
+                                    <option value="">Selecciona una opción</option>
+                                    @foreach ($companies as $company)
+                                    <option value="{{ $company->id }}">{{ $company->name }}</option>
+                                    @endforeach
+                                </select>
                             </div>
                         </div>
                         <div class="col-sm-6">
                             <div class="form-group">
-                                <label class="col-form-label">Categoría <span class="text-danger">*</span></label>
-                                <select class="form-control" name="category" id="">
+                                <label class="col-form-label">Fecha limite <span class="text-danger">*</span></label>
+                                <input class="form-control" type="date" name="limit_date" required>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="col-form-label">Tipo de nómina <span class="text-danger">*</span></label>
+                                <select class="form-control" name="category" required>
                                     <option value="">Selecciona una opción</option>
                                     @foreach ($payrolls as $payroll)
                                     <option value="{{ $payroll->type }}">{{ $payroll->type . " - " . $payroll->name }}
@@ -128,11 +134,12 @@
                         </div>
                         <div class="col-sm-6">
                             <div class="form-group">
-                                <label class="col-form-label">Empresa<span class="text-danger">*</span></label>
-                                <select class="form-control" name="company" id="">
+                                <label class="col-form-label">Periodo de pago <span class="text-danger">*</span></label>
+                                <select class="form-control" name="payment_period" required>
                                     <option value="">Selecciona una opción</option>
-                                    @foreach ($companies as $company)
-                                    <option value="{{ $company->id }}">{{ $company->name }}</option>
+                                    @foreach ($paymentsPeriod as $paymentPeriod)
+                                    <option value="{{ $paymentPeriod }}">{{ $paymentPeriod }}
+                                    </option>
                                     @endforeach
                                 </select>
                             </div>

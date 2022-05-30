@@ -843,7 +843,8 @@
                         <div class="col-sm-6">
                             <div class="form-group">
                                 <label class="col-form-label">Nombre <span class="text-danger">*</span></label>
-                                <input class="form-control" name="name" type="text" value="{{ $company->name }}">
+                                <input class="form-control" name="name" type="text" value="{{ $company->name }}"
+                                    required>
                             </div>
                         </div>
                         <div class="col-sm-6">
@@ -854,7 +855,7 @@
                         </div>
                         <div class="col-sm-6">
                             <div class="form-group">
-                                <label class="col-form-label">Teléfono <span class="text-danger">*</span></label>
+                                <label class="col-form-label">Teléfono</label>
                                 <input class="form-control" name="phone_number" type="text"
                                     value="{{ $company->phone_number }}">
                             </div>
@@ -867,9 +868,9 @@
                         </div>
                     </div>
                     <div class="submit-section">
-                        <button class="btn btn-primary cancel-btn" data-bs-dismiss="modal"
-                            aria-label="Close">Cancel</button>
-                        <button type="submit" class="btn btn-primary submit-btn">Agregar</button>
+                        <button class="btn btn-primary cancel-btn" data-bs-dismiss="modal" aria-label="Close"
+                            type="button">Cancel</button>
+                        <button type="submit" class="btn btn-primary submit-btn">Actualizar</button>
                     </div>
                 </form>
             </div>
@@ -893,20 +894,20 @@
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label>Nombre</label>
-                                <input type="text" class="form-control" name="name">
+                                <label>Nombre <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" name="name" required>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label>Correo</label>
-                                <input class="form-control" type="text" name="email">
+                                <label>Correo <span class="text-danger">*</span></label>
+                                <input class="form-control" type="text" name="email" required>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label>Rol</label>
-                                <select class="form-control" name="role">
+                                <label>Rol <span class="text-danger">*</span></label>
+                                <select class="form-control" name="role" required>
                                     <option value="">Selecciona el tipo de rol</option>
                                     @foreach ($roles as $role)
                                     <option value="{{ $role }}">{{ ucfirst($role) }}</option>
@@ -917,12 +918,12 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label>Contraseña <span class="text-danger">*</span></label>
-                                <input class="form-control" type="password" name="password">
+                                <input class="form-control" type="password" name="password" required>
                             </div>
                         </div>
                     </div>
                     <div class="submit-section">
-                        <button class="btn btn-primary submit-btn">Submit</button>
+                        <button class="btn btn-primary submit-btn">Crear</button>
                     </div>
                 </form>
             </div>
@@ -947,20 +948,20 @@
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label>Nombre</label>
-                                <input type="text" class="form-control update-employee-name" name="name">
+                                <label>Nombre <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control update-employee-name" name="name" required>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label>Correo</label>
-                                <input class="form-control update-employee-email" type="text" name="email">
+                                <label>Correo <span class="text-danger">*</span></label>
+                                <input class="form-control update-employee-email" type="text" name="email" required>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label>Rol</label>
-                                <select class="form-control update-employee-role" name="role">
+                                <label>Rol <span class="text-danger">*</span></label>
+                                <select class="form-control update-employee-role" name="role" required>
                                     <option value="">Selecciona el tipo de rol</option>
                                     @foreach ($roles as $role)
                                     <option value="{{ $role }}">{{ ucfirst($role) }}</option>
@@ -968,12 +969,6 @@
                                 </select>
                             </div>
                         </div>
-                        {{-- <div class="col-md-6">
-                            <div class="form-group">
-                                <label>Contraseña <span class="text-danger">*</span></label>
-                                <input class="form-control" type="password" name="password">
-                            </div>
-                        </div> --}}
                     </div>
                     <div class="submit-section">
                         <button class="btn btn-primary submit-btn">Actualizar</button>
@@ -1000,14 +995,22 @@
                     <div class="row">
                         <div class="col-sm-6">
                             <div class="form-group">
+                                <label class="col-form-label">Empresa<span class="text-danger">*</span></label>
+                                <select class="form-control" name="company" required>
+                                    <option value="{{ $company->id }}">{{ $company->name }}</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
                                 <label class="col-form-label">Fecha limite <span class="text-danger">*</span></label>
                                 <input class="form-control" type="date" name="limit_date">
                             </div>
                         </div>
                         <div class="col-sm-6">
                             <div class="form-group">
-                                <label class="col-form-label">Categoría <span class="text-danger">*</span></label>
-                                <select class="form-control" name="category" id="">
+                                <label class="col-form-label">Tipo de nómina <span class="text-danger">*</span></label>
+                                <select class="form-control" name="category" required>
                                     <option value="">Selecciona una opción</option>
                                     @foreach ($payrolls as $payroll)
                                     <option value="{{ $payroll->type }}">{{ $payroll->type . " - " . $payroll->name }}
@@ -1018,9 +1021,13 @@
                         </div>
                         <div class="col-sm-6">
                             <div class="form-group">
-                                <label class="col-form-label">Empresa<span class="text-danger">*</span></label>
-                                <select class="form-control" name="company" id="">
-                                    <option value="{{ $company->id }}">{{ $company->name }}</option>
+                                <label class="col-form-label">Periodo de pago <span class="text-danger">*</span></label>
+                                <select class="form-control" name="payment_period" required>
+                                    <option value="">Selecciona una opción</option>
+                                    @foreach ($paymentsPeriod as $paymentPeriod)
+                                    <option value="{{ $paymentPeriod }}">{{ $paymentPeriod }}
+                                    </option>
+                                    @endforeach
                                 </select>
                             </div>
                         </div>
@@ -1033,8 +1040,8 @@
                     </div>
 
                     <div class="submit-section">
-                        <button class="btn btn-primary cancel-btn" data-bs-dismiss="modal"
-                            aria-label="Close">Cancel</button>
+                        <button class="btn btn-primary cancel-btn" data-bs-dismiss="modal" aria-label="Close"
+                            type="button">Cancel</button>
                         <button type="submit" class="btn btn-primary submit-btn">Crear</button>
                     </div>
                 </form>
@@ -1309,8 +1316,8 @@
                                 <button type="submit" class="btn btn-primary continue-btn">Eliminar</button>
                             </div>
                             <div class="col-6">
-                                <a href="javascript:void(0);" data-bs-dismiss="modal"
-                                    class="btn btn-primary cancel-btn">Cancel</a>
+                                <button type="button" data-bs-dismiss="modal"
+                                    class="btn btn-primary cancel-btn">Cancel</button>
                             </div>
                         </div>
                     </form>

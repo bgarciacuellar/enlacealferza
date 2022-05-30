@@ -24,6 +24,7 @@ use Illuminate\Support\Facades\Mail;
 class TicketController extends Controller
 {
     use File, helpers;
+    public $paymentsPeriod = ['semanal', 'quincenal', 'mensual'];
 
     function __construct()
     {
@@ -35,6 +36,7 @@ class TicketController extends Controller
         $ticketsArray = Ticket::all()->toArray();
         $companies = Company::all();
         $payrolls = PayrollType::all();
+        $paymentsPeriod = $this->paymentsPeriod;
 
         $ticketsMap = function ($ticketItem) {
             $company = Company::where('id', $ticketItem['company'])->first();
@@ -51,7 +53,7 @@ class TicketController extends Controller
         $tickets = array_map($ticketsMap, $ticketsArray);
 
 
-        return view('ticket.list', compact('tickets', 'companies', 'payrolls'));
+        return view('ticket.list', compact('tickets', 'companies', 'payrolls', 'paymentsPeriod'));
     }
 
     public function create(Request $request)
@@ -62,6 +64,7 @@ class TicketController extends Controller
                 'company' => 'required',
                 'limit_date' => 'required',
                 'comment' => 'nullable',
+                'payment_period' => 'required',
             ],
         );
 
@@ -73,6 +76,7 @@ class TicketController extends Controller
             'limit_date' => $request->limit_date,
             'category' => $request->category,
             'company' => $request->company,
+            'payment_period' => $request->payment_period,
         ]);
 
         if (trim($request->comment)) {
@@ -104,6 +108,7 @@ class TicketController extends Controller
         $ticket->statusString = $this->statusConvert($ticket->status);
         $company = Company::findOrFail($ticket->company);
         $payrolls = PayrollType::all();
+        $paymentsPeriod = $this->paymentsPeriod;
 
         $ticketFilesHistoryArray = TicketFileHistory::where('ticket_id', $ticketId)->orderBy('id', 'DESC')->get()->toArray();
         $ticketFilesHistoryMap = function ($ticketFileHistoryItem) {
@@ -134,7 +139,7 @@ class TicketController extends Controller
         $ticketowner = User::where('id', $ticket->user_id)->first();
         $ticketownerAdditionalInfo = AdditionalUserInfo::where('id', $ticket->user_id)->first();
 
-        return view('ticket.details', compact('ticket', 'ticketComments', 'ticketFilesHistory', 'ticketowner', 'ticketownerAdditionalInfo', 'company', 'payrolls'));
+        return view('ticket.details', compact('ticket', 'ticketComments', 'ticketFilesHistory', 'ticketowner', 'ticketownerAdditionalInfo', 'company', 'payrolls', 'paymentsPeriod'));
     }
 
     public function uploadFileToRecord(Request $request, $ticket)
@@ -206,6 +211,7 @@ class TicketController extends Controller
             [
                 'category' => 'required',
                 'limit_date' => 'required',
+                'payment_period' => 'required',
             ],
         );
 
@@ -214,6 +220,7 @@ class TicketController extends Controller
         $updateTicket->update([
             'category' => $request->category,
             'limit_date' => $request->limit_date,
+            'payment_period' => $request->payment_period,
         ]);
 
         return back()->with('success', 'Ticket Modificado');
@@ -229,17 +236,25 @@ class TicketController extends Controller
 
         return back()->with('success', 'Siguiente Paso');
     }
-    public function lastStep($id)
+
+    public function lastStep(Request $request, $id)
     {
+        $request->validate([
+            "comment" => "required"
+        ]);
+
         $ticket = Ticket::findOrFail($id);
+        $currentUser = Auth::user();
 
         $ticket->update([
             'status' => $ticket->status - 1,
         ]);
 
-        if ($ticket->status == 3) {
-            # code...
-        }
+        TicketComment::create([
+            'user_id' => $currentUser->id,
+            'ticket_id' => $ticket->id,
+            'comment' => $request->comment,
+        ]);
 
         return back()->with('success', 'Paso Anterior');
     }
