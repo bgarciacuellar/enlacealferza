@@ -60,7 +60,7 @@
                 <table class="table table-striped custom-table datatable">
                     <thead>
                         <tr>
-                            <th>Categoría</th>
+                            <th>Tipo de nómina</th>
                             <th>Fecha limite</th>
                             <th class="text-nowrap">Empresa</th>
                             <th>Estatus</th>
@@ -107,7 +107,7 @@
                             <div class="form-group">
                                 <label class="col-form-label">Empresa<span class="text-danger">*</span></label>
                                 <select class="form-control" name="company" required>
-                                    <option value="">Selecciona una opción</option>
+                                    <option value="">Selecciona una empresa</option>
                                     @foreach ($companies as $company)
                                     <option value="{{ $company->id }}">{{ $company->name }}</option>
                                     @endforeach
@@ -116,7 +116,8 @@
                         </div>
                         <div class="col-sm-6">
                             <div class="form-group">
-                                <label class="col-form-label">Fecha limite <span class="text-danger">*</span></label>
+                                <label class="col-form-label">Fecha limite de incidencia <span
+                                        class="text-danger">*</span></label>
                                 <input class="form-control" type="date" name="limit_date" required>
                             </div>
                         </div>
@@ -124,7 +125,7 @@
                             <div class="form-group">
                                 <label class="col-form-label">Tipo de nómina <span class="text-danger">*</span></label>
                                 <select class="form-control" name="category" required>
-                                    <option value="">Selecciona una opción</option>
+                                    <option value="">Selecciona un tipo de nómina</option>
                                     @foreach ($payrolls as $payroll)
                                     <option value="{{ $payroll->type }}">{{ $payroll->type . " - " . $payroll->name }}
                                     </option>
@@ -136,7 +137,7 @@
                             <div class="form-group">
                                 <label class="col-form-label">Periodo de pago <span class="text-danger">*</span></label>
                                 <select class="form-control" name="payment_period" required>
-                                    <option value="">Selecciona una opción</option>
+                                    <option value="">Selecciona un periodo de pago</option>
                                     @foreach ($paymentsPeriod as $paymentPeriod)
                                     <option value="{{ $paymentPeriod }}">{{ $paymentPeriod }}
                                     </option>
@@ -154,8 +155,8 @@
 
                     <div class="submit-section">
                         <button class="btn btn-primary cancel-btn" data-bs-dismiss="modal" aria-label="Close"
-                            type="button">Cancel</button>
-                        <button type="submit" class="btn btn-primary submit-btn">Crear</button>
+                            type="button">Cancelar</button>
+                        <button type="submit" class="btn btn-primary submit-btn">Crear incidencia</button>
                     </div>
                 </form>
             </div>
@@ -183,7 +184,7 @@
                             </div>
                             <div class="col-6">
                                 <a href="javascript:void(0);" data-bs-dismiss="modal"
-                                    class="btn btn-primary cancel-btn">Cancel</a>
+                                    class="btn btn-primary cancel-btn">Cancelar</a>
                             </div>
                         </div>
                     </form>

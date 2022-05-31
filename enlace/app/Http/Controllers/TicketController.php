@@ -3,7 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Mail\PaidTicket;
+use App\Mail\PayrollAuthorized;
+use App\Mail\PayrollDenied;
 use App\Mail\TicketCreated;
+use App\Mail\UploadedIncident;
+use App\Mail\UploadedPayroll;
 use App\Mail\UploadFileMail;
 use App\Models\AdditionalUserInfo;
 use App\Models\Company;
@@ -234,6 +238,60 @@ class TicketController extends Controller
             'status' => $ticket->status + 1,
         ]);
 
+        $userCreatedTicket = User::find($ticket->user_id)->first();
+        $company = Company::where('id', $ticket->company)->first('name')->name;
+
+        if ($ticket->status == 2) {
+            $users = CompanyOnCharge::where('company_id', $ticket->company)->get('user_id');
+            $message = new UploadedIncident($userCreatedTicket->name, $ticket->id, $company);
+            $emails = [];
+            foreach ($users as $user) {
+                $employeeEmail = User::where('id', $user->user_id)->where('role', 'nominista')->first('email')->email;
+                if (!$employeeEmail) {
+                    $employeeEmail = User::where('id', $user->user_id)->where('role', 'ejecutivo')->first('email')->email;
+                }
+                if ($employeeEmail) {
+                    $emails[] = $employeeEmail;
+                }
+            }
+            Mail::to($emails)->send($message);
+        } elseif ($ticket->status == 3) {
+            $employees = CompanyEmployee::where('company_id', $ticket->company)->get('user_id');
+            $message = new UploadedPayroll($userCreatedTicket->name, $ticket->id, $company);
+            $emails = [];
+            foreach ($employees as $employee) {
+                $employeeEmail = User::where('id', $employee->user_id)->first('email')->email;
+                $emails[] = $employeeEmail;
+            }
+            Mail::to($emails)->send($message);
+        } elseif ($ticket->status == 4) {
+            $users = CompanyOnCharge::where('company_id', $ticket->company)->get('user_id');
+            $message = new PayrollAuthorized($userCreatedTicket->name, $ticket->id, $company);
+            $emails = [];
+            foreach ($users as $user) {
+                $employeeEmail = User::where('id', $user->user_id)->where('role', 'nominista')->first('email')->email;
+                if (!$employeeEmail) {
+                    $employeeEmail = User::where('id', $user->user_id)->where('role', 'ejecutivo')->first('email')->email;
+                }
+                if (!$employeeEmail) {
+                    $employeeEmail = User::where('id', $user->user_id)->where('role', 'finanzas')->first('email')->email;
+                }
+                if ($employeeEmail) {
+                    $emails[] = $employeeEmail;
+                }
+            }
+            Mail::to($emails)->send($message);
+        } elseif ($ticket->status == 5) {
+            $employees = CompanyEmployee::where('company_id', $ticket->company)->get('user_id');
+            $message = new UploadedPayroll($userCreatedTicket->name, $ticket->id, $company);
+            $emails = [];
+            foreach ($employees as $employee) {
+                $employeeEmail = User::where('id', $employee->user_id)->first('email')->email;
+                $emails[] = $employeeEmail;
+            }
+            Mail::to($emails)->send($message);
+        }
+
         return back()->with('success', 'Siguiente Paso');
     }
 
@@ -255,6 +313,25 @@ class TicketController extends Controller
             'ticket_id' => $ticket->id,
             'comment' => $request->comment,
         ]);
+
+        $userCreatedTicket = User::find($ticket->user_id)->first();
+        $company = Company::where('id', $ticket->company)->first('name')->name;
+
+        if ($ticket->status == 2) {
+            $users = CompanyOnCharge::where('company_id', $ticket->company)->get('user_id');
+            $message = new PayrollDenied($userCreatedTicket->name, $ticket->id, $company);
+            $emails = [];
+            foreach ($users as $user) {
+                $employeeEmail = User::where('id', $user->user_id)->where('role', 'nominista')->first('email')->email;
+                if (!$employeeEmail) {
+                    $employeeEmail = User::where('id', $user->user_id)->where('role', 'ejecutivo')->first('email')->email;
+                }
+                if ($employeeEmail) {
+                    $emails[] = $employeeEmail;
+                }
+            }
+            Mail::to($emails)->send($message);
+        }
 
         return back()->with('success', 'Paso Anterior');
     }

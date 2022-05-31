@@ -60,7 +60,7 @@
                 <table class="table table-striped custom-table datatable">
                     <thead>
                         <tr>
-                            <th>Nombre</th>
+                            <th>Empresa</th>
                             <th>Dirección</th>
                             <th>Teléfono</th>
                             {{-- <th class="text-end no-sort">Deshabilitar</th> --}}
@@ -111,7 +111,8 @@
                     <div class="row">
                         <div class="col-sm-6">
                             <div class="form-group">
-                                <label class="col-form-label">Nombre <span class="text-danger">*</span></label>
+                                <label class="col-form-label">Nombre de la empresa <span
+                                        class="text-danger">*</span></label>
                                 <input class="form-control" name="name" type="text" required>
                             </div>
                         </div>
@@ -136,7 +137,7 @@
                     </div>
                     <div class="submit-section">
                         <button class="btn btn-primary cancel-btn" data-bs-dismiss="modal" aria-label="Close"
-                            type="button">Cancel</button>
+                            type="button">Cancelar</button>
                         <button type="submit" class="btn btn-primary submit-btn">Agregar</button>
                     </div>
                 </form>
@@ -164,7 +165,7 @@
                             </div>
                             <div class="col-6">
                                 <a href="javascript:void(0);" data-bs-dismiss="modal"
-                                    class="btn btn-primary cancel-btn">Cancel</a>
+                                    class="btn btn-primary cancel-btn">Cancelar</a>
                             </div>
                         </div>
                     </form>

@@ -98,19 +98,22 @@
                     <div class="row">
                         <div class="col-sm-6">
                             <div class="form-group">
-                                <label class="col-form-label">Tipo <span class="text-danger">*</span></label>
-                                <input class="form-control" name="type" type="text" value="{{ $payroll->type }}">
+                                <label class="col-form-label">Tipo de nómina<span class="text-danger">*</span></label>
+                                <input class="form-control" name="type" type="text" value="{{ $payroll->type }}"
+                                    required>
                             </div>
                         </div>
                         <div class="col-sm-6">
                             <div class="form-group">
-                                <label class="col-form-label">Nombre</label>
-                                <input class="form-control" name="name" type="text" value="{{ $payroll->name }}">
+                                <label class="col-form-label">Nombre de la nómina <span
+                                        class="text-danger">*</span></label>
+                                <input class="form-control" name="name" type="text" value="{{ $payroll->name }}"
+                                    required>
                             </div>
                         </div>
                         <div class="submit-section">
                             <button class="btn btn-primary cancel-btn" data-bs-dismiss="modal" aria-label="Close"
-                                type="button">Cancel</button>
+                                type="button">Cancelar</button>
                             <button type="submit" class="btn btn-primary submit-btn">Actualizar</button>
                         </div>
                 </form>
@@ -387,7 +390,7 @@
                             </div>
                             <div class="col-6">
                                 <a href="javascript:void(0);" data-bs-dismiss="modal"
-                                    class="btn btn-primary cancel-btn">Cancel</a>
+                                    class="btn btn-primary cancel-btn">Cancelar</a>
                             </div>
                         </div>
                     </form>

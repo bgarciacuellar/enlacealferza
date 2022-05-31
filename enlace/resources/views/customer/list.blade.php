@@ -403,7 +403,7 @@
                     </div> --}}
                     <div class="submit-section">
                         <button class="btn btn-primary cancel-btn" data-bs-dismiss="modal"
-                            aria-label="Close">Cancel</button>
+                            aria-label="Close">Cancelar</button>
                         <button type="submit" class="btn btn-primary submit-btn">Agregar</button>
                     </div>
                 </form>
@@ -696,7 +696,7 @@
                     </div>
                     <div class="submit-section">
                         <button class="btn btn-primary cancel-btn" data-bs-dismiss="modal"
-                            aria-label="Close">Cancel</button>
+                            aria-label="Close">Cancelar</button>
                         <button class="btn btn-primary submit-btn">Submit</button>
                     </div>
                 </form>
@@ -993,7 +993,7 @@
                     </div>
                     <div class="submit-section">
                         <button class="btn btn-primary cancel-btn" data-bs-dismiss="modal"
-                            aria-label="Close">Cancel</button>
+                            aria-label="Close">Cancelar</button>
                         <button class="btn btn-primary submit-btn">Submit</button>
                     </div>
                 </form>
@@ -1022,7 +1022,7 @@
                             </div>
                             <div class="col-6">
                                 <a href="javascript:void(0);" data-bs-dismiss="modal"
-                                    class="btn btn-primary cancel-btn">Cancel</a>
+                                    class="btn btn-primary cancel-btn">Cancelar</a>
                             </div>
                         </div>
                     </form>

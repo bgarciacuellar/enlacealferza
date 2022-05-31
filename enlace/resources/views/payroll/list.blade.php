@@ -60,8 +60,8 @@
                 <table class="table table-striped custom-table datatable">
                     <thead>
                         <tr>
-                            <th>Tipo</th>
-                            <th>Nombre</th>
+                            <th>Tipo de nómina</th>
+                            <th>Nombre la nómina</th>
                             <th>Eliminar</th>
                         </tr>
                     </thead>
@@ -107,20 +107,20 @@
                     <div class="row">
                         <div class="col-sm-6">
                             <div class="form-group">
-                                <label class="col-form-label">Tipo <span class="text-danger">*</span></label>
-                                <input class="form-control" name="type" type="text">
+                                <label class="col-form-label">Tipo de nómina<span class="text-danger">*</span></label>
+                                <input class="form-control" name="type" type="text" required>
                             </div>
                         </div>
                         <div class="col-sm-6">
                             <div class="form-group">
-                                <label class="col-form-label">Nombre</label>
-                                <input class="form-control" name="name" type="text">
+                                <label class="col-form-label">Nombre de la nómina</label>
+                                <input class="form-control" name="name" type="text" required>
                             </div>
                         </div>
                     </div>
                     <div class="submit-section">
                         <button class="btn btn-primary cancel-btn" data-bs-dismiss="modal" aria-label="Close"
-                            type="button">Cancel</button>
+                            type="button">Cancelar</button>
                         <button type="submit" class="btn btn-primary submit-btn">Agregar</button>
                     </div>
                 </form>
@@ -148,7 +148,7 @@
                             </div>
                             <div class="col-6">
                                 <button type="button" data-bs-dismiss="modal"
-                                    class="btn btn-primary cancel-btn">Cancel</button>
+                                    class="btn btn-primary cancel-btn">Cancelar</button>
                             </div>
                         </div>
                     </form>

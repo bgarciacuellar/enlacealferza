@@ -1000,7 +1000,7 @@
 
                     <div class="submit-section">
                         <button class="btn btn-primary cancel-btn" data-bs-dismiss="modal"
-                            aria-label="Close">Cancel</button>
+                            aria-label="Close">Cancelar</button>
                         <button type="submit" class="btn btn-primary submit-btn">Editar</button>
                     </div>
                 </form>

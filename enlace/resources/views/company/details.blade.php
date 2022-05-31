@@ -869,7 +869,7 @@
                     </div>
                     <div class="submit-section">
                         <button class="btn btn-primary cancel-btn" data-bs-dismiss="modal" aria-label="Close"
-                            type="button">Cancel</button>
+                            type="button">Cancelar</button>
                         <button type="submit" class="btn btn-primary submit-btn">Actualizar</button>
                     </div>
                 </form>
@@ -1041,7 +1041,7 @@
 
                     <div class="submit-section">
                         <button class="btn btn-primary cancel-btn" data-bs-dismiss="modal" aria-label="Close"
-                            type="button">Cancel</button>
+                            type="button">Cancelar</button>
                         <button type="submit" class="btn btn-primary submit-btn">Crear</button>
                     </div>
                 </form>
@@ -1317,7 +1317,7 @@
                             </div>
                             <div class="col-6">
                                 <button type="button" data-bs-dismiss="modal"
-                                    class="btn btn-primary cancel-btn">Cancel</button>
+                                    class="btn btn-primary cancel-btn">Cancelar</button>
                             </div>
                         </div>
                     </form>

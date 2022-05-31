@@ -7,10 +7,10 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
-class UploadedIncident extends Mailable
+class UploadedPayroll extends Mailable
 {
     use Queueable, SerializesModels;
-    public $subject = "Incidencia cargada";
+    public $subject = "Nómina cargada";
     public $name;
     public $ticket;
     public $company;
@@ -33,6 +33,6 @@ class UploadedIncident extends Mailable
      */
     public function build()
     {
-        return $this->view('emails.uploaded_incident');
+        return $this->view('emails.payroll_denied');
     }
 }
