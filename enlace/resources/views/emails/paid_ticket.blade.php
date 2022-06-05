@@ -390,7 +390,8 @@
                                                                     <h2
                                                                         style="Margin:0;line-height:24px;mso-line-height-rule:exactly;font-family:lato, 'helvetica neue', helvetica, arial, sans-serif;font-size:20px;font-style:normal;font-weight:bold;color:#0d2754">
                                                                         <strong>La nómina entró en proceso de
-                                                                            pago.</strong></h2>
+                                                                            pago.</strong>
+                                                                    </h2>
                                                                 </td>
                                                             </tr>
                                                             <tr style="border-collapse:collapse">
@@ -400,20 +401,23 @@
                                                                         style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:helvetica, 'helvetica neue', arial, verdana, sans-serif;line-height:23px;color:#555555;font-size:15px">
                                                                         Le informamos que la nómina ha sido pagada con
                                                                         éxito. Por favor, conéctese a la plataforma para
-                                                                        descargar los comprobantes.</p>
+                                                                        descargar los comprobantes..</p>
                                                                     <p
                                                                         style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:helvetica, 'helvetica neue', arial, verdana, sans-serif;line-height:23px;color:#555555;font-size:15px">
-                                                                        <br></p>
+                                                                        <br>
+                                                                    </p>
                                                                     <p
                                                                         style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:helvetica, 'helvetica neue', arial, verdana, sans-serif;line-height:23px;color:#555555;font-size:15px">
                                                                         <strong>Número de ticket:</strong> {{ $ticket }}
                                                                     </p>
                                                                     <p
                                                                         style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:helvetica, 'helvetica neue', arial, verdana, sans-serif;line-height:23px;color:#555555;font-size:15px">
-                                                                        <strong>Empresa: </strong>{{ $user→name }}</p>
+                                                                        <strong>Empresa: </strong>{{ $user→name }}
+                                                                    </p>
                                                                     <p
                                                                         style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:helvetica, 'helvetica neue', arial, verdana, sans-serif;line-height:23px;color:#555555;font-size:15px">
-                                                                        <strong>Creado por: </strong>{{ $name }}</p>
+                                                                        <strong>Creado por: </strong>{{ $name }}
+                                                                    </p>
                                                                 </td>
                                                             </tr>
                                                             <tr style="border-collapse:collapse">

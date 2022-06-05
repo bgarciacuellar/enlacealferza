@@ -36,7 +36,7 @@
                                                 $additionalUserInfo->phone_number : '-' }}</a></div>
                                     </li>
                                     <li>
-                                        <div class="title">Correo electrónico:</div>
+                                        <div class="title">Correo electrónico: </div>
                                         <div class="text"><a href="">{{ $user->email }}</a></div>
                                     </li>
                                     <li>
@@ -51,8 +51,13 @@
                                     </li> --}}
                                     <li>
                                         <div class="title">Genero:</div>
-                                        <div class="text">{{ $additionalUserInfo->gender ? $additionalUserInfo->gender :
-                                            '-' }}</div>
+                                        <div class="text">
+                                            @if ($additionalUserInfo->gender)
+                                            {{ $additionalUserInfo->gender == "female" ? "Mujer" : "Hombre" }}
+                                            @else
+                                            -
+                                            @endif
+                                        </div>
                                     </li>
                                     {{-- <li>
                                         <div class="title">Reports to:</div>

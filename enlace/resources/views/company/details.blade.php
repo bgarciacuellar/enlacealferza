@@ -103,7 +103,7 @@
             <div class="col-md-6 d-flex">
                 <div class="card profile-box flex-fill">
                     <div class="card-body">
-                        <h3 class="card-title">Ejecutivos de cuenta <a href="#" class="edit-icon" data-bs-toggle="modal"
+                        <h3 class="card-title">Empleados <a href="#" class="edit-icon" data-bs-toggle="modal"
                                 data-bs-target="#create_employee"><i class="fas fa-plus-circle"></i></a></h3>
                         <table class="table table-striped custom-table datatable">
                             <thead>
@@ -141,14 +141,14 @@
                         <table class="table table-striped custom-table datatable">
                             <thead>
                                 <tr>
-                                    <th>Nombre</th>
-                                    <th>Correo</th>
+                                    <th>Estatus de incidencias</th>
+                                    <th>Fecha limite</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @foreach ($incidents as $incident)
                                 <tr>
-                                    <td>{{ $incident->status }}</td>
+                                    <td>{{ $incident->statusString }}</td>
                                     <td>{{ $incident->limit_date->format('d/m/Y') }}</td>
                                 </tr>
                                 @endforeach
@@ -883,7 +883,7 @@
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Create ejecutivo de cuenta</h5>
+                <h5 class="modal-title">Crear Empleado</h5>
                 <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                     <i class="fas fa-times"></i>
                 </button>
@@ -900,7 +900,7 @@
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label>Correo <span class="text-danger">*</span></label>
+                                <label>Correo electrónico: <span class="text-danger">*</span></label>
                                 <input class="form-control" type="text" name="email" required>
                             </div>
                         </div>
@@ -936,7 +936,7 @@
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Actualizar ejecutivo de cuenta</h5>
+                <h5 class="modal-title">Actualizar Empleado</h5>
                 <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                     <i class="fas fa-times"></i>
                 </button>
@@ -954,7 +954,7 @@
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label>Correo <span class="text-danger">*</span></label>
+                                <label>Correo electrónico: <span class="text-danger">*</span></label>
                                 <input class="form-control update-employee-email" type="text" name="email" required>
                             </div>
                         </div>
@@ -1025,7 +1025,7 @@
                                 <select class="form-control" name="payment_period" required>
                                     <option value="">Selecciona una opción</option>
                                     @foreach ($paymentsPeriod as $paymentPeriod)
-                                    <option value="{{ $paymentPeriod }}">{{ $paymentPeriod }}
+                                    <option value="{{ $paymentPeriod }}">{{ ucfirst($paymentPeriod) }}
                                     </option>
                                     @endforeach
                                 </select>

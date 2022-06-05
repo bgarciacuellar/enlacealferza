@@ -71,8 +71,8 @@
                         <tr>
                             <td>
                                 <h2 class="table-avatar">
-                                    {{-- <a href="{{ route('admin.userDetails', $user['id']) }}" class="avatar"><img
-                                            alt="" src="assets/img/profiles/avatar-02.jpg"></a> --}}
+                                    <a href="{{ route('company.details', $company->id) }}" class="avatar"><img alt=""
+                                            src="{{ $company->logo ? asset('storage/logos/' . $company->logo) :  asset('assets/img/profiles/avatar-02.jpg')}}"></a>
                                     <a href="{{ route('company.details', $company->id) }}">{{ $company->name }}</a>
                                 </h2>
                             </td>

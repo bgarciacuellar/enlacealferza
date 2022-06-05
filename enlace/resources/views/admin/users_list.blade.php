@@ -86,7 +86,8 @@
                         <tr>
                             <td>
                                 <h2 class="table-avatar">
-                                    <a href="{{ route('admin.userDetails', $user['id']) }}" class="avatar"><img alt=""
+                                    <a href="{{ route('admin.userDetails', $user['id']) }}" class="avatar"><img
+                                            alt="profile_image"
                                             src="{{ asset('/storage/profile_images/' . $user['profile_image'])}}"></a>
                                     <a href="{{ route('admin.userDetails', $user['id']) }}">{{ $user['name'] }} <span>{{
                                             $user['position'] }}</span></a>
@@ -144,8 +145,8 @@
                         </div>
                         <div class="col-sm-6">
                             <div class="form-group">
-                                <label class="col-form-label">Id de empleado <span class="text-danger">*</span></label>
-                                <input class="form-control" name="employee_id" type="text" required>
+                                <label class="col-form-label">Id de empleado </label>
+                                <input class="form-control" name="employee_id" type="text">
                             </div>
                         </div>
                         <div class="col-sm-6">
@@ -161,7 +162,8 @@
                         </div>
                         <div class="col-sm-4">
                             <div class="form-group">
-                                <label class="col-form-label">Correo <span class="text-danger">*</span></label>
+                                <label class="col-form-label">Correo electrónico: <span
+                                        class="text-danger">*</span></label>
                                 <input class="form-control" name="email" type="email" required>
                             </div>
                         </div>

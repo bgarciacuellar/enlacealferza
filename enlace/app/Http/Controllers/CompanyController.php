@@ -72,6 +72,9 @@ class CompanyController extends Controller
         $companyEmployees = array_map($companyEmployeesMap, $companyEmployeesArray);
 
         $incidents = Ticket::where("company", $company->id)->orderBy('id', 'DESC')->get();
+        foreach ($incidents as $incident) {
+            $incident->statusString = $this->statusConvert($incident->status);
+        }
         return view('company.details', compact('company', 'companyEmployees', 'incidents', 'roles', 'payrolls', 'paymentsPeriod'));
     }
 
@@ -79,8 +82,8 @@ class CompanyController extends Controller
     {
         $request->validate([
             "name" => "required",
-            "address" => "required",
-            "phone_number" => "required",
+            "address" => "nullable",
+            "phone_number" => "nullable",
             "logo" => "nullable",
         ]);
 

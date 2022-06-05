@@ -141,7 +141,7 @@ class TicketController extends Controller
         $ticketComments = array_map($ticketCommentsMap, $ticketCommentsArray);
 
         $ticketowner = User::where('id', $ticket->user_id)->first();
-        $ticketownerAdditionalInfo = AdditionalUserInfo::where('id', $ticket->user_id)->first();
+        $ticketownerAdditionalInfo = AdditionalUserInfo::where('user_id', $ticket->user_id)->first();
 
         return view('ticket.details', compact('ticket', 'ticketComments', 'ticketFilesHistory', 'ticketowner', 'ticketownerAdditionalInfo', 'company', 'payrolls', 'paymentsPeriod'));
     }
@@ -178,7 +178,7 @@ class TicketController extends Controller
         $company = Company::where('id', $ticketExists->company)->first('name')->name;
 
         $message = new UploadFileMail($currentUser->name, $ticketExists->id, $company, $ticketExists->category);
-        $message->attach(public_path() . '/storage/incidencias/' . $fileCreated->file);
+        // $message->attach(public_path() . '/storage/incidencias/' . $fileCreated->file);
         $emails = [];
         foreach ($employees as $employee) {
             $employeeEmail = User::where('id', $employee->user_id)->first('email')->email;
@@ -243,15 +243,15 @@ class TicketController extends Controller
 
         if ($ticket->status == 2) {
             $users = CompanyOnCharge::where('company_id', $ticket->company)->get('user_id');
-            $message = new UploadedIncident($userCreatedTicket->name, $ticket->id, $company);
+            $message = new UploadedIncident($userCreatedTicket->name, $ticket->id, $company, $ticket->category);
             $emails = [];
             foreach ($users as $user) {
-                $employeeEmail = User::where('id', $user->user_id)->where('role', 'nominista')->first('email')->email;
+                $employeeEmail = User::where('id', $user->user_id)->where('role', 'nominista')->first('email');
                 if (!$employeeEmail) {
-                    $employeeEmail = User::where('id', $user->user_id)->where('role', 'ejecutivo')->first('email')->email;
+                    $employeeEmail = User::where('id', $user->user_id)->where('role', 'ejecutivo')->first('email');
                 }
                 if ($employeeEmail) {
-                    $emails[] = $employeeEmail;
+                    $emails[] = $employeeEmail->email;
                 }
             }
             Mail::to($emails)->send($message);
@@ -260,8 +260,10 @@ class TicketController extends Controller
             $message = new UploadedPayroll($userCreatedTicket->name, $ticket->id, $company);
             $emails = [];
             foreach ($employees as $employee) {
-                $employeeEmail = User::where('id', $employee->user_id)->first('email')->email;
-                $emails[] = $employeeEmail;
+                $employeeEmail = User::where('id', $employee->user_id)->first('email');
+                if ($employeeEmail) {
+                    $emails[] = $employeeEmail->email;
+                }
             }
             Mail::to($emails)->send($message);
         } elseif ($ticket->status == 4) {
@@ -269,15 +271,15 @@ class TicketController extends Controller
             $message = new PayrollAuthorized($userCreatedTicket->name, $ticket->id, $company);
             $emails = [];
             foreach ($users as $user) {
-                $employeeEmail = User::where('id', $user->user_id)->where('role', 'nominista')->first('email')->email;
+                $employeeEmail = User::where('id', $user->user_id)->where('role', 'nominista')->first('email');
                 if (!$employeeEmail) {
-                    $employeeEmail = User::where('id', $user->user_id)->where('role', 'ejecutivo')->first('email')->email;
+                    $employeeEmail = User::where('id', $user->user_id)->where('role', 'ejecutivo')->first('email');
                 }
                 if (!$employeeEmail) {
-                    $employeeEmail = User::where('id', $user->user_id)->where('role', 'finanzas')->first('email')->email;
+                    $employeeEmail = User::where('id', $user->user_id)->where('role', 'finanzas')->first('email');
                 }
                 if ($employeeEmail) {
-                    $emails[] = $employeeEmail;
+                    $emails[] = $employeeEmail->email;
                 }
             }
             Mail::to($emails)->send($message);
@@ -286,8 +288,10 @@ class TicketController extends Controller
             $message = new UploadedPayroll($userCreatedTicket->name, $ticket->id, $company);
             $emails = [];
             foreach ($employees as $employee) {
-                $employeeEmail = User::where('id', $employee->user_id)->first('email')->email;
-                $emails[] = $employeeEmail;
+                $employeeEmail = User::where('id', $employee->user_id)->first('email');
+                if ($employeeEmail) {
+                    $emails[] = $employeeEmail->email;
+                }
             }
             Mail::to($emails)->send($message);
         }
@@ -322,12 +326,12 @@ class TicketController extends Controller
             $message = new PayrollDenied($userCreatedTicket->name, $ticket->id, $company);
             $emails = [];
             foreach ($users as $user) {
-                $employeeEmail = User::where('id', $user->user_id)->where('role', 'nominista')->first('email')->email;
+                $employeeEmail = User::where('id', $user->user_id)->where('role', 'nominista')->first('email');
                 if (!$employeeEmail) {
-                    $employeeEmail = User::where('id', $user->user_id)->where('role', 'ejecutivo')->first('email')->email;
+                    $employeeEmail = User::where('id', $user->user_id)->where('role', 'ejecutivo')->first('email');
                 }
                 if ($employeeEmail) {
-                    $emails[] = $employeeEmail;
+                    $emails[] = $employeeEmail->email;
                 }
             }
             Mail::to($emails)->send($message);

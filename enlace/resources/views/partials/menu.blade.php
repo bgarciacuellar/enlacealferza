@@ -283,12 +283,12 @@
                             home
                         </span>
                     </a>
-                    <a class="nav-link" id="v-pills-apps-tab" title="Alferza Jobs" href="https://www.alferzajobs.com/"
-                        target="_blank">
+                    {{-- <a class="nav-link" id="v-pills-apps-tab" title="Apps" data-bs-toggle="pill"
+                        href="#v-pills-apps" role="tab" aria-controls="v-pills-apps" aria-selected="false">
                         <span class="material-icons-outlined">
-                            work_outline
+                            dashboard
                         </span>
-                    </a>{{--
+                    </a>
                     <a class="nav-link" id="v-pills-employees-tab" title="Employees" data-bs-toggle="pill"
                         href="#v-pills-employees" role="tab" aria-controls="v-pills-employees" aria-selected="false">
                         <span class="material-icons-outlined">
@@ -505,9 +505,6 @@
                             </li>
                             <li>
                                 <a href="{{ route('company.list') }}" class="active">Empresa</a>
-                            </li>
-                            <li>
-                                <a href="{{ route('payroll.list') }}" class="active">Nóminas</a>
                             </li>
                         </ul>
                     </div>

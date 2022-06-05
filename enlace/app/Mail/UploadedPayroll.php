@@ -33,6 +33,6 @@ class UploadedPayroll extends Mailable
      */
     public function build()
     {
-        return $this->view('emails.payroll_denied');
+        return $this->view('emails.uploaded_payroll');
     }
 }

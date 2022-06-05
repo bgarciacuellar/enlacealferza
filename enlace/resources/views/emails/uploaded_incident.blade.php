@@ -384,8 +384,7 @@
                                 <td align="left" style="padding:0;Margin:0;padding-top:5px;padding-bottom:15px">
                                   <h2
                                     style="Margin:0;line-height:24px;mso-line-height-rule:exactly;font-family:lato, 'helvetica neue', helvetica, arial, sans-serif;font-size:20px;font-style:normal;font-weight:bold;color:#0d2754">
-                                    <strong>Se ha cargado un archivo al ticket:&nbsp;&nbsp;{{
-                                      $user→Ticket&nbsp;}}</strong>
+                                    <strong>Se ha cargado un archivo al ticket:&nbsp;&nbsp;{{ $ticket }}</strong>
                                   </h2>
                                 </td>
                               </tr>

@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Models\AdditionalUserInfo;
 use App\Models\Company;
 use App\Models\CompanyOnCharge;
+use App\Models\PayrollType;
 use App\Models\Ticket;
 use App\Traits\helpers;
 use Carbon\Carbon;
@@ -15,11 +16,15 @@ use Carbon\Carbon;
 class UserController extends Controller
 {
     use helpers;
+    public $paymentsPeriod = ['semanal', 'quincenal', 'mensual'];
+
     public function ticketList(Request $request)
     {
         $user = Auth::user();
         $myCompaniesArray = CompanyOnCharge::where("user_id", $user->id)->get()->toArray();
         $selectedCompany = $request->has('company') ? $request->company : 0;
+        $paymentsPeriod = $this->paymentsPeriod;
+        $payrolls = PayrollType::all();
         // $companies = Company::all();
 
         $myCompaniesMap = function ($myCompanyItem) {
@@ -36,7 +41,7 @@ class UserController extends Controller
             $ticket->statusString = $this->statusConvert($ticket->status);
         }
 
-        return view('users.ticket.list', compact('myCompanies', 'tickets', 'selectedCompany'));
+        return view('users.ticket.list', compact('myCompanies', 'tickets', 'selectedCompany', 'paymentsPeriod', 'payrolls'));
     }
 
     public function userDetails()

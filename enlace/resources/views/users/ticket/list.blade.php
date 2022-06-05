@@ -73,7 +73,8 @@
         </div>
         <div class="col-md-12">
             <div class="table-responsive">
-                @if ($tickets)
+                @if ($selectedCompany)
+                @if (count($tickets) > 0)
                 <table class="table table-striped custom-table datatable">
                     <thead>
                         <tr>
@@ -103,6 +104,9 @@
                         @endforeach
                     </tbody>
                 </table>
+                @else
+                <h3 class="text-center">No se han generado nóminas</h3>
+                @endif
                 @endif
             </div>
         </div>
@@ -124,40 +128,44 @@
                 <form action="{{ route('ticket.create') }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <div class="row">
-                        {{-- <div class="col-sm-6">
-                            <div class="form-group">
-                                <label class="col-form-label">Estatus <span class="text-danger">*</span></label>
-                                <select class="form-control" name="status">
-                                    <option value="">Selecciona una opción</option>
-                                    <option value="abierto">Abierto</option>
-                                </select>
-                            </div>
-                        </div> --}}
-                        <div class="col-sm-6">
-                            <div class="form-group">
-                                <label class="col-form-label">Fecha limite <span class="text-danger">*</span></label>
-                                <input class="form-control" type="date" name="limit_date">
-                            </div>
-                        </div>
-                        <div class="col-sm-6">
-                            <div class="form-group">
-                                <label class="col-form-label">Categoría <span class="text-danger">*</span></label>
-                                <select class="form-control" name="category" id="">
-                                    <option value="">Selecciona una opción</option>
-                                    <option value="Nomina 1">Nomina 1</option>
-                                    <option value="Nomina 2">Nomina 2</option>
-                                    <option value="Nomina 3">Nomina 3</option>
-                                    <option value="Nomina 4">Nomina 4</option>
-                                </select>
-                            </div>
-                        </div>
                         <div class="col-sm-6">
                             <div class="form-group">
                                 <label class="col-form-label">Empresa<span class="text-danger">*</span></label>
-                                <select class="form-control" name="company" id="">
-                                    <option value="">Selecciona una opción</option>
+                                <select class="form-control" name="company" required>
+                                    <option value="">Selecciona una empresa</option>
                                     @foreach ($myCompanies as $myCompany)
                                     <option value="{{ $myCompany['id'] }}">{{ $myCompany['name'] }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="col-form-label">Fecha limite de incidencia <span
+                                        class="text-danger">*</span></label>
+                                <input class="form-control" type="date" name="limit_date" required>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="col-form-label">Tipo de nómina <span class="text-danger">*</span></label>
+                                <select class="form-control" name="category" required>
+                                    <option value="">Selecciona un tipo de nómina</option>
+                                    @foreach ($payrolls as $payroll)
+                                    <option value="{{ $payroll->type }}">{{ $payroll->type . " - " . $payroll->name }}
+                                    </option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="col-form-label">Periodo de pago <span class="text-danger">*</span></label>
+                                <select class="form-control" name="payment_period" required>
+                                    <option value="">Selecciona un periodo de pago</option>
+                                    @foreach ($paymentsPeriod as $paymentPeriod)
+                                    <option value="{{ $paymentPeriod }}">{{ ucfirst($paymentPeriod) }}
+                                    </option>
                                     @endforeach
                                 </select>
                             </div>

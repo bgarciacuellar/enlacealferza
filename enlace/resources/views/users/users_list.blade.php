@@ -158,7 +158,8 @@
                         </div>
                         <div class="col-sm-4">
                             <div class="form-group">
-                                <label class="col-form-label">Correo <span class="text-danger">*</span></label>
+                                <label class="col-form-label">Correo electrónico: <span
+                                        class="text-danger">*</span></label>
                                 <input class="form-control" name="email" type="email">
                             </div>
                         </div>

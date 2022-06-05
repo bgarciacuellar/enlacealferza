@@ -17,7 +17,7 @@ class CreateCompanyEmployeesTable extends Migration
             $table->id();
             $table->bigInteger('user_id');
             $table->bigInteger('company_id');
-            $table->string('role');
+            $table->string('role')->default('operador');
             $table->integer('is_active')->default(1);
             $table->timestamps();
         });

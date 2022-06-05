@@ -139,7 +139,7 @@
                                 <select class="form-control" name="payment_period" required>
                                     <option value="">Selecciona un periodo de pago</option>
                                     @foreach ($paymentsPeriod as $paymentPeriod)
-                                    <option value="{{ $paymentPeriod }}">{{ $paymentPeriod }}
+                                    <option value="{{ $paymentPeriod }}">{{ ucfirst($paymentPeriod) }}
                                     </option>
                                     @endforeach
                                 </select>

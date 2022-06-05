@@ -62,7 +62,7 @@ class EmployeeController extends Controller
         $ticketComments = array_map($ticketCommentsMap, $ticketCommentsArray);
 
         $ticketowner = User::where('id', $ticket->user_id)->first();
-        $ticketownerAdditionalInfo = AdditionalUserInfo::where('id', $ticket->user_id)->first();
+        $ticketownerAdditionalInfo = AdditionalUserInfo::where('user_id', $ticket->user_id)->first();
 
         return view('employee.ticket.details', compact('ticket', 'ticketComments', 'ticketFileHistory', 'ticketFileUser', 'ticketowner', 'ticketownerAdditionalInfo', 'company'));
     }

@@ -161,7 +161,7 @@
                             </div> --}}
                             <div class="col-6 pb-3">
                                 @if ($ticket->preinvoices)
-                                <a href="{{ asset('storage/incidencias/' . $ticket->preinvoices) }}"
+                                <a href="{{ asset('storage/preinvoice/' . $ticket->preinvoices) }}"
                                     target="_blank"><button class="btn btn-primary mt-3 submit-btn">Descargar <i
                                             class="fas fa-download"></i></button>
                                 </a>
@@ -1032,7 +1032,7 @@
                                     @foreach ($paymentsPeriod as $paymentPeriod)
                                     <option value="{{ $paymentPeriod }}" {{ $ticket->payment_period == $paymentPeriod ?
                                         "selected" : null
-                                        }}>{{ $paymentPeriod }}
+                                        }}>{{ ucfirst($paymentPeriod) }}
                                     </option>
                                     @endforeach
                                 </select>
