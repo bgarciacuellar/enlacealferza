@@ -1,17 +1,21 @@
 @extends('partials.menu-employee')
 
+@section('title')
+Detalles de incidencias
+@endsection
+
 @section('content')
 <div class="mb-4 card mb-0">
     <div class="card-body">
         <div class="row">
             <div class="col-md-12">
                 <div class="profile-view">
-                    <div class="profile-img-wrap">
+                    {{-- <div class="profile-img-wrap">
                         <div class="profile-img">
                             <a href="#"><img alt="" src="{{ asset('img/profiles/avatar-02.jpg')}}"></a>
                         </div>
-                    </div>
-                    <div class="profile-basic">
+                    </div> --}}
+                    <div class="profile-basic ms-0">
                         <div class="row">
                             <div class="col-md-5">
                                 <div class="profile-info-left">

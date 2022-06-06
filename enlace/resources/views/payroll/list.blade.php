@@ -1,7 +1,11 @@
 @extends('partials.menu')
 
-@section('content')
 
+@section('title')
+Tipos de nóminas
+@endsection
+
+@section('content')
 <!-- Page Content -->
 <div class="content container-fluid">
 

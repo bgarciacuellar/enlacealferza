@@ -89,6 +89,7 @@ class AdminController extends Controller
                 'phone_number' => 'nullable',
                 'entry_date' => 'nullable',
                 'departure_dates' => 'nullable',
+                'profile_image' => 'nullable',
             ],
             [
                 'name.required' => 'Es obligatorio  un nombre',

@@ -76,7 +76,7 @@ Empresas
                             <td>
                                 <h2 class="table-avatar">
                                     <a href="{{ route('company.details', $company->id) }}" class="avatar"><img alt=""
-                                            src="{{ $company->logo ? asset('storage/logos/' . $company->logo) :  asset('assets/img/profiles/avatar-02.jpg')}}"></a>
+                                            src="{{ $company->logo ? asset('storage/logos/' . $company->logo) :  asset('img/company-default.jpg')}}"></a>
                                     <a href="{{ route('company.details', $company->id) }}">{{ $company->name }}</a>
                                 </h2>
                             </td>

@@ -1,5 +1,9 @@
 @extends('partials.menu')
 
+@section('title')
+Detalles del tipo de nómina
+@endsection
+
 @section('content')
 <div class="card mb-0 pb-5">
     <div class="card-body">

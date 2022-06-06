@@ -89,8 +89,8 @@ Lista de usuarios
                             <td>
                                 <h2 class="table-avatar">
                                     <a href="{{ route('admin.userDetails', $user['id']) }}" class="avatar"><img
-                                            alt="profile_image"
-                                            src="{{ asset('/storage/profile_images/' . $user['profile_image'])}}"></a>
+                                            alt="profile_image" src="{{ $user['profile_image'] ? asset('/storage/profile_images/' . $user['profile_image']) : 
+                                        asset('/img/user-default.jpg/')}}"></a>
                                     <a href="{{ route('admin.userDetails', $user['id']) }}">{{ $user['name'] }} <span>{{
                                             $user['position'] }}</span></a>
                                 </h2>

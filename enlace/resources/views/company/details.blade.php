@@ -13,7 +13,7 @@ Detalles de empresa
                     <div class="profile-img-wrap">
                         <div class="profile-img">
                             <a href="#"><img alt="logo"
-                                    src="{{ $company->logo ? asset('storage/logos/' . $company->logo) : asset('img/profiles/avatar-02.jpg') }}"
+                                    src="{{ $company->logo ? asset('storage/logos/' . $company->logo) : asset('img/company-default.jpg') }}"
                                     class="img-fluid"></a>
                         </div>
                     </div>

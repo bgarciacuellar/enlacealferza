@@ -40,12 +40,12 @@ class EmployeeController extends Controller
         $currentUser = Auth::user();
         $companyID = CompanyEmployee::where('user_id', $currentUser->id)->first('company_id')->company_id;
         $company = Company::findOrFail($companyID);
-        $tickets = Ticket::where('company', $companyID)->where('status', 5)->get();
-        foreach ($tickets as $ticket) {
+        $archivedTickets = Ticket::where('company', $companyID)->where('status', 5)->get();
+        foreach ($archivedTickets as $ticket) {
             $ticket->statusString = $this->statusConvert($ticket->status);
         }
 
-        return view('employee.ticket.list', compact('tickets', 'company'));
+        return view('employee.ticket.archived_list', compact('archivedTickets', 'company'));
     }
 
     public function details($ticketId)

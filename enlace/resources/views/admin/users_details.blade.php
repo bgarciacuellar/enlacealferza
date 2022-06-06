@@ -13,7 +13,7 @@ Detalles de usuario
                     <div class="profile-img-wrap">
                         <div class="profile-img">
                             <a href="#"><img alt=""
-                                    src="{{ $additionalUserInfo->profile_image ? asset('storage/profile_images/' . $additionalUserInfo->profile_image ) : asset('img/profiles/avatar-02.jpg')}}"></a>
+                                    src="{{ $additionalUserInfo->profile_image ? asset('storage/profile_images/' . $additionalUserInfo->profile_image ) : asset('/img/user-default.jpg/')}}"></a>
                         </div>
                     </div>
                     <div class="profile-basic">
@@ -850,7 +850,7 @@ Detalles de usuario
 </div>
 <!-- /Page Content -->
 
-<!-- Profile Modal -->
+<!-- edit profile -->
 <div id="profile_info" class="modal custom-modal fade" role="dialog">
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
