@@ -50,6 +50,9 @@ Route::get('/user', [App\Http\Controllers\UserController::class, 'userDetails'])
 Route::get('/tickets', [App\Http\Controllers\TicketController::class, 'list'])
     ->name('ticket.list');
 
+Route::get('/tickets/archivados', [App\Http\Controllers\TicketController::class, 'archivedList'])
+    ->name('ticket.archivedList');
+
 Route::post('/tickets/crear', [App\Http\Controllers\TicketController::class, 'create'])
     ->name('ticket.create');
 
@@ -124,6 +127,8 @@ Route::group(
     function () {
         Route::get('/tickets', [App\Http\Controllers\EmployeeController::class, 'tiketsList'])
             ->name('employee.tiketsList');
+        Route::get('/tickets/archivados', [App\Http\Controllers\EmployeeController::class, 'archivedTicketsList'])
+            ->name('employee.archivedTicketsList');
         Route::get('/tickets/detalles/{id}', [App\Http\Controllers\EmployeeController::class, 'details'])
             ->name('employee.details');
     }

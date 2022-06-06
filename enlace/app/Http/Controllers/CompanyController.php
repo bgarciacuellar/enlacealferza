@@ -32,6 +32,7 @@ class CompanyController extends Controller
             "name" => "required",
             "address" => "nullable",
             "phone_number" => "nullable",
+            "email" => "nullable",
             "logo" => "nullable",
         ]);
 
@@ -45,6 +46,7 @@ class CompanyController extends Controller
             "name" => $request->name,
             "address" => $request->address,
             "phone_number" => $request->phone_number,
+            "email" => $request->email,
             "logo" => $logo,
         ]);
 
@@ -84,6 +86,7 @@ class CompanyController extends Controller
             "name" => "required",
             "address" => "nullable",
             "phone_number" => "nullable",
+            "email" => "nullable",
             "logo" => "nullable",
         ]);
 
@@ -106,6 +109,7 @@ class CompanyController extends Controller
             "name" => $request->name,
             "address" => $request->address,
             "phone_number" => $request->phone_number,
+            "email" => $request->email,
             "logo" => $logo,
         ]);
 

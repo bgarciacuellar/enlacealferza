@@ -57,6 +57,7 @@
     <div class="row">
         <div class="col-md-12">
             <div class="table-responsive">
+                @if (count($tickets) > 0)
                 <table class="table table-striped custom-table datatable">
                     <thead>
                         <tr>
@@ -81,6 +82,9 @@
                         @endforeach
                     </tbody>
                 </table>
+                @else
+                <h3 class="text-center">No se han generado nóminas</h3>
+                @endif
             </div>
         </div>
     </div>

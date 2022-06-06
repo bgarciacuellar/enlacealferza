@@ -1,5 +1,9 @@
 @extends('partials.menu')
 
+@section('title')
+Detalles de empresa
+@endsection
+
 @section('content')
 <div class="card mb-0 pb-5">
     <div class="card-body">
@@ -9,7 +13,7 @@
                     <div class="profile-img-wrap">
                         <div class="profile-img">
                             <a href="#"><img alt="logo"
-                                    src="{{ $company ? asset('storage/logos/' . $company->logo) : asset('img/profiles/avatar-02.jpg') }}"
+                                    src="{{ $company->logo ? asset('storage/logos/' . $company->logo) : asset('img/profiles/avatar-02.jpg') }}"
                                     class="img-fluid"></a>
                         </div>
                     </div>
@@ -31,13 +35,19 @@
                                     <li>
                                         <div class="title">Dirección:</div>
                                         <div class="text">
-                                            <span>{{ $company->address }}</span>
+                                            <span>{{ $company->address ? $company->address : '-'}}</span>
                                         </div>
                                     </li>
                                     <li>
                                         <div class="title">Teléfono:</div>
                                         <div class="text">
-                                            <span>{{ $company->phone_number }}</span>
+                                            <span>{{ $company->phone_number ? $company->phone_number : '-'}}</span>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="title">Contacto principal:</div>
+                                        <div class="text">
+                                            <span>{{ $company->email ? $company->email : '-'}}</span>
                                         </div>
                                     </li>
                                     {{-- <li>
@@ -862,6 +872,12 @@
                         </div>
                         <div class="col-sm-6">
                             <div class="form-group">
+                                <label class="col-form-label">Contacto principal</label>
+                                <input class="form-control" name="email" type="email" value="{{ $company->email }}">
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
                                 <label class="col-form-label">Logo</label>
                                 <input class="form-control" name="logo" type="file" accept="image/*">
                             </div>
@@ -931,7 +947,7 @@
     </div>
 </div>
 
-<!-- Create employee -->
+<!-- update employee -->
 <div id="update_employee" class="modal custom-modal fade" role="dialog">
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">

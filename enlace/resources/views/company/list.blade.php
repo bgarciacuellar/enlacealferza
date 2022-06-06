@@ -1,5 +1,9 @@
 @extends('partials.menu')
 
+@section('title')
+Empresas
+@endsection
+
 @section('content')
 
 <!-- Page Content -->
@@ -126,6 +130,12 @@
                             <div class="form-group">
                                 <label class="col-form-label">Teléfono</label>
                                 <input class="form-control" name="phone_number" type="text">
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="col-form-label">Contacto principal</label>
+                                <input class="form-control" name="email" type="email">
                             </div>
                         </div>
                         <div class="col-sm-6">

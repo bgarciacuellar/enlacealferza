@@ -1,7 +1,9 @@
 @extends('partials.menu')
 
+@section('title')
+Lista de usuarios
+@endsection
 @section('content')
-
 <!-- Page Content -->
 <div class="content container-fluid">
 

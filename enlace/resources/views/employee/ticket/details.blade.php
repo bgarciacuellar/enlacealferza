@@ -60,7 +60,7 @@
                                 <h4>Estatus actual: <strong>{{ $ticket->statusString }}</strong></h4>
                                 @if ($ticket->status == 3 && auth()->user()->hasRoles(['cliente', 'validador']))
                                 <button class="btn btn-success" data-bs-toggle="modal"
-                                    data-bs-target="#step_back">Regresar paso</button>
+                                    data-bs-target="#step_back">Agregar observaciones</button>
                                 @endif
                                 @if ($ticket->status == 1 && auth()->user()->hasRoles(['cliente', 'capturista']) ||
                                 $ticket->status == 3 && auth()->user()->hasRoles(['cliente', 'validador']))

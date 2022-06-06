@@ -47,15 +47,15 @@
 
             <!-- Logo -->
             <div class="header-left">
-                <a href="#" class="logo">
-                    <img src="{{ asset('img/logo.png') }}" width="40" height="40" alt="">
+                <a href="{{ route('admin.userList') }}" class="logo">
+                    <img src="{{ asset('img/logo.svg') }}" width="40" height="40" alt="">
                 </a>
             </div>
             <!-- /Logo -->
 
-            <div class="header-center">
+            {{-- <div class="header-center">
                 <img src="{{ asset('img/logo-menu.png') }}" alt="" class="img-fluid">
-            </div>
+            </div> --}}
 
             {{-- <a id="toggle_btn" href="javascript:void(0);">
                 <span class="bar-icon">
@@ -236,10 +236,11 @@
                     </div>
                 </li> --}}
                 <!-- /Notifications -->
-
-                <li class="nav-item dropdown has-arrow main-drop">
+                <a class="pt-3" href="https://www.alferzajobs.com/" target="_blank">Publica tus vacantes gratis</a>
+                <li class="nav-item dropdown has-arrow main-drop pt-3">
                     <a href="#" class="dropdown-toggle nav-link" data-bs-toggle="dropdown">
-                        <span class="user-img"><img src="{{ asset('img/profiles/avatar-21.jpg') }}" alt=""></span>
+                        {{-- <span class="user-img"><img src="{{ asset('img/profiles/avatar-21.jpg') }}" alt=""></span>
+                        --}}
                         <span>{{ auth()->user()->name }}</span>
                     </a>
                     <div class="dropdown-menu">
@@ -283,12 +284,12 @@
                             home
                         </span>
                     </a>
-                    {{-- <a class="nav-link" id="v-pills-apps-tab" title="Apps" data-bs-toggle="pill"
-                        href="#v-pills-apps" role="tab" aria-controls="v-pills-apps" aria-selected="false">
+                    <a class="nav-link" id="v-pills-apps-tab" title="Alferza Jobs" href="https://www.alferzajobs.com/"
+                        target="_blank">
                         <span class="material-icons-outlined">
-                            dashboard
+                            work_outline
                         </span>
-                    </a>
+                    </a>{{--
                     <a class="nav-link" id="v-pills-employees-tab" title="Employees" data-bs-toggle="pill"
                         href="#v-pills-employees" role="tab" aria-controls="v-pills-employees" aria-selected="false">
                         <span class="material-icons-outlined">
@@ -504,7 +505,13 @@
                                 <a href="{{ route('ticket.list') }}" class="active">Incidencias</a>
                             </li>
                             <li>
+                                <a href="{{ route('ticket.archivedList') }}" class="active">Incidencias Archivadas</a>
+                            </li>
+                            <li>
                                 <a href="{{ route('company.list') }}" class="active">Empresa</a>
+                            </li>
+                            <li>
+                                <a href="{{ route('payroll.list') }}" class="active">Nóminas</a>
                             </li>
                         </ul>
                     </div>
@@ -862,7 +869,9 @@
                     </div>
                 </div> --}}
                 <!-- /Page Header -->
-
+                <h3>
+                    @yield('title')
+                </h3>
                 @yield('content')
 
             </div>

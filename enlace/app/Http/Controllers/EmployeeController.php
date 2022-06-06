@@ -27,7 +27,20 @@ class EmployeeController extends Controller
         $currentUser = Auth::user();
         $companyID = CompanyEmployee::where('user_id', $currentUser->id)->first('company_id')->company_id;
         $company = Company::findOrFail($companyID);
-        $tickets = Ticket::where('company', $companyID)->get();
+        $tickets = Ticket::where('company', $companyID)->where('status', '!=', 5)->get();
+        foreach ($tickets as $ticket) {
+            $ticket->statusString = $this->statusConvert($ticket->status);
+        }
+
+        return view('employee.ticket.list', compact('tickets', 'company'));
+    }
+
+    public function archivedTicketsList()
+    {
+        $currentUser = Auth::user();
+        $companyID = CompanyEmployee::where('user_id', $currentUser->id)->first('company_id')->company_id;
+        $company = Company::findOrFail($companyID);
+        $tickets = Ticket::where('company', $companyID)->where('status', 5)->get();
         foreach ($tickets as $ticket) {
             $ticket->statusString = $this->statusConvert($ticket->status);
         }

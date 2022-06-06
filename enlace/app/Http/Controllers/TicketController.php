@@ -37,7 +37,7 @@ class TicketController extends Controller
 
     public function list()
     {
-        $ticketsArray = Ticket::all()->toArray();
+        $ticketsArray = Ticket::where('status', '!=', '5')->get()->toArray();
         $companies = Company::all();
         $payrolls = PayrollType::all();
         $paymentsPeriod = $this->paymentsPeriod;
@@ -58,6 +58,28 @@ class TicketController extends Controller
 
 
         return view('ticket.list', compact('tickets', 'companies', 'payrolls', 'paymentsPeriod'));
+    }
+
+    public function archivedList()
+    {
+        $archivedTicketsArray = Ticket::where('status', 5)->get()->toArray();
+
+        $archivedTicketsMap = function ($archivedTicketItem) {
+            $company = Company::where('id', $archivedTicketItem['company'])->first();
+            $limit_date = Carbon::parse($archivedTicketItem['limit_date']);
+            $status = $this->statusConvert($archivedTicketItem['status']);
+            return array(
+                "id" => $archivedTicketItem['id'],
+                "category" => $archivedTicketItem['category'],
+                "limit_date" => $limit_date->format('d/m/Y'),
+                "company" => $company->name,
+                "status" => $status,
+            );
+        };
+        $archivedTickets = array_map($archivedTicketsMap, $archivedTicketsArray);
+
+
+        return view('ticket.archived_list', compact('archivedTickets'));
     }
 
     public function create(Request $request)
@@ -234,9 +256,15 @@ class TicketController extends Controller
     {
         $ticket = Ticket::findOrFail($id);
 
-        $ticket->update([
-            'status' => $ticket->status + 1,
-        ]);
+        if ($ticket->status == 2.5) {
+            $ticket->update([
+                'status' => 3,
+            ]);
+        } else {
+            $ticket->update([
+                'status' => $ticket->status + 1,
+            ]);
+        }
 
         $userCreatedTicket = User::find($ticket->user_id)->first();
         $company = Company::where('id', $ticket->company)->first('name')->name;
@@ -309,7 +337,7 @@ class TicketController extends Controller
         $currentUser = Auth::user();
 
         $ticket->update([
-            'status' => $ticket->status - 1,
+            'status' => 2.5,
         ]);
 
         TicketComment::create([

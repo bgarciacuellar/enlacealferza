@@ -1,5 +1,9 @@
 @extends('partials.menu')
 
+@section('title')
+Detalles de usuario
+@endsection
+
 @section('content')
 <div class="card mb-0">
     <div class="card-body">

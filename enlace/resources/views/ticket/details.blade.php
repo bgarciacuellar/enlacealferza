@@ -1,5 +1,9 @@
 @extends('partials.menu')
 
+@section('title')
+Detalles de incidencias
+@endsection
+
 @section('content')
 <div class="mb-4 card mb-0">
     <div class="card-body">
@@ -43,7 +47,7 @@
                                     </li> --}}
                                     <li>
                                         <div class="title">Periodo de pago:</div>
-                                        <div class="text">{{ $ticket->payment_period }}</div>
+                                        <div class="text">{{ ucfirst($ticket->payment_period) }}</div>
                                     </li>
                                     {{-- <li>
                                         <div class="title">Reports to:</div>

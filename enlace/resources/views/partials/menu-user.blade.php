@@ -47,15 +47,15 @@
 
             <!-- Logo -->
             <div class="header-left">
-                <a href="#" class="logo">
-                    <img src="{{ asset('img/logo.png') }}" width="40" height="40" alt="">
+                <a href="{{ route('user.ticketList') }}" class="logo">
+                    <img src="{{ asset('img/logo.svg') }}" width="40" height="40" alt="">
                 </a>
             </div>
             <!-- /Logo -->
 
-            <div class="header-center">
+            {{-- <div class="header-center">
                 <img src="{{ asset('img/logo-menu.png') }}" alt="" class="img-fluid">
-            </div>
+            </div> --}}
 
             {{-- <a id="toggle_btn" href="javascript:void(0);">
                 <span class="bar-icon">
@@ -236,10 +236,11 @@
                     </div>
                 </li> --}}
                 <!-- /Notifications -->
-
-                <li class="nav-item dropdown has-arrow main-drop">
+                <a class="pt-3" href="https://www.alferzajobs.com/" target="_blank">Publica tus vacantes gratis</a>
+                <li class="nav-item dropdown has-arrow main-drop pt-3">
                     <a href="#" class="dropdown-toggle nav-link" data-bs-toggle="dropdown">
-                        <span class="user-img"><img src="{{ asset('img/profiles/avatar-21.jpg') }}" alt=""></span>
+                        {{-- <span class="user-img"><img src="{{ asset('img/profiles/avatar-21.jpg') }}" alt=""></span>
+                        --}}
                         <span>{{ auth()->user()->name }}</span>
                     </a>
                     <div class="dropdown-menu">
@@ -281,6 +282,12 @@
                         aria-selected="true">
                         <span class="material-icons-outlined">
                             home
+                        </span>
+                    </a>
+                    <a class="nav-link" id="v-pills-apps-tab" title="Alferza Jobs" href="https://www.alferzajobs.com/"
+                        target="_blank">
+                        <span class="material-icons-outlined">
+                            work_outline
                         </span>
                     </a>
                     {{-- <a class="nav-link" id="v-pills-apps-tab" title="Apps" data-bs-toggle="pill"

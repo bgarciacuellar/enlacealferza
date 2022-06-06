@@ -1,5 +1,9 @@
 @extends('partials.menu')
 
+@section('title')
+Incidencias
+@endsection
+
 @section('content')
 
 <!-- Page Content -->
