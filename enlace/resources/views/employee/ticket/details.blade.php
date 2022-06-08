@@ -23,8 +23,8 @@ Detalles de incidencias
                                     <h6 class="text-muted">{{ $ticketowner->name . " " .
                                         $ticketownerAdditionalInfo->last_name }} <br> {{
                                         $ticketownerAdditionalInfo->work_area }}</h6>
-                                    <small class="text-muted">{{ $ticketownerAdditionalInfo->position }}</small>
-                                    <div class="staff-id">ID : {{ $ticketowner->employee_id }}</div>
+                                    {{-- <small class="text-muted">{{ $ticketownerAdditionalInfo->position }}</small>
+                                    <div class="staff-id">ID : {{ $ticketowner->employee_id }}</div> --}}
                                 </div>
                             </div>
                             <div class="col-md-7">
@@ -1233,15 +1233,15 @@ Detalles de incidencias
                 <div class="card">
                     <div class="card-body">
                         <h3 class="card-title">Agregar Comentario</h3>
-                        <p class="">Por favor, anexe las observaciones correspondientes para corregir el
-                            cálculo de nómina.</p>
+                        <p class="">Por favor, anexe las observaciones correspondientes y serán atendidas
+                            de forma oportuna.</p>
                         <div class="row">
                             <div class="col-11 justify-content-center">
                                 <form action="{{ route('ticket.lastStep', $ticket->id) }}" method="POST">
                                     @csrf
                                     <textarea name="comment" class="form-control" cols="30" rows="10"
                                         required></textarea>
-                                    <button type="submit" class="btn btn-primary mt-3 submit-btn">Regresar</button>
+                                    <button type="submit" class="btn btn-primary mt-3 submit-btn">Envíar</button>
                                 </form>
                             </div>
                         </div>

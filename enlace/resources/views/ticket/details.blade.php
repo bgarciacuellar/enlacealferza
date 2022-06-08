@@ -21,8 +21,10 @@ Detalles de incidencias
                                 <div class="profile-info-left">
                                     <h3 class="user-name m-t-0 mb-0">Creado Por:</h3>
                                     <h6 class="text-muted">{{ $ticketowner->name . " " .
-                                        $ticketownerAdditionalInfo->last_name }} <br> {{
-                                        $ticketownerAdditionalInfo->work_area }}</h6>
+                                        $ticketownerAdditionalInfo->last_name}} <br>
+                                        <span style="display: inline-block">{{
+                                            $ticketownerAdditionalInfo->work_area }}</span>
+                                    </h6>
                                     <small class="text-muted">{{ $ticketownerAdditionalInfo->position }}</small>
                                     <div class="staff-id">ID : {{ $ticketowner->employee_id }}</div>
                                 </div>

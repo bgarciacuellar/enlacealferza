@@ -52,7 +52,7 @@ trait helpers
                 $statusConverted = "Calculo de nómina";
                 break;
             case 2.5:
-                $statusConverted = "Aprobación de observaciones";
+                $statusConverted = "Observaciones en revisión";
                 break;
             case 3:
                 $statusConverted = "Autorización";
