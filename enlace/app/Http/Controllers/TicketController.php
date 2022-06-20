@@ -179,21 +179,24 @@ class TicketController extends Controller
         if (!$ticketExists) {
             return back()->with('error', 'Ocurrio un error, intentelo de nuevo');
         }
+        $filesCount = TicketFileHistory::where("ticket_id", $ticketExists->id)->get()->count();
 
         $path = storage_path('app/public/incidencias');
         if (!file_exists($path)) {
             mkdir($path, 0777, true);
         }
-        $completePath = $request->file('file')->store('public/incidencias');
-        $getFileName = explode("/", $completePath);
-        $fileName = end($getFileName);
+        $imageFullName = pathinfo($request->file('file')->getClientOriginalName(), PATHINFO_FILENAME);
+        $imageExtension = pathinfo($request->file('file')->getClientOriginalName(), PATHINFO_EXTENSION);
+        $imageName = $imageFullName  . "_" . $ticketExists->id . "_" . $filesCount . "." . $imageExtension;
+
+        $request->file('file')->storeAs('public/incidencias', $imageName);
 
         $currentUser = Auth::user();
 
         $fileCreated = TicketFileHistory::create([
             'user_id' => $currentUser->id,
             'ticket_id' => $ticket,
-            'file' => $fileName,
+            'file' => $imageName,
         ]);
 
         $employees = CompanyEmployee::where('company_id', $ticketExists->company)->get('user_id');
@@ -383,16 +386,18 @@ class TicketController extends Controller
             mkdir($path, 0777, true);
         }
 
-        $completePath = $request->file('preinvoice')->store('public/preinvoice');
-        $getFileName = explode("/", $completePath);
-        $fileName = end($getFileName);
+        $imageFullName = pathinfo($request->file('file')->getClientOriginalName(), PATHINFO_FILENAME);
+        $imageExtension = pathinfo($request->file('file')->getClientOriginalName(), PATHINFO_EXTENSION);
+        $imageName = $imageFullName  . "_" . $updateTicket->id . "." . $imageExtension;
+
+        $request->file('file')->storeAs('public/preinvoice', $imageName);
 
         if ($updateTicket->preinvoices) {
             $this->deleteFile($updateTicket->preinvoices, 'preinvoice');
         }
 
         $updateTicket->update([
-            'preinvoices' => $fileName,
+            'preinvoices' => $imageName,
         ]);
 
         // $employees = CompanyEmployee::where('company_id', $updateTicket->company)->get('user_id');

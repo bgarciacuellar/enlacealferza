@@ -36,7 +36,7 @@ Detalles de incidencias
                                         <div class="text"><a href="">{{ $ticket->category }}</a></div>
                                     </li>
                                     <li>
-                                        <div class="title">Fecha Limite:</div>
+                                        <div class="title">Fecha Limite de incidencia:</div>
                                         <div class="text">{{ $ticket->limit_date->format('d/m/Y') }}</div>
                                     </li>
                                     <li>
@@ -1011,7 +1011,8 @@ Detalles de incidencias
                     <div class="row">
                         <div class="col-sm-6">
                             <div class="form-group">
-                                <label class="col-form-label">Fecha limite <span class="text-danger">*</span></label>
+                                <label class="col-form-label">Fecha limite de incidencia <span
+                                        class="text-danger">*</span></label>
                                 <input class="form-control" type="date" name="limit_date"
                                     value="{{ $ticket->limit_date->format('Y-m-d') }}" required>
                             </div>

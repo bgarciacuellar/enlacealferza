@@ -34,7 +34,7 @@ Detalles de incidencias
                                         <div class="text"><a href="">{{ $ticket->category }}</a></div>
                                     </li>
                                     <li>
-                                        <div class="title">Fecha Limite:</div>
+                                        <div class="title">Fecha Limite de incidencia:</div>
                                         <div class="text">{{ $ticket->limit_date->format('d/m/Y') }}</div>
                                     </li>
                                     <li>

@@ -36,7 +36,7 @@ Incidencias
         <div class="col-md-4">
             <div class="add-emp-section">
                 <a href="#" class="btn btn-success btn-add-emp" data-bs-toggle="modal"
-                    data-bs-target="#create_incident"><i class="fas fa-plus"></i> Crear Incidencia</a>
+                    data-bs-target="#create_incident"><i class="fas fa-plus"></i> Solicitar Incidencias</a>
             </div>
         </div>
     </div>
@@ -65,7 +65,7 @@ Incidencias
                     <thead>
                         <tr>
                             <th>Tipo de nómina</th>
-                            <th>Fecha limite</th>
+                            <th>Fecha limite de incidencia</th>
                             <th class="text-nowrap">Empresa</th>
                             <th>Estatus</th>
                         </tr>
@@ -98,7 +98,7 @@ Incidencias
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Crear Incidencia</h5>
+                <h5 class="modal-title">Solicitar Incidencias</h5>
                 <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                     <i class="fas fa-times"></i>
                 </button>
@@ -160,7 +160,7 @@ Incidencias
                     <div class="submit-section">
                         <button class="btn btn-primary cancel-btn" data-bs-dismiss="modal" aria-label="Close"
                             type="button">Cancelar</button>
-                        <button type="submit" class="btn btn-primary submit-btn">Crear incidencia</button>
+                        <button type="submit" class="btn btn-primary submit-btn">Solicitar incidencias</button>
                     </div>
                 </form>
             </div>

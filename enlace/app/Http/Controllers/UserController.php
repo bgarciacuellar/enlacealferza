@@ -24,14 +24,15 @@ class UserController extends Controller
         $myCompaniesArray = CompanyOnCharge::where("user_id", $user->id)->get()->toArray();
         $selectedCompany = $request->has('company') ? $request->company : 0;
         $paymentsPeriod = $this->paymentsPeriod;
-        $payrolls = PayrollType::all();
-        // $companies = Company::all();
+        // $payrolls = PayrollType::all();
 
         $myCompaniesMap = function ($myCompanyItem) {
             $company = Company::where('id', $myCompanyItem['company_id'])->first();
+            $payrolls = PayrollType::where("name", $company->name)->get();
             return array(
                 "id" => $company->id,
                 "name" => $company->name,
+                "payrolls" => $payrolls,
             );
         };
         $myCompanies = array_map($myCompaniesMap, $myCompaniesArray);
@@ -41,7 +42,7 @@ class UserController extends Controller
             $ticket->statusString = $this->statusConvert($ticket->status);
         }
 
-        return view('users.ticket.list', compact('myCompanies', 'tickets', 'selectedCompany', 'paymentsPeriod', 'payrolls'));
+        return view('users.ticket.list', compact('myCompanies', 'tickets', 'selectedCompany', 'paymentsPeriod'));
     }
 
     public function userDetails()

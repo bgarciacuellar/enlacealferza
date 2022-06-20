@@ -152,7 +152,7 @@ Detalles de empresa
                             <thead>
                                 <tr>
                                     <th>Estatus de incidencias</th>
-                                    <th>Fecha limite</th>
+                                    <th>Fecha limite de incidencia</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -899,7 +899,7 @@ Detalles de empresa
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Crear Empleado</h5>
+                <h5 class="modal-title">Crear Usuario</h5>
                 <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                     <i class="fas fa-times"></i>
                 </button>
@@ -926,7 +926,8 @@ Detalles de empresa
                                 <select class="form-control" name="role" required>
                                     <option value="">Selecciona el tipo de rol</option>
                                     @foreach ($roles as $role)
-                                    <option value="{{ $role }}">{{ ucfirst($role) }}</option>
+                                    <option value="{{ $role }}">{{ $role == "cliente" ? "Capturista + Validador" :
+                                        ucfirst($role) }}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -1000,7 +1001,7 @@ Detalles de empresa
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Crear Incidencia</h5>
+                <h5 class="modal-title">Solicitar Incidencias</h5>
                 <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                     <i class="fas fa-times"></i>
                 </button>
@@ -1019,7 +1020,8 @@ Detalles de empresa
                         </div>
                         <div class="col-sm-6">
                             <div class="form-group">
-                                <label class="col-form-label">Fecha limite <span class="text-danger">*</span></label>
+                                <label class="col-form-label">Fecha limite de incidencia <span
+                                        class="text-danger">*</span></label>
                                 <input class="form-control" type="date" name="limit_date">
                             </div>
                         </div>
@@ -1058,7 +1060,7 @@ Detalles de empresa
                     <div class="submit-section">
                         <button class="btn btn-primary cancel-btn" data-bs-dismiss="modal" aria-label="Close"
                             type="button">Cancelar</button>
-                        <button type="submit" class="btn btn-primary submit-btn">Crear</button>
+                        <button type="submit" class="btn btn-primary submit-btn">Solicitar incidencias</button>
                     </div>
                 </form>
             </div>

@@ -66,7 +66,7 @@ Incidencias
                     <thead>
                         <tr>
                             <th>Categoría</th>
-                            <th>Fecha limite</th>
+                            <th>Fecha limite de incidencia</th>
                             <th>Estatus</th>
                         </tr>
                     </thead>

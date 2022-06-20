@@ -36,7 +36,7 @@ Incidencias Archivadas
         <div class="col-md-4">
             <div class="add-emp-section">
                 <a href="#" class="btn btn-success btn-add-emp" data-bs-toggle="modal"
-                    data-bs-target="#create_incident"><i class="fas fa-plus"></i> Crear Incidencia</a>
+                    data-bs-target="#create_incident"><i class="fas fa-plus"></i> Solicitar Incidencias</a>
             </div>
         </div>
     </div>
@@ -65,7 +65,7 @@ Incidencias Archivadas
                     <thead>
                         <tr>
                             <th>Tipo de nómina</th>
-                            <th>Fecha limite</th>
+                            <th>Fecha limite de incidencia</th>
                             <th class="text-nowrap">Empresa</th>
                             <th>Estatus</th>
                         </tr>
