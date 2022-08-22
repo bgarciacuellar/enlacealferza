@@ -176,6 +176,12 @@ Incidencias
                                 </select>
                             </div>
                         </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="col-form-label">Archivo maestro <span class="text-danger">*</span></label>
+                                <input class="form-control" type="file" name="master_file" required>
+                            </div>
+                        </div>
                         <div class="col-sm-12">
                             <div class="form-group">
                                 <label class="col-form-label">Comentarios</label>

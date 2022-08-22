@@ -14,28 +14,16 @@ Lista de usuarios
                 <div class="row">
                     <div class="col-sm-6 col-md-3">
                         <div class="form-group form-focus mb-0">
-                            <input type="text" class="form-control floating" name="employee_id">
+                            <input type="text" class="form-control floating search-id" name="employee_id">
                             <label class="focus-label">ID</label>
                         </div>
                     </div>
                     <div class="col-sm-6 col-md-3">
                         <div class="form-group form-focus mb-0">
-                            <input type="text" class="form-control floating" name="name">
+                            <input type="text" class="form-control floating search-name" name="name">
                             <label class="focus-label">Nombre</label>
                         </div>
                     </div>
-                    {{-- <div class="col-sm-6 col-md-3">
-                        <div class="form-group form-focus select-focus mb-0">
-                            <select class="select floating">
-                                <option>Select Designation</option>
-                                <option>Web Developer</option>
-                                <option>Web Designer</option>
-                                <option>Android Developer</option>
-                                <option>Ios Developer</option>
-                            </select>
-                            <label class="focus-label">Designation</label>
-                        </div>
-                    </div> --}}
                     <div class="col-sm-6 col-md-3">
                         <button type="submit" href="#" class="btn btn-success btn-search"><i
                                 class="fas fa-search me-2"></i> Buscar </button>
@@ -1026,7 +1014,8 @@ Lista de usuarios
             <div class="modal-body">
                 <div class="form-header">
                     <h3>Deshabilitar Usuario</h3>
-                    <p>Estas seguro de deshabilitarlo? (No podra iniciar sesión nuevamente)</p>
+                    <p>¿Estás seguro? Al deshabilitar un usuario no podrá iniciar sesión y no se mostrará en la lista de
+                        empleados. Para activarlo de nuevo necesitarás contactar con el equipo de soporte.</p>
                 </div>
                 <div class="modal-btn delete-action">
                     <form action="{{ route('admin.disableUser') }}" method="POST">
@@ -1049,4 +1038,25 @@ Lista de usuarios
 </div>
 <!-- /Delete Employee Modal -->
 
+@endsection
+
+@section('js')
+<script>
+    $('.search-id').keyup(function(){
+        console.log("first")
+        if ($(this).val().trim() !== '') {
+            $('.search-name').attr('disabled', 'disabled');
+        }else{
+            $('.search-name').removeAttr('disabled');
+        }
+    });
+    $('.search-name').keyup(function(){
+        console.log("first")
+        if ($(this).val().trim() !== '') {
+            $('.search-id').attr('disabled', 'disabled');
+        }else{
+            $('.search-id').removeAttr('disabled');
+        }
+    });
+</script>
 @endsection

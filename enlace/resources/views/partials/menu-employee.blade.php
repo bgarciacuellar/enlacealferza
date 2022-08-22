@@ -507,10 +507,10 @@
                             <li>
                                 <a href="{{ route('employee.tiketsList') }}" class="active">Incidencias</a>
                             </li>
-                            <li>
+                            {{-- <li>
                                 <a href="{{ route('employee.archivedTicketsList') }}" class="active">Incidencias
                                     Archivadas</a>
-                            </li>
+                            </li> --}}
                         </ul>
                     </div>
                     {{-- <div class="tab-pane fade" id="v-pills-apps" role="tabpanel"

@@ -21,7 +21,8 @@ Detalles del tipo de nómina
                         <div class="row">
                             <div class="col-md-5">
                                 <div class="">
-                                    <h3 class="user-name m-t-0 mb-0">{{ $payroll->type }}</h3>
+                                    <h3 class="user-name m-t-0 mb-0">{{ $payroll->company_name }} {{ $payroll->type }}
+                                    </h3>
                                     <h4 class="user-name m-t-0 mb-0">{{ $payroll->name }}</h4>
                                     {{-- <h6 class="text-muted">UI/UX Design Team</h6>
                                     <small class="text-muted">Web Designer</small>
@@ -100,6 +101,19 @@ Detalles del tipo de nómina
                 <form action="{{ route('payroll.update', $payroll->id) }}" method="POST">
                     @csrf
                     <div class="row">
+                        <div class="col-sm-12">
+                            <div class="form-group">
+                                <label class="col-form-label">Empresa <span class="text-danger">*</span></label>
+                                <select class="form-control" name="company" required>
+                                    <option value="">Selecciona una opción</option>
+                                    @foreach ($companies as $company)
+                                    <option value="{{ $company->id }}" {{ $company->id == $payroll->company_id ?
+                                        "selected" : null }} >{{ ucfirst($company->name) }}
+                                    </option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
                         <div class="col-sm-6">
                             <div class="form-group">
                                 <label class="col-form-label">Tipo de nómina<span class="text-danger">*</span></label>

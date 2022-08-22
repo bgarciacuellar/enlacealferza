@@ -45,6 +45,14 @@ Detalles de incidencias
                                         <div class="title">Fecha de creación:</div>
                                         <div class="text">{{ $ticket->created_at->format('d/m/Y') }}</div>
                                     </li>
+                                    @if ($ticket->master_file)
+                                    <li>
+                                        <div class="title">Archivo maestro:</div>
+                                        <div class="text btn-master-file" style="cursor: pointer;"><a
+                                                href="{{ asset('storage/archivos_maestro/' . $ticket->master_file) }}"
+                                                target="_blank"> Descargar <i class="fas fa-download"></i></a></div>
+                                    </li>
+                                    @endif
                                     {{-- <li>
                                         <div class="title">Reports to:</div>
                                         <div class="text">
@@ -93,8 +101,8 @@ Detalles de incidencias
                 </li>
                 <li class="nav-item"><a href="#emp_projects" data-bs-toggle="tab" class="nav-link">Comentarios</a>
                 </li>
-                {{--<li class="nav-item"><a href="#bank_statutory" data-bs-toggle="tab" class="nav-link">Bank &
-                        Statutory <small class="text-danger">(Admin Only)</small></a></li> --}}
+                <li class="nav-item"><a href="#bank_statutory" data-bs-toggle="tab" class="nav-link">Extraordinario </a>
+                </li>
             </ul>
         </div>
     </div>
@@ -762,209 +770,43 @@ Detalles de incidencias
     <div class="tab-pane fade" id="bank_statutory">
         <div class="card">
             <div class="card-body">
-                <h3 class="card-title"> Basic Salary Information</h3>
-                <form>
+                <p class="card-title text-danger"> Te recordamos que el horario limite para la solicitud de un periodo
+                    extraordinaro es antes de las 10:00 am para ser aplicado el mismo día. De lo contrario serán
+                    aplicados hasta el siguiente día habíl</p>
+                @if ($ticket->extraordinario_file)
+                <div class="row">
+                    <div class="col-12 col-lg-4 pb-3">
+                        <h3 class="card-title">Archivo extraordinario</h3>
+                        <a href="{{ asset('storage/extraordinario/' . $ticket->extraordinario_file) }}"
+                            target="_blank"><button class="btn btn-primary mt-3 submit-btn">Descargar <i
+                                    class="fas fa-download"></i></button>
+                        </a>
+                    </div>
+                    <div class="col-12 col-lg-8 pb-3">
+                        <h3 class="card-title">Comentario extraordinario</h3>
+                        <p>{{ $ticket->observations }}</p>
+                    </div>
+                </div>
+                @else
+                <form action="{{ route('employee.createExtraordinario', $ticket->id) }}" method="POST"
+                    enctype="multipart/form-data">
+                    @csrf
                     <div class="row">
-                        <div class="col-sm-4">
-                            <div class="form-group">
-                                <label class="col-form-label">Salary basis <span class="text-danger">*</span></label>
-                                <select class="select">
-                                    <option>Select salary basis type</option>
-                                    <option>Hourly</option>
-                                    <option>Daily</option>
-                                    <option>Weekly</option>
-                                    <option>Monthly</option>
-                                </select>
-                            </div>
+                        <div class="col-12 col-lg-4">
+                            <h4 class="card-title">Archivo</h4>
+                            <input type="file" class="form-control" name="file" required>
                         </div>
-                        <div class="col-sm-4">
-                            <div class="form-group">
-                                <label class="col-form-label">Salary amount <small class="text-muted">per
-                                        month</small></label>
-                                <div class="input-group">
-                                    <span class="input-group-text">$</span>
-                                    <input type="text" class="form-control" placeholder="Type your salary amount"
-                                        value="0.00">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-sm-4">
-                            <div class="form-group">
-                                <label class="col-form-label">Payment type</label>
-                                <select class="select">
-                                    <option>Select payment type</option>
-                                    <option>Bank transfer</option>
-                                    <option>Check</option>
-                                    <option>Cash</option>
-                                </select>
-                            </div>
+                        <div class="col-12 col-lg-8">
+                            <h4 class="card-title">Observaciones</h4>
+                            <textarea name="observations" class="form-control" id="" cols="30" rows="10"
+                                required></textarea>
                         </div>
                     </div>
-                    <hr>
-                    <h3 class="card-title"> PF Information</h3>
-                    <div class="row">
-                        <div class="col-sm-4">
-                            <div class="form-group">
-                                <label class="col-form-label">PF contribution</label>
-                                <select class="select">
-                                    <option>Select PF contribution</option>
-                                    <option>Yes</option>
-                                    <option>No</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-sm-4">
-                            <div class="form-group">
-                                <label class="col-form-label">PF No. <span class="text-danger">*</span></label>
-                                <select class="select">
-                                    <option>Select PF contribution</option>
-                                    <option>Yes</option>
-                                    <option>No</option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-sm-4">
-                            <div class="form-group">
-                                <label class="col-form-label">Employee PF rate</label>
-                                <select class="select">
-                                    <option>Select PF contribution</option>
-                                    <option>Yes</option>
-                                    <option>No</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-sm-4">
-                            <div class="form-group">
-                                <label class="col-form-label">Additional rate <span class="text-danger">*</span></label>
-                                <select class="select">
-                                    <option>Select additional rate</option>
-                                    <option>0%</option>
-                                    <option>1%</option>
-                                    <option>2%</option>
-                                    <option>3%</option>
-                                    <option>4%</option>
-                                    <option>5%</option>
-                                    <option>6%</option>
-                                    <option>7%</option>
-                                    <option>8%</option>
-                                    <option>9%</option>
-                                    <option>10%</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-sm-4">
-                            <div class="form-group">
-                                <label class="col-form-label">Total rate</label>
-                                <input type="text" class="form-control" placeholder="N/A" value="11%">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-sm-4">
-                            <div class="form-group">
-                                <label class="col-form-label">Employee PF rate</label>
-                                <select class="select">
-                                    <option>Select PF contribution</option>
-                                    <option>Yes</option>
-                                    <option>No</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-sm-4">
-                            <div class="form-group">
-                                <label class="col-form-label">Additional rate <span class="text-danger">*</span></label>
-                                <select class="select">
-                                    <option>Select additional rate</option>
-                                    <option>0%</option>
-                                    <option>1%</option>
-                                    <option>2%</option>
-                                    <option>3%</option>
-                                    <option>4%</option>
-                                    <option>5%</option>
-                                    <option>6%</option>
-                                    <option>7%</option>
-                                    <option>8%</option>
-                                    <option>9%</option>
-                                    <option>10%</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-sm-4">
-                            <div class="form-group">
-                                <label class="col-form-label">Total rate</label>
-                                <input type="text" class="form-control" placeholder="N/A" value="11%">
-                            </div>
-                        </div>
-                    </div>
-
-                    <hr>
-                    <h3 class="card-title"> ESI Information</h3>
-                    <div class="row">
-                        <div class="col-sm-4">
-                            <div class="form-group">
-                                <label class="col-form-label">ESI contribution</label>
-                                <select class="select">
-                                    <option>Select ESI contribution</option>
-                                    <option>Yes</option>
-                                    <option>No</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-sm-4">
-                            <div class="form-group">
-                                <label class="col-form-label">ESI No. <span class="text-danger">*</span></label>
-                                <select class="select">
-                                    <option>Select ESI contribution</option>
-                                    <option>Yes</option>
-                                    <option>No</option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-sm-4">
-                            <div class="form-group">
-                                <label class="col-form-label">Employee ESI rate</label>
-                                <select class="select">
-                                    <option>Select ESI contribution</option>
-                                    <option>Yes</option>
-                                    <option>No</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-sm-4">
-                            <div class="form-group">
-                                <label class="col-form-label">Additional rate <span class="text-danger">*</span></label>
-                                <select class="select">
-                                    <option>Select additional rate</option>
-                                    <option>0%</option>
-                                    <option>1%</option>
-                                    <option>2%</option>
-                                    <option>3%</option>
-                                    <option>4%</option>
-                                    <option>5%</option>
-                                    <option>6%</option>
-                                    <option>7%</option>
-                                    <option>8%</option>
-                                    <option>9%</option>
-                                    <option>10%</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-sm-4">
-                            <div class="form-group">
-                                <label class="col-form-label">Total rate</label>
-                                <input type="text" class="form-control" placeholder="N/A" value="11%">
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="submit-section">
-                        <button class="btn btn-primary submit-btn" type="submit">Save</button>
+                    <div class="col-12 text-center">
+                        <button class="btn btn-primary submit-btn" type="submit">Crear</button>
                     </div>
                 </form>
+                @endif
             </div>
         </div>
     </div>

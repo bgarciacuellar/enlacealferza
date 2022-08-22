@@ -14,10 +14,13 @@ Route::post('/login-customized', [App\Http\Controllers\LoginCustomizedController
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 // Admin
-Route::get('/users/list', [App\Http\Controllers\AdminController::class, 'usersList'])
+Route::get('/inicio', [App\Http\Controllers\AdminController::class, 'dashboard'])
+    ->name('admin.dashboard');
+
+Route::get('/usuarios/lista', [App\Http\Controllers\AdminController::class, 'usersList'])
     ->name('admin.userList');
 
-Route::get('/user/detail/{userId}', [App\Http\Controllers\AdminController::class, 'userDetails'])
+Route::get('/usuario/detalles/{userId}', [App\Http\Controllers\AdminController::class, 'userDetails'])
     ->name('admin.userDetails');
 
 Route::post('/user/create', [App\Http\Controllers\AdminController::class, 'createNewUser'])
@@ -29,7 +32,7 @@ Route::post('/user/update/{userId}', [App\Http\Controllers\AdminController::clas
 Route::post('/users/disable', [App\Http\Controllers\UserController::class, 'disableUser'])
     ->name('admin.disableUser');
 
-Route::get('/users/search', [App\Http\Controllers\AdminController::class, 'searchUsers'])
+Route::get('/usuarios/busqueda', [App\Http\Controllers\AdminController::class, 'searchUsers'])
     ->name('admin.searchUsers');
 
 Route::post('/assign-to-company/{id}', [App\Http\Controllers\AdminController::class, 'assignToCompany'])
@@ -39,10 +42,10 @@ Route::post('/unassign-company/{user}/{company}', [App\Http\Controllers\AdminCon
     ->name('admin.unassignCompany');
 
 // User
-Route::get('/user/tickets', [App\Http\Controllers\UserController::class, 'ticketList'])
+Route::get('/usuario/tickets', [App\Http\Controllers\UserController::class, 'ticketList'])
     ->name('user.ticketList');
 
-Route::get('/user', [App\Http\Controllers\UserController::class, 'userDetails'])
+Route::get('/usuario', [App\Http\Controllers\UserController::class, 'userDetails'])
     ->name('user.userDetails');
 
 
@@ -78,14 +81,14 @@ Route::post('/ticket/upload-preinvoice/{id}', [App\Http\Controllers\TicketContro
     ->name('ticket.uploadPreinvoice');
 
 // Company
-Route::get('/company/list', [App\Http\Controllers\CompanyController::class, 'list'])
+Route::get('/compania/lista', [App\Http\Controllers\CompanyController::class, 'list'])
     ->name('company.list');
 
 
 Route::post('/company/create', [App\Http\Controllers\CompanyController::class, 'create'])
     ->name('company.create');
 
-Route::get('/company/details/{id}', [App\Http\Controllers\CompanyController::class, 'details'])
+Route::get('/compania/detalles/{id}', [App\Http\Controllers\CompanyController::class, 'details'])
     ->name('company.details');
 
 Route::post('/company/update/{id}', [App\Http\Controllers\CompanyController::class, 'update'])
@@ -102,13 +105,13 @@ Route::post('/company/delete/', [App\Http\Controllers\CompanyController::class, 
 // Company
 
 // Payroll
-Route::get('/payrolls', [App\Http\Controllers\PayrollController::class, 'list'])
+Route::get('/nomina', [App\Http\Controllers\PayrollController::class, 'list'])
     ->name('payroll.list');
 
 Route::post('/payrolls/create', [App\Http\Controllers\PayrollController::class, 'create'])
     ->name('payroll.create');
 
-Route::get('/payrolls/detalles/{id}', [App\Http\Controllers\PayrollController::class, 'details'])
+Route::get('/nomina/detalles/{id}', [App\Http\Controllers\PayrollController::class, 'details'])
     ->name('payroll.details');
 
 Route::post('/payrolls/update/{id}', [App\Http\Controllers\PayrollController::class, 'update'])
@@ -122,7 +125,7 @@ Route::post('/payrolls/delete', [App\Http\Controllers\PayrollController::class, 
 
 Route::group(
     [
-        'prefix' => 'employee',
+        'prefix' => 'empleado',
     ],
     function () {
         Route::get('/tickets', [App\Http\Controllers\EmployeeController::class, 'tiketsList'])
@@ -131,5 +134,7 @@ Route::group(
             ->name('employee.archivedTicketsList');
         Route::get('/tickets/detalles/{id}', [App\Http\Controllers\EmployeeController::class, 'details'])
             ->name('employee.details');
+        Route::post('/tickets/extraordinario/{id}', [App\Http\Controllers\EmployeeController::class, 'createExtraordinario'])
+            ->name('employee.createExtraordinario');
     }
 );

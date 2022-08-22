@@ -28,7 +28,7 @@ class UserController extends Controller
 
         $myCompaniesMap = function ($myCompanyItem) {
             $company = Company::where('id', $myCompanyItem['company_id'])->first();
-            $payrolls = PayrollType::where("name", $company->name)->get();
+            $payrolls = PayrollType::where("company_id", $company->id)->get();
             return array(
                 "id" => $company->id,
                 "name" => $company->name,

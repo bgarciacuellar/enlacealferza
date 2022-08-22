@@ -36,7 +36,7 @@ Tipos de nóminas
         <div class="col-md-4">
             <div class="add-emp-section">
                 <a href="#" class="btn btn-success btn-add-emp" data-bs-toggle="modal" data-bs-target="#add_company"><i
-                        class="fas fa-plus"></i> Crear nómina</a>
+                        class="fas fa-plus"></i> Agregrar nómina</a>
             </div>
         </div>
     </div>
@@ -65,6 +65,7 @@ Tipos de nóminas
                     <thead>
                         <tr>
                             <th>Tipo de nómina</th>
+                            <th>Empresa</th>
                             <th>Nombre la nómina</th>
                             <th>Eliminar</th>
                         </tr>
@@ -79,6 +80,7 @@ Tipos de nóminas
                                     <a href="{{ route('payroll.details', $payroll->id) }}">{{ $payroll->type }}</a>
                                 </h2>
                             </td>
+                            <td>{{ $payroll->company_name }}</td>
                             <td>{{ $payroll->name }}</td>
                             <td class="text-end ico-sec">
                                 <a href="#" data-bs-toggle="modal"
@@ -95,7 +97,7 @@ Tipos de nóminas
 </div>
 <!-- /Page Content -->
 
-<!-- Add company -->
+<!-- Add payroll -->
 <div id="add_company" class="modal custom-modal fade" role="dialog">
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
@@ -109,6 +111,18 @@ Tipos de nóminas
                 <form action="{{ route('payroll.create') }}" method="POST">
                     @csrf
                     <div class="row">
+                        <div class="col-sm-12">
+                            <div class="form-group">
+                                <label class="col-form-label">Empresa <span class="text-danger">*</span></label>
+                                <select class="form-control" name="company" required>
+                                    <option value="">Selecciona una opción</option>
+                                    @foreach ($companies as $company)
+                                    <option value="{{ $company->id }}">{{ ucfirst($company->name) }}
+                                    </option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
                         <div class="col-sm-6">
                             <div class="form-group">
                                 <label class="col-form-label">Tipo de nómina<span class="text-danger">*</span></label>

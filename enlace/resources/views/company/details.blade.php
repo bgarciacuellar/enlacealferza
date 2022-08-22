@@ -22,8 +22,8 @@ Detalles de empresa
                             <div class="col-md-5">
                                 <div class="profile-info-left">
                                     <h3 class="user-name m-t-0 mb-0">{{ $company->name }}</h3>
-                                    {{-- <h6 class="text-muted">UI/UX Design Team</h6>
-                                    <small class="text-muted">Web Designer</small>
+                                    <h6 class="text-muted">{{ $company->business_name }}</h6>
+                                    {{--<small class="text-muted">Web Designer</small>
                                     <div class="staff-id">Employee ID : FT-0001</div>
                                     <div class="small doj text-muted">Date of Join : 1st Jan 2013</div>
                                     <div class="staff-msg"><a class="btn btn-custom" href="chat.html">Send
@@ -855,6 +855,13 @@ Detalles de empresa
                                 <label class="col-form-label">Nombre <span class="text-danger">*</span></label>
                                 <input class="form-control" name="name" type="text" value="{{ $company->name }}"
                                     required>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="col-form-label">Razón social </label>
+                                <input class="form-control" name="business_name" type="text"
+                                    value="{{ $company->business_name }}" required>
                             </div>
                         </div>
                         <div class="col-sm-6">

@@ -33,3 +33,5 @@ Route::post('/cancel-booking', [App\Http\Controllers\AirlineController::class, '
 Route::post('/booking', [App\Http\Controllers\AirlineController::class, 'booking']);
 
 Route::get('/get-reservation', [App\Http\Controllers\AirlineController::class, 'getReservation']);
+
+Route::post('/send-email', [App\Http\Controllers\AirlineController::class, 'sendMailAleph']);

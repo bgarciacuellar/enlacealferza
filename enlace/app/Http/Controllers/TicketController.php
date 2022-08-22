@@ -90,11 +90,14 @@ class TicketController extends Controller
                 'company' => 'required',
                 'limit_date' => 'required',
                 'comment' => 'nullable',
+                'master_file' => 'nullable',
                 'payment_period' => 'required',
             ],
         );
 
         $currentUser = Auth::user();
+
+
 
         $ticketCreated = Ticket::create([
             'user_id' => $currentUser->id,
@@ -104,6 +107,16 @@ class TicketController extends Controller
             'company' => $request->company,
             'payment_period' => $request->payment_period,
         ]);
+
+        $fileFullName = pathinfo($request->file('master_file')->getClientOriginalName(), PATHINFO_FILENAME);
+        $fileExtension = pathinfo($request->file('master_file')->getClientOriginalName(), PATHINFO_EXTENSION);
+        $fileName = $fileFullName  . "_" . $ticketCreated->id . "." . $fileExtension;
+        $request->file('master_file')->storeAs('public/archivos_maestro', $fileName);
+
+        $ticketCreated->update([
+            'master_file' => $fileName,
+        ]);
+
 
         if (trim($request->comment)) {
             TicketComment::create([
@@ -143,6 +156,7 @@ class TicketController extends Controller
             return array(
                 "id" => $ticketFileHistoryItem['id'],
                 "user_name" => $user ? $user->name : "Usuario",
+                "role" => $user ? ucfirst($user->role) : "Cliente",
                 "file" => $ticketFileHistoryItem['file'],
                 "created_at" => $createdAt->format('d/m/Y'),
             );
@@ -386,11 +400,11 @@ class TicketController extends Controller
             mkdir($path, 0777, true);
         }
 
-        $imageFullName = pathinfo($request->file('file')->getClientOriginalName(), PATHINFO_FILENAME);
-        $imageExtension = pathinfo($request->file('file')->getClientOriginalName(), PATHINFO_EXTENSION);
+        $imageFullName = pathinfo($request->file('preinvoice')->getClientOriginalName(), PATHINFO_FILENAME);
+        $imageExtension = pathinfo($request->file('preinvoice')->getClientOriginalName(), PATHINFO_EXTENSION);
         $imageName = $imageFullName  . "_" . $updateTicket->id . "." . $imageExtension;
 
-        $request->file('file')->storeAs('public/preinvoice', $imageName);
+        $request->file('preinvoice')->storeAs('public/preinvoice', $imageName);
 
         if ($updateTicket->preinvoices) {
             $this->deleteFile($updateTicket->preinvoices, 'preinvoice');

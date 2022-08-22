@@ -6,10 +6,7 @@ Empresas
 
 @section('content')
 
-<!-- Page Content -->
 <div class="content container-fluid">
-
-    <!-- Search Filter -->
     <div class="row filter-row">
         <div class="col-md-8">
             {{-- <form action="{{ route('admin.searchUsers') }}">
@@ -40,7 +37,7 @@ Empresas
             </div>
         </div>
     </div>
-    <!-- /Search Filter -->
+
     @if ($errors->any())
     <div class="mx-auto text-center">
         <ul
@@ -97,7 +94,7 @@ Empresas
         </div>
     </div>
 </div>
-<!-- /Page Content -->
+
 
 <!-- Add company -->
 <div id="add_company" class="modal custom-modal fade" role="dialog">
@@ -118,6 +115,12 @@ Empresas
                                 <label class="col-form-label">Nombre de la empresa <span
                                         class="text-danger">*</span></label>
                                 <input class="form-control" name="name" type="text" required>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="col-form-label">Razón social</label>
+                                <input class="form-control" name="business_name" type="text" required>
                             </div>
                         </div>
                         <div class="col-sm-6">

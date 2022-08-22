@@ -30,6 +30,7 @@ class CompanyController extends Controller
     {
         $request->validate([
             "name" => "required",
+            "business_name" => "nullable",
             "address" => "nullable",
             "phone_number" => "nullable",
             "email" => "nullable",
@@ -44,6 +45,7 @@ class CompanyController extends Controller
 
         $companyCreated = Company::create([
             "name" => $request->name,
+            "business_name" => $request->business_name,
             "address" => $request->address,
             "phone_number" => $request->phone_number,
             "email" => $request->email,
@@ -84,6 +86,7 @@ class CompanyController extends Controller
     {
         $request->validate([
             "name" => "required",
+            "business_name" => "nullable",
             "address" => "nullable",
             "phone_number" => "nullable",
             "email" => "nullable",
@@ -107,6 +110,7 @@ class CompanyController extends Controller
 
         $company->update([
             "name" => $request->name,
+            "business_name" => $request->business_name,
             "address" => $request->address,
             "phone_number" => $request->phone_number,
             "email" => $request->email,

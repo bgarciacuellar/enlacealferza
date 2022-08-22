@@ -15,7 +15,7 @@ trait redirect
         }
 
         if ($currentUser->role == 'admin') {
-            return redirect()->route('admin.userList');
+            return redirect()->route('admin.dashboard');
         } elseif ($currentUser->role == 'operador' || $currentUser->role == 'ejecutivo' || $currentUser->role == 'nominista' || $currentUser->role == 'finanzas' || $currentUser->role == 'pagos' || $currentUser->role == 'cobranza') {
             return redirect()->route('user.ticketList');
         } elseif ($currentUser->role == 'cliente' || $currentUser->role == 'capturista' || $currentUser->role == 'validador') {

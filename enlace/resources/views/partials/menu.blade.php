@@ -499,6 +499,9 @@
                         <p>Panel de administración</p>
                         <ul>
                             <li>
+                                <a href="{{ route('admin.dashboard') }}" class="active">Inicio</a>
+                            </li>
+                            <li>
                                 <a href="{{ route('admin.userList') }}" class="active">Lista de Empleados</a>
                             </li>
                             <li>

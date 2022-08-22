@@ -401,7 +401,7 @@
                                                                         style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:helvetica, 'helvetica neue', arial, verdana, sans-serif;line-height:23px;color:#555555;font-size:15px">
                                                                         Le informamos que la nómina ha sido pagada con
                                                                         éxito. Por favor, conéctese a la plataforma para
-                                                                        descargar los comprobantes..</p>
+                                                                        descargar los comprobantes.</p>
                                                                     <p
                                                                         style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:helvetica, 'helvetica neue', arial, verdana, sans-serif;line-height:23px;color:#555555;font-size:15px">
                                                                         <br>

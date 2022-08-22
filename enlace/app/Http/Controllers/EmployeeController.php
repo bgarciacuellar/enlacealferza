@@ -79,4 +79,27 @@ class EmployeeController extends Controller
 
         return view('employee.ticket.details', compact('ticket', 'ticketComments', 'ticketFileHistory', 'ticketFileUser', 'ticketowner', 'ticketownerAdditionalInfo', 'company'));
     }
+
+    public function createExtraordinario(Request $request, $ticketId)
+    {
+        $request->validate([
+            "file" => "required",
+            "observations" => "required",
+        ]);
+
+        $ticket = Ticket::findOrFail($ticketId);
+
+        $fileFullName = pathinfo($request->file('file')->getClientOriginalName(), PATHINFO_FILENAME);
+        $fileExtension = pathinfo($request->file('file')->getClientOriginalName(), PATHINFO_EXTENSION);
+        $fileName = $fileFullName  . "_" . $ticket->id . "." . $fileExtension;
+
+        $request->file('file')->storeAs('public/extraordinario', $fileName);
+
+        $ticket->update([
+            "extraordinario_file" => $fileName,
+            "observations" => $request->observations
+        ]);
+
+        return back()->with('success', 'Agregado');
+    }
 }

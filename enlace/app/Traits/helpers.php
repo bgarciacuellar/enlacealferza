@@ -16,8 +16,13 @@ trait helpers
 
     public function searchUser($request)
     {
-
-        $usersArray = User::where("is_active", 1)->whereIn("role", $this->usersRoles)->where("name", "like", "%" . $request->name . "%")->where("employee_id", "like", "%" . $request->employee_id . "%")->get()->toArray();
+        if ($request->name) {
+            $usersArray = User::where("is_active", 1)->whereIn("role", $this->usersRoles)->where("name", "like", "%" . $request->name . "%")->get()->toArray();
+        } elseif ($request->employee_id) {
+            $usersArray = User::where("is_active", 1)->whereIn("role", $this->usersRoles)->where("employee_id", "like", "%" . $request->employee_id . "%")->get()->toArray();
+        } else {
+            $usersArray = User::where("is_active", 1)->whereIn("role", $this->usersRoles)->get()->toArray();
+        }
         // where(function ($q) use ($request) {
         //     $q->where("name", "like", "%" . $request->name . "%")->orWhere("employee_id", "like", "%" . $request->employee_id . "%");
         // })

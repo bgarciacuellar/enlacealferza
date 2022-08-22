@@ -8,9 +8,11 @@ use Illuminate\Http\Request;
 use App\Models\AdditionalUserInfo;
 use App\Models\Company;
 use App\Models\CompanyOnCharge;
+use App\Models\Ticket;
 use App\Traits\helpers;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\File;
+use stdClass;
 
 class AdminController extends Controller
 {
@@ -21,6 +23,13 @@ class AdminController extends Controller
     function __construct()
     {
         $this->middleware(['auth', 'roles:admin']);
+    }
+
+    public function dashboard()
+    {
+        $companies = Company::all()->count();
+        $tickets = Ticket::where('status', '<', 5)->get()->count();
+        return view('admin.dashboard', compact('companies', 'tickets'));
     }
 
     public function createNewUser(Request $request)
@@ -157,7 +166,7 @@ class AdminController extends Controller
     {
         $roles = ['ejecutivo', 'nominista', 'finanzas', 'pagos', 'cobranza'];
 
-        $usersArray = User::whereIn("role", $this->usersRoles)->get()->toArray();
+        $usersArray = User::where('is_active', 1)->whereIn("role", $this->usersRoles)->get()->toArray();
 
         $usersMap = function ($userItem) {
             $additionalUserInfo = AdditionalUserInfo::where('user_id', $userItem['id'])->first();

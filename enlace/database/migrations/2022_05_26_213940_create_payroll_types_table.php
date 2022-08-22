@@ -15,6 +15,7 @@ class CreatePayrollTypesTable extends Migration
     {
         Schema::create('payroll_types', function (Blueprint $table) {
             $table->id();
+            $table->bigInteger('company_id');
             $table->string('type');
             $table->string('name');
             $table->timestamps();

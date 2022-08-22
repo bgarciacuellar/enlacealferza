@@ -21,7 +21,10 @@ class CreateTicketsTable extends Migration
             $table->string('category');
             $table->string('company');
             $table->string('payment_period');
+            $table->string('master_file')->nullable();
             $table->string('preinvoices')->nullable();
+            $table->string('extraordinario_file')->nullable();
+            $table->string('observations')->nullable();
             $table->timestamps();
         });
     }

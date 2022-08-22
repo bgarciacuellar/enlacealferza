@@ -18,7 +18,7 @@ class SendTicketReminder extends Command
      *
      * @var string
      */
-    protected $signature = 'command:name';
+    protected $signature = 'email:reminder';
 
     /**
      * The console command description.
@@ -44,26 +44,31 @@ class SendTicketReminder extends Command
      */
     public function handle()
     {
-        $today = Carbon::now();
-        $tickets = Ticket::where('status', '!=', 7)->get();
+        $message = new TicketReminderMail('name', 'ticket', 'company');
+        Mail::to("alammduran@gmail.com")->send($message);
+        // $today = Carbon::now();
+        // $tickets = Ticket::where('status', 1)->get();
 
-        foreach ($tickets as $ticket) {
-            $isFileUploaded = TicketFileHistory::where('ticket_id', $ticket->id)->first('id');
-            if (!$isFileUploaded) {
-                if ($today < $ticket->limit_date) {
-                    $daysDifference = intval(date_diff($today, $ticket->limit_date)->format('%R%a'));
-                    $message = new TicketReminderMail();
-                }
-                $companyEmployees = CompanyEmployee::where('company_id',  $ticket->company)->get();
-                foreach ($companyEmployees as $companyEmployee) {
-                    $employee = User::where('id', $companyEmployee->user_id)->first();
-                    // Production
-                    // Mail::to($employee->email)->send($message);
-                    Mail::to("alammduran@gmail.com")->send($message);
-                }
-            }
-        }
-
+        // foreach ($tickets as $ticket) {
+        //     $isFileUploaded = TicketFileHistory::where('ticket_id', $ticket->id)->first('id');
+        //     if (!$isFileUploaded) {
+        //         if ($today < $ticket->limit_date) {
+        //             $daysDifference = intval(date_diff($today, $ticket->limit_date)->format('%R%a'));
+        //             $message = new TicketReminderMail('name', 'ticket', 'company');
+        //         }
+        // $emails = [];
+        //         $companyEmployees = CompanyEmployee::where('company_id',  $ticket->company)->get();
+        //         foreach ($companyEmployees as $companyEmployee) {
+        // if ($daysDifference >= 2) {
+        //     //             $employeeEmail = User::where('id', $companyEmployee->user_id)->where('role', 'capturista')->first('email)->email;
+        // }elseif ($daysDifference == 1) {
+        //     //             $employeeEmail = User::where('id', $companyEmployee->user_id)->whereIn('role', ['cliente', 'validador'])->first('email)->email;
+        // }
+        // $emails[] = $employeeEmail;
+        //         }
+        //             Mail::to($emails)->send($message);
+        //     }
+        // }
         return Command::SUCCESS;
     }
 }
