@@ -59,6 +59,14 @@ Detalles de incidencias
                                                 target="_blank"> Descargar <i class="fas fa-download"></i></a></div>
                                     </li>
                                     @endif
+                                    @if ($ticket->master_file)
+                                    <li>
+                                        <div class="title">¿Aplicar creditos?</div>
+                                        <div class="text btn-master-file" style="cursor: pointer;"><a
+                                                data-bs-target="#use_credits" data-bs-toggle="modal"> Aplicar <i
+                                                    class="fas fa-download"></i></a></div>
+                                    </li>
+                                    @endif
                                     {{-- <li>
                                         <div class="title">Reports to:</div>
                                         <div class="text">
@@ -821,6 +829,52 @@ Detalles de incidencias
 
 <!-- update ticket -->
 <div id="edit_ticket" class="modal custom-modal fade" role="dialog">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Editar Ticket</h5>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form action="{{ route('ticket.update', $ticket->id) }}" method="POST">
+                    @csrf
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="col-form-label">Cantidad <span class="text-danger">*</span></label>
+                                <input class="form-control" type="number" name="amount" required>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="col-form-label">Crédito <span class="text-danger">*</span></label>
+                                <select class="form-control" name="category" required>
+                                    <option value="">Selecciona una opción</option>
+                                    @foreach ($credits as $credit)
+                                    <option value="{{ $credit->id }}">{{ $credit->used . "/" . $credit->total_amount }}
+                                    </option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="submit-section">
+                        <button class="btn btn-primary cancel-btn" data-bs-dismiss="modal" aria-label="Close"
+                            type="button">Cancelar</button>
+                        <button type="submit" class="btn btn-primary submit-btn">Editar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /update ticket -->
+
+<!-- use credits -->
+<div id="use_credits" class="modal custom-modal fade" role="dialog">
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">

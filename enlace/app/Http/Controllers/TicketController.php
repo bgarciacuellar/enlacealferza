@@ -11,6 +11,7 @@ use App\Mail\UploadedPayroll;
 use App\Mail\UploadFileMail;
 use App\Models\AdditionalUserInfo;
 use App\Models\Company;
+use App\Models\CompanyCredit;
 use App\Models\CompanyEmployee;
 use App\Models\CompanyOnCharge;
 use App\Models\PayrollType;
@@ -147,6 +148,7 @@ class TicketController extends Controller
         $ticket->statusString = $this->statusConvert($ticket->status);
         $company = Company::findOrFail($ticket->company);
         $payrolls = PayrollType::all();
+        $credits = CompanyCredit::where('status', 1)->where('company_id', $ticket->company)->get();
         $paymentsPeriod = $this->paymentsPeriod;
 
         $ticketFilesHistoryArray = TicketFileHistory::where('ticket_id', $ticketId)->orderBy('id', 'DESC')->get()->toArray();
@@ -179,7 +181,7 @@ class TicketController extends Controller
         $ticketowner = User::where('id', $ticket->user_id)->first();
         $ticketownerAdditionalInfo = AdditionalUserInfo::where('user_id', $ticket->user_id)->first();
 
-        return view('ticket.details', compact('ticket', 'ticketComments', 'ticketFilesHistory', 'ticketowner', 'ticketownerAdditionalInfo', 'company', 'payrolls', 'paymentsPeriod'));
+        return view('ticket.details', compact('ticket', 'ticketComments', 'ticketFilesHistory', 'ticketowner', 'ticketownerAdditionalInfo', 'company', 'payrolls', 'paymentsPeriod', 'credits'));
     }
 
     public function uploadFileToRecord(Request $request, $ticket)

@@ -102,6 +102,9 @@ Route::post('/company/update/employee/{company}', [App\Http\Controllers\CompanyC
 
 Route::post('/company/delete/', [App\Http\Controllers\CompanyController::class, 'deleteEmployee'])
     ->name('company.deleteEmployee');
+
+Route::post('/company/create-credit/{companyId}', [App\Http\Controllers\CompanyController::class, 'createNewCredit'])
+    ->name('company.createNewCredit');
 // Company
 
 // Payroll

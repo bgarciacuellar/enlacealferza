@@ -3,12 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Models\Company;
+use App\Models\CompanyCredit;
 use App\Models\CompanyEmployee;
+use App\Models\Credit;
 use App\Models\PayrollType;
 use App\Models\Ticket;
 use App\Models\User;
 use App\Traits\helpers;
 use Illuminate\Http\Request;
+use Laravel\Ui\Presets\React;
 
 class CompanyController extends Controller
 {
@@ -31,6 +34,7 @@ class CompanyController extends Controller
         $request->validate([
             "name" => "required",
             "business_name" => "nullable",
+            "rfc" => "nullable",
             "address" => "nullable",
             "phone_number" => "nullable",
             "email" => "nullable",
@@ -46,6 +50,7 @@ class CompanyController extends Controller
         $companyCreated = Company::create([
             "name" => $request->name,
             "business_name" => $request->business_name,
+            "rfc" => $request->rfc,
             "address" => $request->address,
             "phone_number" => $request->phone_number,
             "email" => $request->email,
@@ -62,6 +67,7 @@ class CompanyController extends Controller
         $roles = ['cliente', 'capturista', 'validador'];
         $payrolls = PayrollType::all();
         $company = Company::findOrFail($id);
+        $credits = CompanyCredit::where('company_id', $id)->get();
         $paymentsPeriod = $this->paymentsPeriod;
         $companyEmployeesArray = CompanyEmployee::where("company_id", $company->id)->get()->toArray();
         $companyEmployeesMap = function ($companyEmployeeItem) {
@@ -79,7 +85,7 @@ class CompanyController extends Controller
         foreach ($incidents as $incident) {
             $incident->statusString = $this->statusConvert($incident->status);
         }
-        return view('company.details', compact('company', 'companyEmployees', 'incidents', 'roles', 'payrolls', 'paymentsPeriod'));
+        return view('company.details', compact('company', 'companyEmployees', 'incidents', 'roles', 'payrolls', 'paymentsPeriod', 'credits'));
     }
 
     public function update(Request $request, $id)
@@ -87,6 +93,7 @@ class CompanyController extends Controller
         $request->validate([
             "name" => "required",
             "business_name" => "nullable",
+            "rfc" => "nullable",
             "address" => "nullable",
             "phone_number" => "nullable",
             "email" => "nullable",
@@ -111,6 +118,7 @@ class CompanyController extends Controller
         $company->update([
             "name" => $request->name,
             "business_name" => $request->business_name,
+            "rfc" => $request->rfc,
             "address" => $request->address,
             "phone_number" => $request->phone_number,
             "email" => $request->email,
@@ -186,4 +194,65 @@ class CompanyController extends Controller
 
         return back()->with('success', 'Empleado Eliminado');
     }
+
+    // Credits
+    public function createNewCredit(Request $request, $companyId)
+    {
+        $request->validate([
+            "total_amount" => "required",
+            "comment" => "nullable",
+            "due_date" => "required",
+        ]);
+
+        $company = Company::findOrFail($companyId);
+        CompanyCredit::create([
+            "company_id" => $company->id,
+            "total_amount" => $request->total_amount,
+            "comment" => $request->comment,
+            "due_date" => $request->due_date,
+        ]);
+    }
+    public function updateCredit(Request $request, $creditId)
+    {
+        $request->validate([
+            "total_amount" => "required",
+            "comment" => "nullable",
+            "due_date" => "required",
+            "status" => "required",
+        ]);
+
+        $credit = CompanyCredit::findOrFail($creditId);
+        $credit->update([
+            "total_amount" => $request->total_amount,
+            "comment" => $request->comment,
+            "due_date" => $request->due_date,
+            "status" => $request->status,
+        ]);
+    }
+    public function deleteCredit($creditId)
+    {
+        $credit = CompanyCredit::findOrFail($creditId);
+
+        if ($credit->used > 0) {
+            return back()->with('error', 'No se puede eliminar ya que se han usado los creditos');
+        }
+        $credit->delete();
+        return back()->with('success', 'Credito eliminado');
+    }
+
+    public function useCredits(Request $request, $creditId)
+    {
+        $request->validate([
+            "amount_used" => "required",
+        ]);
+        // $credit = CompanyCredit::findOrFail($creditId);
+
+        // if ($credit->used > 0) {
+        //     return back()->with('error', 'No se puede eliminar ya que se han usado los creditos');
+        // }
+        // $credit->delete();
+        // return back()->with('success', 'Credito eliminado');
+    }
+
+    // Credits
 }

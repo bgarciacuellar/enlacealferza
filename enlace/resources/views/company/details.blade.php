@@ -96,8 +96,8 @@ Detalles de empresa
             <ul class="nav nav-tabs nav-tabs-bottom pt-3 pb-2">
                 <li class="nav-item"><a href="#emp_profile" data-bs-toggle="tab" class="nav-link active">Mi Empresa</a>
                 </li>
-                {{-- <li class="nav-item"><a href="#emp_projects" data-bs-toggle="tab" class="nav-link">Comentarios</a>
-                </li> --}}
+                <li class="nav-item"><a href="#emp_projects" data-bs-toggle="tab" class="nav-link">Creditos</a>
+                </li>
                 {{--<li class="nav-item"><a href="#bank_statutory" data-bs-toggle="tab" class="nav-link">Bank &
                         Statutory <small class="text-danger">(Admin Only)</small></a></li> --}}
             </ul>
@@ -328,290 +328,59 @@ Detalles de empresa
     <!-- Projects Tab -->
     <div class="tab-pane fade" id="emp_projects">
         <div class="row">
-            <div class="col-lg-4 col-sm-6 col-md-4 col-xl-3">
-                <div class="card">
+            <div class="col-md-8 d-flex">
+                <div class="card profile-box flex-fill">
                     <div class="card-body">
-                        <div class="dropdown profile-action">
-                            <a aria-expanded="false" data-bs-toggle="dropdown" class="action-icon dropdown-toggle"
-                                href="#"><i class="material-icons">more_vert</i></a>
-                            <div class="dropdown-menu dropdown-menu-right">
-                                <a data-bs-target="#edit_project" data-bs-toggle="modal" href="#"
-                                    class="dropdown-item"><i class="fa fa-pencil m-r-5"></i> Edit</a>
-                                <a data-bs-target="#delete_project" data-bs-toggle="modal" href="#"
-                                    class="dropdown-item"><i class="fa fa-trash-o m-r-5"></i> Delete</a>
-                            </div>
-                        </div>
-                        <h4 class="project-title"><a href="project-view.html">Office Management</a></h4>
-                        <small class="block text-ellipsis m-b-15">
-                            <span class="text-xs">1</span> <span class="text-muted">open tasks, </span>
-                            <span class="text-xs">9</span> <span class="text-muted">tasks completed</span>
-                        </small>
-                        <p class="text-muted">Lorem Ipsum is simply dummy text of the printing and
-                            typesetting industry. When an unknown printer took a galley of type and
-                            scrambled it...
-                        </p>
-                        <div class="pro-deadline m-b-15">
-                            <div class="sub-title">
-                                Deadline:
-                            </div>
-                            <div class="text-muted">
-                                17 Apr 2019
-                            </div>
-                        </div>
-                        <div class="project-members m-b-15">
-                            <div>Project Leader :</div>
-                            <ul class="team-members">
-                                <li>
-                                    <a href="#" data-bs-toggle="tooltip" title="Jeffery Lalor"><img alt=""
-                                            src="assets/img/profiles/avatar-16.jpg"></a>
-                                </li>
-                            </ul>
-                        </div>
-                        <div class="project-members m-b-15">
-                            <div>Team :</div>
-                            <ul class="team-members">
-                                <li>
-                                    <a href="#" data-bs-toggle="tooltip" title="John Doe"><img alt=""
-                                            src="assets/img/profiles/avatar-02.jpg"></a>
-                                </li>
-                                <li>
-                                    <a href="#" data-bs-toggle="tooltip" title="Richard Miles"><img alt=""
-                                            src="assets/img/profiles/avatar-09.jpg"></a>
-                                </li>
-                                <li>
-                                    <a href="#" data-bs-toggle="tooltip" title="John Smith"><img alt=""
-                                            src="assets/img/profiles/avatar-10.jpg"></a>
-                                </li>
-                                <li>
-                                    <a href="#" data-bs-toggle="tooltip" title="Mike Litorus"><img alt=""
-                                            src="assets/img/profiles/avatar-05.jpg"></a>
-                                </li>
-                                <li>
-                                    <a href="#" class="all-users">+15</a>
-                                </li>
-                            </ul>
-                        </div>
-                        <p class="m-b-5">Progress <span class="text-success float-end">40%</span></p>
-                        <div class="progress progress-xs mb-0">
-                            <div style="width: 40%" title="" data-bs-toggle="tooltip" role="progressbar"
-                                class="progress-bar bg-success" data-original-title="40%"></div>
-                        </div>
+                        <h3 class="card-title">Empleados</h3>
+                        <table class="table table-striped custom-table datatable">
+                            <thead>
+                                <tr>
+                                    <th>Créditos totales</th>
+                                    <th>Créditos pagados</th>
+                                    <th>Estatus</th>
+                                    <th>Detalles</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($credits as $credit)
+                                <tr>
+                                    <td>{{ $credit->total_amount }}</td>
+                                    <td>{{ $credit->paid }}</td>
+                                    <td>{{ $credit->status }}</td>
+                                    <td>
+                                        <a href="#"><i class="far fa-eye"></i></a>
+                                    </td>
+                                </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
-
-            <div class="col-lg-4 col-sm-6 col-md-4 col-xl-3">
-                <div class="card">
+            <div class="col-md-4 d-flex">
+                <div class="card profile-box flex-fill">
                     <div class="card-body">
-                        <div class="dropdown profile-action">
-                            <a aria-expanded="false" data-bs-toggle="dropdown" class="action-icon dropdown-toggle"
-                                href="#"><i class="material-icons">more_vert</i></a>
-                            <div class="dropdown-menu dropdown-menu-right">
-                                <a data-bs-target="#edit_project" data-bs-toggle="modal" href="#"
-                                    class="dropdown-item"><i class="fa fa-pencil m-r-5"></i> Edit</a>
-                                <a data-bs-target="#delete_project" data-bs-toggle="modal" href="#"
-                                    class="dropdown-item"><i class="fa fa-trash-o m-r-5"></i> Delete</a>
+                        <h3 class="card-title">Crear nuevo crédito</h3>
+                        <div class="row">
+                            <div class="col-11 justify-content-center">
+                                <form action="{{ route('company.createNewCredit', $company->id) }}" method="POST">
+                                    @csrf
+                                    <div class="form-group">
+                                        <label>Cantidad de créditos <span class="text-danger">*</span></label>
+                                        <input type="number" class="form-control" name="total_amount" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Fecha limite de pago <span class="text-danger">*</span></label>
+                                        <input type="date" class="form-control" name="due_date" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Comentarios <span class="text-danger">*</span></label>
+                                        <textarea name="comment" class="form-control" id="" cols="30"
+                                            rows="10"></textarea>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary mt-3 submit-btn">Agregar</button>
+                                </form>
                             </div>
-                        </div>
-                        <h4 class="project-title"><a href="project-view.html">Project Management</a></h4>
-                        <small class="block text-ellipsis m-b-15">
-                            <span class="text-xs">2</span> <span class="text-muted">open tasks, </span>
-                            <span class="text-xs">5</span> <span class="text-muted">tasks completed</span>
-                        </small>
-                        <p class="text-muted">Lorem Ipsum is simply dummy text of the printing and
-                            typesetting industry. When an unknown printer took a galley of type and
-                            scrambled it...
-                        </p>
-                        <div class="pro-deadline m-b-15">
-                            <div class="sub-title">
-                                Deadline:
-                            </div>
-                            <div class="text-muted">
-                                17 Apr 2019
-                            </div>
-                        </div>
-                        <div class="project-members m-b-15">
-                            <div>Project Leader :</div>
-                            <ul class="team-members">
-                                <li>
-                                    <a href="#" data-bs-toggle="tooltip" title="Jeffery Lalor"><img alt=""
-                                            src="assets/img/profiles/avatar-16.jpg"></a>
-                                </li>
-                            </ul>
-                        </div>
-                        <div class="project-members m-b-15">
-                            <div>Team :</div>
-                            <ul class="team-members">
-                                <li>
-                                    <a href="#" data-bs-toggle="tooltip" title="John Doe"><img alt=""
-                                            src="assets/img/profiles/avatar-02.jpg"></a>
-                                </li>
-                                <li>
-                                    <a href="#" data-bs-toggle="tooltip" title="Richard Miles"><img alt=""
-                                            src="assets/img/profiles/avatar-09.jpg"></a>
-                                </li>
-                                <li>
-                                    <a href="#" data-bs-toggle="tooltip" title="John Smith"><img alt=""
-                                            src="assets/img/profiles/avatar-10.jpg"></a>
-                                </li>
-                                <li>
-                                    <a href="#" data-bs-toggle="tooltip" title="Mike Litorus"><img alt=""
-                                            src="assets/img/profiles/avatar-05.jpg"></a>
-                                </li>
-                                <li>
-                                    <a href="#" class="all-users">+15</a>
-                                </li>
-                            </ul>
-                        </div>
-                        <p class="m-b-5">Progress <span class="text-success float-end">40%</span></p>
-                        <div class="progress progress-xs mb-0">
-                            <div style="width: 40%" title="" data-bs-toggle="tooltip" role="progressbar"
-                                class="progress-bar bg-success" data-original-title="40%"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-lg-4 col-sm-6 col-md-4 col-xl-3">
-                <div class="card">
-                    <div class="card-body">
-                        <div class="dropdown profile-action">
-                            <a aria-expanded="false" data-bs-toggle="dropdown" class="action-icon dropdown-toggle"
-                                href="#"><i class="material-icons">more_vert</i></a>
-                            <div class="dropdown-menu dropdown-menu-right">
-                                <a data-bs-target="#edit_project" data-bs-toggle="modal" href="#"
-                                    class="dropdown-item"><i class="fa fa-pencil m-r-5"></i> Edit</a>
-                                <a data-bs-target="#delete_project" data-bs-toggle="modal" href="#"
-                                    class="dropdown-item"><i class="fa fa-trash-o m-r-5"></i> Delete</a>
-                            </div>
-                        </div>
-                        <h4 class="project-title"><a href="project-view.html">Video Calling App</a></h4>
-                        <small class="block text-ellipsis m-b-15">
-                            <span class="text-xs">3</span> <span class="text-muted">open tasks, </span>
-                            <span class="text-xs">3</span> <span class="text-muted">tasks completed</span>
-                        </small>
-                        <p class="text-muted">Lorem Ipsum is simply dummy text of the printing and
-                            typesetting industry. When an unknown printer took a galley of type and
-                            scrambled it...
-                        </p>
-                        <div class="pro-deadline m-b-15">
-                            <div class="sub-title">
-                                Deadline:
-                            </div>
-                            <div class="text-muted">
-                                17 Apr 2019
-                            </div>
-                        </div>
-                        <div class="project-members m-b-15">
-                            <div>Project Leader :</div>
-                            <ul class="team-members">
-                                <li>
-                                    <a href="#" data-bs-toggle="tooltip" title="Jeffery Lalor"><img alt=""
-                                            src="assets/img/profiles/avatar-16.jpg"></a>
-                                </li>
-                            </ul>
-                        </div>
-                        <div class="project-members m-b-15">
-                            <div>Team :</div>
-                            <ul class="team-members">
-                                <li>
-                                    <a href="#" data-bs-toggle="tooltip" title="John Doe"><img alt=""
-                                            src="assets/img/profiles/avatar-02.jpg"></a>
-                                </li>
-                                <li>
-                                    <a href="#" data-bs-toggle="tooltip" title="Richard Miles"><img alt=""
-                                            src="assets/img/profiles/avatar-09.jpg"></a>
-                                </li>
-                                <li>
-                                    <a href="#" data-bs-toggle="tooltip" title="John Smith"><img alt=""
-                                            src="assets/img/profiles/avatar-10.jpg"></a>
-                                </li>
-                                <li>
-                                    <a href="#" data-bs-toggle="tooltip" title="Mike Litorus"><img alt=""
-                                            src="assets/img/profiles/avatar-05.jpg"></a>
-                                </li>
-                                <li>
-                                    <a href="#" class="all-users">+15</a>
-                                </li>
-                            </ul>
-                        </div>
-                        <p class="m-b-5">Progress <span class="text-success float-end">40%</span></p>
-                        <div class="progress progress-xs mb-0">
-                            <div style="width: 40%" title="" data-bs-toggle="tooltip" role="progressbar"
-                                class="progress-bar bg-success" data-original-title="40%"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-lg-4 col-sm-6 col-md-4 col-xl-3">
-                <div class="card">
-                    <div class="card-body">
-                        <div class="dropdown profile-action">
-                            <a aria-expanded="false" data-bs-toggle="dropdown" class="action-icon dropdown-toggle"
-                                href="#"><i class="material-icons">more_vert</i></a>
-                            <div class="dropdown-menu dropdown-menu-right">
-                                <a data-bs-target="#edit_project" data-bs-toggle="modal" href="#"
-                                    class="dropdown-item"><i class="fa fa-pencil m-r-5"></i> Edit</a>
-                                <a data-bs-target="#delete_project" data-bs-toggle="modal" href="#"
-                                    class="dropdown-item"><i class="fa fa-trash-o m-r-5"></i> Delete</a>
-                            </div>
-                        </div>
-                        <h4 class="project-title"><a href="project-view.html">Hospital Administration</a>
-                        </h4>
-                        <small class="block text-ellipsis m-b-15">
-                            <span class="text-xs">12</span> <span class="text-muted">open tasks, </span>
-                            <span class="text-xs">4</span> <span class="text-muted">tasks completed</span>
-                        </small>
-                        <p class="text-muted">Lorem Ipsum is simply dummy text of the printing and
-                            typesetting industry. When an unknown printer took a galley of type and
-                            scrambled it...
-                        </p>
-                        <div class="pro-deadline m-b-15">
-                            <div class="sub-title">
-                                Deadline:
-                            </div>
-                            <div class="text-muted">
-                                17 Apr 2019
-                            </div>
-                        </div>
-                        <div class="project-members m-b-15">
-                            <div>Project Leader :</div>
-                            <ul class="team-members">
-                                <li>
-                                    <a href="#" data-bs-toggle="tooltip" title="Jeffery Lalor"><img alt=""
-                                            src="assets/img/profiles/avatar-16.jpg"></a>
-                                </li>
-                            </ul>
-                        </div>
-                        <div class="project-members m-b-15">
-                            <div>Team :</div>
-                            <ul class="team-members">
-                                <li>
-                                    <a href="#" data-bs-toggle="tooltip" title="John Doe"><img alt=""
-                                            src="assets/img/profiles/avatar-02.jpg"></a>
-                                </li>
-                                <li>
-                                    <a href="#" data-bs-toggle="tooltip" title="Richard Miles"><img alt=""
-                                            src="assets/img/profiles/avatar-09.jpg"></a>
-                                </li>
-                                <li>
-                                    <a href="#" data-bs-toggle="tooltip" title="John Smith"><img alt=""
-                                            src="assets/img/profiles/avatar-10.jpg"></a>
-                                </li>
-                                <li>
-                                    <a href="#" data-bs-toggle="tooltip" title="Mike Litorus"><img alt=""
-                                            src="assets/img/profiles/avatar-05.jpg"></a>
-                                </li>
-                                <li>
-                                    <a href="#" class="all-users">+15</a>
-                                </li>
-                            </ul>
-                        </div>
-                        <p class="m-b-5">Progress <span class="text-success float-end">40%</span></p>
-                        <div class="progress progress-xs mb-0">
-                            <div style="width: 40%" title="" data-bs-toggle="tooltip" role="progressbar"
-                                class="progress-bar bg-success" data-original-title="40%"></div>
                         </div>
                     </div>
                 </div>
@@ -862,6 +631,12 @@ Detalles de empresa
                                 <label class="col-form-label">Razón social </label>
                                 <input class="form-control" name="business_name" type="text"
                                     value="{{ $company->business_name }}" required>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="col-form-label">RFC </label>
+                                <input class="form-control" name="rfc" type="text" value="{{ $company->rfc }}" required>
                             </div>
                         </div>
                         <div class="col-sm-6">

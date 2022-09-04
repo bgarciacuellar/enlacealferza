@@ -125,6 +125,12 @@ Empresas
                         </div>
                         <div class="col-sm-6">
                             <div class="form-group">
+                                <label class="col-form-label">RFC</label>
+                                <input class="form-control" name="rfc" type="text" required>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
                                 <label class="col-form-label">Dirección</label>
                                 <input class="form-control" name="address" type="text">
                             </div>
