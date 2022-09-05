@@ -96,7 +96,7 @@ Detalles de empresa
             <ul class="nav nav-tabs nav-tabs-bottom pt-3 pb-2">
                 <li class="nav-item"><a href="#emp_profile" data-bs-toggle="tab" class="nav-link active">Mi Empresa</a>
                 </li>
-                <li class="nav-item"><a href="#emp_projects" data-bs-toggle="tab" class="nav-link">Creditos</a>
+                <li class="nav-item"><a href="#emp_projects" data-bs-toggle="tab" class="nav-link">Créditos</a>
                 </li>
                 {{--<li class="nav-item"><a href="#bank_statutory" data-bs-toggle="tab" class="nav-link">Bank &
                         Statutory <small class="text-danger">(Admin Only)</small></a></li> --}}
@@ -348,7 +348,8 @@ Detalles de empresa
                                     <td>{{ $credit->paid }}</td>
                                     <td>{{ $credit->status }}</td>
                                     <td>
-                                        <a href="#"><i class="far fa-eye"></i></a>
+                                        <a href="{{ route('company.creditDetails', $credit->id) }}"><i
+                                                class="far fa-eye"></i></a>
                                     </td>
                                 </tr>
                                 @endforeach

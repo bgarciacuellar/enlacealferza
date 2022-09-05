@@ -103,8 +103,14 @@ Route::post('/company/update/employee/{company}', [App\Http\Controllers\CompanyC
 Route::post('/company/delete/', [App\Http\Controllers\CompanyController::class, 'deleteEmployee'])
     ->name('company.deleteEmployee');
 
+Route::get('/compania/creditos/{creditId}', [App\Http\Controllers\CompanyController::class, 'creditDetails'])
+    ->name('company.creditDetails');
+
 Route::post('/company/create-credit/{companyId}', [App\Http\Controllers\CompanyController::class, 'createNewCredit'])
     ->name('company.createNewCredit');
+
+Route::post('/company/use-credit/{ticketId}', [App\Http\Controllers\CompanyController::class, 'useCredits'])
+    ->name('company.useCredits');
 // Company
 
 // Payroll

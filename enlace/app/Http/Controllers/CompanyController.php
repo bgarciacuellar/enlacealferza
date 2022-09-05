@@ -196,6 +196,17 @@ class CompanyController extends Controller
     }
 
     // Credits
+
+    public function creditDetails($creditId)
+    {
+        $credit = CompanyCredit::findOrFail($creditId);
+        $usedCreditsHistory = Credit::where('company_credit_id', $creditId)->where('movement_type', 0)->get();
+        $paidCreditsHistory = Credit::where('company_credit_id', $creditId)->where('movement_type', 1)->get();
+        $company = Company::findOrFail($credit->company_id);
+
+        return view('company.credit_details', compact('credit', 'company', 'usedCreditsHistory', 'paidCreditsHistory'));
+    }
+
     public function createNewCredit(Request $request, $companyId)
     {
         $request->validate([
@@ -211,6 +222,7 @@ class CompanyController extends Controller
             "comment" => $request->comment,
             "due_date" => $request->due_date,
         ]);
+        return back()->with('success', 'Créditos agregados');
     }
     public function updateCredit(Request $request, $creditId)
     {
@@ -240,18 +252,38 @@ class CompanyController extends Controller
         return back()->with('success', 'Credito eliminado');
     }
 
-    public function useCredits(Request $request, $creditId)
+    public function useCredits(Request $request, $ticketId)
     {
         $request->validate([
-            "amount_used" => "required",
+            "amount" => "required",
+            "credit" => "required",
         ]);
-        // $credit = CompanyCredit::findOrFail($creditId);
 
-        // if ($credit->used > 0) {
-        //     return back()->with('error', 'No se puede eliminar ya que se han usado los creditos');
-        // }
-        // $credit->delete();
-        // return back()->with('success', 'Credito eliminado');
+        if ($request->amount < 0) {
+            return back()->with('error', 'Es necesario un valor positivo');
+        }
+
+        $credit = CompanyCredit::findOrFail($request->credit);
+        $availableCredits = $credit->total_amount - $credit->used;
+
+        if ($availableCredits < $request->amount) {
+            return back()->with('error', 'No cuenta con los créditos suficientes');
+        }
+
+        $currentUsedCredits = $credit->used + $request->amount;
+
+        $credit->update([
+            "used" => $currentUsedCredits
+        ]);
+
+        Credit::create([
+            "ticket_id" => $ticketId,
+            "company_credit_id" => $ticketId,
+            "amount" => $request->amount,
+            "movement_type" => 0,
+        ]);
+
+        return back()->with('success', 'Credito Aplicado');
     }
 
     // Credits

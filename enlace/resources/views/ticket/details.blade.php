@@ -64,7 +64,7 @@ Detalles de incidencias
                                         <div class="title">¿Aplicar creditos?</div>
                                         <div class="text btn-master-file" style="cursor: pointer;"><a
                                                 data-bs-target="#use_credits" data-bs-toggle="modal"> Aplicar <i
-                                                    class="fas fa-download"></i></a></div>
+                                                    class="fas fa-coins"></i></a></div>
                                     </li>
                                     @endif
                                     {{-- <li>
@@ -843,56 +843,9 @@ Detalles de incidencias
                     <div class="row">
                         <div class="col-sm-6">
                             <div class="form-group">
-                                <label class="col-form-label">Cantidad <span class="text-danger">*</span></label>
-                                <input class="form-control" type="number" name="amount" required>
-                            </div>
-                        </div>
-                        <div class="col-sm-6">
-                            <div class="form-group">
-                                <label class="col-form-label">Crédito <span class="text-danger">*</span></label>
-                                <select class="form-control" name="category" required>
-                                    <option value="">Selecciona una opción</option>
-                                    @foreach ($credits as $credit)
-                                    <option value="{{ $credit->id }}">{{ $credit->used . "/" . $credit->total_amount }}
-                                    </option>
-                                    @endforeach
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="submit-section">
-                        <button class="btn btn-primary cancel-btn" data-bs-dismiss="modal" aria-label="Close"
-                            type="button">Cancelar</button>
-                        <button type="submit" class="btn btn-primary submit-btn">Editar</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
-<!-- /update ticket -->
-
-<!-- use credits -->
-<div id="use_credits" class="modal custom-modal fade" role="dialog">
-    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Editar Ticket</h5>
-                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
-            <div class="modal-body">
-                <form action="{{ route('ticket.update', $ticket->id) }}" method="POST">
-                    @csrf
-                    <div class="row">
-                        <div class="col-sm-6">
-                            <div class="form-group">
                                 <label class="col-form-label">Fecha limite de incidencia <span
                                         class="text-danger">*</span></label>
-                                <input class="form-control" type="date" name="limit_date"
-                                    value="{{ $ticket->limit_date->format('Y-m-d') }}" required>
+                                <input class="form-control" type="date" name="limit_date" required>
                             </div>
                         </div>
                         <div class="col-sm-6">
@@ -935,7 +888,53 @@ Detalles de incidencias
         </div>
     </div>
 </div>
-<!-- /Profile Modal -->
+<!-- /update ticket -->
+
+<!-- use credits -->
+<div id="use_credits" class="modal custom-modal fade" role="dialog">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Aplicar créditos</h5>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form action="{{ route('company.useCredits', $ticket->id) }}" method="POST">
+                    @csrf
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="col-form-label">Cantidad <span class="text-danger">*</span></label>
+                                <input class="form-control" type="number" name="amount" required>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="col-form-label">Crédito <span class="text-danger">*</span></label>
+                                <select class="form-control" name="credit" required>
+                                    <option value="">Selecciona una opción</option>
+                                    @foreach ($credits as $credit)
+                                    <option value="{{ $credit->id }}">{{ $credit->used . "/" . $credit->total_amount }}
+                                    </option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="submit-section">
+                        <button class="btn btn-primary cancel-btn" data-bs-dismiss="modal" aria-label="Close"
+                            type="button">Cancelar</button>
+                        <button type="submit" class="btn btn-primary submit-btn">Aplicar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /use credits -->
 
 <!-- Personal Info Modal -->
 <div id="personal_info_modal" class="modal custom-modal fade" role="dialog">

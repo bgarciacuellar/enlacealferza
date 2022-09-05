@@ -16,6 +16,7 @@ class CreateCreditsTable extends Migration
         Schema::create('credits', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('ticket_id')->nullable();
+            $table->bigInteger('company_credit_id')->nullable();
             $table->string('amount');
             $table->string('movement_type');
             $table->timestamps();
