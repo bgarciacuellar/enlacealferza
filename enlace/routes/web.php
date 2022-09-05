@@ -111,6 +111,9 @@ Route::post('/company/create-credit/{companyId}', [App\Http\Controllers\CompanyC
 
 Route::post('/company/use-credit/{ticketId}', [App\Http\Controllers\CompanyController::class, 'useCredits'])
     ->name('company.useCredits');
+
+Route::post('/company/paid-credit/{ticketId}', [App\Http\Controllers\CompanyController::class, 'payCredits'])
+    ->name('company.payCredits');
 // Company
 
 // Payroll

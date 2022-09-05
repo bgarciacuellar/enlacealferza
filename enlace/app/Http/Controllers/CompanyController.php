@@ -283,7 +283,39 @@ class CompanyController extends Controller
             "movement_type" => 0,
         ]);
 
-        return back()->with('success', 'Credito Aplicado');
+        return back()->with('success', 'Credito aplicado');
+    }
+
+    public function payCredits(Request $request, $creditId)
+    {
+        $request->validate([
+            "amount" => "required",
+        ]);
+
+        if ($request->amount < 0) {
+            return back()->with('error', 'Es necesario un valor positivo');
+        }
+
+        $credit = CompanyCredit::findOrFail($creditId);
+        $availableCredits = $credit->total_amount - $credit->paid;
+
+        if ($availableCredits < $request->amount) {
+            return back()->with('error', 'La cantidad es mayor a lo que se debe');
+        }
+
+        $currentPaidCredits = $credit->paid + $request->amount;
+
+        $credit->update([
+            "paid" => $currentPaidCredits
+        ]);
+
+        Credit::create([
+            "company_credit_id" => $creditId,
+            "amount" => $request->amount,
+            "movement_type" => 1,
+        ]);
+
+        return back()->with('success', 'Credito pagado');
     }
 
     // Credits

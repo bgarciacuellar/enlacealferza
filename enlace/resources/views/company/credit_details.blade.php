@@ -117,15 +117,12 @@ Detalles del crédito
                         <table class="table table-striped custom-table datatable">
                             <thead>
                                 <tr>
-                                    <th>Ticket</th>
                                     <th>Cantidad</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @foreach ($paidCreditsHistory as $paidCreditHistory)
                                 <tr>
-                                    <td><a href="{{ route('ticket.details', $paidCreditHistory->ticket_id) }}"><i
-                                                class="fas fa-file-invoice"></i></a></td>
                                     <td>{{ $paidCreditHistory->amount }}</td>
                                 </tr>
                                 @endforeach
@@ -150,9 +147,9 @@ Detalles del crédito
                 </button>
             </div>
             <div class="modal-body">
-                <form action="{{ route('ticket.create') }}" method="POST" enctype="multipart/form-data">
+                <form action="{{ route('company.payCredits', $credit->id) }}" method="POST"
+                    enctype="multipart/form-data">
                     @csrf
-                    <input type="hidden" name="credit" value="{{ $credit->id }}">
                     <div class="row">
                         <div class="col-sm-6">
                             <div class="form-group">
