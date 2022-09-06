@@ -331,14 +331,14 @@ Detalles de empresa
             <div class="col-md-8 d-flex">
                 <div class="card profile-box flex-fill">
                     <div class="card-body">
-                        <h3 class="card-title">Empleados</h3>
+                        <h3 class="card-title">Mis prestamos</h3>
                         <table class="table table-striped custom-table datatable">
                             <thead>
                                 <tr>
                                     <th>Créditos totales</th>
                                     <th>Créditos pagados</th>
                                     <th>Estatus</th>
-                                    <th>Detalles</th>
+                                    <th>Acciones</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -346,10 +346,14 @@ Detalles de empresa
                                 <tr>
                                     <td>{{ $credit->total_amount }}</td>
                                     <td>{{ $credit->paid }}</td>
-                                    <td>{{ $credit->status }}</td>
+                                    <td>{{ $credit->status ? 'Al corriente' : 'Pagado'}}</td>
                                     <td>
                                         <a href="{{ route('company.creditDetails', $credit->id) }}"><i
                                                 class="far fa-eye"></i></a>
+                                        <a href="#" data-bs-toggle="modal" data-bs-target="#delete_credit"
+                                            class="text-danger ps-3"
+                                            onclick="getUserId({{ $credit->id }}, 'delete_credit_id')"><i
+                                                class="far fa-trash-alt"></i></a>
                                     </td>
                                 </tr>
                                 @endforeach
@@ -361,17 +365,17 @@ Detalles de empresa
             <div class="col-md-4 d-flex">
                 <div class="card profile-box flex-fill">
                     <div class="card-body">
-                        <h3 class="card-title">Crear nuevo crédito</h3>
+                        <h3 class="card-title">Autorizar nuevo crédito</h3>
                         <div class="row">
                             <div class="col-11 justify-content-center">
                                 <form action="{{ route('company.createNewCredit', $company->id) }}" method="POST">
                                     @csrf
                                     <div class="form-group">
-                                        <label>Cantidad de créditos <span class="text-danger">*</span></label>
+                                        <label>¿Que cantidad necesita? <span class="text-danger">*</span></label>
                                         <input type="number" class="form-control" name="total_amount" required>
                                     </div>
                                     <div class="form-group">
-                                        <label>Fecha limite de pago <span class="text-danger">*</span></label>
+                                        <label>Plazo a diferir <span class="text-danger">*</span></label>
                                         <input type="date" class="form-control" name="due_date" required>
                                     </div>
                                     <div class="form-group">
@@ -379,7 +383,8 @@ Detalles de empresa
                                         <textarea name="comment" class="form-control" id="" cols="30"
                                             rows="10"></textarea>
                                     </div>
-                                    <button type="submit" class="btn btn-primary mt-3 submit-btn">Agregar</button>
+                                    <button type="submit" class="btn btn-primary mt-3 submit-btn">Solicitar
+                                        crédito</button>
                                 </form>
                             </div>
                         </div>
@@ -602,7 +607,6 @@ Detalles de empresa
     </div>
     <!-- /Bank Statutory Tab -->
 
-</div>
 </div>
 <!-- /Page Content -->
 
@@ -1128,8 +1132,32 @@ Detalles de empresa
     </div>
 </div>
 
-</div>
-<!-- /Page Wrapper -->
-
+<!-- Delete credit Modal -->
+<div class="modal custom-modal fade" id="delete_credit" role="dialog">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="form-header">
+                    <h3>Eliminar crédito</h3>
+                    <p>¿Estas seguro de eliminar este crédito?</p>
+                </div>
+                <div class="modal-btn delete-action">
+                    <form action="{{ route('company.deleteCredit') }}" method="POST">
+                        @csrf
+                        <div class="row">
+                            <div class="col-6">
+                                <input type="hidden" name="credit_id" class="delete_credit_id">
+                                <button type="submit" class="btn btn-primary continue-btn">Eliminar</button>
+                            </div>
+                            <div class="col-6">
+                                <button type="button" data-bs-dismiss="modal"
+                                    class="btn btn-primary cancel-btn">Cancelar</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 @endsection

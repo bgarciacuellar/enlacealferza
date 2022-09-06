@@ -224,6 +224,7 @@ class CompanyController extends Controller
         ]);
         return back()->with('success', 'Créditos agregados');
     }
+
     public function updateCredit(Request $request, $creditId)
     {
         $request->validate([
@@ -240,13 +241,18 @@ class CompanyController extends Controller
             "due_date" => $request->due_date,
             "status" => $request->status,
         ]);
+
+        return back()->with('success', 'Datos actualizados');
     }
-    public function deleteCredit($creditId)
+    public function deleteCredit(Request $request)
     {
-        $credit = CompanyCredit::findOrFail($creditId);
+        $credit = CompanyCredit::findOrFail($request->credit_id);
 
         if ($credit->used > 0) {
             return back()->with('error', 'No se puede eliminar ya que se han usado los creditos');
+        }
+        if ($credit->paid > 0) {
+            return back()->with('error', 'No se puede eliminar ya que se ha pagado esté credito');
         }
         $credit->delete();
         return back()->with('success', 'Credito eliminado');
@@ -278,7 +284,7 @@ class CompanyController extends Controller
 
         Credit::create([
             "ticket_id" => $ticketId,
-            "company_credit_id" => $ticketId,
+            "company_credit_id" => $credit->id,
             "amount" => $request->amount,
             "movement_type" => 0,
         ]);
@@ -316,6 +322,21 @@ class CompanyController extends Controller
         ]);
 
         return back()->with('success', 'Credito pagado');
+    }
+
+    public function deleteCreditMovement(Request $request, $creditId)
+    {
+        $credit = CompanyCredit::findOrFail($creditId);
+        $credit = Credit::findOrFail($request->credit_id);
+
+        if ($credit->used > 0) {
+            return back()->with('error', 'No se puede eliminar ya que se han usado los creditos');
+        }
+        if ($credit->paid > 0) {
+            return back()->with('error', 'No se puede eliminar ya que se ha pagado esté credito');
+        }
+        $credit->delete();
+        return back()->with('success', 'Credito eliminado');
     }
 
     // Credits

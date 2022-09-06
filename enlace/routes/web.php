@@ -109,6 +109,12 @@ Route::get('/compania/creditos/{creditId}', [App\Http\Controllers\CompanyControl
 Route::post('/company/create-credit/{companyId}', [App\Http\Controllers\CompanyController::class, 'createNewCredit'])
     ->name('company.createNewCredit');
 
+Route::post('/company/update-credit/{creditId}', [App\Http\Controllers\CompanyController::class, 'updateCredit'])
+    ->name('company.updateCredit');
+
+Route::post('/company/delete-credit', [App\Http\Controllers\CompanyController::class, 'deleteCredit'])
+    ->name('company.deleteCredit');
+
 Route::post('/company/use-credit/{ticketId}', [App\Http\Controllers\CompanyController::class, 'useCredits'])
     ->name('company.useCredits');
 

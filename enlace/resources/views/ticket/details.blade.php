@@ -61,7 +61,7 @@ Detalles de incidencias
                                     @endif
                                     @if ($ticket->master_file)
                                     <li>
-                                        <div class="title">¿Aplicar creditos?</div>
+                                        <div class="title">Aplicar créditos autorizado</div>
                                         <div class="text btn-master-file" style="cursor: pointer;"><a
                                                 data-bs-target="#use_credits" data-bs-toggle="modal"> Aplicar <i
                                                     class="fas fa-coins"></i></a></div>
@@ -895,28 +895,32 @@ Detalles de incidencias
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Aplicar créditos</h5>
+                <h5 class="modal-title">Aplicar créditos autorizados</h5>
                 <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                     <i class="fas fa-times"></i>
                 </button>
             </div>
+            <p class="text-center">Seleccione la cantidad solicitada sobre la linea de crédito disponible</p>
             <div class="modal-body">
                 <form action="{{ route('company.useCredits', $ticket->id) }}" method="POST">
                     @csrf
                     <div class="row">
                         <div class="col-sm-6">
                             <div class="form-group">
-                                <label class="col-form-label">Cantidad <span class="text-danger">*</span></label>
+                                <label class="col-form-label">Cantidad solicitada<span
+                                        class="text-danger">*</span></label>
                                 <input class="form-control" type="number" name="amount" required>
                             </div>
                         </div>
                         <div class="col-sm-6">
                             <div class="form-group">
-                                <label class="col-form-label">Crédito <span class="text-danger">*</span></label>
+                                <label class="col-form-label">Linea de crédito disponible<span
+                                        class="text-danger">*</span></label>
                                 <select class="form-control" name="credit" required>
-                                    <option value="">Selecciona una opción</option>
+                                    <option value="">Disponible para prestar</option>
                                     @foreach ($credits as $credit)
-                                    <option value="{{ $credit->id }}">{{ $credit->used . "/" . $credit->total_amount }}
+                                    <option value="{{ $credit->id }}">Disponible: {{ ($credit->total_amount -
+                                        $credit->used ) }}
                                     </option>
                                     @endforeach
                                 </select>
@@ -927,7 +931,7 @@ Detalles de incidencias
                     <div class="submit-section">
                         <button class="btn btn-primary cancel-btn" data-bs-dismiss="modal" aria-label="Close"
                             type="button">Cancelar</button>
-                        <button type="submit" class="btn btn-primary submit-btn">Aplicar</button>
+                        <button type="submit" class="btn btn-primary submit-btn">Aplicar créditos</button>
                     </div>
                 </form>
             </div>

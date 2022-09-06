@@ -53,7 +53,7 @@ Detalles del crédito
                                     <li>
                                         <div class="title">Estatus:</div>
                                         <div class="text">
-                                            <span>{{ $credit->status ? 'Activo' : 'Inactivo' }}</span>
+                                            <span>{{ $credit->status ? 'Al corriente' : 'Pagado' }}</span>
                                         </div>
                                     </li>
                                 </ul>
@@ -87,19 +87,19 @@ Detalles del crédito
             <div class="col-md-6 d-flex">
                 <div class="card profile-box flex-fill">
                     <div class="card-body">
-                        <h3 class="card-title">Créditos usados <a href="#" class="edit-icon" data-bs-toggle="modal"
-                                data-bs-target="#create_employee"></a></h3>
+                        <h3 class="card-title">Créditos aplicados </h3>
                         <table class="table table-striped custom-table datatable">
                             <thead>
                                 <tr>
-                                    <th>Ticket</th>
+                                    <th>Número de nómina</th>
                                     <th>Cantidad</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @foreach ($usedCreditsHistory as $usedCreditHistory)
                                 <tr>
-                                    <td><a href="{{ route('ticket.details', $usedCreditHistory->ticket_id) }}"><i
+                                    <td><a href="{{ route('ticket.details', $usedCreditHistory->ticket_id) }}">
+                                            No. {{ $usedCreditHistory->ticket_id }} <i
                                                 class="fas fa-file-invoice"></i></a></td>
                                     <td>{{ $usedCreditHistory->amount }}</td>
                                 </tr>
@@ -136,12 +136,72 @@ Detalles del crédito
 
 </div>
 
+<!-- update credits -->
+<div id="profile_info" class="modal custom-modal fade" role="dialog">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Actualizar datos</h5>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form action="{{ route('company.updateCredit', $credit->id) }}" method="POST">
+                    @csrf
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label>Cantidad de créditos <span class="text-danger">*</span></label>
+                                <input type="number" class="form-control" name="total_amount"
+                                    value="{{ $credit->total_amount }}" required>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label>Fecha limite de pago <span class="text-danger">*</span></label>
+                                <input type="date" class="form-control" name="due_date"
+                                    value="{{ $credit->due_date->format('Y-m-d') }}" required>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="col-form-label">Estatus</label>
+                                <select name="status" class="form-control" required>
+                                    <option value="1" {{ $credit->status ? 'selected' : null }}>Al corriente</option>
+                                    <option value="0" {{ !$credit->status ? 'selected' : null }}>Pagado</option>
+                                    <option value="">Al corriente</option>
+                                    <option value="">Atrasado</option>
+                                    <option value="">Vencido</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <div class="form-group">
+                                <label>Comentarios <span class="text-danger">*</span></label>
+                                <textarea name="comment" class="form-control" cols="30"
+                                    rows="10">{{ $credit->comment }}</textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="submit-section">
+                        <button class="btn btn-primary cancel-btn" data-bs-dismiss="modal" aria-label="Close"
+                            type="button">Cancelar</button>
+                        <button type="submit" class="btn btn-primary submit-btn">Actualizar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
 <!-- add payment -->
 <div id="add_payment" class="modal custom-modal fade" role="dialog">
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title">Agregar pago </h5>
+                <p class="text-center"></p>
                 <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                     <i class="fas fa-times"></i>
                 </button>
