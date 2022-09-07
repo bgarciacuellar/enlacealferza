@@ -344,8 +344,8 @@ Detalles de empresa
                             <tbody>
                                 @foreach ($credits as $credit)
                                 <tr>
-                                    <td>{{ $credit->total_amount }}</td>
-                                    <td>{{ $credit->paid }}</td>
+                                    <td>${{ number_format($credit->total_amount, 2) }}</td>
+                                    <td>${{ number_format($credit->paid, 2) }}</td>
                                     <td>{{ $credit->status ? 'Al corriente' : 'Pagado'}}</td>
                                     <td>
                                         <a href="{{ route('company.creditDetails', $credit->id) }}"><i

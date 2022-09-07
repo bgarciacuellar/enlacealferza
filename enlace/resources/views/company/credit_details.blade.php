@@ -29,19 +29,19 @@ Detalles del crédito
                                     <li>
                                         <div class="title">Total del crédito:</div>
                                         <div class="text">
-                                            <span>{{ $credit->total_amount }}</span>
+                                            <span>${{ number_format($credit->total_amount, 2) }}</span>
                                         </div>
                                     </li>
                                     <li>
                                         <div class="title">Pagado:</div>
                                         <div class="text">
-                                            <span>{{ $credit->paid }}</span>
+                                            <span>${{ number_format($credit->paid, 2) }}</span>
                                         </div>
                                     </li>
                                     <li>
                                         <div class="title">Usado:</div>
                                         <div class="text">
-                                            <span>{{ $credit->used }}</span>
+                                            <span>${{ number_format($credit->used, 2) }}</span>
                                         </div>
                                     </li>
                                     <li>
@@ -101,7 +101,7 @@ Detalles del crédito
                                     <td><a href="{{ route('ticket.details', $usedCreditHistory->ticket_id) }}">
                                             No. {{ $usedCreditHistory->ticket_id }} <i
                                                 class="fas fa-file-invoice"></i></a></td>
-                                    <td>{{ $usedCreditHistory->amount }}</td>
+                                    <td>${{ number_format($usedCreditHistory->amount, 2) }}</td>
                                 </tr>
                                 @endforeach
                             </tbody>
@@ -118,12 +118,19 @@ Detalles del crédito
                             <thead>
                                 <tr>
                                     <th>Cantidad</th>
+                                    <th>Eliminar</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @foreach ($paidCreditsHistory as $paidCreditHistory)
                                 <tr>
-                                    <td>{{ $paidCreditHistory->amount }}</td>
+                                    <td>${{ number_format($paidCreditHistory->amount, 2) }}</td>
+                                    <td>
+                                        <a href="#" data-bs-toggle="modal" data-bs-target="#delete_paid_credit"
+                                            class="text-danger ps-3"
+                                            onclick="getUserId({{ $paidCreditHistory->id }}, 'delete_paid_credit_id')"><i
+                                                class="far fa-trash-alt"></i></a>
+                                    </td>
                                 </tr>
                                 @endforeach
                             </tbody>
@@ -230,4 +237,32 @@ Detalles del crédito
     </div>
 </div>
 
+<!-- Delete credit Modal -->
+<div class="modal custom-modal fade" id="delete_paid_credit" role="dialog">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="form-header">
+                    <h3>Eliminar crédito pagado</h3>
+                    <p>¿Estas seguro de eliminar este crédito pagado?</p>
+                </div>
+                <div class="modal-btn delete-action">
+                    <form action="{{ route('company.deleteCreditMovement', $credit->id) }}" method="POST">
+                        @csrf
+                        <div class="row">
+                            <div class="col-6">
+                                <input type="hidden" name="paid_credit_id" class="delete_paid_credit_id">
+                                <button type="submit" class="btn btn-primary continue-btn">Eliminar</button>
+                            </div>
+                            <div class="col-6">
+                                <button type="button" data-bs-dismiss="modal"
+                                    class="btn btn-primary cancel-btn">Cancelar</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 @endsection

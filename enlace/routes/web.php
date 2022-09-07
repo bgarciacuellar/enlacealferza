@@ -120,6 +120,9 @@ Route::post('/company/use-credit/{ticketId}', [App\Http\Controllers\CompanyContr
 
 Route::post('/company/paid-credit/{ticketId}', [App\Http\Controllers\CompanyController::class, 'payCredits'])
     ->name('company.payCredits');
+
+Route::post('/company/delete-credit-movement/{creditId}', [App\Http\Controllers\CompanyController::class, 'deleteCreditMovement'])
+    ->name('company.deleteCreditMovement');
 // Company
 
 // Payroll

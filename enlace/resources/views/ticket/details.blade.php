@@ -920,7 +920,7 @@ Detalles de incidencias
                                     <option value="">Disponible para prestar</option>
                                     @foreach ($credits as $credit)
                                     <option value="{{ $credit->id }}">Disponible: {{ ($credit->total_amount -
-                                        $credit->used ) }}
+                                        $credit->used ) }} Ocupados: %{{ ($credit->used*100)/$credit->total_amount }}
                                     </option>
                                     @endforeach
                                 </select>

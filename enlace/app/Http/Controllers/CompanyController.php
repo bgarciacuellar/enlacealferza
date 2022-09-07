@@ -326,16 +326,23 @@ class CompanyController extends Controller
 
     public function deleteCreditMovement(Request $request, $creditId)
     {
-        $credit = CompanyCredit::findOrFail($creditId);
-        $credit = Credit::findOrFail($request->credit_id);
+        $request->validate([
+            "paid_credit_id" => "required"
+        ]);
 
-        if ($credit->used > 0) {
-            return back()->with('error', 'No se puede eliminar ya que se han usado los creditos');
+        $credit = CompanyCredit::findOrFail($creditId);
+        $creditMovement = Credit::findOrFail($request->paid_credit_id);
+
+        if (!$creditMovement->movement_type) {
+            return back()->with('error', 'Error, intentelo de nuevo');
         }
-        if ($credit->paid > 0) {
-            return back()->with('error', 'No se puede eliminar ya que se ha pagado esté credito');
-        }
-        $credit->delete();
+
+        $paidBalance = $credit->paid - $creditMovement->amount;
+
+        $creditMovement->delete();
+        $credit->update([
+            "paid" => $paidBalance
+        ]);
         return back()->with('success', 'Credito eliminado');
     }
 
