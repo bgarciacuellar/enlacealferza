@@ -80,36 +80,30 @@ class AdminController extends Controller
         return redirect()->route('admin.userDetails', $newUser->id)->with('success', 'Usuario Creado');
     }
 
-    public function updateUser(Request $request, $userId)
+    public function updateUserMainInfo(Request $request, $userId)
     {
         $request->validate(
             [
                 'name' => 'required',
-                /* 'email' => 'required|unique:users,email,' . $userId, */
+                'email' => 'required|unique:users,email,' . $userId,
                 'last_name' => 'nullable',
                 'work_area' => 'nullable',
                 'position' => 'nullable',
-                'office' => 'nullable',
-                'company' => 'nullable',
-                'gender' => 'nullable',
-                'birthday' => 'nullable',
-                'municipality' => 'nullable',
-                'civil_status' => 'nullable',
                 'phone_number' => 'nullable',
                 'entry_date' => 'nullable',
-                'departure_dates' => 'nullable',
+                'immediate_boss' => 'nullable',
                 'profile_image' => 'nullable',
             ],
             [
-                'name.required' => 'Es obligatorio  un nombre',
-                // 'email.required' => 'Es obligatorio un correo',
-                // 'email.unique' => 'Correo duplicado',
+                'name.required' => 'Es obligatorio un nombre',
+                'email.required' => 'Es obligatorio un correo',
             ]
         );
 
         $user = User::findOrFail($userId);
         $user->update([
             'name' => $request->name,
+            'email' => $request->email,
         ]);
 
         $userAdditionalInfo = AdditionalUserInfo::where("user_id", $user->id)->first();
@@ -131,15 +125,9 @@ class AdminController extends Controller
                 'last_name' => $request->last_name,
                 'work_area' => $request->work_area,
                 'position' => $request->position,
-                'office' => $request->office,
-                'company' => $request->company,
-                'gender' => $request->gender,
-                'birthday' => $request->birthday,
-                'municipality' => $request->municipality,
-                'civil_status' => $request->civil_status,
                 'phone_number' => $request->phone_number,
                 'entry_date' => $request->entry_date,
-                'departure_dates' => $request->departure_dates,
+                'immediate_boss' => $request->immediate_boss,
                 'profile_image' => $profile_image,
             ]
         );
@@ -147,11 +135,90 @@ class AdminController extends Controller
         return back()->with('success', 'Usuario Actualizado');
     }
 
+    public function updateUserPersonalInfo(Request $request, $userId)
+    {
+        $request->validate(
+            [
+                'birthday' => 'nullable',
+                'gender' => 'nullable',
+                'civil_status' => 'nullable',
+            ]
+        );
+
+        $user = User::findOrFail($userId);
+
+        AdditionalUserInfo::updateOrCreate(
+            ['user_id' => $user->id],
+            [
+                'user_id' => $user->id,
+                'birthday' => $request->birthday,
+                'gender' => $request->gender,
+                'civil_status' => $request->civil_status,
+            ]
+        );
+
+        return back()->with('success', 'Usuario Actualizado');
+    }
+
+    public function updateUserCompanyInfo(Request $request, $userId)
+    {
+        $request->validate(
+            [
+                'company' => 'nullable',
+                'office' => 'nullable',
+                'municipality' => 'nullable',
+            ]
+        );
+
+        $user = User::findOrFail($userId);
+
+        AdditionalUserInfo::updateOrCreate(
+            ['user_id' => $user->id],
+            [
+                'user_id' => $user->id,
+                'company' => $request->company,
+                'office' => $request->office,
+                'municipality' => $request->municipality,
+            ]
+        );
+
+        return back()->with('success', 'Datos Actualizado');
+    }
+
+    public function updateUserEmergencyContact(Request $request, $userId)
+    {
+        $request->validate(
+            [
+                'emergency_contact_name' => 'nullable',
+                'emergency_contact_phone_number' => 'nullable',
+
+            ]
+        );
+
+        $user = User::findOrFail($userId);
+
+        AdditionalUserInfo::updateOrCreate(
+            ['user_id' => $user->id],
+            [
+                'user_id' => $user->id,
+                'emergency_contact_name' => $request->emergency_contact_name,
+                'emergency_contact_phone_number' => $request->emergency_contact_phone_number,
+            ]
+        );
+
+        return back()->with('success', 'Contacto Actualizado');
+    }
+
     public function userDetails($userId)
     {
         $user = User::findOrFail($userId);
         $additionalUserInfo = AdditionalUserInfo::where('user_id', $userId)->first();
         $companies = Company::all();
+        $bosses = User::where('is_active', 1)->where('id', '!=', $user->id)->whereIn("role", $this->usersRoles)->get();
+        $myBoss = User::find($additionalUserInfo->immediate_boss);
+        $myBossAdditionalInfo = AdditionalUserInfo::where('user_id', $additionalUserInfo->immediate_boss)->first();
+        $additionalUserInfo->boss_name = $myBoss ? $myBoss->name : '-';
+        $additionalUserInfo->boss_image = $myBossAdditionalInfo ? $myBossAdditionalInfo->profile_image : false;
 
         $userCompanies = CompanyOnCharge::where('user_id', $user->id)->get();
         foreach ($userCompanies as $userCompany) {
@@ -159,7 +226,7 @@ class AdminController extends Controller
             $userCompany->company_name = $company->name;
         }
 
-        return view('admin.users_details', compact('user', 'additionalUserInfo', 'companies', 'userCompanies'));
+        return view('admin.users_details', compact('user', 'additionalUserInfo', 'companies', 'userCompanies', 'bosses'));
     }
 
     public function usersList()

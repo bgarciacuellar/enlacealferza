@@ -26,8 +26,17 @@ Route::get('/usuario/detalles/{userId}', [App\Http\Controllers\AdminController::
 Route::post('/user/create', [App\Http\Controllers\AdminController::class, 'createNewUser'])
     ->name('admin.createNewUser');
 
-Route::post('/user/update/{userId}', [App\Http\Controllers\AdminController::class, 'updateUser'])
-    ->name('admin.updateUser');
+Route::post('/user/update-main-info/{userId}', [App\Http\Controllers\AdminController::class, 'updateUserMainInfo'])
+    ->name('admin.updateUserMainInfo');
+
+Route::post('/user/update-personal-info/{userId}', [App\Http\Controllers\AdminController::class, 'updateUserPersonalInfo'])
+    ->name('admin.updateUserPersonalInfo');
+
+Route::post('/user/update-company-info/{userId}', [App\Http\Controllers\AdminController::class, 'updateUserCompanyInfo'])
+    ->name('admin.updateUserCompanyInfo');
+
+Route::post('/user/update-emergency-contact/{userId}', [App\Http\Controllers\AdminController::class, 'updateUserEmergencyContact'])
+    ->name('admin.updateUserEmergencyContact');
 
 Route::post('/users/disable', [App\Http\Controllers\UserController::class, 'disableUser'])
     ->name('admin.disableUser');
