@@ -866,7 +866,7 @@
                     </div>
                 </div> --}}
                 <!-- /Page Header -->
-                <h3 class="title-page">
+                <h3 class="title-page ps-3">
                     @yield('title')
                 </h3>
                 @yield('content')
