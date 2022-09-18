@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Company;
+use App\Models\CompanyAdditionalAddress;
 use App\Models\CompanyCredit;
 use App\Models\CompanyEmployee;
 use App\Models\Credit;
@@ -85,7 +86,8 @@ class CompanyController extends Controller
         foreach ($incidents as $incident) {
             $incident->statusString = $this->statusConvert($incident->status);
         }
-        return view('company.details', compact('company', 'companyEmployees', 'incidents', 'roles', 'payrolls', 'paymentsPeriod', 'credits'));
+        $additionalsAddresses = CompanyAdditionalAddress::where('company_id', $id)->get();
+        return view('company.details', compact('company', 'companyEmployees', 'incidents', 'roles', 'payrolls', 'paymentsPeriod', 'credits', 'additionalsAddresses'));
     }
 
     public function update(Request $request, $id)
@@ -345,6 +347,52 @@ class CompanyController extends Controller
         ]);
         return back()->with('success', 'Credito eliminado');
     }
-
     // Credits
+
+    // Additional addresses
+    public function createAdditionalAddress(Request $request, $id)
+    {
+        $request->validate([
+            "address" => "required",
+        ]);
+
+        Company::findOrFail($id);
+
+        CompanyAdditionalAddress::create([
+            "company_id" => $id,
+            "address" => $request->address,
+        ]);
+
+        return back()->with('success', '-');
+    }
+
+    public function updateAdditionalAddress(Request $request, $id)
+    {
+        $request->validate([
+            "additional_address_id" => "required",
+            "address" => "required",
+        ]);
+
+        $company = Company::findOrFail($id);
+
+        $additionalAddress = CompanyAdditionalAddress::where('id', $request->additional_address_id)->where('company_id', $company->id)->firstOrFail();
+
+        $additionalAddress->update([
+            "address" => $request->address,
+        ]);
+
+        return back()->with('success', '-');
+    }
+
+    public function deleteAdditionalAddress(Request $request)
+    {
+        $request->validate([
+            "additional_address_id" => "required"
+        ]);
+        $employee = CompanyAdditionalAddress::find($request->additional_address_id)->delete();
+
+        return back()->with('success', 'Dirección secundaria eliminado');
+    }
+    // Additional addresses
+
 }

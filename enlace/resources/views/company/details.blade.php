@@ -124,15 +124,15 @@ Detalles de empresa
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($companyEmployees as $companyEmployee)
+                                @foreach ($additionalsAddresses as $additionalAddress)
                                 <tr>
-                                    <td>{{ $companyEmployee['name'] }}</td>
+                                    <td>{{ $additionalAddress->address }}</td>
                                     <td>
                                         <a href="#" data-bs-toggle="modal"
-                                            onclick="geEmployeeData({{ json_encode($companyEmployee) }})"
+                                            onclick="getAdditinalAddressData({{ json_encode($additionalAddress) }})"
                                             data-bs-target="#update_additional_address"><i class="fas fa-edit"></i></a>
                                         <a href="#" data-bs-toggle="modal" class="text-danger ps-3"
-                                            onclick="getUserId({{ $companyEmployee['id'] }}, 'delete_user_id')"
+                                            onclick="getUserId({{ $additionalAddress['id'] }}, 'delete_additional_address_id')"
                                             data-bs-target="#delete_additional_address"><i
                                                 class="far fa-trash-alt"></i></a>
                                     </td>

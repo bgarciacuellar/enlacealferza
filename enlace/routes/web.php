@@ -132,6 +132,17 @@ Route::post('/company/paid-credit/{ticketId}', [App\Http\Controllers\CompanyCont
 
 Route::post('/company/delete-credit-movement/{creditId}', [App\Http\Controllers\CompanyController::class, 'deleteCreditMovement'])
     ->name('company.deleteCreditMovement');
+
+// Additional address
+Route::post('/company/create/additional-address/{id}', [App\Http\Controllers\CompanyController::class, 'createAdditionalAddress'])
+    ->name('company.createAdditionalAddress');
+
+Route::post('/company/update/additional-address/{company}', [App\Http\Controllers\CompanyController::class, 'updateAdditionalAddress'])
+    ->name('company.updateAdditionalAddress');
+
+Route::post('/company/additional-address/delete/', [App\Http\Controllers\CompanyController::class, 'deleteAdditionalAddress'])
+    ->name('company.deleteAdditionalAddress');
+// Additional address
 // Company
 
 // Payroll
