@@ -15,3 +15,22 @@ function getAdditinalAddressData(data) {
     $(".update-additional_address_id").val(id);
     $(".update-additional-address").val(address);
 }
+
+function getAdditinalPhoneNumberData(data) {
+    const { id, phone_number } = data;
+    $(".update-additional-phone-number-id").val(id);
+    $(".update-additional-phone-number").val(phone_number);
+}
+
+function getAdditinalEmailData(data) {
+    const { id, email } = data;
+    $(".update-additional-email-id").val(id);
+    $(".update-additional-email").val(email);
+}
+
+function getAdditionalContactData(data) {
+    const { id, name, phone_number } = data;
+    $(".update-additional-contact-id").val(id);
+    $(".update-additional-contact-name").val(name);
+    $(".update-additional-contact-phone-number").val(phone_number);
+}

@@ -143,6 +143,39 @@ Route::post('/company/update/additional-address/{company}', [App\Http\Controller
 Route::post('/company/additional-address/delete/', [App\Http\Controllers\CompanyController::class, 'deleteAdditionalAddress'])
     ->name('company.deleteAdditionalAddress');
 // Additional address
+
+// Additional phone number
+Route::post('/company/create/additional-phone-number/{id}', [App\Http\Controllers\CompanyController::class, 'createAdditionalPhoneNumber'])
+    ->name('company.createAdditionalPhoneNumber');
+
+Route::post('/company/update/additional-phone-number/{company}', [App\Http\Controllers\CompanyController::class, 'updateAdditionalPhoneNumber'])
+    ->name('company.updateAdditionalPhoneNumber');
+
+Route::post('/company/additional-phone-number/delete/', [App\Http\Controllers\CompanyController::class, 'deleteAdditionalPhoneNumber'])
+    ->name('company.deleteAdditionalPhoneNumber');
+// Additional phone number
+
+// Additional email
+Route::post('/company/create/additional-email/{id}', [App\Http\Controllers\CompanyController::class, 'createAdditionalEmail'])
+    ->name('company.createAdditionalEmail');
+
+Route::post('/company/update/additional-email/{company}', [App\Http\Controllers\CompanyController::class, 'updateAdditionalEmail'])
+    ->name('company.updateAdditionalEmail');
+
+Route::post('/company/additional-email/delete/', [App\Http\Controllers\CompanyController::class, 'deleteAdditionalEmail'])
+    ->name('company.deleteAdditionalEmail');
+// Additional email
+
+// Additional contact
+Route::post('/company/create/additional-contact/{id}', [App\Http\Controllers\CompanyController::class, 'createAdditionalContact'])
+    ->name('company.createAdditionalContact');
+
+Route::post('/company/update/additional-contact/{company}', [App\Http\Controllers\CompanyController::class, 'updateAdditionalContact'])
+    ->name('company.updateAdditionalContact');
+
+Route::post('/company/additional-contact/delete/', [App\Http\Controllers\CompanyController::class, 'deleteAdditionalContact'])
+    ->name('company.deleteAdditionalContact');
+// Additional contact
 // Company
 
 // Payroll

@@ -146,6 +146,108 @@ Detalles de empresa
             <div class="col-md-6 d-flex">
                 <div class="card profile-box flex-fill">
                     <div class="card-body">
+                        <h3 class="card-title">Correos electrónicos secundarios <a href="#" class="edit-icon"
+                                data-bs-toggle="modal" data-bs-target="#create_additional_email"><i
+                                    class="fas fa-plus-circle"></i></a></h3>
+                        <table class="table table-striped custom-table datatable">
+                            <thead>
+                                <tr>
+                                    <th>Correo electrónico</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($additionalsEmails as $additionalEmail)
+                                <tr>
+                                    <td>{{ $additionalEmail->email }}</td>
+                                    <td>
+                                        <a href="#" data-bs-toggle="modal"
+                                            onclick="getAdditinalEmailData({{ json_encode($additionalEmail) }})"
+                                            data-bs-target="#update_additional_email"><i class="fas fa-edit"></i></a>
+                                        <a href="#" data-bs-toggle="modal" class="text-danger ps-3"
+                                            onclick="getUserId({{ $additionalEmail['id'] }}, 'delete_additional_email_id')"
+                                            data-bs-target="#delete_additional_email"><i
+                                                class="far fa-trash-alt"></i></a>
+                                    </td>
+                                </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 d-flex">
+                <div class="card profile-box flex-fill">
+                    <div class="card-body">
+                        <h3 class="card-title">Contactos <a href="#" class="edit-icon" data-bs-toggle="modal"
+                                data-bs-target="#create_additional_contact"><i class="fas fa-plus-circle"></i></a>
+                        </h3>
+                        <table class="table table-striped custom-table datatable">
+                            <thead>
+                                <tr>
+                                    <th>Nombre</th>
+                                    <th>Teléfono</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($additionalsContacts as $additionalContact)
+                                <tr>
+                                    <td>{{ $additionalContact->name }}</td>
+                                    <td>{{ $additionalContact->phone_number }}</td>
+                                    <td>
+                                        <a href="#" data-bs-toggle="modal"
+                                            onclick="getAdditionalContactData({{ json_encode($additionalContact) }})"
+                                            data-bs-target="#update_additional_contact"><i class="fas fa-edit"></i></a>
+                                        <a href="#" data-bs-toggle="modal" class="text-danger ps-3"
+                                            onclick="getUserId({{ $additionalContact['id'] }}, 'delete_additional_contact_id')"
+                                            data-bs-target="#delete_additional_contact"><i
+                                                class="far fa-trash-alt"></i></a>
+                                    </td>
+                                </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 d-flex">
+                <div class="card profile-box flex-fill">
+                    <div class="card-body">
+                        <h3 class="card-title">Teléfonos secundarios <a href="#" class="edit-icon"
+                                data-bs-toggle="modal" data-bs-target="#create_additional_phone_number"><i
+                                    class="fas fa-plus-circle"></i></a></h3>
+                        <table class="table table-striped custom-table datatable">
+                            <thead>
+                                <tr>
+                                    <th>Teléfono</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($additionalsPhoneNumbers as $additionalPhoneNumber)
+                                <tr>
+                                    <td>{{ $additionalPhoneNumber->phone_number }}</td>
+                                    <td>
+                                        <a href="#" data-bs-toggle="modal"
+                                            onclick="getAdditinalPhoneNumberData({{ json_encode($additionalPhoneNumber) }})"
+                                            data-bs-target="#update_additional_phone_number"><i
+                                                class="fas fa-edit"></i></a>
+                                        <a href="#" data-bs-toggle="modal" class="text-danger ps-3"
+                                            onclick="getUserId({{ $additionalPhoneNumber['id'] }}, 'delete_additional_phone_number_id')"
+                                            data-bs-target="#delete_additional_phone_number"><i
+                                                class="far fa-trash-alt"></i></a>
+                                    </td>
+                                </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 d-flex">
+                <div class="card profile-box flex-fill">
+                    <div class="card-body">
                         <h3 class="card-title">Empleados <a href="#" class="edit-icon" data-bs-toggle="modal"
                                 data-bs-target="#create_employee"><i class="fas fa-plus-circle"></i></a></h3>
                         <table class="table table-striped custom-table datatable">

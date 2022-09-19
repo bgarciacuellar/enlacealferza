@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Company;
 use App\Models\CompanyAdditionalAddress;
+use App\Models\CompanyAdditionalContact;
+use App\Models\CompanyAdditionalEmail;
+use App\Models\CompanyAdditionalPhoneNumber;
 use App\Models\CompanyCredit;
 use App\Models\CompanyEmployee;
 use App\Models\Credit;
@@ -87,7 +90,10 @@ class CompanyController extends Controller
             $incident->statusString = $this->statusConvert($incident->status);
         }
         $additionalsAddresses = CompanyAdditionalAddress::where('company_id', $id)->get();
-        return view('company.details', compact('company', 'companyEmployees', 'incidents', 'roles', 'payrolls', 'paymentsPeriod', 'credits', 'additionalsAddresses'));
+        $additionalsPhoneNumbers = CompanyAdditionalPhoneNumber::where('company_id', $id)->get();
+        $additionalsEmails = CompanyAdditionalEmail::where('company_id', $id)->get();
+        $additionalsContacts = CompanyAdditionalContact::where('company_id', $id)->get();
+        return view('company.details', compact('company', 'companyEmployees', 'incidents', 'roles', 'payrolls', 'paymentsPeriod', 'credits', 'additionalsAddresses', 'additionalsPhoneNumbers', 'additionalsEmails', 'additionalsContacts'));
     }
 
     public function update(Request $request, $id)
@@ -389,10 +395,154 @@ class CompanyController extends Controller
         $request->validate([
             "additional_address_id" => "required"
         ]);
-        $employee = CompanyAdditionalAddress::find($request->additional_address_id)->delete();
+        CompanyAdditionalAddress::find($request->additional_address_id)->delete();
 
         return back()->with('success', 'Dirección secundaria eliminado');
     }
     // Additional addresses
+
+    // Additional phone numbers
+    public function createAdditionalPhoneNumber(Request $request, $id)
+    {
+        $request->validate([
+            "phone_number" => "required",
+        ]);
+
+        Company::findOrFail($id);
+
+        CompanyAdditionalPhoneNumber::create([
+            "company_id" => $id,
+            "phone_number" => $request->phone_number,
+        ]);
+
+        return back()->with('success', '-');
+    }
+
+    public function updateAdditionalPhoneNumber(Request $request, $id)
+    {
+        $request->validate([
+            "additional_phone_number_id" => "required",
+            "phone_number" => "required",
+        ]);
+
+        $company = Company::findOrFail($id);
+
+        $additionalPhoneNumber = CompanyAdditionalPhoneNumber::where('id', $request->additional_phone_number_id)->where('company_id', $company->id)->firstOrFail();
+
+        $additionalPhoneNumber->update([
+            "phone_number" => $request->phone_number,
+        ]);
+
+        return back()->with('success', '-');
+    }
+
+    public function deleteAdditionalPhoneNumber(Request $request)
+    {
+        $request->validate([
+            "additional_phone_number_id" => "required"
+        ]);
+        CompanyAdditionalPhoneNumber::find($request->additional_phone_number_id)->delete();
+
+        return back()->with('success', 'Teléfono secundario eliminado');
+    }
+    // Additional phone numbers
+
+    // Additional emails
+    public function createAdditionalEmail(Request $request, $id)
+    {
+        $request->validate([
+            "email" => "required",
+        ]);
+
+        Company::findOrFail($id);
+
+        CompanyAdditionalEmail::create([
+            "company_id" => $id,
+            "email" => $request->email,
+        ]);
+
+        return back()->with('success', '-');
+    }
+
+    public function updateAdditionalEmail(Request $request, $id)
+    {
+        $request->validate([
+            "additional_email_id" => "required",
+            "email" => "required",
+        ]);
+
+        $company = Company::findOrFail($id);
+
+        $additionalPhoneNumber = CompanyAdditionalEmail::where('id', $request->additional_email_id)->where('company_id', $company->id)->firstOrFail();
+
+        $additionalPhoneNumber->update([
+            "email" => $request->email,
+        ]);
+
+        return back()->with('success', '-');
+    }
+
+    public function deleteAdditionalEmail(Request $request)
+    {
+        $request->validate([
+            "additional_email_id" => "required"
+        ]);
+
+        CompanyAdditionalEmail::find($request->additional_email_id)->delete();
+
+        return back()->with('success', 'Correo secundario eliminado');
+    }
+    // Additional emails
+
+    // Additional contact
+    public function createAdditionalContact(Request $request, $id)
+    {
+        $request->validate([
+            "name" => "required",
+            "phone_number" => "required",
+        ]);
+
+        Company::findOrFail($id);
+
+        CompanyAdditionalContact::create([
+            "company_id" => $id,
+            "name" => $request->name,
+            "phone_number" => $request->phone_number,
+        ]);
+
+        return back()->with('success', '-');
+    }
+
+    public function updateAdditionalContact(Request $request, $id)
+    {
+        $request->validate([
+            "additional_contact_id" => "required",
+            "name" => "required",
+            "phone_number" => "required",
+        ]);
+
+        $company = Company::findOrFail($id);
+
+        $additionalPhoneNumber = CompanyAdditionalContact::where('id', $request->additional_contact_id)->where('company_id', $company->id)->firstOrFail();
+
+        $additionalPhoneNumber->update([
+            "name" => $request->name,
+            "phone_number" => $request->phone_number,
+        ]);
+
+        return back()->with('success', '-');
+    }
+
+    public function deleteAdditionalContact(Request $request)
+    {
+        $request->validate([
+            "additional_contact_id" => "required"
+        ]);
+
+        CompanyAdditionalContact::find($request->additional_contact_id)->delete();
+
+        return back()->with('success', 'Contacto secundario eliminado');
+    }
+    // Additional contact
 
 }
