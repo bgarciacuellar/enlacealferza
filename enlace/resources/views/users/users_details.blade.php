@@ -848,8 +848,6 @@
         </div>
     </div>
     <!-- /Bank Statutory Tab -->
-
-</div>
 </div>
 <!-- /Page Content -->
 
@@ -1524,9 +1522,4 @@
     </div>
 </div>
 <!-- /Experience Modal -->
-
-</div>
-<!-- /Page Wrapper -->
-
-</div>
 @endsection

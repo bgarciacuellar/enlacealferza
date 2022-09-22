@@ -371,3 +371,63 @@
     </div>
 </div>
 <!-- /additional contact -->
+
+<div id="records_files" class="modal custom-modal fade" role="dialog">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Actualizar archivos</h5>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form action="{{ route('company.updateFiles', $company->id) }}" method="POST"
+                    enctype="multipart/form-data">
+                    @csrf
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="col-form-label">Acta costitutiva</label>
+                                <input class="form-control" name="constitutive_act" type="file">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="col-form-label">Comprobante de situación fiscal</label>
+                                <input class="form-control" name="tax_identification_card" type="file">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="col-form-label">Comprobante de domicilio</label>
+                                <input class="form-control" name="proof_residency" type="file">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="col-form-label">Registro patronal</label>
+                                <input class="form-control" name="employer_registration" type="file">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="col-form-label">INE representante legal</label>
+                                <input class="form-control" name="legal_represantative_identification" type="file">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="col-form-label">Poder del representante legal</label>
+                                <input class="form-control" name="legal_represantative_power" type="file">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="submit-section">
+                        <button class="btn btn-primary submit-btn">Actualizar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

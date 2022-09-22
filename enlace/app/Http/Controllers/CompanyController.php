@@ -136,6 +136,62 @@ class CompanyController extends Controller
         return back()->with('success', 'Actualizado');
     }
 
+    public function updateFiles(Request $request, $id)
+    {
+        $request->validate([
+            "constitutive_act" => "nullable",
+            "tax_identification_card" => "nullable",
+            "proof_residency" => "nullable",
+            "employer_registration" => "nullable",
+            "legal_represantative_identification" => "nullable",
+            "legal_represantative_power" => "nullable",
+        ]);
+
+        $route = "records_files";
+        $company = Company::findOrFail($id);
+        if ($request->hasFile('constitutive_act')) {
+            $constitutiveAct = $this->uploadCompanyFile($request->file('constitutive_act'), $route, $id);
+        } else {
+            $constitutiveAct = $company->constitutive_act ? $company->constitutive_act : '';
+        }
+        if ($request->hasFile('tax_identification_card')) {
+            $taxIdentificationCard = $this->uploadCompanyFile($request->file('tax_identification_card'), $route, $id);
+        } else {
+            $taxIdentificationCard = $company->tax_identification_card ? $company->tax_identification_card : '';
+        }
+        if ($request->hasFile('proof_residency')) {
+            $proofResidency = $this->uploadCompanyFile($request->file('proof_residency'), $route, $id);
+        } else {
+            $proofResidency = $company->proof_residency ? $company->proof_residency : '';
+        }
+        if ($request->hasFile('employer_registration')) {
+            $employerRegistration = $this->uploadCompanyFile($request->file('employer_registration'), $route, $id);
+        } else {
+            $employerRegistration = $company->employer_registration ? $company->employer_registration : '';
+        }
+        if ($request->hasFile('legal_represantative_identification')) {
+            $legalRepresantativeIdentification = $this->uploadCompanyFile($request->file('legal_represantative_identification'), $route, $id);
+        } else {
+            $legalRepresantativeIdentification = $company->legal_represantative_identification ? $company->legal_represantative_identification : '';
+        }
+        if ($request->hasFile('legal_represantative_power')) {
+            $legalRepresantativePower = $this->uploadCompanyFile($request->file('legal_represantative_power'), $route, $id);
+        } else {
+            $legalRepresantativePower = $company->legal_represantative_power ? $company->legal_represantative_power : '';
+        }
+
+        $company->update([
+            "constitutive_act" => $constitutiveAct,
+            "tax_identification_card" => $taxIdentificationCard,
+            "proof_residency" => $proofResidency,
+            "employer_registration" => $employerRegistration,
+            "legal_represantative_identification" => $legalRepresantativeIdentification,
+            "legal_represantative_power" => $legalRepresantativePower,
+        ]);
+
+        return back()->with('success', 'Actualizado');
+    }
+
     public function createEmployee(Request $request, $id)
     {
         $request->validate([

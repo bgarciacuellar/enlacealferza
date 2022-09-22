@@ -113,6 +113,53 @@ Detalles de empresa
             <div class="col-md-6 d-flex">
                 <div class="card profile-box flex-fill">
                     <div class="card-body">
+                        <h3 class="card-title">Historial de archivos <a href="#" class="edit-icon"
+                                data-bs-toggle="modal" data-bs-target="#records_files"><i
+                                    class="fas fa-pencil-alt"></i></a></h3>
+                        <ul class="personal-info">
+                            <li>
+                                <div class="title">Acta costitutiva</div>
+                                <div class="text"><a
+                                        href="{{ asset('storage/records_files/' . $company->constitutive_act) }}"
+                                        target="_blank"> Descargar <i class="fas fa-download"></i></a></div>
+                            </li>
+                            <li>
+                                <div class="title">Comprobante de situación fiscal</div>
+                                <div class="text"><a
+                                        href="{{ asset('storage/records_files/' . $company->tax_identification_card) }}"
+                                        target="_blank"> Descargar <i class="fas fa-download"></i></a></div>
+                            </li>
+                            <li>
+                                <div class="title">Comprobante de domicilio</div>
+                                <div class="text"><a
+                                        href="{{ asset('storage/records_files/' . $company->proof_residency) }}"
+                                        target="_blank"> Descargar <i class="fas fa-download"></i></a></div>
+                            </li>
+                            <li>
+                                <div class="title">Registro patronal</div>
+                                <div class="text"><a
+                                        href="{{ asset('storage/records_files/' . $company->employer_registration) }}"
+                                        target="_blank"> Descargar <i class="fas fa-download"></i></a></div>
+                            </li>
+                            <li>
+                                <div class="title">INE representante legal</div>
+                                <div class="text"><a
+                                        href="{{ asset('storage/records_files/' . $company->legal_represantative_identification) }}"
+                                        target="_blank"> Descargar <i class="fas fa-download"></i></a></div>
+                            </li>
+                            <li>
+                                <div class="title">Poder del representante legal</div>
+                                <div class="text"><a
+                                        href="{{ asset('storage/records_files/' . $company->legal_represantative_power) }}"
+                                        target="_blank"> Descargar <i class="fas fa-download"></i></a></div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 d-flex">
+                <div class="card profile-box flex-fill">
+                    <div class="card-body">
                         <h3 class="card-title">Domicilios secundarios <a href="#" class="edit-icon"
                                 data-bs-toggle="modal" data-bs-target="#create_additional_address"><i
                                     class="fas fa-plus-circle"></i></a></h3>

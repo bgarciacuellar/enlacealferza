@@ -25,7 +25,7 @@ class CreateCompaniesTable extends Migration
             $table->string('tax_identification_card')->nullable();
             $table->string('proof_residency')->nullable();
             $table->string('employer_registration')->nullable();
-            $table->string('legal_represantative_power')->nullable();
+            $table->string('legal_represantative_identification')->nullable();
             $table->string('legal_represantative_power')->nullable();
             $table->string('logo')->nullable();
             $table->timestamps();

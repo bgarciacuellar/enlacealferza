@@ -13,6 +13,19 @@ trait helpers
     public $usersRoles = ['ejecutivo', 'nominista', 'finanzas', 'pagos', 'cobranza'];
     public $PAYROLL = ['ejecutivo', 'nominista', 'finanzas', 'pagos', 'cobranza'];
 
+    public function uploadCompanyFile($file, $route, $companyId)
+    {
+        $path = storage_path('app/public/' . $route);
+        if (!file_exists($path)) {
+            mkdir($path, 0777, true);
+        }
+        $imageFullName = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
+        $imageExtension = pathinfo($file->getClientOriginalName(), PATHINFO_EXTENSION);
+        $imageName = $imageFullName  . "_" . $companyId . "." . $imageExtension;
+
+        $file->storeAs('public/' . $route, $imageName);
+        return $imageName;
+    }
 
     public function searchUser($request)
     {

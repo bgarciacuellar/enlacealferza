@@ -103,6 +103,9 @@ Route::get('/compania/detalles/{id}', [App\Http\Controllers\CompanyController::c
 Route::post('/company/update/{id}', [App\Http\Controllers\CompanyController::class, 'update'])
     ->name('company.update');
 
+Route::post('/company/update-files/{id}', [App\Http\Controllers\CompanyController::class, 'updateFiles'])
+    ->name('company.updateFiles');
+
 Route::post('/company/create/employee/{id}', [App\Http\Controllers\CompanyController::class, 'createEmployee'])
     ->name('company.createEmployee');
 
