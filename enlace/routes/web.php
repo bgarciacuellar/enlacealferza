@@ -20,6 +20,9 @@ Route::get('/inicio', [App\Http\Controllers\AdminController::class, 'dashboard']
 Route::get('/usuarios/lista', [App\Http\Controllers\AdminController::class, 'usersList'])
     ->name('admin.userList');
 
+Route::get('/usuarios/lista-cuadricula', [App\Http\Controllers\AdminController::class, 'usersListGrid'])
+    ->name('admin.usersListGrid');
+
 Route::get('/usuario/detalles/{userId}', [App\Http\Controllers\AdminController::class, 'userDetails'])
     ->name('admin.userDetails');
 

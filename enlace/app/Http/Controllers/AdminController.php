@@ -264,6 +264,41 @@ class AdminController extends Controller
         return view('admin.users_list', compact('users', 'roles'));
     }
 
+    public function usersListGrid()
+    {
+        $roles = $this->usersRoles;
+
+        $usersArray = User::where('is_active', 1)->whereIn("role", $this->usersRoles)->get()->toArray();
+
+        $usersMap = function ($userItem) {
+            $additionalUserInfo = AdditionalUserInfo::where('user_id', $userItem['id'])->first();
+            return array(
+                "id" => $userItem['id'],
+                "employee_id" => $userItem['employee_id'],
+                "role" => $userItem['role'],
+                "name" => $userItem['name'],
+                "email" => $userItem['email'],
+                "last_name" => $additionalUserInfo->last_name,
+                "full_name" => $userItem['name'] . ' ' . $additionalUserInfo->last_name,
+                "work_area" => $additionalUserInfo->work_area,
+                "position" => $additionalUserInfo->position,
+                "office" => $additionalUserInfo->office,
+                "company" => $additionalUserInfo->company,
+                "gender" => $additionalUserInfo->gender,
+                "birthday" => $additionalUserInfo->birthday,
+                "municipality" => $additionalUserInfo->municipality,
+                "civil_status" => $additionalUserInfo->civil_status,
+                "phone_number" => $additionalUserInfo->phone_number,
+                "entry_date" => $additionalUserInfo->entry_date,
+                "departure_dates" => $additionalUserInfo->departure_dates,
+                "profile_image" => $additionalUserInfo->profile_image,
+            );
+        };
+        $users = array_map($usersMap, $usersArray);
+
+        return view('admin.users_list_grid', compact('users', 'roles'));
+    }
+
     public function searchUsers(Request $request)
     {
 

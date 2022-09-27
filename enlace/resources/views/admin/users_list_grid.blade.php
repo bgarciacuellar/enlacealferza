@@ -33,8 +33,8 @@ Lista de usuarios
         </div>
         <div class="col-md-4">
             <div class="add-emp-section">
-                <a href="{{ route('admin.usersListGrid') }}" class="grid-icon"><i class="fas fa-th"></i></a>
-                <a href="{{ route('admin.userList') }}" class="list-icon active"><i class="fas fa-bars ps-3"></i></a>
+                <a href="{{ route('admin.usersListGrid') }}" class="grid-icon active"><i class="fas fa-th"></i></a>
+                <a href="{{ route('admin.userList') }}" class="list-icon"><i class="fas fa-bars ps-3"></i></a>
                 <a href="#" class="btn btn-success btn-add-emp" data-bs-toggle="modal" data-bs-target="#add_employee"><i
                         class="fas fa-plus"></i> Agregar Empleado</a>
             </div>
@@ -59,52 +59,37 @@ Lista de usuarios
     </div>
     @endif
     <div class="row">
-        <div class="col-md-12">
-            <div class="table-responsive">
-                <table class="table table-striped custom-table datatable">
-                    <thead>
-                        <tr>
-                            <th>Nombre</th>
-                            <th>ID</th>
-                            <th>Correo electrónico</th>
-                            <th>Teléfono</th>
-                            <th class="text-nowrap">Fecha de ingreso</th>
-                            <th>Rol</th>
-                            <th class="text-end no-sort">Deshabilitar</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach ($users as $user)
-                        <tr>
-                            <td>
-                                <h2 class="table-avatar">
-                                    <a href="{{ route('admin.userDetails', $user['id']) }}" class="avatar"><img
-                                            alt="profile_image" src="{{ $user['profile_image'] ? asset('/storage/profile_images/' . $user['profile_image']) : 
-                                        asset('/img/user-default.jpg/')}}"></a>
-                                    <a href="{{ route('admin.userDetails', $user['id']) }}">{{ $user['name'] }} <span>{{
-                                            $user['position'] }}</span></a>
-                                </h2>
-                            </td>
-                            <td>{{ $user['employee_id'] }}</td>
-                            <td>{{ $user['email'] }}</td>
-                            <td>{{ $user['phone_number'] }}</td>
-                            <td>{{ $user['entry_date'] }}</td>
-                            <td>
-                                <span class="role-info role-bg-one">{{ ucfirst($user['role']) }}</span>
-                            </td>
-                            <td class="text-end ico-sec">
-                                {{-- <a href="#" data-bs-toggle="modal" data-bs-target="#edit_employee"><i
-                                        class="fas fa-pen"></i></a> --}}
-                                <a href="#" data-bs-toggle="modal"
-                                    onclick="getUserId({{ $user['id'] }}, 'delete_user_id')"
-                                    data-bs-target="#delete_employee"><i class="far fa-trash-alt"></i></a>
-                            </td>
-                        </tr>
-                        @endforeach
-                    </tbody>
-                </table>
+        @foreach ($users as $user)
+        <div class="col-md-4 col-lg-4 col-xl-3">
+            <div class="card user-card emp-card">
+                <div class="user-img-sec">
+                    <img src="{{ $user['profile_image'] ? asset('/storage/profile_images/' . $user['profile_image']) : 
+                    asset('/img/user-default.jpg/')}}" alt="User Image">
+                    <h4>{{ $user['name'] }}</h4>
+                    <h5>{{ $user['position'] ? $user['position'] : '-' }}</h5>
+                    <h6 class="bg-1">{{ $user['work_area'] ? $user['work_area'] : '-' }}</h6>
+
+                    <div class="dropdown">
+                        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
+                            data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="fas fa-ellipsis-v"></i>
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <a class="dropdown-item" href="#" data-bs-toggle="modal"
+                                onclick="getUserId({{ $user['id'] }}, 'delete_user_id')"
+                                data-bs-target="#delete_employee">Delete</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body pb-0">
+                    <h4>ID de empleado <span>{{ $user['employee_id'] ? $user['employee_id'] : '-' }}</span></h4>
+                </div>
+                <div class="card-footer">
+                    <a href="{{ route('admin.userDetails', $user['id']) }}">Ver detalles</a>
+                </div>
             </div>
         </div>
+        @endforeach
     </div>
 </div>
 <!-- /Page Content -->
