@@ -278,10 +278,16 @@
             <div class="sidebar-left slimscroll">
                 <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
                     <a class="nav-link active" id="v-pills-dashboard-tab" data-bs-toggle="pill"
-                        href="{{ route('admin.userList') }}" role="tab" aria-controls="v-pills-dashboard"
+                        href="#v-pills-dashboard" role="tab" aria-controls="v-pills-dashboard"
                         aria-selected="true">
                         <span class="material-icons-outlined">
                             home
+                        </span>
+                    </a>
+                    <a class="nav-link" id="v-pills-projects-tab" title="Incidencias" data-bs-toggle="pill"
+                        href="#v-pills-projects" role="tab" aria-controls="v-pills-projects" aria-selected="false">
+                        <span class="material-icons-outlined">
+                            topic
                         </span>
                     </a>
                     <a class="nav-link" id="v-pills-apps-tab" title="Alferza Jobs" href="https://www.alferzajobs.com/"
@@ -306,12 +312,6 @@
                         href="#v-pills-clients" role="tab" aria-controls="v-pills-clients" aria-selected="false">
                         <span class="material-icons-outlined">
                             person
-                        </span>
-                    </a>
-                    <a class="nav-link" id="v-pills-projects-tab" title="Projects" data-bs-toggle="pill"
-                        href="#v-pills-projects" role="tab" aria-controls="v-pills-projects" aria-selected="false">
-                        <span class="material-icons-outlined">
-                            topic
                         </span>
                     </a>
                     <a class="nav-link" id="v-pills-leads-tab" title="Leads" data-bs-toggle="pill" href="#v-pills-leads"
@@ -507,6 +507,12 @@
                             <li>
                                 <a href="{{ route('user.userDetails') }}" class="active">Mi perfil</a>
                             </li>
+                        </ul>
+                    </div>
+                    <div class="tab-pane fade" id="v-pills-projects" role="tabpanel"
+                        aria-labelledby="v-pills-projects-tab">
+                        <p>Incidencias</p>
+                        <ul>
                             <li>
                                 <a href="{{ route('user.ticketList') }}" class="active">Incidencias</a>
                             </li>
@@ -566,15 +572,6 @@
                         <p>Clients</p>
                         <ul>
                             <li><a href="clients.html">Clients</a></li>
-                        </ul>
-                    </div>
-                    <div class="tab-pane fade" id="v-pills-projects" role="tabpanel"
-                        aria-labelledby="v-pills-projects-tab">
-                        <p>Projects</p>
-                        <ul>
-                            <li><a href="projects.html">Projects</a></li>
-                            <li><a href="tasks.html">Tasks</a></li>
-                            <li><a href="task-board.html">Task Board</a></li>
                         </ul>
                     </div>
                     <div class="tab-pane fade" id="v-pills-leads" role="tabpanel" aria-labelledby="v-pills-leads-tab">

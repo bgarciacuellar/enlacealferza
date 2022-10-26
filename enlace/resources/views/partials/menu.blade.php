@@ -278,10 +278,22 @@
             <div class="sidebar-left slimscroll">
                 <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
                     <a class="nav-link active" id="v-pills-dashboard-tab" data-bs-toggle="pill"
-                        href="{{ route('admin.userList') }}" role="tab" aria-controls="v-pills-dashboard"
+                        href="#v-pills-dashboard" role="tab" aria-controls="v-pills-dashboard"
                         aria-selected="true">
                         <span class="material-icons-outlined">
                             home
+                        </span>
+                    </a>
+                    <a class="nav-link" id="v-pills-employees-tab" title="Empleados" data-bs-toggle="pill"
+                        href="#v-pills-employees" role="tab" aria-controls="v-pills-employees" aria-selected="false">
+                        <span class="material-icons-outlined">
+                            people
+                        </span>
+                    </a>
+                    <a class="nav-link" id="v-pills-projects-tab" title="incidencias" data-bs-toggle="pill"
+                        href="#v-pills-projects" role="tab" aria-controls="v-pills-projects" aria-selected="false">
+                        <span class="material-icons-outlined">
+                            topic
                         </span>
                     </a>
                     <a class="nav-link" id="v-pills-apps-tab" title="Alferza Jobs" href="https://www.alferzajobs.com/"
@@ -289,23 +301,11 @@
                         <span class="material-icons-outlined">
                             work_outline
                         </span>
-                    </a>{{--
-                    <a class="nav-link" id="v-pills-employees-tab" title="Employees" data-bs-toggle="pill"
-                        href="#v-pills-employees" role="tab" aria-controls="v-pills-employees" aria-selected="false">
-                        <span class="material-icons-outlined">
-                            people
-                        </span>
                     </a>
-                    <a class="nav-link" id="v-pills-clients-tab" title="Clients" data-bs-toggle="pill"
+                    {{--<a class="nav-link" id="v-pills-clients-tab" title="Clients" data-bs-toggle="pill"
                         href="#v-pills-clients" role="tab" aria-controls="v-pills-clients" aria-selected="false">
                         <span class="material-icons-outlined">
                             person
-                        </span>
-                    </a>
-                    <a class="nav-link" id="v-pills-projects-tab" title="Projects" data-bs-toggle="pill"
-                        href="#v-pills-projects" role="tab" aria-controls="v-pills-projects" aria-selected="false">
-                        <span class="material-icons-outlined">
-                            topic
                         </span>
                     </a>
                     <a class="nav-link" id="v-pills-leads-tab" title="Leads" data-bs-toggle="pill" href="#v-pills-leads"
@@ -502,16 +502,28 @@
                                 <a href="{{ route('admin.dashboard') }}" class="active">Inicio</a>
                             </li>
                             <li>
+                                <a href="{{ route('company.list') }}" class="active">Empresa</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="tab-pane fade" id="v-pills-employees" role="tabpanel"
+                        aria-labelledby="v-pills-employees-tab">
+                        <p>Empleados</p>
+                        <ul>
+                            <li>
                                 <a href="{{ route('admin.userList') }}" class="active">Lista de Empleados</a>
                             </li>
+                        </ul>
+                    </div>
+                    <div class="tab-pane fade" id="v-pills-projects" role="tabpanel"
+                        aria-labelledby="v-pills-projects-tab">
+                        <p>Incidencias</p>
+                        <ul>
                             <li>
                                 <a href="{{ route('ticket.list') }}" class="active">Incidencias</a>
                             </li>
                             <li>
                                 <a href="{{ route('ticket.archivedList') }}" class="active">Incidencias Archivadas</a>
-                            </li>
-                            <li>
-                                <a href="{{ route('company.list') }}" class="active">Empresa</a>
                             </li>
                             <li>
                                 <a href="{{ route('payroll.list') }}" class="active">Nóminas</a>
@@ -548,39 +560,11 @@
                             </li>
                         </ul>
                     </div>
-                    <div class="tab-pane fade" id="v-pills-employees" role="tabpanel"
-                        aria-labelledby="v-pills-employees-tab">
-                        <p>Employees</p>
-                        <ul>
-                            <li><a href="employees.html">All Employees</a></li>
-                            <li><a href="holidays.html">Holidays</a></li>
-                            <li><a href="leaves.html">Leaves (Admin) <span
-                                        class="badge rounded-pill bg-primary float-end">1</span></a></li>
-                            <li><a href="leaves-employee.html">Leaves (Employee)</a></li>
-                            <li><a href="leave-settings.html">Leave Settings</a></li>
-                            <li><a href="attendance.html">Attendance (Admin)</a></li>
-                            <li><a href="attendance-employee.html">Attendance (Employee)</a></li>
-                            <li><a href="departments.html">Departments</a></li>
-                            <li><a href="designations.html">Designations</a></li>
-                            <li><a href="timesheet.html">Timesheet</a></li>
-                            <li><a href="shift-scheduling.html">Shift & Schedule</a></li>
-                            <li><a href="overtime.html">Overtime</a></li>
-                        </ul>
-                    </div>
                     <div class="tab-pane fade" id="v-pills-clients" role="tabpanel"
                         aria-labelledby="v-pills-clients-tab">
                         <p>Clients</p>
                         <ul>
                             <li><a href="clients.html">Clients</a></li>
-                        </ul>
-                    </div>
-                    <div class="tab-pane fade" id="v-pills-projects" role="tabpanel"
-                        aria-labelledby="v-pills-projects-tab">
-                        <p>Projects</p>
-                        <ul>
-                            <li><a href="projects.html">Projects</a></li>
-                            <li><a href="tasks.html">Tasks</a></li>
-                            <li><a href="task-board.html">Task Board</a></li>
                         </ul>
                     </div>
                     <div class="tab-pane fade" id="v-pills-leads" role="tabpanel" aria-labelledby="v-pills-leads-tab">
