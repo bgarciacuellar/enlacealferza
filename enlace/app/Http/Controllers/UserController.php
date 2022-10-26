@@ -37,7 +37,7 @@ class UserController extends Controller
         };
         $myCompanies = array_map($myCompaniesMap, $myCompaniesArray);
 
-        $tickets = Ticket::where("company", $selectedCompany)->get();
+        $tickets = Ticket::where("company", $selectedCompany)->orderBy('id', 'DESC')->get();
         foreach ($tickets as $ticket) {
             $ticket->statusString = $this->statusConvert($ticket->status);
         }
@@ -49,7 +49,14 @@ class UserController extends Controller
     {
         $user = User::findOrFail(Auth::user()->id);
         $additionalUserInfo = AdditionalUserInfo::where('user_id', Auth::user()->id)->first();
-        return view('users.users_details', compact('user', 'additionalUserInfo'));
+
+        $myCompanies = CompanyOnCharge::where('user_id', $user->id)->get();
+        foreach ($myCompanies as $myCompany) {
+            $company = Company::find($myCompany->company_id);
+            $myCompany->company_name = $company->name;
+        }
+
+        return view('users.users_details', compact('user', 'additionalUserInfo', 'myCompanies'));
     }
 
     public function updateUser(Request $request, $userId)

@@ -692,6 +692,17 @@ Detalles de empresa
                         </div>
                         <div class="col-sm-6">
                             <div class="form-group">
+                                <label class="col-form-label">Días de pago</label>
+                                <select class="form-control" name="role" required>
+                                    <option value="">Selecciona una opción</option>
+                                    <option value="7">Cada 7 días</option>
+                                    <option value="15">Cada 15 días</option>
+                                    <option value="30">Cada 30 días</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
                                 <label class="col-form-label">Logo</label>
                                 <input class="form-control" name="logo" type="file" accept="image/*">
                             </div>

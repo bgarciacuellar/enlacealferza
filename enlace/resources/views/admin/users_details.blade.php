@@ -29,8 +29,6 @@ Detalles de usuario
                                     <div class="staff-id">ID : {{ $user->employee_id ? $user->employee_id : '-' }}</div>
                                     <div class="small doj text-muted">Fecha de ingreso : {{
                                         $additionalUserInfo->entry_date ? $additionalUserInfo->entry_date : '-' }}</div>
-                                    {{-- <div class="staff-msg"><a class="btn btn-custom" href="chat.html">Send
-                                            Message</a></div> --}}
                                 </div>
                             </div>
                             <div class="col-md-7">
@@ -49,14 +47,14 @@ Detalles de usuario
                                         <div class="text">
                                             <div class="avatar-box">
                                                 <div class="avatar avatar-xs">
-                                                    <img src="{{ $additionalUserInfo->boss_image ? asset('storage/profile_images/' . $additionalUserInfo->boss_image) : asset('img/user-default.jpg')}}"
+                                                    <img src="{{ $additionalUserInfo->boss_image ? asset('storage/profile_images/' . $additionalUserInfo->boss_image) : asset('img/user-default.jpg') }}"
                                                         alt="image-jefe">
                                                 </div>
                                             </div>
-                                            <a href="profile.html">
+                                            <span >
                                                 {{ $additionalUserInfo->immediate_boss ?
                                                 $additionalUserInfo->boss_name : '-' }}
-                                            </a>
+                                            </span>
                                         </div>
                                     </li>
                                 </ul>
@@ -88,7 +86,7 @@ Detalles de usuario
 
 <div class="tab-content">
 
-    <!-- company Info Tab -->
+    <!-- profile Tab -->
     <div id="emp_profile" class="tab-pane fade">
         <div class="row">
             <div class="col-md-10 mx-auto d-flex">
@@ -252,9 +250,9 @@ Detalles de usuario
             </div>
         </div> --}}
     </div>
-    <!-- /company Info Tab -->
+    <!-- /profile Info Tab -->
 
-    <!-- profile Tab -->
+    <!-- company Tab -->
     <div class=" pro-overview tab-pane fade show active" id="emp_projects">
         <div class="row">
             <div class="col-md-6 d-flex">
@@ -335,7 +333,7 @@ Detalles de usuario
             </div>
         </div>
     </div>
-    <!-- /profile Tab -->
+    <!-- /company Tab -->
 
     <!-- Bank Statutory Tab -->
     {{-- <div class="tab-pane fade" id="bank_statutory">
@@ -581,6 +579,13 @@ Detalles de usuario
                                         <label>Apellido(s)</label>
                                         <input type="text" class="form-control"
                                             value="{{ $additionalUserInfo->last_name }}" name="last_name">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>ID</label>
+                                        <input type="text" class="form-control"
+                                            value="{{ $user->employee_id }}" name="employee_id">
                                     </div>
                                 </div>
                                 <div class="col-md-6">

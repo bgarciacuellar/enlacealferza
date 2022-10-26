@@ -87,6 +87,7 @@ class AdminController extends Controller
                 'name' => 'required',
                 'email' => 'required|unique:users,email,' . $userId,
                 'last_name' => 'nullable',
+                'employee_id' => 'nullable',
                 'work_area' => 'nullable',
                 'position' => 'nullable',
                 'phone_number' => 'nullable',
@@ -103,6 +104,7 @@ class AdminController extends Controller
         $user = User::findOrFail($userId);
         $user->update([
             'name' => $request->name,
+            'employee_id' => $request->employee_id,
             'email' => $request->email,
         ]);
 

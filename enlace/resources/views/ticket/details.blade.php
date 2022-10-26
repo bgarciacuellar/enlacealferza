@@ -1,4 +1,10 @@
-@extends('partials.menu')
+@if (auth()->user()->role != 'admin')
+    @extends('partials.menu-user')
+@else
+    @extends('partials.menu')
+@endif
+
+
 
 @section('title')
 Detalles de incidencias

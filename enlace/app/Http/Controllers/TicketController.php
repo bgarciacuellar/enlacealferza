@@ -98,8 +98,6 @@ class TicketController extends Controller
 
         $currentUser = Auth::user();
 
-
-
         $ticketCreated = Ticket::create([
             'user_id' => $currentUser->id,
             'status' => 1,
