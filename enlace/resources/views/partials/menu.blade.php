@@ -502,7 +502,7 @@
                                 <a href="{{ route('admin.dashboard') }}" class="active">Inicio</a>
                             </li>
                             <li>
-                                <a href="{{ route('company.list') }}" class="active">Empresa</a>
+                                <a href="{{ route('company.list') }}" class="active">Empresas</a>
                             </li>
                         </ul>
                     </div>
