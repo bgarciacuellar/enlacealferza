@@ -646,6 +646,13 @@ Detalles de usuario
                                 <input class="form-control" type="file" name="profile_image">
                             </div>
                         </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>¿Cambiar contraseña?</label>
+                                <input type="checkbox" name="change_password" class="change_password">
+                                <input class="form-control password" type="password" name="password" style="display:none;">
+                            </div>
+                        </div>
 
                     </div>
                     <div class="submit-section">
@@ -870,6 +877,14 @@ Detalles de usuario
                     this.submit();
                 }
             })
+        });
+        $( ".change_password" ).change(function() {
+            if ($(this).is(':checked')) {
+                $('.password').show();
+            } else {
+                $('.password').hide();
+                $('.password').val('');
+            }
         });
 </script>
 @endsection

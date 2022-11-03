@@ -94,6 +94,8 @@ class AdminController extends Controller
                 'entry_date' => 'nullable',
                 'immediate_boss' => 'nullable',
                 'profile_image' => 'nullable',
+                'change_password' => 'nullable',
+                'password' => $request->change_password ? 'required|min:8' :'nullable',
             ],
             [
                 'name.required' => 'Es obligatorio un nombre',
@@ -107,6 +109,12 @@ class AdminController extends Controller
             'employee_id' => $request->employee_id,
             'email' => $request->email,
         ]);
+
+        if ($request->change_password) {
+            $user->update([
+                'password' => bcrypt($request->password),
+            ]);
+        }
 
         $userAdditionalInfo = AdditionalUserInfo::where("user_id", $user->id)->first();
         if ($request->hasFile('profile_image')) {

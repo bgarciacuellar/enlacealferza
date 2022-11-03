@@ -20,9 +20,9 @@ Detalles de incidencias
                             <div class="col-md-5">
                                 <div class="profile-info-left">
                                     <h3 class="user-name m-t-0 mb-0">Creado Por:</h3>
-                                    <h6 class="text-muted">{{ $ticketowner->name . " " .
-                                        $ticketownerAdditionalInfo->last_name }} <br> {{
-                                        $ticketownerAdditionalInfo->work_area }}</h6>
+                                    <h6 class="text-muted">{{ $ticketowner ? $ticketowner->name . " " .
+                                        $ticketownerAdditionalInfo->last_name : 'Usuario de alferza' }} <br> {{
+                                $ticketowner ? $ticketownerAdditionalInfo->work_area : '' }}</h6>
                                     {{-- <small class="text-muted">{{ $ticketownerAdditionalInfo->position }}</small>
                                     <div class="staff-id">ID : {{ $ticketowner->employee_id }}</div> --}}
                                 </div>
@@ -122,7 +122,7 @@ Detalles de incidencias
                             <div class="col-6 align-self-center">
                                 <span> Creado el: <strong>{{ $ticketFileHistory->created_at->format('d/m/Y') }}</strong>
                                     por:
-                                    <strong>{{ $ticketFileUser ? $ticketFileUser->name : "Usuario" }}</strong></span>
+                                    <strong>{{ $ticketFileUser ? $ticketFileUser->name : "Usuario de alferza" }}</strong></span>
                             </div>
                             <div class="col-6 pb-3">
                                 <a href="{{ asset('storage/incidencias/' . $ticketFileHistory->file) }}"

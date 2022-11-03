@@ -208,6 +208,8 @@ Route::group(
         'prefix' => 'empleado',
     ],
     function () {
+        Route::get('/inicio', [App\Http\Controllers\EmployeeController::class, 'dashboard'])
+            ->name('employee.dashboard');
         Route::get('/tickets', [App\Http\Controllers\EmployeeController::class, 'tiketsList'])
             ->name('employee.tiketsList');
         Route::get('/tickets/archivados', [App\Http\Controllers\EmployeeController::class, 'archivedTicketsList'])

@@ -22,6 +22,13 @@ class EmployeeController extends Controller
         $this->middleware(['auth', 'roles:cliente,capturista,validador']);
     }
 
+    public function dashboard()
+    {
+        $user = Auth::user();
+
+        return view('employee.dashboard', compact('user'));
+    }
+
     public function tiketsList()
     {
         $currentUser = Auth::user();
@@ -67,7 +74,7 @@ class EmployeeController extends Controller
             $createdAt = Carbon::parse($ticketCommentItem['created_at']);
             return array(
                 "id" => $ticketCommentItem['id'],
-                "user_name" => $user ? $user->name : "Usuario",
+                "user_name" => $user ? $user->name : "Usuario de alferza",
                 "comment" => $ticketCommentItem['comment'],
                 "created_at" => $createdAt->format('d/m/Y'),
             );

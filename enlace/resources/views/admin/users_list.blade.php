@@ -70,7 +70,7 @@ Lista de usuarios
                             <th>Teléfono</th>
                             <th class="text-nowrap">Fecha de ingreso</th>
                             <th>Rol</th>
-                            <th class="text-end no-sort">Deshabilitar</th>
+                            <th class="text-end no-sort">Eliminar</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -1015,9 +1015,8 @@ Lista de usuarios
         <div class="modal-content">
             <div class="modal-body">
                 <div class="form-header">
-                    <h3>Deshabilitar Usuario</h3>
-                    <p>¿Estás seguro? Al deshabilitar un usuario no podrá iniciar sesión y no se mostrará en la lista de
-                        empleados. Para activarlo de nuevo necesitarás contactar con el equipo de soporte.</p>
+                    <h3>Eliminar Usuario</h3>
+                    <p>¿Estás seguro? Al eliminar el usuario se perderan todos sus datos.</p>
                 </div>
                 <div class="modal-btn delete-action">
                     <form action="{{ route('admin.disableUser') }}" method="POST">
@@ -1025,7 +1024,7 @@ Lista de usuarios
                         <div class="row">
                             <div class="col-6">
                                 <input type="hidden" name="user_id" class="delete_user_id">
-                                <button type="submit" class="btn btn-primary continue-btn">Deshabilitar</button>
+                                <button type="submit" class="btn btn-primary continue-btn">Eliminar</button>
                             </div>
                             <div class="col-6">
                                 <a href="javascript:void(0);" data-bs-dismiss="modal"

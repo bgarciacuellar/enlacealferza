@@ -409,7 +409,7 @@
                                   </p>
                                   <p
                                     style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:helvetica, 'helvetica neue', arial, verdana, sans-serif;line-height:23px;color:#555555;font-size:15px">
-                                    <strong>Cargado&nbsp;por: </strong>{{ $name }}
+                                    <strong>Creado&nbsp;por: </strong>{{ $name }}
                                   </p>
                                 </td>
                               </tr>

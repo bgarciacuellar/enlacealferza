@@ -155,7 +155,7 @@ class TicketController extends Controller
             $createdAt = Carbon::parse($ticketFileHistoryItem['created_at']);
             return array(
                 "id" => $ticketFileHistoryItem['id'],
-                "user_name" => $user ? $user->name : "Usuario",
+                "user_name" => $user ? $user->name : "Usuario de alferza",
                 "role" => $user ? ucfirst($user->role) : "Cliente",
                 "file" => $ticketFileHistoryItem['file'],
                 "created_at" => $createdAt->format('d/m/Y'),
@@ -169,7 +169,7 @@ class TicketController extends Controller
             $createdAt = Carbon::parse($ticketCommentItem['created_at']);
             return array(
                 "id" => $ticketCommentItem['id'],
-                "user_name" => $user ? $user->name : "Usuario",
+                "user_name" => $user ? $user->name : "Usuario de alferza",
                 "comment" => $ticketCommentItem['comment'],
                 "created_at" => $createdAt->format('d/m/Y'),
             );
@@ -283,12 +283,13 @@ class TicketController extends Controller
             ]);
         }
 
-        $userCreatedTicket = User::find($ticket->user_id)->first();
+        $userCreatedTicket = User::find($ticket->user_id);
+        $userNameCreatedTicket = $userCreatedTicket ? $userCreatedTicket->name : "Usuario de alferza";
         $company = Company::where('id', $ticket->company)->first('name')->name;
 
         if ($ticket->status == 2) {
             $users = CompanyOnCharge::where('company_id', $ticket->company)->get('user_id');
-            $message = new UploadedIncident($userCreatedTicket->name, $ticket->id, $company, $ticket->category);
+            $message = new UploadedIncident($userNameCreatedTicket, $ticket->id, $company, $ticket->category);
             $emails = [];
             foreach ($users as $user) {
                 $employeeEmail = User::where('id', $user->user_id)->where('role', 'nominista')->first('email');
@@ -302,7 +303,7 @@ class TicketController extends Controller
             Mail::to($emails)->send($message);
         } elseif ($ticket->status == 3) {
             $employees = CompanyEmployee::where('company_id', $ticket->company)->get('user_id');
-            $message = new UploadedPayroll($userCreatedTicket->name, $ticket->id, $company);
+            $message = new UploadedPayroll($userNameCreatedTicket, $ticket->id, $company);
             $emails = [];
             foreach ($employees as $employee) {
                 $employeeEmail = User::where('id', $employee->user_id)->first('email');
@@ -313,7 +314,7 @@ class TicketController extends Controller
             Mail::to($emails)->send($message);
         } elseif ($ticket->status == 4) {
             $users = CompanyOnCharge::where('company_id', $ticket->company)->get('user_id');
-            $message = new PayrollAuthorized($userCreatedTicket->name, $ticket->id, $company);
+            $message = new PayrollAuthorized($userNameCreatedTicket, $ticket->id, $company);
             $emails = [];
             foreach ($users as $user) {
                 $employeeEmail = User::where('id', $user->user_id)->where('role', 'nominista')->first('email');
@@ -330,7 +331,7 @@ class TicketController extends Controller
             Mail::to($emails)->send($message);
         } elseif ($ticket->status == 5) {
             $employees = CompanyEmployee::where('company_id', $ticket->company)->get('user_id');
-            $message = new UploadedPayroll($userCreatedTicket->name, $ticket->id, $company);
+            $message = new UploadedPayroll($userNameCreatedTicket, $ticket->id, $company);
             $emails = [];
             foreach ($employees as $employee) {
                 $employeeEmail = User::where('id', $employee->user_id)->first('email');

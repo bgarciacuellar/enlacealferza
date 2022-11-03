@@ -130,13 +130,13 @@ class UserController extends Controller
         ]);
         $user = User::find($request->user_id);
         if ($user->is_active) {
-            $user->update([
-                'is_active' => 0
-            ]);
+            AdditionalUserInfo::where('user_id', $request->user_id)->delete();
+            CompanyOnCharge::where('user_id', $request->user_id)->delete();
+            $user->delete();
         } else {
-            return back()->with('error', 'Este usuario ya esta deshabilitado');
+            return back()->with('error', 'Este usuario ya esta eliminado');
         }
 
-        return back()->with('success', 'Usuario deshabilitado');
+        return back()->with('success', 'Usuario eliminado');
     }
 }

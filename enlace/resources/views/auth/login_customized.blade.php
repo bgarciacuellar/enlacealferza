@@ -41,6 +41,9 @@
             <div class="container">
 
                 <div class="account-box">
+                    <div class="col-6 mx-auto pt-4">
+                        <img src="{{ asset('img/logo-menu.png') }}" class="img-fluid" alt="">
+                    </div>
                     <div class="account-wrapper">
                         <h3 class="account-title">Inicio de Sesión</h3>
                         <p class="account-subtitle">Accede a tu cuenta</p>
