@@ -296,6 +296,12 @@
                             topic
                         </span>
                     </a>
+                    <a class="nav-link" id="v-pills-leads-tab" title="Leads" data-bs-toggle="pill" href="#v-pills-leads"
+                        role="tab" aria-controls="v-pills-leads" aria-selected="false">
+                        <span class="material-icons-outlined">
+                            leaderboard
+                        </span>
+                    </a>
                     <a class="nav-link" id="v-pills-apps-tab" title="Alferza Jobs" href="https://www.alferzajobs.com/"
                         target="_blank">
                         <span class="material-icons-outlined">
@@ -530,6 +536,12 @@
                             </li>
                         </ul>
                     </div>
+                    <div class="tab-pane fade" id="v-pills-leads" role="tabpanel" aria-labelledby="v-pills-leads-tab">
+                        <p>Reportes</p>
+                        <ul>
+                            <li><a href="{{ route('reports.backupsView') }}">Respaldos</a></li>
+                        </ul>
+                    </div>
                     {{-- <div class="tab-pane fade" id="v-pills-apps" role="tabpanel"
                         aria-labelledby="v-pills-apps-tab">
                         <p>App</p>
@@ -565,12 +577,6 @@
                         <p>Clients</p>
                         <ul>
                             <li><a href="clients.html">Clients</a></li>
-                        </ul>
-                    </div>
-                    <div class="tab-pane fade" id="v-pills-leads" role="tabpanel" aria-labelledby="v-pills-leads-tab">
-                        <p>Leads</p>
-                        <ul>
-                            <li><a href="leads.html">Leads</a></li>
                         </ul>
                     </div>
                     <div class="tab-pane fade" id="v-pills-tickets" role="tabpanel"
