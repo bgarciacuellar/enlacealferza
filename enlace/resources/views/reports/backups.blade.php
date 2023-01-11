@@ -10,13 +10,16 @@
         <!-- Search Filter -->
         <div class="row filter-row">
             <div class="col-md-8 text-center m-auto">
-                <form action="{{ route('reports.exportPayrolls') }}" method="GET">
+                <form action="{{ route('reports.exportReports') }}" method="GET">
                     @csrf
                     <div class="row">
                         <div class="col-10  ">
                             <div class="form-group">
-                                <select class="form-control" name="company">
-                                    <option value="">Nóminas</option>
+                                <select class="form-control" name="report_type">
+                                    <option value="">Selecciona una opción</option>
+                                    <option value="payroll">Nóminas</option>
+                                    <option value="employees">Empleados</option>
+                                    <option value="clients">Clientes</option>
                                     {{-- @foreach ($companies as $company)
                                         <option value="{{ $company->id }}">{{ $company->name }}</option>
                                     @endforeach --}}

@@ -205,7 +205,7 @@ Route::post('/payrolls/delete', [App\Http\Controllers\PayrollController::class, 
 Route::get('/reportes', [App\Http\Controllers\ReportController::class, 'backupsView'])
     ->name('reports.backupsView');
 
-Route::get('payrolls/export/', [App\Http\Controllers\ReportController::class, 'exportPayrolls'])->name('reports.exportPayrolls');
+Route::get('reports/export/', [App\Http\Controllers\ReportController::class, 'exportReports'])->name('reports.exportReports');
 ;
 
 /* Reports */
