@@ -21,6 +21,7 @@ class CreateCompaniesTable extends Migration
             $table->string('address')->nullable();
             $table->string('phone_number')->nullable();
             $table->string('email')->nullable();
+            $table->string('website')->nullable();
             $table->string('constitutive_act')->nullable();
             $table->string('tax_identification_card')->nullable();
             $table->string('proof_residency')->nullable();

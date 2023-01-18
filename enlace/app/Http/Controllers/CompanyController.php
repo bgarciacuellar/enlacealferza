@@ -33,6 +33,12 @@ class CompanyController extends Controller
         return view('company.list', compact('companies'));
     }
 
+    public function grid()
+    {
+        $companies = Company::all();
+        return view('company.grid', compact('companies'));
+    }
+
     public function create(Request $request)
     {
         $request->validate([
@@ -105,14 +111,10 @@ class CompanyController extends Controller
             "address" => "nullable",
             "phone_number" => "nullable",
             "email" => "nullable",
+            "website" => "nullable",
             "logo" => "nullable",
         ]);
-
-        if ($request->hasFile('logo')) {
-            $logo = $this->uploadImage($request->file('logo'), 'logos');
-        } else {
-            $logo = '';
-        }
+        
         $company = Company::findOrFail($id);
         if ($request->hasFile('logo')) {
             $logo = $this->uploadImage($request->file('logo'), 'logos');
@@ -130,6 +132,7 @@ class CompanyController extends Controller
             "address" => $request->address,
             "phone_number" => $request->phone_number,
             "email" => $request->email,
+            "website" => $request->website,
             "logo" => $logo,
         ]);
 

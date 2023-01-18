@@ -3,23 +3,27 @@
 @section('title')
     Empresas
 @endsection
-
 @section('content')
-
+    <!-- Page Content -->
     <div class="content container-fluid">
+
+        <!-- Search Filter -->
         <div class="row filter-row">
             <div class="col-md-8">
+
             </div>
             <div class="col-md-4">
                 <div class="add-emp-section">
-                    <a href="{{ route('company.grid') }}" class="grid-icon"><i class="fas fa-th"></i></a>
-                    <a href="{{ route('company.list') }}" class="list-icon active"><i class="fas fa-bars ps-3"></i></a>
-                    <a href="#" class="btn btn-success btn-add-emp" data-bs-toggle="modal"
-                        data-bs-target="#add_company"><i class="fas fa-plus"></i> Agregar Empresa</a>
+                    <div class="add-emp-section">
+                        <a href="{{ route('company.grid') }}" class="grid-icon active"><i class="fas fa-th"></i></a>
+                        <a href="{{ route('company.list') }}" class="list-icon"><i class="fas fa-bars ps-3"></i></a>
+                        <a href="#" class="btn btn-success btn-add-emp" data-bs-toggle="modal"
+                            data-bs-target="#add_company"><i class="fas fa-plus"></i> Agregar Empresa</a>
+                    </div>
                 </div>
             </div>
         </div>
-
+        <!-- /Search Filter -->
         @if ($errors->any())
             <div class="mx-auto text-center">
                 <ul
@@ -39,46 +43,37 @@
             </div>
         @endif
         <div class="row">
-            <div class="col-md-12">
-                <div class="table-responsive">
-                    <table class="table table-striped custom-table datatable">
-                        <thead>
-                            <tr>
-                                <th>Empresa</th>
-                                <th>Dirección</th>
-                                <th>Teléfono</th>
-                                {{-- <th class="text-end no-sort">Deshabilitar</th> --}}
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($companies as $company)
-                                <tr>
-                                    <td>
-                                        <h2 class="table-avatar">
-                                            <a href="{{ route('company.details', $company->id) }}" class="avatar"><img
-                                                    alt="logo"
-                                                    src="{{ $company->logo ? asset('storage/logos/' . $company->logo) : asset('img/company-default.jpg') }}"></a>
-                                            <a href="{{ route('company.details', $company->id) }}">{{ $company->name }}</a>
-                                        </h2>
-                                    </td>
-                                    <td>{{ $company->address }}</td>
-                                    <td>{{ $company->phone_number }}</td>
-                                    {{-- <td class="text-end ico-sec">
-                                <a href="#" data-bs-toggle="modal" data-bs-target="#edit_employee"><i
-                                        class="fas fa-pen"></i></a>
-                                <a href="#" data-bs-toggle="modal"
-                                    onclick="getUserId({{ $company->id }}, 'delete_user_id')"
-                                    data-bs-target="#delete_employee"><i class="far fa-trash-alt"></i></a>
-                            </td> --}}
-                                </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
+            @foreach ($companies as $company)
+                <div class="col-md-4 col-lg-4 col-xl-3">
+                    <div class="card user-card emp-card">
+                        <div class="user-img-sec">
+                            <img src="{{ $company->logo ? asset('/storage/logos/' . $company->logo) : asset('/img/company-default.jpg') }}"
+                                alt="Logo">
+                            <h4>{{ $company->name }}</h4>
+                            <h5>{{ $company->address ? $company->address : '-' }}</h5>
+                            <h6 class="bg-1">{{ $company->phone_number ? $company->phone_number : '-' }}</h6>
+
+                            {{-- <div class="dropdown">
+                                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
+                                    data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <i class="fas fa-ellipsis-v"></i>
+                                </button>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                    <a class="dropdown-item" href="#" data-bs-toggle="modal"
+                                        onclick="getUserId({{ $user['id'] }}, 'delete_user_id')"
+                                        data-bs-target="#delete_employee">Delete</a>
+                                </div>
+                            </div> --}}
+                        </div>
+                        <div class="card-footer">
+                            <a href="{{ route('company.details', $company->id) }}">Ver detalles</a>
+                        </div>
+                    </div>
                 </div>
-            </div>
+            @endforeach
         </div>
     </div>
-
+    <!-- /Page Content -->
 
     <!-- Add company -->
     <div id="add_company" class="modal custom-modal fade" role="dialog">

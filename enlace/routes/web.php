@@ -96,6 +96,9 @@ Route::post('/ticket/upload-preinvoice/{id}', [App\Http\Controllers\TicketContro
 Route::get('/compania/lista', [App\Http\Controllers\CompanyController::class, 'list'])
     ->name('company.list');
 
+Route::get('/compania/lista-cuadricula', [App\Http\Controllers\CompanyController::class, 'grid'])
+    ->name('company.grid');
+
 
 Route::post('/company/create', [App\Http\Controllers\CompanyController::class, 'create'])
     ->name('company.create');

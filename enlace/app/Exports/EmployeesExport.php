@@ -19,7 +19,7 @@ class EmployeesExport implements FromView
             $addtionalEmployeeInfo = AdditionalUserInfo::where('user_id', $employeeItem['id'])->first();
             
             return array(
-                "full_name" => $employeeItem['name'] . $addtionalEmployeeInfo ? $addtionalEmployeeInfo->last_name : "",
+                "full_name" => $addtionalEmployeeInfo ? $employeeItem['name'] . " " . $addtionalEmployeeInfo->last_name : $employeeItem['name'],
                 "email" => $employeeItem['email'],
                 "role" => $employeeItem['role'],
                 "phone_number" => $addtionalEmployeeInfo ? $addtionalEmployeeInfo->phone_number : '-',
