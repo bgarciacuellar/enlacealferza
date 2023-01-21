@@ -8,10 +8,10 @@
 
     <div class="content container-fluid">
         <div class="row filter-row">
-            <div class="col-md-8">
+            <div class="col-md-9">
                 <form action="{{ route('company.listSearch') }}">
                     <div class="row">
-                        <div class="col-sm-6 col-md-3">
+                        <div class="col-lg-9">
                             <div class="form-group form-focus mb-0">
                                 <input type="text" class="form-control floating search-name" name="name">
                                 <label class="focus-label">Nombre de la empresa</label>
@@ -24,7 +24,7 @@
                     </div>
                 </form>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-3">
                 <div class="add-emp-section">
                     <a href="{{ route('company.grid') }}" class="grid-icon"><i class="fas fa-th"></i></a>
                     <a href="{{ route('company.list') }}" class="list-icon active"><i class="fas fa-bars ps-3"></i></a>

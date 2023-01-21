@@ -9,23 +9,23 @@
 
         <!-- Search Filter -->
         <div class="row filter-row">
-            <div class="col-md-8">
+            <div class="col-lg-9">
                 <form action="{{ route('company.listSearch') }}">
                     <div class="row">
-                        <div class="col-sm-6 col-md-3">
+                        <div class="col-sm-9">
                             <div class="form-group form-focus mb-0">
                                 <input type="text" class="form-control floating search-name" name="name">
                                 <label class="focus-label">Nombre de la empresa</label>
                             </div>
                         </div>
-                        <div class="col-sm-6 col-md-3">
+                        <div class="col-lg-3">
                             <button type="submit" href="#" class="btn btn-success btn-search"><i
                                     class="fas fa-search me-2"></i> Buscar </button>
                         </div>
                     </div>
                 </form>
             </div>
-            <div class="col-md-4">
+            <div class="col-lg-3">
                 <div class="add-emp-section">
                     <div class="add-emp-section">
                         <a href="{{ route('company.grid') }}" class="grid-icon active"><i class="fas fa-th"></i></a>

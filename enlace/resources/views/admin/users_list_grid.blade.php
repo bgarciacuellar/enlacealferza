@@ -9,29 +9,29 @@
 
         <!-- Search Filter -->
         <div class="row filter-row">
-            <div class="col-md-8">
+            <div class="col-lg-9">
                 <form action="{{ route('admin.searchUsers') }}">
                     <div class="row">
-                        <div class="col-sm-6 col-md-3">
+                        <div class="col-lg-4">
                             <div class="form-group form-focus mb-0">
                                 <input type="text" class="form-control floating search-id" name="employee_id">
                                 <label class="focus-label">ID</label>
                             </div>
                         </div>
-                        <div class="col-sm-6 col-md-3">
+                        <div class="col-lg-4">
                             <div class="form-group form-focus mb-0">
                                 <input type="text" class="form-control floating search-name" name="name">
                                 <label class="focus-label">Nombre</label>
                             </div>
                         </div>
-                        <div class="col-sm-6 col-md-3">
+                        <div class="col-lg-4">
                             <button type="submit" href="#" class="btn btn-success btn-search"><i
                                     class="fas fa-search me-2"></i> Buscar </button>
                         </div>
                     </div>
                 </form>
             </div>
-            <div class="col-md-4">
+            <div class="col-lg-3">
                 <div class="add-emp-section">
                     <a href="{{ route('admin.usersListGrid') }}" class="grid-icon active"><i class="fas fa-th"></i></a>
                     <a href="{{ route('admin.userList') }}" class="list-icon"><i class="fas fa-bars ps-3"></i></a>

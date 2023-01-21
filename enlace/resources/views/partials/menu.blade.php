@@ -545,7 +545,7 @@
                         aria-labelledby="v-pills-leads-tab">
                         <p>Reportes</p>
                         <ul>
-                            <li><a href="{{ route('reports.backupsView') }}">Respaldos</a></li>
+                            <li><a href="{{ route('reports.backupsView') }}">Reportes</a></li>
                         </ul>
                     </div>
                     {{-- <div class="tab-pane fade" id="v-pills-apps" role="tabpanel"

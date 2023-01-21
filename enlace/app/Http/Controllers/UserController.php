@@ -50,6 +50,12 @@ class UserController extends Controller
         $user = User::findOrFail(Auth::user()->id);
         $additionalUserInfo = AdditionalUserInfo::where('user_id', Auth::user()->id)->first();
 
+        $bosses = User::where('is_active', 1)->where('id', '!=', $user->id)->whereIn("role", $this->usersRoles)->get();
+        $myBoss = User::find($additionalUserInfo->immediate_boss);
+        $myBossAdditionalInfo = AdditionalUserInfo::where('user_id', $additionalUserInfo->immediate_boss)->first();
+        $additionalUserInfo->boss_name = $myBoss ? $myBoss->name : '-';
+        $additionalUserInfo->boss_image = $myBossAdditionalInfo ? $myBossAdditionalInfo->profile_image : false;
+
         $myCompanies = CompanyOnCharge::where('user_id', $user->id)->get();
         foreach ($myCompanies as $myCompany) {
             $company = Company::find($myCompany->company_id);
