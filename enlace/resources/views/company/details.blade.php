@@ -917,6 +917,14 @@
                                     </select>
                                 </div>
                             </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>¿Cambiar contraseña?</label>
+                                    <input type="checkbox" name="change_password" class="change_password">
+                                    <input class="form-control password" type="password" name="password"
+                                        style="display:none;">
+                                </div>
+                            </div>
                         </div>
                         <div class="submit-section">
                             <button class="btn btn-primary submit-btn">Actualizar</button>
@@ -1002,7 +1010,7 @@
         </div>
     </div>
 
-    <!-- Delete Employee Modal -->
+    <!-- Delete file Modal -->
     <div class="modal custom-modal fade" id="delete_file" role="dialog">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
@@ -1030,7 +1038,7 @@
             </div>
         </div>
     </div>
-    <!-- /Delete Employee Modal -->
+    <!-- /Delete file Modal -->
 
     <!-- Delete credit Modal -->
     <div class="modal custom-modal fade" id="delete_credit" role="dialog">
@@ -1062,4 +1070,18 @@
     </div>
 
     @include('modals.company')
+@endsection
+
+@section('js')
+    {{-- delete a recurrency service --}}
+    <script>
+        $(".change_password").change(function() {
+            if ($(this).is(':checked')) {
+                $('.password').show();
+            } else {
+                $('.password').hide();
+                $('.password').val('');
+            }
+        });
+    </script>
 @endsection

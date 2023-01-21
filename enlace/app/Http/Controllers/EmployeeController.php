@@ -4,7 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Models\AdditionalUserInfo;
 use App\Models\Company;
+use App\Models\CompanyAdditionalAddress;
+use App\Models\CompanyAdditionalContact;
+use App\Models\CompanyAdditionalEmail;
+use App\Models\CompanyAdditionalPhoneNumber;
+use App\Models\CompanyCredit;
 use App\Models\CompanyEmployee;
+use App\Models\PayrollType;
 use App\Models\Ticket;
 use App\Models\TicketComment;
 use App\Models\TicketFileHistory;
@@ -17,6 +23,8 @@ use Carbon\Carbon;
 class EmployeeController extends Controller
 {
     use helpers;
+    public $paymentsPeriod = ['semanal', 'quincenal', 'mensual'];
+
     function __construct()
     {
         $this->middleware(['auth', 'roles:cliente,capturista,validador']);
@@ -27,6 +35,38 @@ class EmployeeController extends Controller
         $user = Auth::user();
 
         return view('employee.dashboard', compact('user'));
+    }
+
+    public function myCompany()
+    {
+        $currentUser = Auth::user();
+        $id = CompanyEmployee::where('user_id', $currentUser->id)->first('company_id')->company_id;
+        $payrolls = PayrollType::all();
+        $company = Company::findOrFail($id);
+        $credits = CompanyCredit::where('company_id', $id)->get();
+        $paymentsPeriod = $this->paymentsPeriod;
+        $companyEmployeesArray = CompanyEmployee::where("company_id", $company->id)->get()->toArray();
+        $companyEmployeesMap = function ($companyEmployeeItem) {
+            $user = User::where("id", $companyEmployeeItem["user_id"])->first();
+            return array(
+                "id" => $user->id,
+                "name" => $user->name,
+                "email" => $user->email,
+                "role" => $user->role,
+            );
+        };
+        $companyEmployees = array_map($companyEmployeesMap, $companyEmployeesArray);
+
+        $incidents = Ticket::where("company", $company->id)->orderBy('id', 'DESC')->get();
+        foreach ($incidents as $incident) {
+            $incident->statusString = $this->statusConvert($incident->status);
+        }
+        $additionalsAddresses = CompanyAdditionalAddress::where('company_id', $id)->get();
+        $additionalsPhoneNumbers = CompanyAdditionalPhoneNumber::where('company_id', $id)->get();
+        $additionalsEmails = CompanyAdditionalEmail::where('company_id', $id)->get();
+        $additionalsContacts = CompanyAdditionalContact::where('company_id', $id)->get();
+
+        return view('employee.my_company', compact('company', 'companyEmployees', 'incidents', 'payrolls', 'paymentsPeriod', 'credits', 'additionalsAddresses', 'additionalsPhoneNumbers', 'additionalsEmails', 'additionalsContacts'));
     }
 
     public function tiketsList()

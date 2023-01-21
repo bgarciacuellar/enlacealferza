@@ -33,9 +33,9 @@
 
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
-			<script src="assets/js/html5shiv.min.js"></script>
-			<script src="assets/js/respond.min.js"></script>
-		<![endif]-->
+   <script src="assets/js/html5shiv.min.js"></script>
+   <script src="assets/js/respond.min.js"></script>
+  <![endif]-->
 </head>
 
 <body>
@@ -246,8 +246,10 @@
                     <div class="dropdown-menu">
                         {{-- <a class="dropdown-item" href="profile.html">My Profile</a>
                         <a class="dropdown-item" href="settings.html">Settings</a> --}}
-                        <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
-                                      document.getElementById('logout-form').submit();">Cerrar Sesión</a>
+                        <a class="dropdown-item" href="{{ route('logout') }}"
+                            onclick="event.preventDefault();
+                                      document.getElementById('logout-form').submit();">Cerrar
+                            Sesión</a>
                     </div>
                 </li>
             </ul>
@@ -260,8 +262,10 @@
                 <div class="dropdown-menu dropdown-menu-right">
                     {{-- <a class="dropdown-item" href="profile.html">My Profile</a>
                     <a class="dropdown-item" href="settings.html">Settings</a> --}}
-                    <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
-                                  document.getElementById('logout-form').submit();">Cerrar Sesión</a>
+                    <a class="dropdown-item" href="{{ route('logout') }}"
+                        onclick="event.preventDefault();
+                                  document.getElementById('logout-form').submit();">Cerrar
+                        Sesión</a>
                 </div>
             </div>
             <!-- /Mobile Menu -->
@@ -494,7 +498,7 @@
                         <span class="material-icons-outlined">
                             library_add_check
                         </span>
-                    </a>--}}
+                    </a> --}}
                 </div>
             </div>
 
@@ -506,6 +510,9 @@
                         <ul>
                             <li>
                                 <a href="{{ route('employee.tiketsList') }}" class="active">Incidencias</a>
+                            </li>
+                            <li>
+                                <a href="{{ route('employee.myCompany') }}" class="active">Mi empresa</a>
                             </li>
                             {{-- <li>
                                 <a href="{{ route('employee.archivedTicketsList') }}" class="active">Incidencias
@@ -893,7 +900,7 @@
     <!-- Chart JS -->
     <script src="{{ asset('plugins/morris/morris.min.js') }}"></script>
     <script src="{{ asset('plugins/raphael/raphael.min.js') }}"></script>
-    <script src="{{ asset('js/chart.js')}}"></script>
+    <script src="{{ asset('js/chart.js') }}"></script>
 
     <!-- Apex Charts -->
     <script src="{{ asset('plugins/apexcharts/apexcharts.min.js') }}"></script>
@@ -905,26 +912,26 @@
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     @if (session('success'))
-    <script>
-        Swal.fire({
+        <script>
+            Swal.fire({
                 position: 'center',
                 icon: 'success',
                 title: '{{ session('success') }}',
                 showConfirmButton: false,
                 timer: 2500
             });
-    </script>
+        </script>
     @endif
     @if (session('error'))
-    <script>
-        Swal.fire({
+        <script>
+            Swal.fire({
                 position: 'center',
                 icon: 'error',
                 title: '{{ session('error') }}',
                 showConfirmButton: false,
                 timer: 2500
             });
-    </script>
+        </script>
     @endif
 
     @yield('js')

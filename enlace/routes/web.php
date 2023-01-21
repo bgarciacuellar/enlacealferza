@@ -102,7 +102,6 @@ Route::get('/compania/lista/busqueda', [App\Http\Controllers\CompanyController::
 Route::get('/compania/lista-cuadricula', [App\Http\Controllers\CompanyController::class, 'grid'])
     ->name('company.grid');
 
-
 Route::post('/company/create', [App\Http\Controllers\CompanyController::class, 'create'])
     ->name('company.create');
 
@@ -230,6 +229,8 @@ Route::group(
             ->name('employee.dashboard');
         Route::get('/tickets', [App\Http\Controllers\EmployeeController::class, 'tiketsList'])
             ->name('employee.tiketsList');
+        Route::get('/mi-empresa', [App\Http\Controllers\EmployeeController::class, 'myCompany'])
+            ->name('employee.myCompany');
         Route::get('/tickets/archivados', [App\Http\Controllers\EmployeeController::class, 'archivedTicketsList'])
             ->name('employee.archivedTicketsList');
         Route::get('/tickets/detalles/{id}', [App\Http\Controllers\EmployeeController::class, 'details'])

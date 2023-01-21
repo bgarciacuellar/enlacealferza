@@ -24,7 +24,8 @@ class CompanyController extends Controller
 
     function __construct()
     {
-        $this->middleware(['auth', 'roles:admin']);
+        $this->middleware(['auth', 'roles:admin,cliente,capturista,validador'])->only('updateFiles', 'deleteFiles');
+        $this->middleware(['auth', 'roles:admin'])->except('updateFiles', 'deleteFiles');
     }
 
     public function list()
@@ -254,6 +255,8 @@ class CompanyController extends Controller
             "name" => "required",
             "email" => "required|unique:users,email," . $request->user_id,
             "role" => "required",
+            'change_password' => 'nullable',
+            'password' => $request->change_password ? 'required|min:8' :'nullable',
         ]);
 
         $company = Company::findOrFail($id);
@@ -267,6 +270,12 @@ class CompanyController extends Controller
             "email" => $request->email,
             "role" => $request->role,
         ]);
+
+        if ($request->change_password) {
+            $user->update([
+                'password' => bcrypt($request->password),
+            ]);
+        }
 
         $employee->update([
             "role" => $request->role,

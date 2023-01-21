@@ -1,0 +1,519 @@
+@extends('partials.menu')
+
+@section('title')
+    Detalles de empresa
+@endsection
+
+@section('content')
+    <div class="card mb-0 pb-5">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="profile-view">
+                        <div class="profile-img-wrap">
+                            <div class="profile-img">
+                                <a href="#"><img alt="logo"
+                                        src="{{ $company->logo ? asset('storage/logos/' . $company->logo) : asset('img/company-default.jpg') }}"
+                                        class="img-fluid"></a>
+                            </div>
+                        </div>
+                        <div class="profile-basic">
+                            <div class="row">
+                                <div class="col-md-5">
+                                    <div class="profile-info-left">
+                                        <h3 class="user-name m-t-0 mb-0">{{ $company->name }}</h3>
+                                        <h6 class="text-muted">{{ $company->business_name }}</h6>
+                                    </div>
+                                </div>
+                                <div class="col-md-7">
+                                    <ul class="personal-info">
+                                        <li>
+                                            <div class="title">Dirección:</div>
+                                            <div class="text">
+                                                <span>{{ $company->address ? $company->address : '-' }}</span>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="title">Teléfono:</div>
+                                            <div class="text">
+                                                <span>{{ $company->phone_number ? $company->phone_number : '-' }}</span>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="title">Contacto principal:</div>
+                                            <div class="text">
+                                                <span>{{ $company->email ? $company->email : '-' }}</span>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="title">Sitio web:</div>
+                                            <div class="text">
+                                                {{ $company->website ? $company->website : '-' }}
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card tab-box mt-3">
+        <div class="row user-tabs">
+            <div class="col-lg-12 col-md-12 col-sm-12 line-tabs">
+                <ul class="nav nav-tabs nav-tabs-bottom pt-3 pb-2">
+                    <li class="nav-item"><a href="#emp_profile" data-bs-toggle="tab" class="nav-link active">Mi Empresa</a>
+                    </li>
+                    <li class="nav-item"><a href="#emp_projects" data-bs-toggle="tab" class="nav-link">Créditos</a>
+                    </li>
+                    {{-- <li class="nav-item"><a href="#bank_statutory" data-bs-toggle="tab" class="nav-link">Bank &
+                        Statutory <small class="text-danger">(Admin Only)</small></a></li> --}}
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="tab-content">
+
+        <!-- employees -->
+        <div id="emp_profile" class="pro-overview tab-pane fade show active">
+            <div class="row">
+                <div class="col-md-6 d-flex">
+                    <div class="card profile-box flex-fill">
+                        <div class="card-body">
+                            <h3 class="card-title">Historial de archivos <a href="#" class="edit-icon"
+                                    data-bs-toggle="modal" data-bs-target="#records_files"><i
+                                        class="fas fa-pencil-alt"></i></a></h3>
+                            <ul class="personal-info">
+                                <li>
+                                    <div class="row">
+                                        <div class="title-custom col-6">Acta costitutiva</div>
+                                        @if ($company->constitutive_act)
+                                            <div class="text-custom col-4">
+                                                <a href="{{ asset('storage/records_files/' . $company->constitutive_act) }}"
+                                                    target="_blank"> Descargar <i class="fas fa-download"></i></a>
+                                            </div>
+                                            <div class="col-2 ico-sec"><a href="#" data-bs-toggle="modal"
+                                                    onclick="getUserId('constitutive_act', 'delete_file_name')"
+                                                    data-bs-target="#delete_file" class="p-0"><i
+                                                        class="far fa-trash-alt"></i></a>
+                                            </div>
+                                        @else
+                                            <div class="text-custom col-4">
+                                                <p class="mb-0"> - </p>
+                                            </div>
+                                        @endif
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="row">
+                                        <div class="title-custom col-6">Comprobante de situación fiscal</div>
+                                        @if ($company->tax_identification_card)
+                                            <div class="text-custom col-4">
+                                                <a href="{{ asset('storage/records_files/' . $company->tax_identification_card) }}"
+                                                    target="_blank"> Descargar <i class="fas fa-download"></i></a>
+                                            </div>
+                                            <div class="col-2 ico-sec"><a href="#" data-bs-toggle="modal"
+                                                    onclick="getUserId('tax_identification_card', 'delete_file_name')"
+                                                    data-bs-target="#delete_file" class="p-0"><i
+                                                        class="far fa-trash-alt"></i></a>
+                                            </div>
+                                        @else
+                                            <div class="text-custom col-4">
+                                                <p class="mb-0"> - </p>
+                                            </div>
+                                        @endif
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="row">
+                                        <div class="title-custom col-6">Comprobante de domicilio</div>
+                                        @if ($company->proof_residency)
+                                            <div class="text-custom col-4">
+                                                <a href="{{ asset('storage/records_files/' . $company->proof_residency) }}"
+                                                    target="_blank"> Descargar <i class="fas fa-download"></i></a>
+                                            </div>
+                                            <div class="col-2 ico-sec"><a href="#" data-bs-toggle="modal"
+                                                    onclick="getUserId('proof_residency', 'delete_file_name')"
+                                                    data-bs-target="#delete_file" class="p-0"><i
+                                                        class="far fa-trash-alt"></i></a>
+                                            </div>
+                                        @else
+                                            <div class="text-custom col-4">
+                                                <p class="mb-0"> - </p>
+                                            </div>
+                                        @endif
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="row">
+                                        <div class="title-custom col-6">Registro patronal</div>
+                                        @if ($company->employer_registration)
+                                            <div class="text-custom col-4">
+                                                <a href="{{ asset('storage/records_files/' . $company->employer_registration) }}"
+                                                    target="_blank"> Descargar <i class="fas fa-download"></i></a>
+                                            </div>
+                                            <div class="col-2 ico-sec"><a href="#" data-bs-toggle="modal"
+                                                    onclick="getUserId('employer_registration', 'delete_file_name')"
+                                                    data-bs-target="#delete_file" class="p-0"><i
+                                                        class="far fa-trash-alt"></i></a>
+                                            </div>
+                                        @else
+                                            <div class="text-custom col-4">
+                                                <p class="mb-0"> - </p>
+                                            </div>
+                                        @endif
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="row">
+                                        <div class="title-custom col-6">INE representante legal</div>
+                                        @if ($company->legal_represantative_identification)
+                                            <div class="text-custom col-4">
+                                                <a href="{{ asset('storage/records_files/' . $company->legal_represantative_identification) }}"
+                                                    target="_blank"> Descargar <i class="fas fa-download"></i></a>
+                                            </div>
+                                            <div class="col-2 ico-sec"><a href="#" data-bs-toggle="modal"
+                                                    onclick="getUserId('legal_represantative_identification', 'delete_file_name')"
+                                                    data-bs-target="#delete_file" class="p-0"><i
+                                                        class="far fa-trash-alt"></i></a>
+                                            </div>
+                                        @else
+                                            <div class="text-custom col-4">
+                                                <p class="mb-0"> - </p>
+                                            </div>
+                                        @endif
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="row">
+                                        <div class="title-custom col-6">Poder del representante legal</div>
+                                        @if ($company->legal_represantative_power)
+                                            <div class="text-custom col-4">
+                                                <a href="{{ asset('storage/records_files/' . $company->legal_represantative_power) }}"
+                                                    target="_blank"> Descargar <i class="fas fa-download"></i></a>
+                                            </div>
+                                            <div class="col-2 ico-sec"><a href="#" data-bs-toggle="modal"
+                                                    onclick="getUserId('legal_represantative_power', 'delete_file_name')"
+                                                    data-bs-target="#delete_file" class="p-0"><i
+                                                        class="far fa-trash-alt"></i></a>
+                                            </div>
+                                        @else
+                                            <div class="text-custom col-4">
+                                                <p class="mb-0"> - </p>
+                                            </div>
+                                        @endif
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 d-flex">
+                    <div class="card profile-box flex-fill">
+                        <div class="card-body">
+                            <h3 class="card-title">Domicilios secundarios </h3>
+                            <table class="table table-striped custom-table datatable">
+                                <thead>
+                                    <tr>
+                                        <th>Dirección</th>
+                                        <th>Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($additionalsAddresses as $additionalAddress)
+                                        <tr>
+                                            <td>{{ $additionalAddress->address }}</td>
+                                            <td>
+                                                <a href="#" data-bs-toggle="modal"
+                                                    onclick="getAdditinalAddressData({{ json_encode($additionalAddress) }})"
+                                                    data-bs-target="#update_additional_address"><i
+                                                        class="fas fa-edit"></i></a>
+                                                <a href="#" data-bs-toggle="modal" class="text-danger ps-3"
+                                                    onclick="getUserId({{ $additionalAddress['id'] }}, 'delete_additional_address_id')"
+                                                    data-bs-target="#delete_additional_address"><i
+                                                        class="far fa-trash-alt"></i></a>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 d-flex">
+                    <div class="card profile-box flex-fill">
+                        <div class="card-body">
+                            <h3 class="card-title">Correos electrónicos secundarios </h3>
+                            <table class="table table-striped custom-table datatable">
+                                <thead>
+                                    <tr>
+                                        <th>Correo electrónico</th>
+                                        <th>Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($additionalsEmails as $additionalEmail)
+                                        <tr>
+                                            <td>{{ $additionalEmail->email }}</td>
+                                            <td>
+                                                <a href="#" data-bs-toggle="modal"
+                                                    onclick="getAdditinalEmailData({{ json_encode($additionalEmail) }})"
+                                                    data-bs-target="#update_additional_email"><i
+                                                        class="fas fa-edit"></i></a>
+                                                <a href="#" data-bs-toggle="modal" class="text-danger ps-3"
+                                                    onclick="getUserId({{ $additionalEmail['id'] }}, 'delete_additional_email_id')"
+                                                    data-bs-target="#delete_additional_email"><i
+                                                        class="far fa-trash-alt"></i></a>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 d-flex">
+                    <div class="card profile-box flex-fill">
+                        <div class="card-body">
+                            <h3 class="card-title">Contactos </h3>
+                            <table class="table table-striped custom-table datatable">
+                                <thead>
+                                    <tr>
+                                        <th>Nombre</th>
+                                        <th>Teléfono</th>
+                                        <th>Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($additionalsContacts as $additionalContact)
+                                        <tr>
+                                            <td>{{ $additionalContact->name }}</td>
+                                            <td>{{ $additionalContact->phone_number }}</td>
+                                            <td>
+                                                <a href="#" data-bs-toggle="modal"
+                                                    onclick="getAdditionalContactData({{ json_encode($additionalContact) }})"
+                                                    data-bs-target="#update_additional_contact"><i
+                                                        class="fas fa-edit"></i></a>
+                                                <a href="#" data-bs-toggle="modal" class="text-danger ps-3"
+                                                    onclick="getUserId({{ $additionalContact['id'] }}, 'delete_additional_contact_id')"
+                                                    data-bs-target="#delete_additional_contact"><i
+                                                        class="far fa-trash-alt"></i></a>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 d-flex">
+                    <div class="card profile-box flex-fill">
+                        <div class="card-body">
+                            <h3 class="card-title">Teléfonos secundarios </h3>
+                            <table class="table table-striped custom-table datatable">
+                                <thead>
+                                    <tr>
+                                        <th>Teléfono</th>
+                                        <th>Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($additionalsPhoneNumbers as $additionalPhoneNumber)
+                                        <tr>
+                                            <td>{{ $additionalPhoneNumber->phone_number }}</td>
+                                            <td>
+                                                <a href="#" data-bs-toggle="modal"
+                                                    onclick="getAdditinalPhoneNumberData({{ json_encode($additionalPhoneNumber) }})"
+                                                    data-bs-target="#update_additional_phone_number"><i
+                                                        class="fas fa-edit"></i></a>
+                                                <a href="#" data-bs-toggle="modal" class="text-danger ps-3"
+                                                    onclick="getUserId({{ $additionalPhoneNumber['id'] }}, 'delete_additional_phone_number_id')"
+                                                    data-bs-target="#delete_additional_phone_number"><i
+                                                        class="far fa-trash-alt"></i></a>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 d-flex">
+                    <div class="card profile-box flex-fill">
+                        <div class="card-body">
+                            <h3 class="card-title">Empleados </h3>
+                            <table class="table table-striped custom-table datatable">
+                                <thead>
+                                    <tr>
+                                        <th>Nombre</th>
+                                        <th>Correo</th>
+                                        <th>Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($companyEmployees as $companyEmployee)
+                                        <tr>
+                                            <td>{{ $companyEmployee['name'] }}</td>
+                                            <td>{{ $companyEmployee['email'] }}</td>
+                                            <td>
+                                                <a href="#" data-bs-toggle="modal"
+                                                    onclick="geEmployeeData({{ json_encode($companyEmployee) }})"
+                                                    data-bs-target="#update_employee"><i class="fas fa-edit"></i></a>
+                                                <a href="#" data-bs-toggle="modal" class="text-danger ps-3"
+                                                    onclick="getUserId({{ $companyEmployee['id'] }}, 'delete_user_id')"
+                                                    data-bs-target="#delete_employee"><i class="far fa-trash-alt"></i></a>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 d-flex">
+                    <div class="card profile-box flex-fill">
+                        <div class="card-body">
+                            <h3 class="card-title">Incidencias </h3>
+                            <table class="table table-striped custom-table datatable">
+                                <thead>
+                                    <tr>
+                                        <th>Estatus de incidencias</th>
+                                        <th>Fecha limite de incidencia</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($incidents as $incident)
+                                        <tr>
+                                            <td>{{ $incident->statusString }}</td>
+                                            <td>{{ $incident->limit_date->format('d/m/Y') }}</td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- credits Tab -->
+        <div class="tab-pane fade" id="emp_projects">
+            <div class="row">
+                <div class="col-md-8 d-flex">
+                    <div class="card profile-box flex-fill">
+                        <div class="card-body">
+                            <h3 class="card-title">Mis prestamos</h3>
+                            <table class="table table-striped custom-table datatable">
+                                <thead>
+                                    <tr>
+                                        <th>Créditos totales</th>
+                                        <th>Créditos pagados</th>
+                                        <th>Estatus</th>
+                                        <th>Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($credits as $credit)
+                                        <tr>
+                                            <td>${{ number_format($credit->total_amount, 2) }}</td>
+                                            <td>${{ number_format($credit->paid, 2) }}</td>
+                                            <td>{{ $credit->status ? 'Al corriente' : 'Pagado' }}</td>
+                                            <td>
+                                                <a href="{{ route('company.creditDetails', $credit->id) }}"><i
+                                                        class="far fa-eye"></i></a>
+                                                <a href="#" data-bs-toggle="modal" data-bs-target="#delete_credit"
+                                                    class="text-danger ps-3"
+                                                    onclick="getUserId({{ $credit->id }}, 'delete_credit_id')"><i
+                                                        class="far fa-trash-alt"></i></a>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 d-flex">
+                    <div class="card profile-box flex-fill">
+                        <div class="card-body">
+                            <h3 class="card-title">Autorizar nuevo crédito</h3>
+                            <div class="row">
+                                <div class="col-11 justify-content-center">
+                                    <form action="{{ route('company.createNewCredit', $company->id) }}" method="POST">
+                                        @csrf
+                                        <div class="form-group">
+                                            <label>¿Que cantidad necesita? <span class="text-danger">*</span></label>
+                                            <input type="number" class="form-control" name="total_amount" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Plazo a diferir <span class="text-danger">*</span></label>
+                                            <input type="date" class="form-control" name="due_date" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Comentarios <span class="text-danger">*</span></label>
+                                            <textarea name="comment" class="form-control" id="" cols="30" rows="10"></textarea>
+                                        </div>
+                                        <button type="submit" class="btn btn-primary mt-3 submit-btn">Solicitar
+                                            crédito</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /credits Tab -->
+
+    </div>
+    <!-- /Page Content -->
+
+    <!-- Delete file Modal -->
+    <div class="modal custom-modal fade" id="delete_file" role="dialog">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div class="form-header">
+                        <h3>Eliminar Archivo</h3>
+                        <p>¿Estás seguro de eliminar el archivo?</p>
+                    </div>
+                    <div class="modal-btn delete-action">
+                        <form action="{{ route('company.deleteFiles', $company->id) }}" method="POST">
+                            @csrf
+                            <div class="row">
+                                <div class="col-6">
+                                    <input type="hidden" name="file" class="delete_file_name">
+                                    <button type="submit" class="btn btn-primary continue-btn">Eliminar</button>
+                                </div>
+                                <div class="col-6">
+                                    <a href="javascript:void(0);" data-bs-dismiss="modal"
+                                        class="btn btn-primary cancel-btn">Cancelar</a>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /Delete file Modal -->
+    @include('modals.company')
+@endsection
+
+@section('js')
+    {{-- delete a recurrency service --}}
+    <script>
+        $(".change_password").change(function() {
+            if ($(this).is(':checked')) {
+                $('.password').show();
+            } else {
+                $('.password').hide();
+                $('.password').val('');
+            }
+        });
+    </script>
+@endsection
