@@ -1,4 +1,4 @@
-@extends('partials.menu')
+@extends('partials.menu-employee')
 
 @section('title')
     Detalles de empresa
@@ -220,23 +220,12 @@
                                 <thead>
                                     <tr>
                                         <th>Dirección</th>
-                                        <th>Acciones</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @foreach ($additionalsAddresses as $additionalAddress)
                                         <tr>
                                             <td>{{ $additionalAddress->address }}</td>
-                                            <td>
-                                                <a href="#" data-bs-toggle="modal"
-                                                    onclick="getAdditinalAddressData({{ json_encode($additionalAddress) }})"
-                                                    data-bs-target="#update_additional_address"><i
-                                                        class="fas fa-edit"></i></a>
-                                                <a href="#" data-bs-toggle="modal" class="text-danger ps-3"
-                                                    onclick="getUserId({{ $additionalAddress['id'] }}, 'delete_additional_address_id')"
-                                                    data-bs-target="#delete_additional_address"><i
-                                                        class="far fa-trash-alt"></i></a>
-                                            </td>
                                         </tr>
                                     @endforeach
                                 </tbody>
@@ -252,23 +241,12 @@
                                 <thead>
                                     <tr>
                                         <th>Correo electrónico</th>
-                                        <th>Acciones</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @foreach ($additionalsEmails as $additionalEmail)
                                         <tr>
                                             <td>{{ $additionalEmail->email }}</td>
-                                            <td>
-                                                <a href="#" data-bs-toggle="modal"
-                                                    onclick="getAdditinalEmailData({{ json_encode($additionalEmail) }})"
-                                                    data-bs-target="#update_additional_email"><i
-                                                        class="fas fa-edit"></i></a>
-                                                <a href="#" data-bs-toggle="modal" class="text-danger ps-3"
-                                                    onclick="getUserId({{ $additionalEmail['id'] }}, 'delete_additional_email_id')"
-                                                    data-bs-target="#delete_additional_email"><i
-                                                        class="far fa-trash-alt"></i></a>
-                                            </td>
                                         </tr>
                                     @endforeach
                                 </tbody>
@@ -285,7 +263,6 @@
                                     <tr>
                                         <th>Nombre</th>
                                         <th>Teléfono</th>
-                                        <th>Acciones</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -293,16 +270,6 @@
                                         <tr>
                                             <td>{{ $additionalContact->name }}</td>
                                             <td>{{ $additionalContact->phone_number }}</td>
-                                            <td>
-                                                <a href="#" data-bs-toggle="modal"
-                                                    onclick="getAdditionalContactData({{ json_encode($additionalContact) }})"
-                                                    data-bs-target="#update_additional_contact"><i
-                                                        class="fas fa-edit"></i></a>
-                                                <a href="#" data-bs-toggle="modal" class="text-danger ps-3"
-                                                    onclick="getUserId({{ $additionalContact['id'] }}, 'delete_additional_contact_id')"
-                                                    data-bs-target="#delete_additional_contact"><i
-                                                        class="far fa-trash-alt"></i></a>
-                                            </td>
                                         </tr>
                                     @endforeach
                                 </tbody>
@@ -318,23 +285,12 @@
                                 <thead>
                                     <tr>
                                         <th>Teléfono</th>
-                                        <th>Acciones</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @foreach ($additionalsPhoneNumbers as $additionalPhoneNumber)
                                         <tr>
                                             <td>{{ $additionalPhoneNumber->phone_number }}</td>
-                                            <td>
-                                                <a href="#" data-bs-toggle="modal"
-                                                    onclick="getAdditinalPhoneNumberData({{ json_encode($additionalPhoneNumber) }})"
-                                                    data-bs-target="#update_additional_phone_number"><i
-                                                        class="fas fa-edit"></i></a>
-                                                <a href="#" data-bs-toggle="modal" class="text-danger ps-3"
-                                                    onclick="getUserId({{ $additionalPhoneNumber['id'] }}, 'delete_additional_phone_number_id')"
-                                                    data-bs-target="#delete_additional_phone_number"><i
-                                                        class="far fa-trash-alt"></i></a>
-                                            </td>
                                         </tr>
                                     @endforeach
                                 </tbody>
@@ -351,7 +307,6 @@
                                     <tr>
                                         <th>Nombre</th>
                                         <th>Correo</th>
-                                        <th>Acciones</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -359,14 +314,6 @@
                                         <tr>
                                             <td>{{ $companyEmployee['name'] }}</td>
                                             <td>{{ $companyEmployee['email'] }}</td>
-                                            <td>
-                                                <a href="#" data-bs-toggle="modal"
-                                                    onclick="geEmployeeData({{ json_encode($companyEmployee) }})"
-                                                    data-bs-target="#update_employee"><i class="fas fa-edit"></i></a>
-                                                <a href="#" data-bs-toggle="modal" class="text-danger ps-3"
-                                                    onclick="getUserId({{ $companyEmployee['id'] }}, 'delete_user_id')"
-                                                    data-bs-target="#delete_employee"><i class="far fa-trash-alt"></i></a>
-                                            </td>
                                         </tr>
                                     @endforeach
                                 </tbody>
@@ -403,7 +350,7 @@
         <!-- credits Tab -->
         <div class="tab-pane fade" id="emp_projects">
             <div class="row">
-                <div class="col-md-8 d-flex">
+                <div class="col-md-12 d-flex">
                     <div class="card profile-box flex-fill">
                         <div class="card-body">
                             <h3 class="card-title">Mis prestamos</h3>
@@ -413,7 +360,6 @@
                                         <th>Créditos totales</th>
                                         <th>Créditos pagados</th>
                                         <th>Estatus</th>
-                                        <th>Acciones</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -422,46 +368,10 @@
                                             <td>${{ number_format($credit->total_amount, 2) }}</td>
                                             <td>${{ number_format($credit->paid, 2) }}</td>
                                             <td>{{ $credit->status ? 'Al corriente' : 'Pagado' }}</td>
-                                            <td>
-                                                <a href="{{ route('company.creditDetails', $credit->id) }}"><i
-                                                        class="far fa-eye"></i></a>
-                                                <a href="#" data-bs-toggle="modal" data-bs-target="#delete_credit"
-                                                    class="text-danger ps-3"
-                                                    onclick="getUserId({{ $credit->id }}, 'delete_credit_id')"><i
-                                                        class="far fa-trash-alt"></i></a>
-                                            </td>
                                         </tr>
                                     @endforeach
                                 </tbody>
                             </table>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4 d-flex">
-                    <div class="card profile-box flex-fill">
-                        <div class="card-body">
-                            <h3 class="card-title">Autorizar nuevo crédito</h3>
-                            <div class="row">
-                                <div class="col-11 justify-content-center">
-                                    <form action="{{ route('company.createNewCredit', $company->id) }}" method="POST">
-                                        @csrf
-                                        <div class="form-group">
-                                            <label>¿Que cantidad necesita? <span class="text-danger">*</span></label>
-                                            <input type="number" class="form-control" name="total_amount" required>
-                                        </div>
-                                        <div class="form-group">
-                                            <label>Plazo a diferir <span class="text-danger">*</span></label>
-                                            <input type="date" class="form-control" name="due_date" required>
-                                        </div>
-                                        <div class="form-group">
-                                            <label>Comentarios <span class="text-danger">*</span></label>
-                                            <textarea name="comment" class="form-control" id="" cols="30" rows="10"></textarea>
-                                        </div>
-                                        <button type="submit" class="btn btn-primary mt-3 submit-btn">Solicitar
-                                            crédito</button>
-                                    </form>
-                                </div>
-                            </div>
                         </div>
                     </div>
                 </div>
