@@ -96,6 +96,9 @@ Route::post('/ticket/upload-preinvoice/{id}', [App\Http\Controllers\TicketContro
 Route::get('/compania/lista', [App\Http\Controllers\CompanyController::class, 'list'])
     ->name('company.list');
 
+Route::get('/compania/lista/busqueda', [App\Http\Controllers\CompanyController::class, 'listSearch'])
+    ->name('company.listSearch');
+
 Route::get('/compania/lista-cuadricula', [App\Http\Controllers\CompanyController::class, 'grid'])
     ->name('company.grid');
 
@@ -111,6 +114,9 @@ Route::post('/company/update/{id}', [App\Http\Controllers\CompanyController::cla
 
 Route::post('/company/update-files/{id}', [App\Http\Controllers\CompanyController::class, 'updateFiles'])
     ->name('company.updateFiles');
+
+Route::post('/company/delete-files/{id}', [App\Http\Controllers\CompanyController::class, 'deleteFiles'])
+    ->name('company.deleteFiles');
 
 Route::post('/company/create/employee/{id}', [App\Http\Controllers\CompanyController::class, 'createEmployee'])
     ->name('company.createEmployee');

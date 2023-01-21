@@ -32,6 +32,11 @@ class CompanyController extends Controller
         $companies = Company::all();
         return view('company.list', compact('companies'));
     }
+    public function listSearch(Request $request)
+    {
+        $companies = Company::where("name", "like", "%" . $request->name . "%")->get();
+        return view('company.list', compact('companies'));
+    }
 
     public function grid()
     {
@@ -193,6 +198,26 @@ class CompanyController extends Controller
         ]);
 
         return back()->with('success', 'Actualizado');
+    }
+
+    public function deleteFiles(Request $request, $companyId){
+        $request->validate([
+            "file" => "required",
+        ]);
+
+        $company = Company::findOrFail($companyId);
+        $fileType = $request->file;
+        
+        if (!$company->$fileType) {
+            return back()->with('error', 'Intentalo de nuevo');
+        }
+
+        $this->deleteFile($company->$fileType, "records_files");
+        $company->update([
+            $fileType => null
+        ]);
+
+        return back()->with('success', '-');
     }
 
     public function createEmployee(Request $request, $id)

@@ -120,68 +120,122 @@
                                         class="fas fa-pencil-alt"></i></a></h3>
                             <ul class="personal-info">
                                 <li>
-                                    <div class="title">Acta costitutiva</div>
-                                    <div class="text">
+                                    <div class="row">
+                                        <div class="title-custom col-6">Acta costitutiva</div>
                                         @if ($company->constitutive_act)
-                                            <a href="{{ asset('storage/records_files/' . $company->constitutive_act) }}"
-                                                target="_blank"> Descargar <i class="fas fa-download"></i></a>
+                                            <div class="text-custom col-4">
+                                                <a href="{{ asset('storage/records_files/' . $company->constitutive_act) }}"
+                                                    target="_blank"> Descargar <i class="fas fa-download"></i></a>
+                                            </div>
+                                            <div class="col-2 ico-sec"><a href="#" data-bs-toggle="modal"
+                                                    onclick="getUserId('constitutive_act', 'delete_file_name')"
+                                                    data-bs-target="#delete_file" class="p-0"><i
+                                                        class="far fa-trash-alt"></i></a>
+                                            </div>
                                         @else
-                                            <p class="mb-0"> - </p>
+                                            <div class="text-custom col-4">
+                                                <p class="mb-0"> - </p>
+                                            </div>
                                         @endif
                                     </div>
                                 </li>
                                 <li>
-                                    <div class="title">Comprobante de situación fiscal</div>
-                                    <div class="text">
+                                    <div class="row">
+                                        <div class="title-custom col-6">Comprobante de situación fiscal</div>
                                         @if ($company->tax_identification_card)
-                                            <a href="{{ asset('storage/records_files/' . $company->tax_identification_card) }}"
-                                                target="_blank"> Descargar <i class="fas fa-download"></i></a>
+                                            <div class="text-custom col-4">
+                                                <a href="{{ asset('storage/records_files/' . $company->tax_identification_card) }}"
+                                                    target="_blank"> Descargar <i class="fas fa-download"></i></a>
+                                            </div>
+                                            <div class="col-2 ico-sec"><a href="#" data-bs-toggle="modal"
+                                                    onclick="getUserId('tax_identification_card', 'delete_file_name')"
+                                                    data-bs-target="#delete_file" class="p-0"><i
+                                                        class="far fa-trash-alt"></i></a>
+                                            </div>
                                         @else
-                                            <p class="mb-0"> - </p>
+                                            <div class="text-custom col-4">
+                                                <p class="mb-0"> - </p>
+                                            </div>
                                         @endif
                                     </div>
                                 </li>
                                 <li>
-                                    <div class="title">Comprobante de domicilio</div>
-                                    <div class="text">
+                                    <div class="row">
+                                        <div class="title-custom col-6">Comprobante de domicilio</div>
                                         @if ($company->proof_residency)
-                                            <a href="{{ asset('storage/records_files/' . $company->proof_residency) }}"
-                                                target="_blank"> Descargar <i class="fas fa-download"></i></a>
+                                            <div class="text-custom col-4">
+                                                <a href="{{ asset('storage/records_files/' . $company->proof_residency) }}"
+                                                    target="_blank"> Descargar <i class="fas fa-download"></i></a>
+                                            </div>
+                                            <div class="col-2 ico-sec"><a href="#" data-bs-toggle="modal"
+                                                    onclick="getUserId('proof_residency', 'delete_file_name')"
+                                                    data-bs-target="#delete_file" class="p-0"><i
+                                                        class="far fa-trash-alt"></i></a>
+                                            </div>
                                         @else
-                                            <p class="mb-0"> - </p>
+                                            <div class="text-custom col-4">
+                                                <p class="mb-0"> - </p>
+                                            </div>
                                         @endif
                                     </div>
                                 </li>
                                 <li>
-                                    <div class="title">Registro patronal</div>
-                                    <div class="text">
+                                    <div class="row">
+                                        <div class="title-custom col-6">Registro patronal</div>
                                         @if ($company->employer_registration)
-                                            <a href="{{ asset('storage/records_files/' . $company->employer_registration) }}"
-                                                target="_blank"> Descargar <i class="fas fa-download"></i></a>
+                                            <div class="text-custom col-4">
+                                                <a href="{{ asset('storage/records_files/' . $company->employer_registration) }}"
+                                                    target="_blank"> Descargar <i class="fas fa-download"></i></a>
+                                            </div>
+                                            <div class="col-2 ico-sec"><a href="#" data-bs-toggle="modal"
+                                                    onclick="getUserId('employer_registration', 'delete_file_name')"
+                                                    data-bs-target="#delete_file" class="p-0"><i
+                                                        class="far fa-trash-alt"></i></a>
+                                            </div>
                                         @else
-                                            <p class="mb-0"> - </p>
+                                            <div class="text-custom col-4">
+                                                <p class="mb-0"> - </p>
+                                            </div>
                                         @endif
                                     </div>
                                 </li>
                                 <li>
-                                    <div class="title">INE representante legal</div>
-                                    <div class="text">
+                                    <div class="row">
+                                        <div class="title-custom col-6">INE representante legal</div>
                                         @if ($company->legal_represantative_identification)
-                                            <a href="{{ asset('storage/records_files/' . $company->legal_represantative_identification) }}"
-                                                target="_blank"> Descargar <i class="fas fa-download"></i></a>
+                                            <div class="text-custom col-4">
+                                                <a href="{{ asset('storage/records_files/' . $company->legal_represantative_identification) }}"
+                                                    target="_blank"> Descargar <i class="fas fa-download"></i></a>
+                                            </div>
+                                            <div class="col-2 ico-sec"><a href="#" data-bs-toggle="modal"
+                                                    onclick="getUserId('legal_represantative_identification', 'delete_file_name')"
+                                                    data-bs-target="#delete_file" class="p-0"><i
+                                                        class="far fa-trash-alt"></i></a>
+                                            </div>
                                         @else
-                                            <p class="mb-0"> - </p>
+                                            <div class="text-custom col-4">
+                                                <p class="mb-0"> - </p>
+                                            </div>
                                         @endif
                                     </div>
                                 </li>
                                 <li>
-                                    <div class="title">Poder del representante legal</div>
-                                    <div class="text">
+                                    <div class="row">
+                                        <div class="title-custom col-6">Poder del representante legal</div>
                                         @if ($company->legal_represantative_power)
-                                            <a href="{{ asset('storage/records_files/' . $company->legal_represantative_power) }}"
-                                                target="_blank"> Descargar <i class="fas fa-download"></i></a>
+                                            <div class="text-custom col-4">
+                                                <a href="{{ asset('storage/records_files/' . $company->legal_represantative_power) }}"
+                                                    target="_blank"> Descargar <i class="fas fa-download"></i></a>
+                                            </div>
+                                            <div class="col-2 ico-sec"><a href="#" data-bs-toggle="modal"
+                                                    onclick="getUserId('legal_represantative_power', 'delete_file_name')"
+                                                    data-bs-target="#delete_file" class="p-0"><i
+                                                        class="far fa-trash-alt"></i></a>
+                                            </div>
                                         @else
-                                            <p class="mb-0"> - </p>
+                                            <div class="text-custom col-4">
+                                                <p class="mb-0"> - </p>
+                                            </div>
                                         @endif
                                     </div>
                                 </li>
@@ -949,25 +1003,25 @@
     </div>
 
     <!-- Delete Employee Modal -->
-    <div class="modal custom-modal fade" id="delete_employee" role="dialog">
+    <div class="modal custom-modal fade" id="delete_file" role="dialog">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-body">
                     <div class="form-header">
-                        <h3>Eliminar Empleado</h3>
-                        <p>Estas seguro de eliminar a este empleado?</p>
+                        <h3>Eliminar Archivo</h3>
+                        <p>¿Estás seguro de eliminar el archivo?</p>
                     </div>
                     <div class="modal-btn delete-action">
-                        <form action="{{ route('company.deleteEmployee') }}" method="POST">
+                        <form action="{{ route('company.deleteFiles', $company->id) }}" method="POST">
                             @csrf
                             <div class="row">
                                 <div class="col-6">
-                                    <input type="hidden" name="user_id" class="delete_user_id">
+                                    <input type="hidden" name="file" class="delete_file_name">
                                     <button type="submit" class="btn btn-primary continue-btn">Eliminar</button>
                                 </div>
                                 <div class="col-6">
-                                    <button type="button" data-bs-dismiss="modal"
-                                        class="btn btn-primary cancel-btn">Cancelar</button>
+                                    <a href="javascript:void(0);" data-bs-dismiss="modal"
+                                        class="btn btn-primary cancel-btn">Cancelar</a>
                                 </div>
                             </div>
                         </form>
@@ -976,6 +1030,7 @@
             </div>
         </div>
     </div>
+    <!-- /Delete Employee Modal -->
 
     <!-- Delete credit Modal -->
     <div class="modal custom-modal fade" id="delete_credit" role="dialog">

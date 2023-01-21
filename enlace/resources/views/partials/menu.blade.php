@@ -33,9 +33,9 @@
 
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
-			<script src="assets/js/html5shiv.min.js"></script>
-			<script src="assets/js/respond.min.js"></script>
-		<![endif]-->
+   <script src="assets/js/html5shiv.min.js"></script>
+   <script src="assets/js/respond.min.js"></script>
+  <![endif]-->
 </head>
 
 <body>
@@ -246,8 +246,10 @@
                     <div class="dropdown-menu">
                         {{-- <a class="dropdown-item" href="profile.html">My Profile</a>
                         <a class="dropdown-item" href="settings.html">Settings</a> --}}
-                        <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
-                                      document.getElementById('logout-form').submit();">Cerrar Sesión</a>
+                        <a class="dropdown-item" href="{{ route('logout') }}"
+                            onclick="event.preventDefault();
+                                      document.getElementById('logout-form').submit();">Cerrar
+                            Sesión</a>
                     </div>
                 </li>
             </ul>
@@ -260,8 +262,10 @@
                 <div class="dropdown-menu dropdown-menu-right">
                     {{-- <a class="dropdown-item" href="profile.html">My Profile</a>
                     <a class="dropdown-item" href="settings.html">Settings</a> --}}
-                    <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
-                                  document.getElementById('logout-form').submit();">Cerrar Sesión</a>
+                    <a class="dropdown-item" href="{{ route('logout') }}"
+                        onclick="event.preventDefault();
+                                  document.getElementById('logout-form').submit();">Cerrar
+                        Sesión</a>
                 </div>
             </div>
             <!-- /Mobile Menu -->
@@ -278,14 +282,14 @@
             <div class="sidebar-left slimscroll">
                 <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
                     <a class="nav-link active" id="v-pills-dashboard-tab" data-bs-toggle="pill"
-                        href="#v-pills-dashboard" role="tab" aria-controls="v-pills-dashboard"
-                        aria-selected="true">
+                        href="#v-pills-dashboard" role="tab" aria-controls="v-pills-dashboard" aria-selected="true">
                         <span class="material-icons-outlined">
                             home
                         </span>
                     </a>
                     <a class="nav-link" id="v-pills-employees-tab" title="Empleados" data-bs-toggle="pill"
-                        href="#v-pills-employees" role="tab" aria-controls="v-pills-employees" aria-selected="false">
+                        href="#v-pills-employees" role="tab" aria-controls="v-pills-employees"
+                        aria-selected="false">
                         <span class="material-icons-outlined">
                             people
                         </span>
@@ -296,19 +300,19 @@
                             topic
                         </span>
                     </a>
-                    <a class="nav-link" id="v-pills-leads-tab" title="Leads" data-bs-toggle="pill" href="#v-pills-leads"
-                        role="tab" aria-controls="v-pills-leads" aria-selected="false">
+                    <a class="nav-link" id="v-pills-leads-tab" title="Leads" data-bs-toggle="pill"
+                        href="#v-pills-leads" role="tab" aria-controls="v-pills-leads" aria-selected="false">
                         <span class="material-icons-outlined">
                             leaderboard
                         </span>
                     </a>
-                    <a class="nav-link" id="v-pills-apps-tab" title="Alferza Jobs" href="https://www.alferzajobs.com/"
-                        target="_blank">
+                    <a class="nav-link" id="v-pills-apps-tab" title="Alferza Jobs"
+                        href="https://www.alferzajobs.com/" target="_blank">
                         <span class="material-icons-outlined">
                             work_outline
                         </span>
                     </a>
-                    {{--<a class="nav-link" id="v-pills-clients-tab" title="Clients" data-bs-toggle="pill"
+                    {{-- <a class="nav-link" id="v-pills-clients-tab" title="Clients" data-bs-toggle="pill"
                         href="#v-pills-clients" role="tab" aria-controls="v-pills-clients" aria-selected="false">
                         <span class="material-icons-outlined">
                             person
@@ -494,7 +498,7 @@
                         <span class="material-icons-outlined">
                             library_add_check
                         </span>
-                    </a>--}}
+                    </a> --}}
                 </div>
             </div>
 
@@ -508,7 +512,7 @@
                                 <a href="{{ route('admin.dashboard') }}" class="active">Inicio</a>
                             </li>
                             <li>
-                                <a href="{{ route('company.list') }}" class="active">Empresas</a>
+                                <a href="{{ route('company.grid') }}" class="active">Empresas</a>
                             </li>
                         </ul>
                     </div>
@@ -517,7 +521,7 @@
                         <p>Empleados</p>
                         <ul>
                             <li>
-                                <a href="{{ route('admin.userList') }}" class="active">Lista de Empleados</a>
+                                <a href="{{ route('admin.usersListGrid') }}" class="active">Lista de Empleados</a>
                             </li>
                         </ul>
                     </div>
@@ -529,14 +533,16 @@
                                 <a href="{{ route('ticket.list') }}" class="active">Incidencias</a>
                             </li>
                             <li>
-                                <a href="{{ route('ticket.archivedList') }}" class="active">Incidencias Archivadas</a>
+                                <a href="{{ route('ticket.archivedList') }}" class="active">Incidencias
+                                    Archivadas</a>
                             </li>
                             <li>
                                 <a href="{{ route('payroll.list') }}" class="active">Nóminas</a>
                             </li>
                         </ul>
                     </div>
-                    <div class="tab-pane fade" id="v-pills-leads" role="tabpanel" aria-labelledby="v-pills-leads-tab">
+                    <div class="tab-pane fade" id="v-pills-leads" role="tabpanel"
+                        aria-labelledby="v-pills-leads-tab">
                         <p>Reportes</p>
                         <ul>
                             <li><a href="{{ route('reports.backupsView') }}">Respaldos</a></li>
@@ -888,7 +894,7 @@
     <!-- Chart JS -->
     <script src="{{ asset('plugins/morris/morris.min.js') }}"></script>
     <script src="{{ asset('plugins/raphael/raphael.min.js') }}"></script>
-    <script src="{{ asset('js/chart.js')}}"></script>
+    <script src="{{ asset('js/chart.js') }}"></script>
 
     <!-- Apex Charts -->
     <script src="{{ asset('plugins/apexcharts/apexcharts.min.js') }}"></script>
@@ -900,26 +906,26 @@
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     @if (session('success'))
-    <script>
-        Swal.fire({
+        <script>
+            Swal.fire({
                 position: 'center',
                 icon: 'success',
                 title: '{{ session('success') }}',
                 showConfirmButton: false,
                 timer: 2500
             });
-    </script>
+        </script>
     @endif
     @if (session('error'))
-    <script>
-        Swal.fire({
+        <script>
+            Swal.fire({
                 position: 'center',
                 icon: 'error',
                 title: '{{ session('error') }}',
                 showConfirmButton: false,
                 timer: 2500
             });
-    </script>
+        </script>
     @endif
 
     @yield('js')
