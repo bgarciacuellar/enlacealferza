@@ -29,8 +29,9 @@ function getAdditinalEmailData(data) {
 }
 
 function getAdditionalContactData(data) {
-    const { id, name, phone_number } = data;
+    const { id, name, phone_number, email } = data;
     $(".update-additional-contact-id").val(id);
     $(".update-additional-contact-name").val(name);
+    $(".update-additional-contact-email").val(email);
     $(".update-additional-contact-phone-number").val(phone_number);
 }

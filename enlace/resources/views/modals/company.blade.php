@@ -40,7 +40,8 @@
             <div class="modal-body">
                 <form action="{{ route('company.updateAdditionalAddress', $company->id) }}" method="POST">
                     @csrf
-                    <input type="hidden" class="form-control update-additional_address_id" name="additional_address_id">
+                    <input type="hidden" class="form-control update-additional_address_id"
+                        name="additional_address_id">
                     <div class="row">
                         <div class="col-md-12">
                             <div class="form-group">
@@ -181,7 +182,7 @@
 <!-- /additional phone number -->
 
 <!-- additional emails -->
-<div id="create_additional_email" class="modal custom-modal fade" role="dialog">
+{{-- <div id="create_additional_email" class="modal custom-modal fade" role="dialog">
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -227,7 +228,8 @@
                         <div class="col-md-12">
                             <div class="form-group">
                                 <label>Correo electrónico <span class="text-danger">*</span></label>
-                                <input type="email" class="form-control update-additional-email" name="email" required>
+                                <input type="email" class="form-control update-additional-email" name="email"
+                                    required>
                             </div>
                         </div>
                     </div>
@@ -266,7 +268,7 @@
             </div>
         </div>
     </div>
-</div>
+</div> --}}
 <!-- /additional emails -->
 
 <!-- additional contact -->
@@ -287,6 +289,12 @@
                             <div class="form-group">
                                 <label>Nombre <span class="text-danger">*</span></label>
                                 <input type="text" class="form-control" name="name" required>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Correo <span class="text-danger">*</span></label>
+                                <input type="email" class="form-control" name="email" required>
                             </div>
                         </div>
                         <div class="col-md-6">
@@ -317,13 +325,21 @@
             <div class="modal-body">
                 <form action="{{ route('company.updateAdditionalContact', $company->id) }}" method="POST">
                     @csrf
-                    <input type="hidden" class="form-control update-additional-contact-id" name="additional_contact_id">
+                    <input type="hidden" class="form-control update-additional-contact-id"
+                        name="additional_contact_id">
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label>Nombre <span class="text-danger">*</span></label>
-                                <input type="text" class="form-control update-additional-contact-name" name="name"
-                                    required>
+                                <input type="text" class="form-control update-additional-contact-name"
+                                    name="name" required>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Correo <span class="text-danger">*</span></label>
+                                <input type="email" class="form-control update-additional-contact-email"
+                                    name="email" required>
                             </div>
                         </div>
                         <div class="col-md-6">
@@ -356,7 +372,8 @@
                         @csrf
                         <div class="row">
                             <div class="col-6">
-                                <input type="hidden" name="additional_contact_id" class="delete_additional_contact_id">
+                                <input type="hidden" name="additional_contact_id"
+                                    class="delete_additional_contact_id">
                                 <button type="submit" class="btn btn-primary continue-btn">Eliminar</button>
                             </div>
                             <div class="col-6">
@@ -413,7 +430,8 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label class="col-form-label">INE representante legal</label>
-                                <input class="form-control" name="legal_represantative_identification" type="file">
+                                <input class="form-control" name="legal_represantative_identification"
+                                    type="file">
                             </div>
                         </div>
                         <div class="col-md-6">

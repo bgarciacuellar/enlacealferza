@@ -15,6 +15,7 @@ class CreateCompaniesTable extends Migration
     {
         Schema::create('companies', function (Blueprint $table) {
             $table->id();
+            $table->integer('is_active')->default(1);
             $table->string('name');
             $table->string('business_name')->nullable();
             $table->string('rfc')->nullable();
@@ -22,6 +23,7 @@ class CreateCompaniesTable extends Migration
             $table->string('phone_number')->nullable();
             $table->string('email')->nullable();
             $table->string('website')->nullable();
+            $table->string('paydays')->nullable();
             $table->string('constitutive_act')->nullable();
             $table->string('tax_identification_card')->nullable();
             $table->string('proof_residency')->nullable();

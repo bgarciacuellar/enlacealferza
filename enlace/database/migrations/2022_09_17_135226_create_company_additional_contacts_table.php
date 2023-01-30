@@ -17,6 +17,7 @@ class CreateCompanyAdditionalContactsTable extends Migration
             $table->id();
             $table->bigInteger('company_id');
             $table->string('name');
+            $table->string('email');
             $table->string('phone_number');
             $table->timestamps();
         });

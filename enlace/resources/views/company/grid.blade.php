@@ -14,7 +14,7 @@
                     <div class="row">
                         <div class="col-sm-9">
                             <div class="form-group form-focus mb-0">
-                                <input type="text" class="form-control floating search-name" name="name">
+                                <input type="text" class="form-control floating search-name" name="name" required>
                                 <label class="focus-label">Nombre de la empresa</label>
                             </div>
                         </div>

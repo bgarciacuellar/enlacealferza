@@ -54,11 +54,12 @@ Route::post('/unassign-company/{user}/{company}', [App\Http\Controllers\AdminCon
     ->name('admin.unassignCompany');
 
 // User
+Route::get('/usuario', [App\Http\Controllers\UserController::class, 'userDetails'])
+    ->name('user.userDetails');
+    
 Route::get('/usuario/tickets', [App\Http\Controllers\UserController::class, 'ticketList'])
     ->name('user.ticketList');
 
-Route::get('/usuario', [App\Http\Controllers\UserController::class, 'userDetails'])
-    ->name('user.userDetails');
 
 
 // Ticket
@@ -105,6 +106,9 @@ Route::get('/compania/lista-cuadricula', [App\Http\Controllers\CompanyController
 Route::post('/company/create', [App\Http\Controllers\CompanyController::class, 'create'])
     ->name('company.create');
 
+Route::post('/company/delete-company', [App\Http\Controllers\CompanyController::class, 'delete'])
+    ->name('company.delete');
+
 Route::get('/compania/detalles/{id}', [App\Http\Controllers\CompanyController::class, 'details'])
     ->name('company.details');
 
@@ -123,7 +127,7 @@ Route::post('/company/create/employee/{id}', [App\Http\Controllers\CompanyContro
 Route::post('/company/update/employee/{company}', [App\Http\Controllers\CompanyController::class, 'udpateEmployee'])
     ->name('company.udpateEmployee');
 
-Route::post('/company/delete/', [App\Http\Controllers\CompanyController::class, 'deleteEmployee'])
+Route::post('/company/delete/{companyId}', [App\Http\Controllers\CompanyController::class, 'deleteEmployee'])
     ->name('company.deleteEmployee');
 
 Route::get('/compania/creditos/{creditId}', [App\Http\Controllers\CompanyController::class, 'creditDetails'])

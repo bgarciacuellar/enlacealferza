@@ -86,6 +86,7 @@ class AdminController extends Controller
             [
                 'name' => 'required',
                 'email' => 'required|unique:users,email,' . $userId,
+                'role' => 'required',
                 'last_name' => 'nullable',
                 'employee_id' => 'nullable',
                 'work_area' => 'nullable',
@@ -108,6 +109,7 @@ class AdminController extends Controller
             'name' => $request->name,
             'employee_id' => $request->employee_id,
             'email' => $request->email,
+            'role' => $request->role,
         ]);
 
         if ($request->change_password) {
@@ -229,6 +231,7 @@ class AdminController extends Controller
         $myBossAdditionalInfo = AdditionalUserInfo::where('user_id', $additionalUserInfo->immediate_boss)->first();
         $additionalUserInfo->boss_name = $myBoss ? $myBoss->name : '-';
         $additionalUserInfo->boss_image = $myBossAdditionalInfo ? $myBossAdditionalInfo->profile_image : false;
+        $roles = $this->usersRoles;
 
         $userCompanies = CompanyOnCharge::where('user_id', $user->id)->get();
         foreach ($userCompanies as $userCompany) {
@@ -236,7 +239,7 @@ class AdminController extends Controller
             $userCompany->company_name = $company->name;
         }
 
-        return view('admin.users_details', compact('user', 'additionalUserInfo', 'companies', 'userCompanies', 'bosses'));
+        return view('admin.users_details', compact('user', 'additionalUserInfo', 'companies', 'userCompanies', 'bosses', 'roles'));
     }
 
     public function usersList()

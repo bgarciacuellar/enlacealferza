@@ -35,12 +35,12 @@ class LoginCustomizedController extends Controller
         $user = User::where('email', $request->email)->first();
         $isActive = $user ? $user->is_active : 0;
         if (!$isActive) {
-            return back()->with('error', 'Credenciales Erroneas, Verifiquie la Información');
+            return back()->with('error', 'Lo siento, las credenciales ingresadas son incorrectas. Por favor verifica la información');
         }
         if (Auth::attempt($credentials)) {
             $redirect = $this->checkRole();
             return $redirect;
         }
-        return back()->with('error', 'Credenciales Erroneas, Verifiquie la Información');
+        return back()->with('error', 'Lo siento, las credenciales ingresadas son incorrectas. Por favor verifica la información');
     }
 }

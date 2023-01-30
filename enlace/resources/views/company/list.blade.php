@@ -13,7 +13,7 @@
                     <div class="row">
                         <div class="col-lg-9">
                             <div class="form-group form-focus mb-0">
-                                <input type="text" class="form-control floating search-name" name="name">
+                                <input type="text" class="form-control floating search-name" name="name" required>
                                 <label class="focus-label">Nombre de la empresa</label>
                             </div>
                         </div>
@@ -61,7 +61,7 @@
                                 <th>Empresa</th>
                                 <th>Dirección</th>
                                 <th>Teléfono</th>
-                                {{-- <th class="text-end no-sort">Deshabilitar</th> --}}
+                                <th class="no-sort">Eliminar</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -77,13 +77,11 @@
                                     </td>
                                     <td>{{ $company->address }}</td>
                                     <td>{{ $company->phone_number }}</td>
-                                    {{-- <td class="text-end ico-sec">
-                                <a href="#" data-bs-toggle="modal" data-bs-target="#edit_employee"><i
-                                        class="fas fa-pen"></i></a>
-                                <a href="#" data-bs-toggle="modal"
-                                    onclick="getUserId({{ $company->id }}, 'delete_user_id')"
-                                    data-bs-target="#delete_employee"><i class="far fa-trash-alt"></i></a>
-                            </td> --}}
+                                    <td>
+                                        <a href="#" data-bs-toggle="modal" data-bs-target="#delete_company"><i
+                                                onclick="getUserId({{ $company->id }}, 'delete_company')"
+                                                class="far fa-trash-alt"></i></a>
+                                    </td>
                                 </tr>
                             @endforeach
                         </tbody>
@@ -163,5 +161,35 @@
         </div>
     </div>
     <!-- Add company -->
+
+    <!-- Delete Employee Modal -->
+    <div class="modal custom-modal fade" id="delete_company" role="dialog">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div class="form-header">
+                        <h3>Eliminar empresa</h3>
+                        <p>¿Estás seguro de eliminar a esta empresa?</p>
+                    </div>
+                    <div class="modal-btn delete-action">
+                        <form action="{{ route('company.delete') }}" method="POST">
+                            @csrf
+                            <div class="row">
+                                <div class="col-6">
+                                    <input type="hidden" name="company" class="delete_company">
+                                    <button type="submit" class="btn btn-primary continue-btn">Eliminar</button>
+                                </div>
+                                <div class="col-6">
+                                    <a href="javascript:void(0);" data-bs-dismiss="modal"
+                                        class="btn btn-primary cancel-btn">Cancelar</a>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /Delete Employee Modal -->
 
 @endsection

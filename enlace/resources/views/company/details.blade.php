@@ -23,11 +23,9 @@
                                     <div class="profile-info-left">
                                         <h3 class="user-name m-t-0 mb-0">{{ $company->name }}</h3>
                                         <h6 class="text-muted">{{ $company->business_name }}</h6>
-                                        {{-- <small class="text-muted">Web Designer</small>
-                                    <div class="staff-id">Employee ID : FT-0001</div>
-                                    <div class="small doj text-muted">Date of Join : 1st Jan 2013</div>
-                                    <div class="staff-msg"><a class="btn btn-custom" href="chat.html">Send
-                                            Message</a></div> --}}
+                                        <div class="staff-id">Días de pago</div>
+                                        <div class="staff-id ">{{ $company->paydays }}</div>
+                                        <div class="small doj text-muted"></div>
                                     </div>
                                 </div>
                                 <div class="col-md-7">
@@ -277,50 +275,19 @@
                         </div>
                     </div>
                 </div>
+
                 <div class="col-md-6 d-flex">
                     <div class="card profile-box flex-fill">
                         <div class="card-body">
-                            <h3 class="card-title">Correos electrónicos secundarios <a href="#" class="edit-icon"
-                                    data-bs-toggle="modal" data-bs-target="#create_additional_email"><i
-                                        class="fas fa-plus-circle"></i></a></h3>
-                            <table class="table table-striped custom-table datatable">
-                                <thead>
-                                    <tr>
-                                        <th>Correo electrónico</th>
-                                        <th>Acciones</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach ($additionalsEmails as $additionalEmail)
-                                        <tr>
-                                            <td>{{ $additionalEmail->email }}</td>
-                                            <td>
-                                                <a href="#" data-bs-toggle="modal"
-                                                    onclick="getAdditinalEmailData({{ json_encode($additionalEmail) }})"
-                                                    data-bs-target="#update_additional_email"><i
-                                                        class="fas fa-edit"></i></a>
-                                                <a href="#" data-bs-toggle="modal" class="text-danger ps-3"
-                                                    onclick="getUserId({{ $additionalEmail['id'] }}, 'delete_additional_email_id')"
-                                                    data-bs-target="#delete_additional_email"><i
-                                                        class="far fa-trash-alt"></i></a>
-                                            </td>
-                                        </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6 d-flex">
-                    <div class="card profile-box flex-fill">
-                        <div class="card-body">
-                            <h3 class="card-title">Contactos <a href="#" class="edit-icon" data-bs-toggle="modal"
-                                    data-bs-target="#create_additional_contact"><i class="fas fa-plus-circle"></i></a>
+                            <h3 class="card-title">Contacto de la empresa <a href="#" class="edit-icon"
+                                    data-bs-toggle="modal" data-bs-target="#create_additional_contact"><i
+                                        class="fas fa-plus-circle"></i></a>
                             </h3>
                             <table class="table table-striped custom-table datatable">
                                 <thead>
                                     <tr>
                                         <th>Nombre</th>
+                                        <th>Correo</th>
                                         <th>Teléfono</th>
                                         <th>Acciones</th>
                                     </tr>
@@ -329,6 +296,7 @@
                                     @foreach ($additionalsContacts as $additionalContact)
                                         <tr>
                                             <td>{{ $additionalContact->name }}</td>
+                                            <td>{{ $additionalContact->email }}</td>
                                             <td>{{ $additionalContact->phone_number }}</td>
                                             <td>
                                                 <a href="#" data-bs-toggle="modal"
@@ -730,7 +698,7 @@
     <!-- /Page Content -->
 
     <!-- update company -->
-    <div id="profile_info" class="modal custom-modal fade" role="dialog">
+    <div id="profile_info" class="modal custom-modal fade modal-to-select2" role="dialog">
         <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -786,14 +754,37 @@
                                         value="{{ $company->email }}">
                                 </div>
                             </div>
+                            {{ $company->paydays }}
                             <div class="col-sm-6">
                                 <div class="form-group">
                                     <label class="col-form-label">Días de pago</label>
-                                    <select class="form-control" name="payday">
+                                    <select class="form-control modal-select" style="width: 100%;" name="paydays[]"
+                                        multiple="multiple">
                                         <option value="">Selecciona una opción</option>
-                                        <option value="7">Cada 7 días</option>
-                                        <option value="15">Cada 15 días</option>
-                                        <option value="30">Cada 30 días</option>
+                                        <option value="7 días"
+                                            {{ in_array('7 días', $company->paydaysArray) ? 'selected' : null }}>
+                                            7
+                                            días
+                                        </option>
+                                        <option value="14 días"
+                                            {{ in_array('14 días', $company->paydaysArray) ? 'selected' : null }}>
+                                            14
+                                            días
+                                        </option>
+                                        <option value="15 días"
+                                            {{ in_array('15 días', $company->paydaysArray) ? 'selected' : null }}>
+                                            15
+                                            días
+                                        </option>
+                                        <option value="30 días"
+                                            {{ in_array('30 días', $company->paydaysArray) ? 'selected' : null }}>
+                                            30
+                                            días
+                                        </option>
+                                        <option value="indefinido"
+                                            {{ in_array('indefinido', $company->paydaysArray) ? 'selected' : null }}>
+                                            Indefinido
+                                        </option>
                                     </select>
                                 </div>
                             </div>
@@ -934,6 +925,36 @@
             </div>
         </div>
     </div>
+
+    <!-- Delete Employee Modal -->
+    <div class="modal custom-modal fade" id="delete_employee" role="dialog">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div class="form-header">
+                        <h3>Eliminar Usuario</h3>
+                        <p>¿Estás seguro? Al eliminar el usuario se perderan todos sus datos.</p>
+                    </div>
+                    <div class="modal-btn delete-action">
+                        <form action="{{ route('company.deleteEmployee', $company->id) }}" method="POST">
+                            @csrf
+                            <div class="row">
+                                <div class="col-6">
+                                    <input type="hidden" name="user_id" class="delete_user_id">
+                                    <button type="submit" class="btn btn-primary continue-btn">Eliminar</button>
+                                </div>
+                                <div class="col-6">
+                                    <a href="javascript:void(0);" data-bs-dismiss="modal"
+                                        class="btn btn-primary cancel-btn">Cancelar</a>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /Delete Employee Modal -->
 
     <!-- create new ticket -->
     <div id="create_incident" class="modal custom-modal fade" role="dialog">

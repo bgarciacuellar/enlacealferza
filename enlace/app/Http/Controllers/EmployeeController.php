@@ -6,7 +6,6 @@ use App\Models\AdditionalUserInfo;
 use App\Models\Company;
 use App\Models\CompanyAdditionalAddress;
 use App\Models\CompanyAdditionalContact;
-use App\Models\CompanyAdditionalEmail;
 use App\Models\CompanyAdditionalPhoneNumber;
 use App\Models\CompanyCredit;
 use App\Models\CompanyEmployee;
@@ -63,10 +62,9 @@ class EmployeeController extends Controller
         }
         $additionalsAddresses = CompanyAdditionalAddress::where('company_id', $id)->get();
         $additionalsPhoneNumbers = CompanyAdditionalPhoneNumber::where('company_id', $id)->get();
-        $additionalsEmails = CompanyAdditionalEmail::where('company_id', $id)->get();
         $additionalsContacts = CompanyAdditionalContact::where('company_id', $id)->get();
 
-        return view('employee.my_company', compact('company', 'companyEmployees', 'incidents', 'payrolls', 'paymentsPeriod', 'credits', 'additionalsAddresses', 'additionalsPhoneNumbers', 'additionalsEmails', 'additionalsContacts'));
+        return view('employee.my_company', compact('company', 'companyEmployees', 'incidents', 'payrolls', 'paymentsPeriod', 'credits', 'additionalsAddresses', 'additionalsPhoneNumbers', 'additionalsContacts'));
     }
 
     public function tiketsList()

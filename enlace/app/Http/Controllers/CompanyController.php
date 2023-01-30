@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\Company;
 use App\Models\CompanyAdditionalAddress;
 use App\Models\CompanyAdditionalContact;
-use App\Models\CompanyAdditionalEmail;
 use App\Models\CompanyAdditionalPhoneNumber;
 use App\Models\CompanyCredit;
 use App\Models\CompanyEmployee;
@@ -30,18 +29,18 @@ class CompanyController extends Controller
 
     public function list()
     {
-        $companies = Company::all();
+        $companies = Company::where('is_active', 1)->get();
         return view('company.list', compact('companies'));
     }
     public function listSearch(Request $request)
     {
-        $companies = Company::where("name", "like", "%" . $request->name . "%")->get();
+        $companies = Company::where('is_active', 1)->where("name", "like", "%" . $request->name . "%")->get();
         return view('company.list', compact('companies'));
     }
 
     public function grid()
     {
-        $companies = Company::all();
+        $companies = Company::where('is_active', 1)->get();
         return view('company.grid', compact('companies'));
     }
 
@@ -78,11 +77,36 @@ class CompanyController extends Controller
         return redirect()->route('company.details', $companyCreated->id)->with('success', 'Creado');
     }
 
+    public function delete(Request $request)
+    {
+        $company = Company::findOrFail($request->company);
+
+        if ($company->is_active) {
+            $status = 0;
+            $message = 'Empresa eliminada';
+        }else {
+            $status = 1;
+            $message = 'Empresa activa';
+        }
+
+        $company->update([
+            "is_active" => $status,
+        ]);
+
+        return back()->with('success', $message);
+    }
+
     public function details($id)
     {
         $roles = ['cliente', 'capturista', 'validador'];
         $payrolls = PayrollType::all();
         $company = Company::findOrFail($id);
+        $paydaysArray = explode(',', $company->paydays);
+        $paydaysArrayTrim = array();
+        foreach ($paydaysArray as $paydayArray) {
+            $paydaysArrayTrim[] = trim($paydayArray);
+        }
+        $company->paydaysArray = $paydaysArrayTrim;
         $credits = CompanyCredit::where('company_id', $id)->get();
         $paymentsPeriod = $this->paymentsPeriod;
         $companyEmployeesArray = CompanyEmployee::where("company_id", $company->id)->get()->toArray();
@@ -103,9 +127,8 @@ class CompanyController extends Controller
         }
         $additionalsAddresses = CompanyAdditionalAddress::where('company_id', $id)->get();
         $additionalsPhoneNumbers = CompanyAdditionalPhoneNumber::where('company_id', $id)->get();
-        $additionalsEmails = CompanyAdditionalEmail::where('company_id', $id)->get();
         $additionalsContacts = CompanyAdditionalContact::where('company_id', $id)->get();
-        return view('company.details', compact('company', 'companyEmployees', 'incidents', 'roles', 'payrolls', 'paymentsPeriod', 'credits', 'additionalsAddresses', 'additionalsPhoneNumbers', 'additionalsEmails', 'additionalsContacts'));
+        return view('company.details', compact('company', 'companyEmployees', 'incidents', 'roles', 'payrolls', 'paymentsPeriod', 'credits', 'additionalsAddresses', 'additionalsPhoneNumbers', 'additionalsContacts'));
     }
 
     public function update(Request $request, $id)
@@ -118,6 +141,7 @@ class CompanyController extends Controller
             "phone_number" => "nullable",
             "email" => "nullable",
             "website" => "nullable",
+            "paydays" => "nullable",
             "logo" => "nullable",
         ]);
         
@@ -139,6 +163,7 @@ class CompanyController extends Controller
             "phone_number" => $request->phone_number,
             "email" => $request->email,
             "website" => $request->website,
+            "paydays" => implode(', ', $request->paydays),
             "logo" => $logo,
         ]);
 
@@ -221,6 +246,8 @@ class CompanyController extends Controller
         return back()->with('success', '-');
     }
 
+
+    // Employees
     public function createEmployee(Request $request, $id)
     {
         $request->validate([
@@ -284,16 +311,20 @@ class CompanyController extends Controller
         return back()->with('success', 'Actualizado');
     }
 
-    public function deleteEmployee(Request $request)
+    public function deleteEmployee(Request $request, $companyId)
     {
         $request->validate([
             "user_id" => "required"
         ]);
+        $employee = CompanyEmployee::where("user_id", $request->user_id)->where('company_id', $companyId)->first();
+        if (!$employee) {
+            return back()->with('error', 'Error, intentalo de nuevo');    
+        }
+        $employee->delete();
         $employee = User::find($request->user_id)->delete();
-        $employee = CompanyEmployee::where("user_id", $request->user_id)->delete();
-
-
         return back()->with('success', 'Empleado Eliminado');
+        
+
     }
 
     // Credits
@@ -540,58 +571,12 @@ class CompanyController extends Controller
     }
     // Additional phone numbers
 
-    // Additional emails
-    public function createAdditionalEmail(Request $request, $id)
-    {
-        $request->validate([
-            "email" => "required",
-        ]);
-
-        Company::findOrFail($id);
-
-        CompanyAdditionalEmail::create([
-            "company_id" => $id,
-            "email" => $request->email,
-        ]);
-
-        return back()->with('success', '-');
-    }
-
-    public function updateAdditionalEmail(Request $request, $id)
-    {
-        $request->validate([
-            "additional_email_id" => "required",
-            "email" => "required",
-        ]);
-
-        $company = Company::findOrFail($id);
-
-        $additionalPhoneNumber = CompanyAdditionalEmail::where('id', $request->additional_email_id)->where('company_id', $company->id)->firstOrFail();
-
-        $additionalPhoneNumber->update([
-            "email" => $request->email,
-        ]);
-
-        return back()->with('success', '-');
-    }
-
-    public function deleteAdditionalEmail(Request $request)
-    {
-        $request->validate([
-            "additional_email_id" => "required"
-        ]);
-
-        CompanyAdditionalEmail::find($request->additional_email_id)->delete();
-
-        return back()->with('success', 'Correo secundario eliminado');
-    }
-    // Additional emails
-
     // Additional contact
     public function createAdditionalContact(Request $request, $id)
     {
         $request->validate([
             "name" => "required",
+            "email" => "nullable",
             "phone_number" => "required",
         ]);
 
@@ -600,6 +585,7 @@ class CompanyController extends Controller
         CompanyAdditionalContact::create([
             "company_id" => $id,
             "name" => $request->name,
+            "email" => $request->email,
             "phone_number" => $request->phone_number,
         ]);
 
@@ -611,6 +597,7 @@ class CompanyController extends Controller
         $request->validate([
             "additional_contact_id" => "required",
             "name" => "required",
+            "email" => "nullable",
             "phone_number" => "required",
         ]);
 
@@ -620,6 +607,7 @@ class CompanyController extends Controller
 
         $additionalPhoneNumber->update([
             "name" => $request->name,
+            "email" => $request->email,
             "phone_number" => $request->phone_number,
         ]);
 
