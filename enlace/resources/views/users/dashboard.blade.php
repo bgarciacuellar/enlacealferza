@@ -30,10 +30,10 @@
                             </div>
                         @endforeach
                     </div>
-                    <div class="card-body-events-card pb-0" style="background: #f8f8f8;">
+                    <div class="card-body-events-card pb-0">
                         <h5 class="text-black card-body-events-card-name-anniversary"></h5>
                     </div>
-                    <div class="card-footer-events-card" style="background: #f8f8f8;">
+                    <div class="card-footer-events-card">
                         <h5>Aniversario: <span class="text-black card-footer-events-card-date-anniversary"> </span></h5>
                     </div>
                 </div>
@@ -60,10 +60,10 @@
                             </div>
                         @endforeach
                     </div>
-                    <div class="card-body-events-card pb-0" style="background: #f8f8f8;">
+                    <div class="card-body-events-card pb-0">
                         <h5 class="text-black card-body-events-card-name-birthday"></h5>
                     </div>
-                    <div class="card-footer-events-card" style="background: #f8f8f8;">
+                    <div class="card-footer-events-card">
                         <h5>Cumpleaños: <span class="text-black card-footer-events-card-date-birthday"> </span></h5>
                     </div>
                 </div>

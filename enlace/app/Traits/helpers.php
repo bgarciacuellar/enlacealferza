@@ -78,7 +78,7 @@ trait helpers
                 $statusConverted = "Cargar incidencia";
                 break;
             case 2:
-                $statusConverted = "Calculo de nómina";
+                $statusConverted = "Cálculo de nómina";
                 break;
             case 2.5:
                 $statusConverted = "Observaciones en revisión";
