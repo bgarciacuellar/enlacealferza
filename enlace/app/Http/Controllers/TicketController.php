@@ -158,7 +158,7 @@ class TicketController extends Controller
                 "user_name" => $user ? $user->name : "Usuario de alferza",
                 "role" => $user ? ucfirst($user->role) : "Cliente",
                 "file" => $ticketFileHistoryItem['file'],
-                "created_at" => $createdAt->format('d/m/Y'),
+                "created_at" => $createdAt->format('d/m/Y h:i'),
             );
         };
         $ticketFilesHistory = array_map($ticketFilesHistoryMap, $ticketFilesHistoryArray);
@@ -171,7 +171,7 @@ class TicketController extends Controller
                 "id" => $ticketCommentItem['id'],
                 "user_name" => $user ? $user->name : "Usuario de alferza",
                 "comment" => $ticketCommentItem['comment'],
-                "created_at" => $createdAt->format('d/m/Y'),
+                "created_at" => $createdAt->format('d/m/Y h:i'),
             );
         };
         $ticketComments = array_map($ticketCommentsMap, $ticketCommentsArray);
@@ -331,7 +331,8 @@ class TicketController extends Controller
             Mail::to($emails)->send($message);
         } elseif ($ticket->status == 5) {
             $employees = CompanyEmployee::where('company_id', $ticket->company)->get('user_id');
-            $message = new UploadedPayroll($userNameCreatedTicket, $ticket->id, $company);
+            $message = new PayrollAuthorized($userNameCreatedTicket, $ticket->id, $company);
+            /* $message = new UploadedPayroll($userNameCreatedTicket, $ticket->id, $company); */
             $emails = [];
             foreach ($employees as $employee) {
                 $employeeEmail = User::where('id', $employee->user_id)->first('email');

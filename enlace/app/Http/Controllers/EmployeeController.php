@@ -114,7 +114,7 @@ class EmployeeController extends Controller
                 "id" => $ticketCommentItem['id'],
                 "user_name" => $user ? $user->name : "Usuario de alferza",
                 "comment" => $ticketCommentItem['comment'],
-                "created_at" => $createdAt->format('d/m/Y'),
+                "created_at" => $createdAt->format('d/m/Y h:i'),
             );
         };
         $ticketComments = array_map($ticketCommentsMap, $ticketCommentsArray);
