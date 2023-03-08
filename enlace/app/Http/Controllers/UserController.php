@@ -16,7 +16,43 @@ use Carbon\Carbon;
 class UserController extends Controller
 {
     use helpers;
+    
     public $paymentsPeriod = ['semanal', 'quincenal', 'mensual'];
+
+    public function dashboard()
+    {
+        $usersArray = $this->getAlferzaUsers(true);
+        $currentYear = Carbon::now()->format('Y');
+        $months = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
+
+        $usersMap = function ($userItem) use ($currentYear, $months){
+            $additionalUserInfo = AdditionalUserInfo::where('user_id', $userItem['id'])->first();
+            $entryYear = Carbon::parse($additionalUserInfo->entry_date)->format('Y');
+            $entryMonth = Carbon::parse($additionalUserInfo->entry_date)->format('m');
+            $entryDate = $entryYear < $currentYear ? $currentYear - $entryYear : 0;
+            $entryFormatedDate =Carbon::parse($additionalUserInfo->entry_date)->format('d') . " de " . $months[$entryMonth-1];
+
+            $birthdayMonth = Carbon::parse($additionalUserInfo->birthday)->format('m');
+            $birthdayFormatedDate = Carbon::parse($additionalUserInfo->birthday)->format('d') . " de " . $months[$birthdayMonth-1];
+
+            return array(
+                "id" => $userItem['id'],
+                "email" => $userItem['email'],
+                "full_name" => $userItem['name'] . ' ' . $additionalUserInfo->last_name,
+                "birthday_formated_date" => $birthdayFormatedDate,
+                "birthday" => $additionalUserInfo->birthday,
+                "birthday_month" => $birthdayMonth,
+                "entry_date" => $additionalUserInfo->entry_date,
+                "entry_formated_date" => $entryFormatedDate,
+                "entry_date_month" => $entryMonth,
+                "anniversary_amount" => $entryDate,
+                "profile_image" => $additionalUserInfo->profile_image,
+            );
+        };
+        $users = array_map($usersMap, $usersArray);
+
+        return view('users.dashboard', compact('users', 'months'));
+    }
 
     public function ticketList(Request $request)
     {

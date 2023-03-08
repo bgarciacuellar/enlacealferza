@@ -42,7 +42,7 @@ class AdminController extends Controller
             $entryFormatedDate =Carbon::parse($additionalUserInfo->entry_date)->format('d') . " de " . $months[$entryMonth-1];
 
             $birthdayMonth = Carbon::parse($additionalUserInfo->birthday)->format('m');
-            $birthdayFormatedDate =Carbon::parse($additionalUserInfo->birthday)->format('d') . " de " . $months[$entryMonth-1];
+            $birthdayFormatedDate = Carbon::parse($additionalUserInfo->birthday)->format('d') . " de " . $months[$birthdayMonth-1];
 
             return array(
                 "id" => $userItem['id'],

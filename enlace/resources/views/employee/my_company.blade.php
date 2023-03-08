@@ -236,27 +236,6 @@
                 <div class="col-md-6 d-flex">
                     <div class="card profile-box flex-fill">
                         <div class="card-body">
-                            <h3 class="card-title">Correos electrónicos secundarios </h3>
-                            <table class="table table-striped custom-table datatable">
-                                <thead>
-                                    <tr>
-                                        <th>Correo electrónico</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach ($additionalsEmails as $additionalEmail)
-                                        <tr>
-                                            <td>{{ $additionalEmail->email }}</td>
-                                        </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6 d-flex">
-                    <div class="card profile-box flex-fill">
-                        <div class="card-body">
                             <h3 class="card-title">Contactos </h3>
                             <table class="table table-striped custom-table datatable">
                                 <thead>

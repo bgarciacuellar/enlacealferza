@@ -60,6 +60,9 @@ Route::post('/unassign-company/{user}/{company}', [App\Http\Controllers\AdminCon
     ->name('admin.unassignCompany');
 
 // User
+Route::get('/usuario/inicio', [App\Http\Controllers\UserController::class, 'dashboard'])
+    ->name('user.dashboard');
+
 Route::get('/usuario', [App\Http\Controllers\UserController::class, 'userDetails'])
     ->name('user.userDetails');
     

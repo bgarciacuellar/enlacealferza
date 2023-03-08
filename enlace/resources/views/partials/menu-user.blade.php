@@ -329,6 +329,9 @@
                         <p>Panel de administración</p>
                         <ul>
                             <li>
+                                <a href="{{ route('user.dashboard') }}" class="active">Inicio</a>
+                            </li>
+                            <li>
                                 <a href="{{ route('user.userDetails') }}" class="active">Mi perfil</a>
                             </li>
                         </ul>
@@ -721,6 +724,7 @@
     <script src="{{ asset('js/app_template.js') }}"></script>
     <!-- Custom JS -->
     <script src="{{ asset('js/customize/getUserId.js') }}"></script>
+    <script src="{{ asset('js/customize/helpers.js') }}"></script>
 
     {{-- ckeditor --}}
     <script src="{{ asset('js/ckeditor/ckeditor.js') }}"></script>
