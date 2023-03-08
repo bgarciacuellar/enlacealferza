@@ -148,6 +148,9 @@
                             <li>
                                 <a href="{{ route('company.grid') }}" class="active">Empresas</a>
                             </li>
+                            <li>
+                                <a href="{{ route('admin.announcementView') }}" class="active">Anuncios</a>
+                            </li>
                         </ul>
                     </div>
                     <div class="tab-pane fade" id="v-pills-employees" role="tabpanel"
@@ -228,12 +231,16 @@
     <script src="{{ asset('js/app_template.js') }}"></script>
     <!-- Custom JS -->
     <script src="{{ asset('js/customize/getUserId.js') }}"></script>
+    <script src="{{ asset('js/customize/helpers.js') }}"></script>
 
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     {{-- select2 --}}
     <script type="text/javascript" src="{{ asset('js/select2/js/select2.js') }}"></script>
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+    {{-- ckeditor --}}
+    <script src="{{ asset('js/ckeditor/ckeditor.js') }}"></script>
 
 
     @if (session('success'))

@@ -10960,4 +10960,41 @@ span.userrole-info {
     font-weight: 500;
 }
 
+.custom-events-card {
+    background-color: #fbfdff;
+    padding: 20px;
+    max-height: 300px;
+    overflow: auto;
+}
+
+.events-img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+}
+
+.card-title-events {
+    color: #1f1f1f;
+    font-size: 20px;
+    font-weight: 500;
+    padding: 15px 0 0 20px;
+    margin-bottom: 0;
+}
+
+.card-body-events-card {
+    padding: 15px 0 0 20px;
+}
+
+.card-footer-events-card {
+    padding: 5px 0 10px 20px;
+}
+
+.custom-event-image-anniversary.active {
+    border: 3px solid #00a100;
+}
+
+.custom-event-image-birthday.active {
+    border: 3px solid #00a100;
+}
+
 /* Custom */

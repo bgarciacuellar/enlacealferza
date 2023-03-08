@@ -911,6 +911,9 @@
 
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
+    {{-- ckeditor --}}
+    <script src="{{ asset('js/ckeditor/ckeditor.js') }}"></script>
+
     @if (session('success'))
         <script>
             Swal.fire({

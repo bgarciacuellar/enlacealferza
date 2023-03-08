@@ -722,6 +722,9 @@
     <!-- Custom JS -->
     <script src="{{ asset('js/customize/getUserId.js') }}"></script>
 
+    {{-- ckeditor --}}
+    <script src="{{ asset('js/ckeditor/ckeditor.js') }}"></script>
+
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     @if (session('success'))

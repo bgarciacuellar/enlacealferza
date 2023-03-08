@@ -17,6 +17,12 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 Route::get('/inicio', [App\Http\Controllers\AdminController::class, 'dashboard'])
     ->name('admin.dashboard');
 
+Route::get('/comunicados', [App\Http\Controllers\AdminController::class, 'announcementView'])
+    ->name('admin.announcementView');
+
+Route::post('/send-announcement', [App\Http\Controllers\AdminController::class, 'sendAnnouncement'])
+    ->name('admin.sendAnnouncement');
+
 Route::get('/usuarios/lista', [App\Http\Controllers\AdminController::class, 'usersList'])
     ->name('admin.userList');
 

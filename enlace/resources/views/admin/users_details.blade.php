@@ -720,20 +720,20 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label>Genero</label>
-                                            <select class="select form-control" name="gender">
+                                            <select class="form-control" name="gender">
                                                 <option value="male"
-                                                    {{ $additionalUserInfo->gender == 'male' ? 'selected' : null }}>
-                                                    Hombre</option>
+                                                    {{ $additionalUserInfo->gender == 'male' ? 'selected' : null }}>Hombre
+                                                </option>
                                                 <option value="female"
-                                                    {{ $additionalUserInfo->gender == 'female' ? 'selected' : null }}>
-                                                    Mujer</option>
+                                                    {{ $additionalUserInfo->gender == 'female' ? 'selected' : null }}>Mujer
+                                                </option>
                                             </select>
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label>Estado civil</label>
-                                            <select class="select form-control" name="civil_status">
+                                            <select class="form-control" name="civil_status">
                                                 <option value="casado"
                                                     {{ $additionalUserInfo->civil_status == 'casado' ? 'selected' : null }}>
                                                     Casado</option>

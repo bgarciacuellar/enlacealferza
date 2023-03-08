@@ -754,7 +754,6 @@
                                         value="{{ $company->email }}">
                                 </div>
                             </div>
-                            {{ $company->paydays }}
                             <div class="col-sm-6">
                                 <div class="form-group">
                                     <label class="col-form-label">Días de pago</label>

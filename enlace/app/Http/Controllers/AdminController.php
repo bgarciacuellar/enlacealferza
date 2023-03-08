@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-
+use App\Mail\Announcement;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Models\AdditionalUserInfo;
@@ -12,13 +12,14 @@ use App\Models\Ticket;
 use App\Traits\helpers;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\File;
-use stdClass;
+use Illuminate\Support\Facades\Mail;
 
 class AdminController extends Controller
 {
     use helpers;
 
     public $usersRoles = ['ejecutivo', 'nominista', 'finanzas', 'pagos', 'cobranza'];
+    public $employeeRoles = ['cliente', 'capturista', 'validador'];
 
     function __construct()
     {
@@ -27,9 +28,39 @@ class AdminController extends Controller
 
     public function dashboard()
     {
-        $companies = Company::all()->count();
+        $companies = Company::where('is_active', 1)->count();
         $tickets = Ticket::where('status', '<', 5)->get()->count();
-        return view('admin.dashboard', compact('companies', 'tickets'));
+        $usersArray = $this->getAlferzaUsers(true);
+        $currentYear = Carbon::now()->format('Y');
+        $months = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
+
+        $usersMap = function ($userItem) use ($currentYear, $months){
+            $additionalUserInfo = AdditionalUserInfo::where('user_id', $userItem['id'])->first();
+            $entryYear = Carbon::parse($additionalUserInfo->entry_date)->format('Y');
+            $entryMonth = Carbon::parse($additionalUserInfo->entry_date)->format('m');
+            $entryDate = $entryYear < $currentYear ? $currentYear - $entryYear : 0;
+            $entryFormatedDate =Carbon::parse($additionalUserInfo->entry_date)->format('d') . " de " . $months[$entryMonth-1];
+
+            $birthdayMonth = Carbon::parse($additionalUserInfo->birthday)->format('m');
+            $birthdayFormatedDate =Carbon::parse($additionalUserInfo->birthday)->format('d') . " de " . $months[$entryMonth-1];
+
+            return array(
+                "id" => $userItem['id'],
+                "email" => $userItem['email'],
+                "full_name" => $userItem['name'] . ' ' . $additionalUserInfo->last_name,
+                "birthday_formated_date" => $birthdayFormatedDate,
+                "birthday" => $additionalUserInfo->birthday,
+                "birthday_month" => $birthdayMonth,
+                "entry_date" => $additionalUserInfo->entry_date,
+                "entry_formated_date" => $entryFormatedDate,
+                "entry_date_month" => $entryMonth,
+                "anniversary_amount" => $entryDate,
+                "profile_image" => $additionalUserInfo->profile_image,
+            );
+        };
+        $users = array_map($usersMap, $usersArray);
+
+        return view('admin.dashboard', compact('companies', 'tickets', 'users', 'months'));
     }
 
     public function createNewUser(Request $request)
@@ -388,4 +419,40 @@ class AdminController extends Controller
 
         return back()->with('success', 'Empresa Desasignada');
     }
+
+    /* announcement */
+    public function announcementView()
+    {
+        return view('admin.announcement');
+    }
+
+    public function sendAnnouncement(Request $request)
+    {
+        $request->validate([
+            "announcement" => "required",
+            "announcement_type" => "required",
+        ]);
+        //return $request->announcement;
+        $mailRecipients = [];
+
+        if ($request->announcement_type == "alferza") {
+            $users = User::where('is_active', 1)->whereIn("role", $this->usersRoles)->get('email');
+        }elseif ($request->announcement_type == "customers") {
+            $users = User::where('is_active', 1)->whereIn("role", $this->employeeRoles)->get('email');
+        }elseif ($request->announcement_type == "all") {
+            $allRoles = array_merge($this->usersRoles, $this->employeeRoles);
+            $users = User::where('is_active', 1)->whereIn("role", $allRoles)->get('email');
+        }
+
+        foreach ($users as $user) {
+            $mailRecipients[] = $user->email;
+        }
+        $message = new Announcement($request->announcement);
+        Mail::to($mailRecipients)->send($message);
+        
+        return back()->with('success', 'Anuncio enviado');
+    }
+
+
+    /* announcement */
 }

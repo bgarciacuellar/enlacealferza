@@ -42,6 +42,17 @@ trait helpers
         return $usersArray;
     }
 
+    public function getAlferzaUsers($isArray = false)
+    {
+        if ($isArray) {
+            $usersArray = User::where("is_active", 1)->whereIn("role", $this->usersRoles)->get()->toArray();
+        }else {
+            $usersArray = User::where("is_active", 1)->whereIn("role", $this->usersRoles)->get();
+        }
+
+        return $usersArray;
+    }
+
     public function uploadImage($image, $route)
     {
         $randomName = Str::random(10);
