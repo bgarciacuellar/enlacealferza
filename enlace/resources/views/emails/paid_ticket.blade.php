@@ -323,10 +323,10 @@
     style="width:100%;font-family:helvetica, 'helvetica neue', arial, verdana, sans-serif;-webkit-text-size-adjust:100%;-ms-text-size-adjust:100%;padding:0;Margin:0">
     <div class="es-wrapper-color" style="background-color:#F1F1F1">
         <!--[if gte mso 9]>
-			<v:background xmlns:v="urn:schemas-microsoft-com:vml" fill="t">
-				<v:fill type="tile" color="#f1f1f1"></v:fill>
-			</v:background>
-		<![endif]-->
+   <v:background xmlns:v="urn:schemas-microsoft-com:vml" fill="t">
+    <v:fill type="tile" color="#f1f1f1"></v:fill>
+   </v:background>
+  <![endif]-->
         <table class="es-wrapper" width="100%" cellspacing="0" cellpadding="0"
             style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;padding:0;Margin:0;width:100%;height:100%;background-repeat:repeat;background-position:center top">
             <tr style="border-collapse:collapse">
@@ -353,7 +353,7 @@
                                                                     style="padding:0;Margin:0;font-size:0px"><a
                                                                         href="https://alferza.mx/" target="_blank"
                                                                         style="-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;text-decoration:underline;color:#FFFFFF;font-size:14px"><img
-                                                                            src="{{ asset('img/email/logo.png')}}" alt
+                                                                            src="{{ asset('img/email/logo.png') }}" alt
                                                                             style="display:block;border:0;outline:none;text-decoration:none;-ms-interpolation-mode:bicubic"
                                                                             width="200"></a></td>
                                                             </tr>
@@ -408,7 +408,8 @@
                                                                     </p>
                                                                     <p
                                                                         style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:helvetica, 'helvetica neue', arial, verdana, sans-serif;line-height:23px;color:#555555;font-size:15px">
-                                                                        <strong>Número de ticket:</strong> {{ $ticket }}
+                                                                        <strong>Número de ticket:</strong>
+                                                                        {{ $ticket }}
                                                                     </p>
                                                                     <p
                                                                         style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:helvetica, 'helvetica neue', arial, verdana, sans-serif;line-height:23px;color:#555555;font-size:15px">
@@ -490,7 +491,7 @@
                                                                                     href="https://www.facebook.com/AlferzaMex/"
                                                                                     style="-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;text-decoration:underline;color:#666666;font-size:12px"><img
                                                                                         title="Facebook"
-                                                                                        src="{{asset('img/email/facebook-circle-black-bordered.png')}}"
+                                                                                        src="{{ asset('img/email/facebook-circle-black-bordered.png') }}"
                                                                                         alt="Fb" height="32"
                                                                                         style="display:block;border:0;outline:none;text-decoration:none;-ms-interpolation-mode:bicubic"></a>
                                                                             </td>
@@ -500,7 +501,7 @@
                                                                                     href="https://twitter.com/alferzamx"
                                                                                     style="-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;text-decoration:underline;color:#666666;font-size:12px"><img
                                                                                         title="Twitter"
-                                                                                        src="{{ asset('img/email/twitter-circle-black-bordered.png')}}"
+                                                                                        src="{{ asset('img/email/twitter-circle-black-bordered.png') }}"
                                                                                         alt="Tw" height="32"
                                                                                         style="display:block;border:0;outline:none;text-decoration:none;-ms-interpolation-mode:bicubic"></a>
                                                                             </td>
@@ -510,7 +511,7 @@
                                                                                     href="https://www.instagram.com/alferzamx/"
                                                                                     style="-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;text-decoration:underline;color:#666666;font-size:12px"><img
                                                                                         title="Instagram"
-                                                                                        src="{{ asset('img/email/instagram-circle-black-bordered.png')}}"
+                                                                                        src="{{ asset('img/email/instagram-circle-black-bordered.png') }}"
                                                                                         alt="Inst" height="32"
                                                                                         style="display:block;border:0;outline:none;text-decoration:none;-ms-interpolation-mode:bicubic"></a>
                                                                             </td>
@@ -520,7 +521,7 @@
                                                                                     href="https://www.linkedin.com/company/alferzamx/mycompany/"
                                                                                     style="-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;text-decoration:underline;color:#666666;font-size:12px"><img
                                                                                         title="Linkedin"
-                                                                                        src="{{ asset('img/email/linkedin-circle-black-bordered.png')}}"
+                                                                                        src="{{ asset('img/email/linkedin-circle-black-bordered.png') }}"
                                                                                         alt="In" height="32"
                                                                                         style="display:block;border:0;outline:none;text-decoration:none;-ms-interpolation-mode:bicubic"></a>
                                                                             </td>
@@ -532,9 +533,9 @@
                                                                 <td class="made_with" align="center"
                                                                     style="padding:10px;Margin:0;font-size:0px"><a
                                                                         target="_blank"
-                                                                        href="https://enlace.alferza.mx/"
+                                                                        href="https://enlacealferza.com/"
                                                                         style="-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;text-decoration:underline;color:#666666;font-size:12px"><img
-                                                                            src="{{ asset('img/email/logofooter.png')}}"
+                                                                            src="{{ asset('img/email/logofooter.png') }}"
                                                                             alt width="130"
                                                                             style="display:block;border:0;outline:none;text-decoration:none;-ms-interpolation-mode:bicubic"></a>
                                                                 </td>

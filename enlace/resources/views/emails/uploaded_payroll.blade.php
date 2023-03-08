@@ -504,7 +504,7 @@
                               </tr>
                               <tr style="border-collapse:collapse">
                                 <td class="made_with" align="center" style="padding:10px;Margin:0;font-size:0px"><a
-                                    target="_blank" href="https://enlace.alferza.mx/"
+                                    target="_blank" href="https://enlacealferza.com/"
                                     style="-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;text-decoration:underline;color:#666666;font-size:12px"><img
                                       src="{{ asset('img/email/logofooter.png')}}" alt width="130"
                                       style="display:block;border:0;outline:none;text-decoration:none;-ms-interpolation-mode:bicubic"></a>

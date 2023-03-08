@@ -367,7 +367,7 @@ class TicketController extends Controller
         $userCreatedTicket = User::find($ticket->user_id)->first();
         $company = Company::where('id', $ticket->company)->first('name')->name;
 
-        if ($ticket->status == 2) {
+        if ($ticket->status == 2.5) {
             $users = CompanyOnCharge::where('company_id', $ticket->company)->get('user_id');
             $message = new PayrollDenied($userCreatedTicket->name, $ticket->id, $company);
             $emails = [];

@@ -121,7 +121,7 @@
                             topic
                         </span>
                     </a>
-                    <a class="nav-link" id="v-pills-leads-tab" title="Leads" data-bs-toggle="pill"
+                    <a class="nav-link" id="v-pills-leads-tab" title="Reportes" data-bs-toggle="pill"
                         href="#v-pills-leads" role="tab" aria-controls="v-pills-leads" aria-selected="false">
                         <span class="material-icons-outlined">
                             leaderboard
@@ -149,7 +149,7 @@
                                 <a href="{{ route('company.grid') }}" class="active">Empresas</a>
                             </li>
                             <li>
-                                <a href="{{ route('admin.announcementView') }}" class="active">Anuncios</a>
+                                <a href="{{ route('admin.announcementView') }}" class="active">Comunicados</a>
                             </li>
                         </ul>
                     </div>

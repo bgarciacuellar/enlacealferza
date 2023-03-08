@@ -80,7 +80,7 @@
                                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                     <a class="dropdown-item" href="#" data-bs-toggle="modal"
                                         onclick="getUserId({{ $user['id'] }}, 'delete_user_id')"
-                                        data-bs-target="#delete_employee">Delete</a>
+                                        data-bs-target="#delete_employee">Borrar</a>
                                 </div>
                             </div>
                         </div>
