@@ -17,7 +17,7 @@
                             <div class="row w-75 m-0">
                                 @foreach ($users as $user)
                                     @if ($user['entry_date'] && $user['anniversary_amount'] > 0 && $user['entry_date_month'] == $index + 1)
-                                        <div class="col-6 p-0">
+                                        <div class="col-2 p-0">
                                             <img class="events-img custom-event-image-anniversary my-2"
                                                 src="{{ $user['profile_image']
                                                     ? asset('/storage/profile_images/' . $user['profile_image'])
@@ -47,7 +47,7 @@
                             <div class="row w-75 m-0">
                                 @foreach ($users as $user)
                                     @if ($user['birthday_month'] == $index + 1 && $user['birthday'])
-                                        <div class="col-6 p-0">
+                                        <div class="col-2 p-0">
                                             <img class="events-img custom-event-image-birthday my-2"
                                                 src="{{ $user['profile_image']
                                                     ? asset('/storage/profile_images/' . $user['profile_image'])
