@@ -25,6 +25,7 @@ class CreateTicketsTable extends Migration
             $table->string('preinvoices')->nullable();
             $table->string('extraordinario_file')->nullable();
             $table->string('observations')->nullable();
+            $table->string('payroll_receipt')->nullable();
             $table->timestamps();
         });
     }

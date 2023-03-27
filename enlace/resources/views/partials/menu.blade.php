@@ -101,8 +101,8 @@
         <div class="sidebar" id="sidebar">
             <div class="sidebar-left slimscroll">
                 <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-                    <a class="nav-link active" id="v-pills-dashboard-tab" data-bs-toggle="pill"
-                        href="#v-pills-dashboard" role="tab" aria-controls="v-pills-dashboard" aria-selected="true">
+                    <a class="nav-link" id="v-pills-dashboard-tab" data-bs-toggle="pill" href="#v-pills-dashboard"
+                        role="tab" aria-controls="v-pills-dashboard" aria-selected="true">
                         <span class="material-icons-outlined">
                             home
                         </span>
@@ -138,7 +138,7 @@
 
             <div class="sidebar-right">
                 <div class="tab-content" id="v-pills-tabContent">
-                    <div class="tab-pane fade show active" id="v-pills-dashboard" role="tabpanel"
+                    <div class="tab-pane fade" id="v-pills-dashboard" role="tabpanel"
                         aria-labelledby="v-pills-dashboard-tab">
                         <p>Panel de administración</p>
                         <ul>
@@ -146,10 +146,10 @@
                                 <a href="{{ route('admin.dashboard') }}" class="active">Inicio</a>
                             </li>
                             <li>
-                                <a href="{{ route('company.grid') }}" class="active">Empresas</a>
+                                <a href="{{ route('company.grid') }}">Empresas</a>
                             </li>
                             <li>
-                                <a href="{{ route('admin.announcementView') }}" class="active">Comunicados</a>
+                                <a href="{{ route('admin.announcementView') }}">Comunicados</a>
                             </li>
                         </ul>
                     </div>
@@ -158,7 +158,7 @@
                         <p>Empleados</p>
                         <ul>
                             <li>
-                                <a href="{{ route('admin.usersListGrid') }}" class="active">Lista de Empleados</a>
+                                <a href="{{ route('admin.usersListGrid') }}">Lista de Empleados</a>
                             </li>
                         </ul>
                     </div>
@@ -167,14 +167,14 @@
                         <p>Incidencias</p>
                         <ul>
                             <li>
-                                <a href="{{ route('ticket.list') }}" class="active">Incidencias</a>
+                                <a href="{{ route('ticket.list') }}">Incidencias</a>
                             </li>
                             <li>
-                                <a href="{{ route('ticket.archivedList') }}" class="active">Incidencias
+                                <a href="{{ route('ticket.archivedList') }}">Incidencias
                                     Archivadas</a>
                             </li>
                             <li>
-                                <a href="{{ route('payroll.list') }}" class="active">Nóminas</a>
+                                <a href="{{ route('payroll.list') }}">Nóminas</a>
                             </li>
                         </ul>
                     </div>

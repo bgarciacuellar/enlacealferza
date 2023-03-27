@@ -68,4 +68,7 @@
 @endsection
 
 @section('js')
+    <script>
+        let menuIcon = "leads";
+    </script>
 @endsection

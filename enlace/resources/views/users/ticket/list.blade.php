@@ -240,3 +240,9 @@
     <!-- /Delete Employee Modal -->
 
 @endsection
+
+@section('js')
+    <script>
+        let menuIcon = "topic";
+    </script>
+@endsection

@@ -75,7 +75,8 @@ Version      : 3.6
 
 ========================================*/
 
-@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+/*Actualizado*/
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap'); 
 
 @font-face {
     font-family: "Material Icons";
@@ -88,6 +89,7 @@ Version      : 3.6
         url(../fonts/MaterialIcons-Regular.ttf) format("truetype");
 }
 
+
 /*-----------------
 	0. Root Global
 -----------------------*/
@@ -99,24 +101,24 @@ Version      : 3.6
     --hue-color: 201;
     /*Purple 250 - Green 142 - Blue 230 - Pink 340*/
     /* HSL color mode */
-    --first-color: #1d76e7;
-    --first-color-second: #234158;
-    --first-color-alt: #42b595;
-    --first-color-hover: ##3ba286;
+    --first-color: #3265CB; /*Actualizado*/
+    /* --first-color-second: #234158;
+    --first-color-alt: #42b595; */
+    --first-color-hover: #2d5ab6; /*Actualizado*/
     --first-color-lighter: #bbcedc;
     --title-color: #0e2660;
-    --text-color: #7c869c;
+    --text-color: #202124; /*Actualizado*/
     --text-color-light: hsl(var(--hue-color), 8%, 65%);
     --input-color: #0a1925;
     --icon: #8793af;
-    --button: #0a1925;
-    --button-hover: #0d2754;
+    --button: #3265CB;
+    --button-hover: #2d5ab6;
     --body-color: #ffffff;
     --container-color: #ffffff;
     --scroll-bar-color: hsl(var(--hue-color), 12%, 90%);
     --scroll-thumb-color: hsl(var(--hue-color), 12%, 80%);
     /*========== Font and typography ==========*/
-    --body-font: "Poppins", sans-serif;
+    --body-font: 'DM Sans', sans-serif;
     --big-font-size: 2rem;
     --h1-font-size: 1.5rem;
     --h2-font-size: 1.25rem;
@@ -150,7 +152,7 @@ html {
     height: 100%;
 }
 body {
-    font-family: "Poppins", sans-serif;
+    font-family: 'DM Sans', sans-serif;
     font-size: 0.9375rem;
     color: var(--text-color);
     background-color: #f7f7f7;
@@ -163,7 +165,7 @@ h3,
 h4,
 h5,
 h6 {
-    font-family: "Poppins", sans-serif;
+    font-family: 'DM Sans', sans-serif;
     margin-top: 0;
     font-weight: 500;
 }
@@ -655,8 +657,8 @@ table.table th {
     color: #fff;
 }
 .btn-success {
-    background-color: #55ce63;
-    border: 1px solid #55ce63;
+    background-color: #55ce63 !important;
+    border: 1px solid #55ce63 !important; 
 }
 .btn-success:hover,
 .btn-success:focus,
@@ -1758,6 +1760,10 @@ label {
 .user-img img {
     width: 100%;
     border-radius: 50%;
+}
+
+.title-page{
+    padding: 1rem !important;
 }
 
 /*-----------------
@@ -3806,8 +3812,8 @@ table.dataTable > thead .sorting_desc_disabled:after {
     font-size: 16px !important;
 }
 .btn-search {
-    background-color: #38414a;
-    border-color: #38414a;
+    background-color: var(--button);
+    border-color: var(--button);
     width: 100%;
     border-radius: 0px;
     display: flex;
@@ -3815,8 +3821,8 @@ table.dataTable > thead .sorting_desc_disabled:after {
     justify-content: center;
 }
 .btn-search:hover {
-    background-color: var(--first-color);
-    border-color: var(--first-color);
+    background-color: var(--button-hover);
+    border-color: var(--button-hover);
 }
 .filter-row {
     margin: 0;
@@ -3855,12 +3861,12 @@ table.dataTable > thead .sorting_desc_disabled:after {
     font-size: 18px;
     color: #000;
     margin-bottom: 10px;
-    font-family: "Poppins", sans-serif;
+    font-family: 'DM Sans', sans-serif;
     text-align: center;
 }
 .emp-card .user-img-sec h5 {
     color: #000;
-    font-family: "Poppins", sans-serif;
+    font-family: 'DM Sans', sans-serif;
 }
 .emp-card .user-img-sec h6 {
     color: #fff;
@@ -3905,10 +3911,10 @@ table.dataTable > thead .sorting_desc_disabled:after {
     justify-content: center;
     border-radius: 5px;
     width: 100%;
-    background-color: var(--first-color);
+    background-color: var(--button);
 }
 .emp-card .card-footer a:hover {
-    background-color: #ff6937;
+    background-color: var(--button-hover);
 }
 div.dataTables_wrapper div.dataTables_length label {
     font-weight: 500;
@@ -4140,12 +4146,12 @@ table.dataTable tr > td a.avatar > img {
 .fc-toolbar h2 {
     font-size: 18px;
     font-weight: 500;
-    font-family: "Poppins", sans-serif;
+    font-family: 'DM Sans', sans-serif;
     line-height: 30px;
     text-transform: uppercase;
 }
 .fc-day-grid-event .fc-time {
-    font-family: "Poppins", sans-serif;
+    font-family: 'DM Sans', sans-serif;
 }
 .fc-day {
     background: #fff;
@@ -4268,12 +4274,12 @@ table.dataTable tr > td a.avatar > img {
 .fc-basic-view td.fc-week-number span {
     padding-right: 8px;
     font-weight: 700;
-    font-family: "Poppins", sans-serif;
+    font-family: 'DM Sans', sans-serif;
 }
 .fc-basic-view td.fc-day-number {
     padding-right: 8px;
     font-weight: 700;
-    font-family: "Poppins", sans-serif;
+    font-family: 'DM Sans', sans-serif;
 }
 .event-form .input-group .form-control {
     height: 40px;
@@ -8103,7 +8109,7 @@ ul.comment-list li ul.children {
     position: relative;
 }
 .faq-card .card .card-header h4 > label:after {
-    font-family: FontAwesome;
+    font-family: "FontAwesome";
     font-size: 19px;
     position: absolute;
     right: 0px;
@@ -8170,7 +8176,7 @@ ul.comment-list li ul.children {
     border: none;
 }
 .user-img-sec {
-    background-color: #fbfdff;
+    background-color: var(--container-color);
     border-radius: 10px 10px 0 0;
     display: flex;
     flex-direction: column;
@@ -8188,14 +8194,14 @@ ul.comment-list li ul.children {
     font-size: 18px;
     color: #ff8b63;
     margin-top: 15px;
-    font-family: "Poppins", sans-serif;
+    font-family: 'DM Sans', sans-serif;
 }
 .user-img-sec h5 {
     font-weight: 500;
     font-size: 14px;
     color: #717171;
     margin: 0;
-    font-family: "Poppins", sans-serif;
+    font-family: 'DM Sans', sans-serif;
 }
 .user-img-sec .dropdown {
     position: absolute;
@@ -9343,7 +9349,7 @@ ul.comment-list li ul.children {
     color: #fff;
     border: none;
     position: relative;
-    font-family: FontAwesome;
+    font-family: "FontAwesome";
     text-align: center;
     line-height: 16px;
 }

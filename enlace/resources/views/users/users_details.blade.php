@@ -803,3 +803,9 @@
     </div>
     <!-- /Experience Modal -->
 @endsection
+
+@section('js')
+    <script>
+        let menuIcon = "home";
+    </script>
+@endsection

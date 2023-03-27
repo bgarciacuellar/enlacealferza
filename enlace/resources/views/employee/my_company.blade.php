@@ -405,4 +405,7 @@
             }
         });
     </script>
+    <script>
+        let menuIcon = "home";
+    </script>
 @endsection

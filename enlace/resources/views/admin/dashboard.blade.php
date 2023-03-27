@@ -120,3 +120,9 @@
     </div>
     <!-- /Page Content -->
 @endsection
+
+@section('js')
+    <script>
+        let menuIcon = "home";
+    </script>
+@endsection

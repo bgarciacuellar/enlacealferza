@@ -902,7 +902,9 @@
                                     <select class="form-control update-employee-role" name="role" required>
                                         <option value="">Selecciona el tipo de rol</option>
                                         @foreach ($roles as $role)
-                                            <option value="{{ $role }}">{{ ucfirst($role) }}</option>
+                                            <option value="{{ $role }}">
+                                                {{ $role == 'cliente' ? 'Capturista + Validador' : ucfirst($role) }}
+                                            </option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -1011,6 +1013,13 @@
                                     </select>
                                 </div>
                             </div>
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label class="col-form-label">Archivo maestro <span
+                                            class="text-danger">*</span></label>
+                                    <input class="form-control" type="file" name="master_file" required>
+                                </div>
+                            </div>
                             <div class="col-sm-12">
                                 <div class="form-group">
                                     <label class="col-form-label">Comentarios</label>
@@ -1103,5 +1112,8 @@
                 $('.password').val('');
             }
         });
+    </script>
+    <script>
+        let menuIcon = "home";
     </script>
 @endsection

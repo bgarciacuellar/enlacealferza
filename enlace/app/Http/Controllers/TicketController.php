@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Mail\PaidTicket;
 use App\Mail\PayrollAuthorized;
 use App\Mail\PayrollDenied;
+use App\Mail\PayrollReceiptEmail;
 use App\Mail\TicketCreated;
 use App\Mail\UploadedIncident;
 use App\Mail\UploadedPayroll;
@@ -158,7 +159,7 @@ class TicketController extends Controller
                 "user_name" => $user ? $user->name : "Usuario de alferza",
                 "role" => $user ? ucfirst($user->role) : "Cliente",
                 "file" => $ticketFileHistoryItem['file'],
-                "created_at" => $createdAt->format('d/m/Y h:i'),
+                "created_at" => $createdAt->format('d/m/Y H:i'),
             );
         };
         $ticketFilesHistory = array_map($ticketFilesHistoryMap, $ticketFilesHistoryArray);
@@ -171,7 +172,7 @@ class TicketController extends Controller
                 "id" => $ticketCommentItem['id'],
                 "user_name" => $user ? $user->name : "Usuario de alferza",
                 "comment" => $ticketCommentItem['comment'],
-                "created_at" => $createdAt->format('d/m/Y h:i'),
+                "created_at" => $createdAt->format('d/m/Y H:i'),
             );
         };
         $ticketComments = array_map($ticketCommentsMap, $ticketCommentsArray);
@@ -427,6 +428,51 @@ class TicketController extends Controller
         // }
 
         return back()->with('success', 'Ticket Modificado');
+    }
+
+    public function uploadPayrollReceipt(Request $request, $ticket)
+    {
+        $request->validate(
+            [
+                'payroll_receipt' => 'required',
+            ],
+        );
+
+        $updateTicket = Ticket::findOrFail($ticket);
+        $currentUser = Auth::user();
+
+        $path = storage_path('app/public/payroll_receipt');
+        if (!file_exists($path)) {
+            mkdir($path, 0777, true);
+        }
+
+        $fileFullName = pathinfo($request->file('payroll_receipt')->getClientOriginalName(), PATHINFO_FILENAME);
+        $fileExtension = pathinfo($request->file('payroll_receipt')->getClientOriginalName(), PATHINFO_EXTENSION);
+        $fileName = $fileFullName  . "_" . $updateTicket->id . "." . $fileExtension;
+
+        $request->file('payroll_receipt')->storeAs('public/payroll_receipt', $fileName);
+
+        if ($updateTicket->payroll_receipt) {
+            $this->deleteFile($updateTicket->payroll_receipt, 'payroll_receipt');
+        }
+
+        $updateTicket->update([
+            'payroll_receipt' => $fileName,
+        ]);
+
+        /* $employees = CompanyEmployee::where('company_id', $updateTicket->company)->get('user_id');
+        $company = Company::where('id', $updateTicket->company)->first('name')->name;
+
+        $message = new PayrollReceiptEmail($currentUser->name, $updateTicket->id, $company, $updateTicket->category);
+        
+        $emails = [];
+        foreach ($employees as $employee) {
+            $employeeEmail = User::where('id', $employee->user_id)->first('email')->email;
+            $emails[] = $employeeEmail;
+        }
+        Mail::to($emails)->send($message); */
+
+        return back()->with('success', 'Archivo cargado');
     }
 
     public function sendReminder(Request $request, $ticket)

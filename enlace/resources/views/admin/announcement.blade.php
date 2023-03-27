@@ -52,4 +52,7 @@
     <script>
         //CKEDITOR.replace('announcement');
     </script>
+    <script>
+        let menuIcon = "home";
+    </script>
 @endsection

@@ -102,8 +102,8 @@
         <div class="sidebar" id="sidebar">
             <div class="sidebar-left slimscroll">
                 <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-                    <a class="nav-link active" id="v-pills-dashboard-tab" data-bs-toggle="pill"
-                        href="#v-pills-dashboard" role="tab" aria-controls="v-pills-dashboard" aria-selected="true">
+                    <a class="nav-link" id="v-pills-dashboard-tab" data-bs-toggle="pill" href="#v-pills-dashboard"
+                        role="tab" aria-controls="v-pills-dashboard" aria-selected="true">
                         <span class="material-icons-outlined">
                             home
                         </span>
@@ -324,15 +324,15 @@
 
             <div class="sidebar-right">
                 <div class="tab-content" id="v-pills-tabContent">
-                    <div class="tab-pane fade show active" id="v-pills-dashboard" role="tabpanel"
+                    <div class="tab-pane fade" id="v-pills-dashboard" role="tabpanel"
                         aria-labelledby="v-pills-dashboard-tab">
                         <p>Panel de administración</p>
                         <ul>
                             <li>
-                                <a href="{{ route('user.dashboard') }}" class="active">Inicio</a>
+                                <a href="{{ route('user.dashboard') }}">Inicio</a>
                             </li>
                             <li>
-                                <a href="{{ route('user.userDetails') }}" class="active">Mi perfil</a>
+                                <a href="{{ route('user.userDetails') }}">Mi perfil</a>
                             </li>
                         </ul>
                     </div>
@@ -341,7 +341,7 @@
                         <p>Incidencias</p>
                         <ul>
                             <li>
-                                <a href="{{ route('user.ticketList') }}" class="active">Incidencias</a>
+                                <a href="{{ route('user.ticketList') }}">Incidencias</a>
                             </li>
                         </ul>
                     </div>
@@ -674,22 +674,6 @@
 
             <!-- Page Content -->
             <div class="content container-fluid pb-0">
-
-                <!-- Page Header -->
-                {{-- <div class="row">
-                    <div class="col-md-12">
-                        <div class="page-head-box">
-                            <h3>Employee</h3>
-                            <nav aria-label="breadcrumb">
-                                <ol class="breadcrumb">
-                                    <li class="breadcrumb-item"><a href="index.html">Dashboard</a></li>
-                                    <li class="breadcrumb-item active" aria-current="page">Employee</li>
-                                </ol>
-                            </nav>
-                        </div>
-                    </div>
-                </div> --}}
-                <!-- /Page Header -->
                 <h3 class="title-page ps-3">
                     @yield('title')
                 </h3>

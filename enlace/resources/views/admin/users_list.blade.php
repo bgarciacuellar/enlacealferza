@@ -239,4 +239,7 @@
             }
         });
     </script>
+    <script>
+        let menuIcon = "people";
+    </script>
 @endsection
