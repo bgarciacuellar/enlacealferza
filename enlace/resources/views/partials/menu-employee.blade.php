@@ -304,15 +304,15 @@
                         <p>Panel de administración</p>
                         <ul>
                             <li>
+                                <a href="{{ route('employee.myCompany') }}">Mi empresa</a>
+                            </li>
+                            <li>
                                 <a href="{{ route('employee.tiketsList') }}">Incidencias</a>
                             </li>
                             <li>
-                                <a href="{{ route('employee.myCompany') }}">Mi empresa</a>
-                            </li>
-                            {{-- <li>
                                 <a href="{{ route('employee.archivedTicketsList') }}">Incidencias
                                     Archivadas</a>
-                            </li> --}}
+                            </li>
                         </ul>
                     </div>
                 </div>

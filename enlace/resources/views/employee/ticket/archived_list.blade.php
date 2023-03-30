@@ -1,4 +1,4 @@
-@extends('partials.menu')
+@extends('partials.menu-employee')
 
 @section('title')
     Incidencias Archivadas
@@ -8,39 +8,6 @@
 
     <!-- Page Content -->
     <div class="content container-fluid">
-
-        <!-- Search Filter -->
-        <div class="row filter-row">
-            <div class="col-md-8">
-                {{-- <form action="{{ route('admin.searchUsers') }}">
-                <div class="row">
-                    <div class="col-sm-6 col-md-3">
-                        <div class="form-group form-focus mb-0">
-                            <input type="text" class="form-control floating" name="employee_id">
-                            <label class="focus-label">ID</label>
-                        </div>
-                    </div>
-                    <div class="col-sm-6 col-md-3">
-                        <div class="form-group form-focus mb-0">
-                            <input type="text" class="form-control floating" name="name">
-                            <label class="focus-label">Fecha</label>
-                        </div>
-                    </div>
-                    <div class="col-sm-6 col-md-3">
-                        <button type="submit" href="#" class="btn btn-success btn-search"><i
-                                class="fas fa-search me-2"></i> Buscar </button>
-                    </div>
-                </div>
-            </form> --}}
-            </div>
-            <div class="col-md-4">
-                <div class="add-emp-section">
-                    <a href="#" class="btn btn-success btn-add-emp" data-bs-toggle="modal"
-                        data-bs-target="#create_incident"><i class="fas fa-plus"></i> Solicitar Incidencias</a>
-                </div>
-            </div>
-        </div>
-        <!-- /Search Filter -->
         @if ($errors->any())
             <div class="mx-auto text-center">
                 <ul
@@ -68,22 +35,20 @@
                                 <tr>
                                     <th>Tipo de nómina</th>
                                     <th>Fecha limite de incidencia</th>
-                                    <th class="text-nowrap">Empresa</th>
-                                    <th>Estatus</th>
+                                    <th class="text-center">Estatus</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @foreach ($archivedTickets as $archivedTicket)
                                     <tr>
                                         <td>
-                                            <a href="{{ route('ticket.details', $archivedTicket['id']) }}">
-                                                {{ $archivedTicket['category'] }}
+                                            <a href="{{ route('ticket.details', $archivedTicket->id) }}">
+                                                {{ $archivedTicket->category }}
                                             </a>
                                         </td>
-                                        <td>{{ $archivedTicket['limit_date'] }}</td>
-                                        <td>{{ $archivedTicket['company'] }}</td>
+                                        <td>{{ $archivedTicket->limit_date->format('d/m/Y') }}</td>
                                         <td>
-                                            <span class="role-info role-bg-one">{{ $archivedTicket['status'] }}</span>
+                                            <span class="role-info role-bg-one">{{ $archivedTicket->statusString }}</span>
                                         </td>
                                     </tr>
                                 @endforeach
