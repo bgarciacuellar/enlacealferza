@@ -46,7 +46,7 @@
                 <div class="card flex-fill tickets-card">
                     <div class="card-header">
                         <div class="text-center w-100 p-3">
-                            <h3 class="bl-text mb-1">218</h3>
+                            <h3 class="bl-text mb-1">{{ $amountAlferzaUsers }}</h3>
                             <h2>Empleados</h2>
                         </div>
                     </div>

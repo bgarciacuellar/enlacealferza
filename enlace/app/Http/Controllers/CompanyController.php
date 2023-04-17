@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\NewUserCreated;
 use App\Models\Company;
 use App\Models\CompanyAdditionalAddress;
 use App\Models\CompanyAdditionalContact;
@@ -14,7 +15,7 @@ use App\Models\Ticket;
 use App\Models\User;
 use App\Traits\helpers;
 use Illuminate\Http\Request;
-use Laravel\Ui\Presets\React;
+use Illuminate\Support\Facades\Mail;
 
 class CompanyController extends Controller
 {
@@ -271,6 +272,9 @@ class CompanyController extends Controller
             "company_id" => $company->id,
             "role" => $request->role,
         ]);
+
+        $message = new NewUserCreated($request->name, $request->email, $request->password, $company->name);
+        Mail::to($request->email)->send($message);
 
         return back()->with('success', '');
     }

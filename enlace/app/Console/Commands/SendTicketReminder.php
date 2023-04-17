@@ -54,18 +54,38 @@ class SendTicketReminder extends Command
             $isFileUploaded = TicketFileHistory::where('ticket_id', $ticket->id)->first('id');
             if (!$isFileUploaded) {
                 if ($today < $ticket->limit_date) {
-                    $daysDifference = intval(date_diff($today, $ticket->limit_date)->format('%R%a'));
+                    $daysDifference = intval(date_diff($today, $ticket->limit_date)->format('%R%a')) + 1;
                     Log::debug($daysDifference);
                     $message = new TicketReminderMail('name', 'ticket', 'company');
                     $emails = [];
                     $companyEmployees = CompanyEmployee::where('company_id',  $ticket->company)->get();
+                    Log::debug($companyEmployees);
                     foreach ($companyEmployees as $companyEmployee) {
-                        if ($daysDifference >= 2) {
-                            $employeeEmail = User::where('id', $companyEmployee->user_id)->where('role', 'capturista')->first('email')->email;
+                        if ($daysDifference == 3) {
+                            $employeeData = User::where('id', $companyEmployee->user_id)->whereIn('role', ['capturista', 'cliente'])->first();
+                            if ($employeeData) {
+                                $employeeEmail = $employeeData->email;
+                            }else {
+                                $employeeEmail = '';
+                            }
+                        }elseif ($daysDifference == 2) {
+                            $employeeData = User::where('id', $companyEmployee->user_id)->whereIn('role', ['capturista', 'cliente'])->first();
+                            if ($employeeData) {
+                                $employeeEmail = $employeeData->email;
+                            }else {
+                                $employeeEmail = '';
+                            }
                         } elseif ($daysDifference == 1) {
-                            $employeeEmail = User::where('id', $companyEmployee->user_id)->whereIn('role', ['cliente', 'validador'])->first('email')->email;
+                            $employeeData = User::where('id', $companyEmployee->user_id)->whereIn('role', ['capturista', 'validador', 'cliente'])->first();
+                            if ($employeeData) {
+                                $employeeEmail = $employeeData->email;
+                            }else {
+                                $employeeEmail = '';
+                            }
                         }
-                        $emails[] = $employeeEmail;
+                        if ($employeeEmail) {
+                            $emails[] = $employeeEmail;
+                        }
                     }
                     Mail::to($emails)->send($message);
                 }

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Mail\Announcement;
+use App\Mail\NewUserCreated;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Models\AdditionalUserInfo;
@@ -33,6 +34,7 @@ class AdminController extends Controller
         $usersArray = $this->getAlferzaUsers(true);
         $currentYear = Carbon::now()->format('Y');
         $months = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
+        $amountAlferzaUsers = User::where('is_active', 1)->whereIn("role", $this->usersRoles)->count();
 
         $usersMap = function ($userItem) use ($currentYear, $months){
             $additionalUserInfo = AdditionalUserInfo::where('user_id', $userItem['id'])->first();
@@ -60,7 +62,7 @@ class AdminController extends Controller
         };
         $users = array_map($usersMap, $usersArray);
 
-        return view('admin.dashboard', compact('companies', 'tickets', 'users', 'months'));
+        return view('admin.dashboard', compact('companies', 'tickets', 'users', 'months', 'amountAlferzaUsers'));
     }
 
     public function createNewUser(Request $request)
@@ -73,17 +75,6 @@ class AdminController extends Controller
                 'password' => 'nullable',
                 'role' => 'required',
                 'last_name' => 'nullable',
-                // 'work_area' => 'nullable',
-                // 'position' => 'nullable',
-                // 'office' => 'nullable',
-                // 'company' => 'nullable',
-                // 'gender' => 'nullable',
-                // 'birthday' => 'nullable',
-                // 'municipality' => 'nullable',
-                // 'civil_status' => 'nullable',
-                // 'phone_number' => 'nullable',
-                // 'entry_date' => 'nullable',
-                // 'departure_dates' => 'nullable',
             ],
             [
                 'name.required' => 'Es obligatorio  un nombre',
@@ -101,12 +92,16 @@ class AdminController extends Controller
             'password' => bcrypt($request->password),
 
         ]);
+
         AdditionalUserInfo::create(
             [
                 'user_id' => $newUser->id,
                 'last_name' => $request->last_name,
             ]
         );
+
+        $message = new NewUserCreated($request->name . " " . $request->last_name, $request->email, $request->password, 'Alferza');
+        Mail::to($request->email)->send($message);
 
         return redirect()->route('admin.userDetails', $newUser->id)->with('success', 'Usuario Creado');
     }
