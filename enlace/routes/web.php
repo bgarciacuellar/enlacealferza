@@ -69,6 +69,9 @@ Route::get('/usuario', [App\Http\Controllers\UserController::class, 'userDetails
 Route::get('/usuario/tickets', [App\Http\Controllers\UserController::class, 'ticketList'])
     ->name('user.ticketList');
 
+Route::get('/usuario/companias', [App\Http\Controllers\UserController::class, 'companiesList'])
+    ->name('user.companiesList');
+
 
 
 // Ticket
@@ -123,6 +126,18 @@ Route::post('/company/delete-company', [App\Http\Controllers\CompanyController::
 
 Route::get('/compania/detalles/{id}', [App\Http\Controllers\CompanyController::class, 'details'])
     ->name('company.details');
+    
+/* IMSS */
+Route::get('/compania/detalles/imss-alta/{companyid}/{registerImssId}', [App\Http\Controllers\CompanyController::class, 'registerImssDetails'])
+    ->name('company.registerImssDetails');
+Route::post('/compania/detalles/imss-alta/register-imss-accept/{companyid}/{registerImssId}', [App\Http\Controllers\CompanyController::class, 'registerImssAccepted'])
+    ->name('company.registerImssAccepted');
+Route::get('/compania/detalles/imss-baja/{companyid}/{registerImssId}', [App\Http\Controllers\CompanyController::class, 'cancelImssDetails'])
+    ->name('company.cancelImssDetails');
+Route::post('/compania/detalles/imss-baja/cancel-imss-cancel/{companyid}/{cancelImssId}', [App\Http\Controllers\CompanyController::class, 'cancelImssCanceled'])
+    ->name('company.cancelImssCanceled');
+
+/* IMSS */
 
 Route::post('/company/update/{id}', [App\Http\Controllers\CompanyController::class, 'update'])
     ->name('company.update');
@@ -253,5 +268,21 @@ Route::group(
             ->name('employee.details');
         Route::post('/tickets/extraordinario/{id}', [App\Http\Controllers\EmployeeController::class, 'createExtraordinario'])
             ->name('employee.createExtraordinario');
+        Route::get('/imss-altas', [App\Http\Controllers\EmployeeController::class, 'registerImssList'])
+            ->name('imss.registerImssList');
+        Route::get('/detalles/imss-alta/{registerImssId}', [App\Http\Controllers\EmployeeController::class, 'registerImssDetails'])
+            ->name('imss.registerImssDetails');
+        Route::post('/imss-register/{companyId}', [App\Http\Controllers\EmployeeController::class, 'registerImss'])
+            ->name('imss.registerImss');
+        Route::post('/imss-register-delete', [App\Http\Controllers\EmployeeController::class, 'deleteRegisterImssRequest'])
+            ->name('imss.deleteRegisterImssRequest');
+        Route::get('/imss-bajas', [App\Http\Controllers\EmployeeController::class, 'cancelImssList'])
+            ->name('imss.cancelImssList');
+        Route::get('/imss-bajas/{registerImssId}', [App\Http\Controllers\EmployeeController::class, 'cancelImssDetails'])
+            ->name('imss.cancelImssDetails');
+        Route::post('/imss-cancel/{companyId}', [App\Http\Controllers\EmployeeController::class, 'cancelImss'])
+            ->name('imss.cancelImss');
+        Route::post('/imss-cancel-delete', [App\Http\Controllers\EmployeeController::class, 'deleteCancelImssRequest'])
+            ->name('imss.deleteCancelImssRequest');
     }
 );

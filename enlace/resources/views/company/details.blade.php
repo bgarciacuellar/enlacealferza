@@ -82,8 +82,10 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="pro-edit"><a data-bs-target="#profile_info" data-bs-toggle="modal" class="edit-icon"
-                                href="#"><i class="fas fa-pencil-alt"></i></a></div>
+                        @if (auth()->user()->hasRoles(['admin']))
+                            <div class="pro-edit"><a data-bs-target="#profile_info" data-bs-toggle="modal" class="edit-icon"
+                                    href="#"><i class="fas fa-pencil-alt"></i></a></div>
+                        @endif
                     </div>
                 </div>
             </div>
@@ -94,12 +96,11 @@
         <div class="row user-tabs">
             <div class="col-lg-12 col-md-12 col-sm-12 line-tabs">
                 <ul class="nav nav-tabs nav-tabs-bottom pt-3 pb-2">
-                    <li class="nav-item"><a href="#emp_profile" data-bs-toggle="tab" class="nav-link active">Mi Empresa</a>
+                    <li class="nav-item"><a href="#my_company" data-bs-toggle="tab" class="nav-link active">Mi Empresa</a>
                     </li>
-                    <li class="nav-item"><a href="#emp_projects" data-bs-toggle="tab" class="nav-link">Créditos</a>
+                    <li class="nav-item"><a href="#credits" data-bs-toggle="tab" class="nav-link">Créditos</a>
                     </li>
-                    {{-- <li class="nav-item"><a href="#bank_statutory" data-bs-toggle="tab" class="nav-link">Bank &
-                        Statutory <small class="text-danger">(Admin Only)</small></a></li> --}}
+                    <li class="nav-item"><a href="#imss" data-bs-toggle="tab" class="nav-link">IMSS</a></li>
                 </ul>
             </div>
         </div>
@@ -107,15 +108,19 @@
 
     <div class="tab-content">
 
-        <!-- employees -->
-        <div id="emp_profile" class="pro-overview tab-pane fade show active">
+        <!-- my_company -->
+        <div id="my_company" class="pro-overview tab-pane fade show active">
             <div class="row">
                 <div class="col-md-6 d-flex">
                     <div class="card profile-box flex-fill">
                         <div class="card-body">
-                            <h3 class="card-title">Historial de archivos <a href="#" class="edit-icon"
-                                    data-bs-toggle="modal" data-bs-target="#records_files"><i
-                                        class="fas fa-pencil-alt"></i></a></h3>
+                            <h3 class="card-title">Historial de archivos
+                                @if (auth()->user()->hasRoles(['admin']))
+                                    <a href="#" class="edit-icon" data-bs-toggle="modal"
+                                        data-bs-target="#records_files"><i class="fas fa-pencil-alt"></i></a>
+                                @endif
+                            </h3>
+
                             <ul class="personal-info">
                                 <li>
                                     <div class="row">
@@ -125,11 +130,13 @@
                                                 <a href="{{ asset('storage/records_files/' . $company->constitutive_act) }}"
                                                     target="_blank"> Descargar <i class="fas fa-download"></i></a>
                                             </div>
-                                            <div class="col-2 ico-sec"><a href="#" data-bs-toggle="modal"
-                                                    onclick="getUserId('constitutive_act', 'delete_file_name')"
-                                                    data-bs-target="#delete_file" class="p-0"><i
-                                                        class="far fa-trash-alt"></i></a>
-                                            </div>
+                                            @if (auth()->user()->hasRoles(['admin']))
+                                                <div class="col-2 ico-sec"><a href="#" data-bs-toggle="modal"
+                                                        onclick="getUserId('constitutive_act', 'delete_file_name')"
+                                                        data-bs-target="#delete_file" class="p-0"><i
+                                                            class="far fa-trash-alt"></i></a>
+                                                </div>
+                                            @endif
                                         @else
                                             <div class="text-custom col-4">
                                                 <p class="mb-0"> - </p>
@@ -145,11 +152,13 @@
                                                 <a href="{{ asset('storage/records_files/' . $company->tax_identification_card) }}"
                                                     target="_blank"> Descargar <i class="fas fa-download"></i></a>
                                             </div>
-                                            <div class="col-2 ico-sec"><a href="#" data-bs-toggle="modal"
-                                                    onclick="getUserId('tax_identification_card', 'delete_file_name')"
-                                                    data-bs-target="#delete_file" class="p-0"><i
-                                                        class="far fa-trash-alt"></i></a>
-                                            </div>
+                                            @if (auth()->user()->hasRoles(['admin']))
+                                                <div class="col-2 ico-sec"><a href="#" data-bs-toggle="modal"
+                                                        onclick="getUserId('tax_identification_card', 'delete_file_name')"
+                                                        data-bs-target="#delete_file" class="p-0"><i
+                                                            class="far fa-trash-alt"></i></a>
+                                                </div>
+                                            @endif
                                         @else
                                             <div class="text-custom col-4">
                                                 <p class="mb-0"> - </p>
@@ -165,11 +174,13 @@
                                                 <a href="{{ asset('storage/records_files/' . $company->proof_residency) }}"
                                                     target="_blank"> Descargar <i class="fas fa-download"></i></a>
                                             </div>
-                                            <div class="col-2 ico-sec"><a href="#" data-bs-toggle="modal"
-                                                    onclick="getUserId('proof_residency', 'delete_file_name')"
-                                                    data-bs-target="#delete_file" class="p-0"><i
-                                                        class="far fa-trash-alt"></i></a>
-                                            </div>
+                                            @if (auth()->user()->hasRoles(['admin']))
+                                                <div class="col-2 ico-sec"><a href="#" data-bs-toggle="modal"
+                                                        onclick="getUserId('proof_residency', 'delete_file_name')"
+                                                        data-bs-target="#delete_file" class="p-0"><i
+                                                            class="far fa-trash-alt"></i></a>
+                                                </div>
+                                            @endif
                                         @else
                                             <div class="text-custom col-4">
                                                 <p class="mb-0"> - </p>
@@ -185,11 +196,13 @@
                                                 <a href="{{ asset('storage/records_files/' . $company->employer_registration) }}"
                                                     target="_blank"> Descargar <i class="fas fa-download"></i></a>
                                             </div>
-                                            <div class="col-2 ico-sec"><a href="#" data-bs-toggle="modal"
-                                                    onclick="getUserId('employer_registration', 'delete_file_name')"
-                                                    data-bs-target="#delete_file" class="p-0"><i
-                                                        class="far fa-trash-alt"></i></a>
-                                            </div>
+                                            @if (auth()->user()->hasRoles(['admin']))
+                                                <div class="col-2 ico-sec"><a href="#" data-bs-toggle="modal"
+                                                        onclick="getUserId('employer_registration', 'delete_file_name')"
+                                                        data-bs-target="#delete_file" class="p-0"><i
+                                                            class="far fa-trash-alt"></i></a>
+                                                </div>
+                                            @endif
                                         @else
                                             <div class="text-custom col-4">
                                                 <p class="mb-0"> - </p>
@@ -205,11 +218,13 @@
                                                 <a href="{{ asset('storage/records_files/' . $company->legal_represantative_identification) }}"
                                                     target="_blank"> Descargar <i class="fas fa-download"></i></a>
                                             </div>
-                                            <div class="col-2 ico-sec"><a href="#" data-bs-toggle="modal"
-                                                    onclick="getUserId('legal_represantative_identification', 'delete_file_name')"
-                                                    data-bs-target="#delete_file" class="p-0"><i
-                                                        class="far fa-trash-alt"></i></a>
-                                            </div>
+                                            @if (auth()->user()->hasRoles(['admin']))
+                                                <div class="col-2 ico-sec"><a href="#" data-bs-toggle="modal"
+                                                        onclick="getUserId('legal_represantative_identification', 'delete_file_name')"
+                                                        data-bs-target="#delete_file" class="p-0"><i
+                                                            class="far fa-trash-alt"></i></a>
+                                                </div>
+                                            @endif
                                         @else
                                             <div class="text-custom col-4">
                                                 <p class="mb-0"> - </p>
@@ -225,11 +240,13 @@
                                                 <a href="{{ asset('storage/records_files/' . $company->legal_represantative_power) }}"
                                                     target="_blank"> Descargar <i class="fas fa-download"></i></a>
                                             </div>
-                                            <div class="col-2 ico-sec"><a href="#" data-bs-toggle="modal"
-                                                    onclick="getUserId('legal_represantative_power', 'delete_file_name')"
-                                                    data-bs-target="#delete_file" class="p-0"><i
-                                                        class="far fa-trash-alt"></i></a>
-                                            </div>
+                                            @if (auth()->user()->hasRoles(['admin']))
+                                                <div class="col-2 ico-sec"><a href="#" data-bs-toggle="modal"
+                                                        onclick="getUserId('legal_represantative_power', 'delete_file_name')"
+                                                        data-bs-target="#delete_file" class="p-0"><i
+                                                            class="far fa-trash-alt"></i></a>
+                                                </div>
+                                            @endif
                                         @else
                                             <div class="text-custom col-4">
                                                 <p class="mb-0"> - </p>
@@ -244,9 +261,12 @@
                 <div class="col-md-6 d-flex">
                     <div class="card profile-box flex-fill">
                         <div class="card-body">
-                            <h3 class="card-title">Domicilios secundarios <a href="#" class="edit-icon"
-                                    data-bs-toggle="modal" data-bs-target="#create_additional_address"><i
-                                        class="fas fa-plus-circle"></i></a></h3>
+                            <h3 class="card-title">Domicilios secundarios
+                                @if (auth()->user()->hasRoles(['admin']))
+                                    <a href="#" class="edit-icon" data-bs-toggle="modal"
+                                        data-bs-target="#create_additional_address"><i class="fas fa-plus-circle"></i></a>
+                                @endif
+                            </h3>
                             <table class="table table-striped custom-table datatable">
                                 <thead>
                                     <tr>
@@ -259,14 +279,17 @@
                                         <tr>
                                             <td>{{ $additionalAddress->address }}</td>
                                             <td>
-                                                <a href="#" data-bs-toggle="modal"
-                                                    onclick="getAdditinalAddressData({{ json_encode($additionalAddress) }})"
-                                                    data-bs-target="#update_additional_address"><i
-                                                        class="fas fa-edit"></i></a>
-                                                <a href="#" data-bs-toggle="modal" class="text-danger ps-3"
-                                                    onclick="getUserId({{ $additionalAddress['id'] }}, 'delete_additional_address_id')"
-                                                    data-bs-target="#delete_additional_address"><i
-                                                        class="far fa-trash-alt"></i></a>
+                                                @if (auth()->user()->hasRoles(['admin']))
+                                                    <a href="#" data-bs-toggle="modal"
+                                                        onclick="getAdditinalAddressData({{ json_encode($additionalAddress) }})"
+                                                        data-bs-target="#update_additional_address"><i
+                                                            class="fas fa-edit"></i></a>
+
+                                                    <a href="#" data-bs-toggle="modal" class="text-danger ps-3"
+                                                        onclick="getUserId({{ $additionalAddress['id'] }}, 'delete_additional_address_id')"
+                                                        data-bs-target="#delete_additional_address"><i
+                                                            class="far fa-trash-alt"></i></a>
+                                                @endif
                                             </td>
                                         </tr>
                                     @endforeach
@@ -279,9 +302,11 @@
                 <div class="col-md-6 d-flex">
                     <div class="card profile-box flex-fill">
                         <div class="card-body">
-                            <h3 class="card-title">Contacto de la empresa <a href="#" class="edit-icon"
-                                    data-bs-toggle="modal" data-bs-target="#create_additional_contact"><i
-                                        class="fas fa-plus-circle"></i></a>
+                            <h3 class="card-title">Contacto de la empresa
+                                @if (auth()->user()->hasRoles(['admin']))
+                                    <a href="#" class="edit-icon" data-bs-toggle="modal"
+                                        data-bs-target="#create_additional_contact"><i class="fas fa-plus-circle"></i></a>
+                                @endif
                             </h3>
                             <table class="table table-striped custom-table datatable">
                                 <thead>
@@ -299,14 +324,17 @@
                                             <td>{{ $additionalContact->email }}</td>
                                             <td>{{ $additionalContact->phone_number }}</td>
                                             <td>
-                                                <a href="#" data-bs-toggle="modal"
-                                                    onclick="getAdditionalContactData({{ json_encode($additionalContact) }})"
-                                                    data-bs-target="#update_additional_contact"><i
-                                                        class="fas fa-edit"></i></a>
-                                                <a href="#" data-bs-toggle="modal" class="text-danger ps-3"
-                                                    onclick="getUserId({{ $additionalContact['id'] }}, 'delete_additional_contact_id')"
-                                                    data-bs-target="#delete_additional_contact"><i
-                                                        class="far fa-trash-alt"></i></a>
+                                                @if (auth()->user()->hasRoles(['admin']))
+                                                    <a href="#" data-bs-toggle="modal"
+                                                        onclick="getAdditionalContactData({{ json_encode($additionalContact) }})"
+                                                        data-bs-target="#update_additional_contact"><i
+                                                            class="fas fa-edit"></i></a>
+
+                                                    <a href="#" data-bs-toggle="modal" class="text-danger ps-3"
+                                                        onclick="getUserId({{ $additionalContact['id'] }}, 'delete_additional_contact_id')"
+                                                        data-bs-target="#delete_additional_contact"><i
+                                                            class="far fa-trash-alt"></i></a>
+                                                @endif
                                             </td>
                                         </tr>
                                     @endforeach
@@ -318,9 +346,13 @@
                 <div class="col-md-6 d-flex">
                     <div class="card profile-box flex-fill">
                         <div class="card-body">
-                            <h3 class="card-title">Teléfonos secundarios <a href="#" class="edit-icon"
-                                    data-bs-toggle="modal" data-bs-target="#create_additional_phone_number"><i
-                                        class="fas fa-plus-circle"></i></a></h3>
+                            <h3 class="card-title">Teléfonos secundarios
+                                @if (auth()->user()->hasRoles(['admin']))
+                                    <a href="#" class="edit-icon" data-bs-toggle="modal"
+                                        data-bs-target="#create_additional_phone_number"><i
+                                            class="fas fa-plus-circle"></i></a>
+                                @endif
+                            </h3>
                             <table class="table table-striped custom-table datatable">
                                 <thead>
                                     <tr>
@@ -333,14 +365,17 @@
                                         <tr>
                                             <td>{{ $additionalPhoneNumber->phone_number }}</td>
                                             <td>
-                                                <a href="#" data-bs-toggle="modal"
-                                                    onclick="getAdditinalPhoneNumberData({{ json_encode($additionalPhoneNumber) }})"
-                                                    data-bs-target="#update_additional_phone_number"><i
-                                                        class="fas fa-edit"></i></a>
-                                                <a href="#" data-bs-toggle="modal" class="text-danger ps-3"
-                                                    onclick="getUserId({{ $additionalPhoneNumber['id'] }}, 'delete_additional_phone_number_id')"
-                                                    data-bs-target="#delete_additional_phone_number"><i
-                                                        class="far fa-trash-alt"></i></a>
+                                                @if (auth()->user()->hasRoles(['admin']))
+                                                    <a href="#" data-bs-toggle="modal"
+                                                        onclick="getAdditinalPhoneNumberData({{ json_encode($additionalPhoneNumber) }})"
+                                                        data-bs-target="#update_additional_phone_number"><i
+                                                            class="fas fa-edit"></i></a>
+
+                                                    <a href="#" data-bs-toggle="modal" class="text-danger ps-3"
+                                                        onclick="getUserId({{ $additionalPhoneNumber['id'] }}, 'delete_additional_phone_number_id')"
+                                                        data-bs-target="#delete_additional_phone_number"><i
+                                                            class="far fa-trash-alt"></i></a>
+                                                @endif
                                             </td>
                                         </tr>
                                     @endforeach
@@ -352,8 +387,12 @@
                 <div class="col-md-6 d-flex">
                     <div class="card profile-box flex-fill">
                         <div class="card-body">
-                            <h3 class="card-title">Empleados <a href="#" class="edit-icon" data-bs-toggle="modal"
-                                    data-bs-target="#create_employee"><i class="fas fa-plus-circle"></i></a></h3>
+                            <h3 class="card-title">Empleados
+                                @if (auth()->user()->hasRoles(['admin']))
+                                    <a href="#" class="edit-icon" data-bs-toggle="modal"
+                                        data-bs-target="#create_employee"><i class="fas fa-plus-circle"></i></a>
+                                @endif
+                            </h3>
                             <table class="table table-striped custom-table datatable">
                                 <thead>
                                     <tr>
@@ -368,12 +407,15 @@
                                             <td>{{ $companyEmployee['name'] }}</td>
                                             <td>{{ $companyEmployee['email'] }}</td>
                                             <td>
-                                                <a href="#" data-bs-toggle="modal"
-                                                    onclick="geEmployeeData({{ json_encode($companyEmployee) }})"
-                                                    data-bs-target="#update_employee"><i class="fas fa-edit"></i></a>
-                                                <a href="#" data-bs-toggle="modal" class="text-danger ps-3"
-                                                    onclick="getUserId({{ $companyEmployee['id'] }}, 'delete_user_id')"
-                                                    data-bs-target="#delete_employee"><i class="far fa-trash-alt"></i></a>
+                                                @if (auth()->user()->hasRoles(['admin']))
+                                                    <a href="#" data-bs-toggle="modal"
+                                                        onclick="geEmployeeData({{ json_encode($companyEmployee) }})"
+                                                        data-bs-target="#update_employee"><i class="fas fa-edit"></i></a>
+                                                    <a href="#" data-bs-toggle="modal" class="text-danger ps-3"
+                                                        onclick="getUserId({{ $companyEmployee['id'] }}, 'delete_user_id')"
+                                                        data-bs-target="#delete_employee"><i
+                                                            class="far fa-trash-alt"></i></a>
+                                                @endif
                                             </td>
                                         </tr>
                                     @endforeach
@@ -385,9 +427,12 @@
                 <div class="col-md-6 d-flex">
                     <div class="card profile-box flex-fill">
                         <div class="card-body">
-                            <h3 class="card-title">Incidencias <a href="#" class="edit-icon"
-                                    data-bs-toggle="modal" data-bs-target="#create_incident"><i
-                                        class="fas fa-plus-circle"></i></a></h3>
+                            <h3 class="card-title">Incidencias
+                                @if (auth()->user()->hasRoles(['admin']))
+                                    <a href="#" class="edit-icon" data-bs-toggle="modal"
+                                        data-bs-target="#create_incident"><i class="fas fa-plus-circle"></i></a>
+                                @endif
+                            </h3>
                             <table class="table table-striped custom-table datatable">
                                 <thead>
                                     <tr>
@@ -410,8 +455,8 @@
             </div>
         </div>
 
-        <!-- credits Tab -->
-        <div class="tab-pane fade" id="emp_projects">
+        <!-- credits -->
+        <div class="tab-pane fade" id="credits">
             <div class="row">
                 <div class="col-md-8 d-flex">
                     <div class="card profile-box flex-fill">
@@ -433,12 +478,14 @@
                                             <td>${{ number_format($credit->paid, 2) }}</td>
                                             <td>{{ $credit->status ? 'Al corriente' : 'Pagado' }}</td>
                                             <td>
-                                                <a href="{{ route('company.creditDetails', $credit->id) }}"><i
-                                                        class="far fa-eye"></i></a>
-                                                <a href="#" data-bs-toggle="modal" data-bs-target="#delete_credit"
-                                                    class="text-danger ps-3"
-                                                    onclick="getUserId({{ $credit->id }}, 'delete_credit_id')"><i
-                                                        class="far fa-trash-alt"></i></a>
+                                                @if (auth()->user()->hasRoles(['admin']))
+                                                    <a href="{{ route('company.creditDetails', $credit->id) }}"><i
+                                                            class="far fa-eye"></i></a>
+                                                    <a href="#" data-bs-toggle="modal"
+                                                        data-bs-target="#delete_credit" class="text-danger ps-3"
+                                                        onclick="getUserId({{ $credit->id }}, 'delete_credit_id')"><i
+                                                            class="far fa-trash-alt"></i></a>
+                                                @endif
                                             </td>
                                         </tr>
                                     @endforeach
@@ -479,220 +526,68 @@
         </div>
         <!-- /credits Tab -->
 
-        <!-- Bank Statutory Tab -->
-        <div class="tab-pane fade" id="bank_statutory">
-            <div class="card">
-                <div class="card-body">
-                    <h3 class="card-title"> Basic Salary Information</h3>
-                    <form>
-                        <div class="row">
-                            <div class="col-sm-4">
-                                <div class="form-group">
-                                    <label class="col-form-label">Salary basis <span class="text-danger">*</span></label>
-                                    <select class="select">
-                                        <option>Select salary basis type</option>
-                                        <option>Hourly</option>
-                                        <option>Daily</option>
-                                        <option>Weekly</option>
-                                        <option>Monthly</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-sm-4">
-                                <div class="form-group">
-                                    <label class="col-form-label">Salary amount <small class="text-muted">per
-                                            month</small></label>
-                                    <div class="input-group">
-                                        <span class="input-group-text">$</span>
-                                        <input type="text" class="form-control" placeholder="Type your salary amount"
-                                            value="0.00">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-sm-4">
-                                <div class="form-group">
-                                    <label class="col-form-label">Payment type</label>
-                                    <select class="select">
-                                        <option>Select payment type</option>
-                                        <option>Bank transfer</option>
-                                        <option>Check</option>
-                                        <option>Cash</option>
-                                    </select>
-                                </div>
-                            </div>
+        <!-- imss -->
+        <div class="tab-pane fade" id="imss">
+            <div class="row">
+                <div class="col-md-6 d-flex">
+                    <div class="card profile-box flex-fill">
+                        <div class="card-body">
+                            <h3 class="card-title">Altas</h3>
+                            <table class="table table-striped custom-table datatable">
+                                <thead>
+                                    <tr>
+                                        <th>Correo</th>
+                                        <th>Fecha de alta</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($registersImss as $registerImss)
+                                        <tr>
+                                            <td>
+                                                <h2 class="table-avatar">
+                                                    <a
+                                                        href="{{ route('company.registerImssDetails', [$company->id, $registerImss->id]) }}">{{ $registerImss['email'] }}</a>
+                                                </h2>
+                                            </td>
+                                            <td>{{ $registerImss['register_date_formated'] }}</td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
                         </div>
-                        <hr>
-                        <h3 class="card-title"> PF Information</h3>
-                        <div class="row">
-                            <div class="col-sm-4">
-                                <div class="form-group">
-                                    <label class="col-form-label">PF contribution</label>
-                                    <select class="select">
-                                        <option>Select PF contribution</option>
-                                        <option>Yes</option>
-                                        <option>No</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-sm-4">
-                                <div class="form-group">
-                                    <label class="col-form-label">PF No. <span class="text-danger">*</span></label>
-                                    <select class="select">
-                                        <option>Select PF contribution</option>
-                                        <option>Yes</option>
-                                        <option>No</option>
-                                    </select>
-                                </div>
-                            </div>
+                    </div>
+                </div>
+                <div class="col-md-6 d-flex">
+                    <div class="card profile-box flex-fill">
+                        <div class="card-body">
+                            <h3 class="card-title">Bajas</h3>
+                            <table class="table table-striped custom-table datatable">
+                                <thead>
+                                    <tr>
+                                        <th>Nombre</th>
+                                        <th>Fecha de baja</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($cancelsImss as $cancelImss)
+                                        <tr>
+                                            <td>
+                                                <h2 class="table-avatar">
+                                                    <a
+                                                        href="{{ route('company.cancelImssDetails', [$company->id, $cancelImss->id]) }}">{{ $cancelImss->name }}</a>
+                                                </h2>
+                                            </td>
+                                            <td>{{ $cancelImss->cancel_date_formated }}</td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
                         </div>
-                        <div class="row">
-                            <div class="col-sm-4">
-                                <div class="form-group">
-                                    <label class="col-form-label">Employee PF rate</label>
-                                    <select class="select">
-                                        <option>Select PF contribution</option>
-                                        <option>Yes</option>
-                                        <option>No</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-sm-4">
-                                <div class="form-group">
-                                    <label class="col-form-label">Additional rate <span
-                                            class="text-danger">*</span></label>
-                                    <select class="select">
-                                        <option>Select additional rate</option>
-                                        <option>0%</option>
-                                        <option>1%</option>
-                                        <option>2%</option>
-                                        <option>3%</option>
-                                        <option>4%</option>
-                                        <option>5%</option>
-                                        <option>6%</option>
-                                        <option>7%</option>
-                                        <option>8%</option>
-                                        <option>9%</option>
-                                        <option>10%</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-sm-4">
-                                <div class="form-group">
-                                    <label class="col-form-label">Total rate</label>
-                                    <input type="text" class="form-control" placeholder="N/A" value="11%">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-sm-4">
-                                <div class="form-group">
-                                    <label class="col-form-label">Employee PF rate</label>
-                                    <select class="select">
-                                        <option>Select PF contribution</option>
-                                        <option>Yes</option>
-                                        <option>No</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-sm-4">
-                                <div class="form-group">
-                                    <label class="col-form-label">Additional rate <span
-                                            class="text-danger">*</span></label>
-                                    <select class="select">
-                                        <option>Select additional rate</option>
-                                        <option>0%</option>
-                                        <option>1%</option>
-                                        <option>2%</option>
-                                        <option>3%</option>
-                                        <option>4%</option>
-                                        <option>5%</option>
-                                        <option>6%</option>
-                                        <option>7%</option>
-                                        <option>8%</option>
-                                        <option>9%</option>
-                                        <option>10%</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-sm-4">
-                                <div class="form-group">
-                                    <label class="col-form-label">Total rate</label>
-                                    <input type="text" class="form-control" placeholder="N/A" value="11%">
-                                </div>
-                            </div>
-                        </div>
-
-                        <hr>
-                        <h3 class="card-title"> ESI Information</h3>
-                        <div class="row">
-                            <div class="col-sm-4">
-                                <div class="form-group">
-                                    <label class="col-form-label">ESI contribution</label>
-                                    <select class="select">
-                                        <option>Select ESI contribution</option>
-                                        <option>Yes</option>
-                                        <option>No</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-sm-4">
-                                <div class="form-group">
-                                    <label class="col-form-label">ESI No. <span class="text-danger">*</span></label>
-                                    <select class="select">
-                                        <option>Select ESI contribution</option>
-                                        <option>Yes</option>
-                                        <option>No</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-sm-4">
-                                <div class="form-group">
-                                    <label class="col-form-label">Employee ESI rate</label>
-                                    <select class="select">
-                                        <option>Select ESI contribution</option>
-                                        <option>Yes</option>
-                                        <option>No</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-sm-4">
-                                <div class="form-group">
-                                    <label class="col-form-label">Additional rate <span
-                                            class="text-danger">*</span></label>
-                                    <select class="select">
-                                        <option>Select additional rate</option>
-                                        <option>0%</option>
-                                        <option>1%</option>
-                                        <option>2%</option>
-                                        <option>3%</option>
-                                        <option>4%</option>
-                                        <option>5%</option>
-                                        <option>6%</option>
-                                        <option>7%</option>
-                                        <option>8%</option>
-                                        <option>9%</option>
-                                        <option>10%</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-sm-4">
-                                <div class="form-group">
-                                    <label class="col-form-label">Total rate</label>
-                                    <input type="text" class="form-control" placeholder="N/A" value="11%">
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="submit-section">
-                            <button class="btn btn-primary submit-btn" type="submit">Save</button>
-                        </div>
-                    </form>
+                    </div>
                 </div>
             </div>
         </div>
-        <!-- /Bank Statutory Tab -->
+        <!-- /imss Tab -->
 
     </div>
     <!-- /Page Content -->

@@ -281,11 +281,17 @@
         <div class="sidebar" id="sidebar">
             <div class="sidebar-left slimscroll">
                 <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-                    <a class="nav-link" id="v-pills-dashboard-tab" data-bs-toggle="pill"
-                        href="{{ route('admin.userList') }}" role="tab" aria-controls="v-pills-dashboard"
-                        aria-selected="true">
+                    <a class="nav-link" id="v-pills-dashboard-tab" data-bs-toggle="pill" href="#v-pills-dashboard"
+                        role="tab" aria-controls="v-pills-dashboard" aria-selected="false">
                         <span class="material-icons-outlined">
                             home
+                        </span>
+                    </a>
+                    <a class="nav-link" id="v-pills-authentication-tab" title="IMSS" data-bs-toggle="pill"
+                        href="#v-pills-authentication" role="tab" aria-controls="v-pills-authentication"
+                        aria-selected="false">
+                        <span class="material-icons-outlined">
+                            perm_contact_calendar
                         </span>
                     </a>
                     <a class="nav-link" id="v-pills-apps-tab" title="Alferza Jobs" href="https://www.alferzajobs.com/"
@@ -312,6 +318,18 @@
                             <li>
                                 <a href="{{ route('employee.archivedTicketsList') }}">Incidencias
                                     Archivadas</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="tab-pane fade" id="v-pills-authentication" role="tabpanel"
+                        aria-labelledby="v-pills-authentication-tab">
+                        <p>IMSS</p>
+                        <ul>
+                            <li>
+                                <a href="{{ route('imss.registerImssList') }}">Altas</a>
+                            </li>
+                            <li>
+                                <a href="{{ route('imss.cancelImssList') }}">Bajas</a>
                             </li>
                         </ul>
                     </div>

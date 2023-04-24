@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Mail\NewUserCreated;
+use App\Models\CancelImss;
 use App\Models\Company;
 use App\Models\CompanyAdditionalAddress;
 use App\Models\CompanyAdditionalContact;
@@ -11,9 +12,11 @@ use App\Models\CompanyCredit;
 use App\Models\CompanyEmployee;
 use App\Models\Credit;
 use App\Models\PayrollType;
+use App\Models\RegisterImss;
 use App\Models\Ticket;
 use App\Models\User;
 use App\Traits\helpers;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 
@@ -25,7 +28,8 @@ class CompanyController extends Controller
     function __construct()
     {
         $this->middleware(['auth', 'roles:admin,cliente,capturista,validador'])->only('updateFiles', 'deleteFiles');
-        $this->middleware(['auth', 'roles:admin'])->except('updateFiles', 'deleteFiles');
+        $this->middleware(['auth', 'roles:admin,ejecutivo,nominista,finanzas,pagos,cobranza'])->only('details', 'registerImssDetails','registerImssAccepted', 'cancelImssDetails', 'cancelImssCanceled');
+        $this->middleware(['auth', 'roles:admin'])->except('updateFiles', 'deleteFiles', 'details', 'registerImssDetails', 'registerImssAccepted', 'cancelImssDetails', 'cancelImssCanceled');
     }
 
     public function list()
@@ -129,7 +133,17 @@ class CompanyController extends Controller
         $additionalsAddresses = CompanyAdditionalAddress::where('company_id', $id)->get();
         $additionalsPhoneNumbers = CompanyAdditionalPhoneNumber::where('company_id', $id)->get();
         $additionalsContacts = CompanyAdditionalContact::where('company_id', $id)->get();
-        return view('company.details', compact('company', 'companyEmployees', 'incidents', 'roles', 'payrolls', 'paymentsPeriod', 'credits', 'additionalsAddresses', 'additionalsPhoneNumbers', 'additionalsContacts'));
+
+        $registersImss = RegisterImss::where('company_id', $id)->get();
+        $cancelsImss = CancelImss::where('company_id', $id)->get();
+        foreach ($cancelsImss as $cancelImss) {
+            $cancelImss->cancel_date_formated = Carbon::parse($cancelImss->cancel_date)->format('d/m/Y');
+        }
+        foreach ($registersImss as $registerImss) {
+            $registerImss->register_date_formated = Carbon::parse($registerImss->register_date)->format('d/m/Y');
+        }
+
+        return view('company.details', compact('company', 'companyEmployees', 'incidents', 'roles', 'payrolls', 'paymentsPeriod', 'credits', 'additionalsAddresses', 'additionalsPhoneNumbers', 'additionalsContacts', 'registersImss', 'cancelsImss'));
     }
 
     public function update(Request $request, $id)
@@ -246,6 +260,48 @@ class CompanyController extends Controller
 
         return back()->with('success', '-');
     }
+
+    /* IMSS */
+    public function registerImssDetails($companyId, $registerImssId)
+    {
+        $company = Company::findOrFail($companyId);
+        
+        $registerImss = RegisterImss::findOrFail($registerImssId);
+        $registerImss->statusString = $registerImss->status ? $registerImss->status : 'En espera';
+
+        return view('imss.registered.details', compact('company', 'registerImss'));
+    }
+
+    public function registerImssAccepted($companyId, $registerImssId)
+    {
+        $registerImss = RegisterImss::where('id', $registerImssId)->where('company_id', $companyId)->firstOrFail();
+        $registerImss->update([
+            "status" => 'Autorizado'
+        ]);
+
+        return back()->with('success', 'Autorizado');
+    }
+
+    public function cancelImssDetails($companyId, $cancelImssId)
+    {
+        $company = Company::findOrFail($companyId);
+        
+        $cancelsImss = CancelImss::findOrFail($cancelImssId);
+        $cancelsImss->statusString = $cancelsImss->status ? $cancelsImss->status : 'En espera';
+
+        return view('imss.canceled.details', compact('company', 'cancelsImss'));
+    }
+
+    public function cancelImssCanceled($companyId, $cancelImssId)
+    {
+        $cancelImss = CancelImss::where('id', $cancelImssId)->where('company_id', $companyId)->firstOrFail();
+        $cancelImss->update([
+            "status" => 'Autorizado'
+        ]);
+
+        return back()->with('success', 'Autorizado');
+    }
+    /* IMSS */
 
 
     // Employees

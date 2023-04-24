@@ -16,6 +16,10 @@ $( document ).ready(function() {
             $('#v-pills-leads-tab').addClass('active');
             $('#v-pills-leads').addClass('show active');
             break;
+        case "authentication":
+            $('#v-pills-authentication-tab').addClass('active');
+            $('#v-pills-authentication').addClass('show active');
+            break;
     
         default:
             break;

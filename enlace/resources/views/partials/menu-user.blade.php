@@ -334,6 +334,9 @@
                             <li>
                                 <a href="{{ route('user.userDetails') }}">Mi perfil</a>
                             </li>
+                            <li>
+                                <a href="{{ route('user.companiesList') }}">Empresas</a>
+                            </li>
                         </ul>
                     </div>
                     <div class="tab-pane fade" id="v-pills-projects" role="tabpanel"

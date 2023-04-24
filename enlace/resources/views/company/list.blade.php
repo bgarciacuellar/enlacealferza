@@ -1,4 +1,9 @@
-@extends('partials.menu')
+@if (auth()->user()->hasRoles(['admin']))
+    {{ $menu = 'partials.menu' }}
+@else
+    {{ $menu = 'partials.menu-user' }}
+@endif
+@extends($menu)
 
 @section('title')
     Empresas
@@ -7,32 +12,34 @@
 @section('content')
 
     <div class="content container-fluid">
-        <div class="row filter-row">
-            <div class="col-md-9">
-                <form action="{{ route('company.listSearch') }}">
-                    <div class="row">
-                        <div class="col-lg-9">
-                            <div class="form-group form-focus mb-0">
-                                <input type="text" class="form-control floating search-name" name="name" required>
-                                <label class="focus-label">Nombre de la empresa</label>
+        @if (auth()->user()->hasRoles(['admin']))
+            <div class="row filter-row">
+                <div class="col-md-9">
+                    <form action="{{ route('company.listSearch') }}">
+                        <div class="row">
+                            <div class="col-lg-9">
+                                <div class="form-group form-focus mb-0">
+                                    <input type="text" class="form-control floating search-name" name="name" required>
+                                    <label class="focus-label">Nombre de la empresa</label>
+                                </div>
+                            </div>
+                            <div class="col-sm-6 col-md-3">
+                                <button type="submit" href="#" class="btn btn-success btn-search"><i
+                                        class="fas fa-search me-2"></i> Buscar </button>
                             </div>
                         </div>
-                        <div class="col-sm-6 col-md-3">
-                            <button type="submit" href="#" class="btn btn-success btn-search"><i
-                                    class="fas fa-search me-2"></i> Buscar </button>
-                        </div>
+                    </form>
+                </div>
+                <div class="col-md-3">
+                    <div class="add-emp-section">
+                        <a href="{{ route('company.grid') }}" class="grid-icon"><i class="fas fa-th"></i></a>
+                        <a href="{{ route('company.list') }}" class="list-icon active"><i class="fas fa-bars ps-3"></i></a>
+                        <a href="#" class="btn btn-success btn-add-emp" data-bs-toggle="modal"
+                            data-bs-target="#add_company"><i class="fas fa-plus"></i> Agregar Empresa</a>
                     </div>
-                </form>
-            </div>
-            <div class="col-md-3">
-                <div class="add-emp-section">
-                    <a href="{{ route('company.grid') }}" class="grid-icon"><i class="fas fa-th"></i></a>
-                    <a href="{{ route('company.list') }}" class="list-icon active"><i class="fas fa-bars ps-3"></i></a>
-                    <a href="#" class="btn btn-success btn-add-emp" data-bs-toggle="modal"
-                        data-bs-target="#add_company"><i class="fas fa-plus"></i> Agregar Empresa</a>
                 </div>
             </div>
-        </div>
+        @endif
 
         @if ($errors->any())
             <div class="mx-auto text-center">
@@ -69,17 +76,18 @@
                                 <tr>
                                     <td>
                                         <h2 class="table-avatar">
-                                            <a href="{{ route('company.details', $company->id) }}" class="avatar"><img
+                                            <a href="{{ route('company.details', $company['id']) }}" class="avatar"><img
                                                     alt="logo"
-                                                    src="{{ $company->logo ? asset('storage/logos/' . $company->logo) : asset('img/company-default.jpg') }}"></a>
-                                            <a href="{{ route('company.details', $company->id) }}">{{ $company->name }}</a>
+                                                    src="{{ $company['logo'] ? asset('storage/logos/' . $company['logo']) : asset('img/company-default.jpg') }}"></a>
+                                            <a
+                                                href="{{ route('company.details', $company['id']) }}">{{ $company['name'] }}</a>
                                         </h2>
                                     </td>
-                                    <td>{{ $company->address }}</td>
-                                    <td>{{ $company->phone_number }}</td>
+                                    <td>{{ $company['address'] }}</td>
+                                    <td>{{ $company['phone_number'] }}</td>
                                     <td>
                                         <a href="#" data-bs-toggle="modal" data-bs-target="#delete_company"><i
-                                                onclick="getUserId({{ $company->id }}, 'delete_company')"
+                                                onclick="getUserId({{ $company['id'] }}, 'delete_company')"
                                                 class="far fa-trash-alt"></i></a>
                                     </td>
                                 </tr>

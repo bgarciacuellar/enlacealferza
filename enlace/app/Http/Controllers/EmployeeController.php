@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\AdditionalUserInfo;
+use App\Models\CancelImss;
 use App\Models\Company;
 use App\Models\CompanyAdditionalAddress;
 use App\Models\CompanyAdditionalContact;
@@ -10,6 +11,7 @@ use App\Models\CompanyAdditionalPhoneNumber;
 use App\Models\CompanyCredit;
 use App\Models\CompanyEmployee;
 use App\Models\PayrollType;
+use App\Models\RegisterImss;
 use App\Models\Ticket;
 use App\Models\TicketComment;
 use App\Models\TicketFileHistory;
@@ -147,4 +149,191 @@ class EmployeeController extends Controller
 
         return back()->with('success', 'Agregado');
     }
+
+    /* IMSS */
+    public function registerImssList()
+    {
+        $currentUser = Auth::user();
+        $companyID = CompanyEmployee::where('user_id', $currentUser->id)->first('company_id')->company_id;
+        $company = Company::findOrFail($companyID);
+        $registersImss = RegisterImss::where('company_id', $companyID)->get();
+        foreach ($registersImss as $registerImss) {
+            $registerImss->statusString = $registerImss->status ? $registerImss->status : 'En espera';
+            $registerImss->register_date_formated = Carbon::parse($registerImss->register_date)->format('d/m/Y');
+        }
+
+        return view('imss.registered.list', compact('registersImss', 'companyID'));
+    }
+
+    public function registerImssDetails($registerImssId)
+    {
+        $currentUser = Auth::user();
+        $companyID = CompanyEmployee::where('user_id', $currentUser->id)->first('company_id')->company_id;
+        $company = Company::findOrFail($companyID);
+        $registerImss = RegisterImss::findOrFail($registerImssId);
+        $registerImss->statusString = $registerImss->status ? $registerImss->status : 'En espera';
+
+        return view('imss.registered.details', compact('company', 'registerImss'));
+    }
+
+    public function registerImss(Request $request, $companyId)
+    {
+        $request->validate([
+            "birth_certificate" => "required",
+            "identification" => "required",
+            "social_security_number" => "required",
+            "rfc" => "required",
+            "proof_address" => "required",
+            "curp" => "required",
+            "bank_data" => "required",
+            "infonavit_retention" => "required",
+            "email" => "required",
+            "phone_number" => "required",
+            "register_date" => "required",
+            "emergency_contact" => "required",
+            "imss_salary" => "required",
+        ]);
+
+        $currentUser = Auth::user();
+        $companyID = CompanyEmployee::where('user_id', $currentUser->id)->where('company_id', $companyId)->first('company_id');
+        if ($companyID) {
+            $companyID = $companyID->company_id;
+        }else {
+            return back()->with('error', 'Hubo un error, intentelo de nuevo');
+        }
+
+        $birthCertificate = $this->uploadCompanyFile($request->file('birth_certificate'), 'imss', $companyID);
+        $identification = $this->uploadCompanyFile($request->file('identification'), 'imss', $companyID);
+        $socialSecurityNumber = $this->uploadCompanyFile($request->file('social_security_number'), 'imss', $companyID);
+        $rfc = $this->uploadCompanyFile($request->file('rfc'), 'imss', $companyID);
+        $proofAddress = $this->uploadCompanyFile($request->file('proof_address'), 'imss', $companyID);
+        $curp = $this->uploadCompanyFile($request->file('curp'), 'imss', $companyID);
+
+
+        RegisterImss::create([
+            'company_id' => $companyId,
+            'birth_certificate' => $birthCertificate,
+            'identification' => $identification,
+            'social_security_number' => $socialSecurityNumber,
+            'rfc' => $rfc,
+            'proof_address' => $proofAddress,
+            'curp' => $curp,
+            'bank_data' => $request->bank_data,
+            'infonavit_retention' => $request->infonavit_retention,
+            'email' => $request->email,
+            'phone_number' => $request->phone_number,
+            'register_date' => $request->register_date,
+            'emergency_contact' => $request->emergency_contact,
+            'imss_salary' => $request->imss_salary,
+        ]);
+
+        return back()->with('success', 'Solicitud enviada');
+    }
+
+    public function deleteRegisterImssRequest(Request $request)
+    {
+        $request->validate([
+            "request_registed" => "required",
+        ]);
+        $currentUser = Auth::user();
+        $requestRegistered = RegisterImss::findOrFail($request->request_registed);
+        $companyID = CompanyEmployee::where('user_id', $currentUser->id)->where('company_id', $requestRegistered->company_id)->first('company_id');
+        if ($companyID) {
+            $companyID = $companyID->company_id;
+        }else {
+            return back()->with('error', 'Hubo un error, intentelo de nuevo');
+        }
+
+        if ($requestRegistered->status) {
+            return back()->with('error', 'Ya esta procesada y no se puede eliminar');
+        }
+
+        $this->deleteFile($requestRegistered->birth_certificate, 'imss');
+        $this->deleteFile($requestRegistered->identification, 'imss');
+        $this->deleteFile($requestRegistered->social_security_number, 'imss');
+        $this->deleteFile($requestRegistered->rfc, 'imss');
+        $this->deleteFile($requestRegistered->proof_address, 'imss');
+        $this->deleteFile($requestRegistered->curp, 'imss');
+        $requestRegistered->delete();
+
+        return back()->with('success', 'Solicitud eliminada');
+    }
+
+    public function cancelImssList()
+    {
+        $currentUser = Auth::user();
+        $companyID = CompanyEmployee::where('user_id', $currentUser->id)->first('company_id')->company_id;
+        $company = Company::findOrFail($companyID);
+        $cancelsImss = CancelImss::where('company_id', $companyID)->get();
+        foreach ($cancelsImss as $cancelImss) {
+            $cancelImss->statusString = $cancelImss->status ? $cancelImss->status : 'En espera';
+            $cancelImss->cancel_date_formated = Carbon::parse($cancelImss->cancel_date)->format('d/m/Y');
+        }
+
+        return view('imss.canceled.list', compact('cancelsImss', 'companyID'));
+    }
+
+    public function cancelImssDetails($cancelImssId)
+    {
+        $currentUser = Auth::user();
+        $companyID = CompanyEmployee::where('user_id', $currentUser->id)->first('company_id')->company_id;
+        $company = Company::findOrFail($companyID);
+        
+        $cancelsImss = CancelImss::findOrFail($cancelImssId);
+        $cancelsImss->statusString = $cancelsImss->status ? $cancelsImss->status : 'En espera';
+
+        return view('imss.canceled.details', compact('company', 'cancelsImss'));
+    }
+
+    public function cancelImss(Request $request, $companyId)
+    {
+        $request->validate([
+            "name" => "required",
+            "cancel_date" => "required",
+            "notes" => "required",
+            "leave_receipt" => "required",
+        ]);
+
+        $currentUser = Auth::user();
+        $companyID = CompanyEmployee::where('user_id', $currentUser->id)->where('company_id', $companyId)->first('company_id');
+        if ($companyID) {
+            $companyID = $companyID->company_id;
+        }else {
+            return back()->with('error', 'Hubo un error, intentelo de nuevo');
+        }
+
+        CancelImss::create([
+            'company_id' => $companyId,
+            'name' => $request->name,
+            'cancel_date' => $request->cancel_date,
+            'notes' => $request->notes,
+            'leave_receipt' => $request->leave_receipt,
+        ]);
+
+        return back()->with('success', 'Solicitud enviada');
+    }
+
+    public function deleteCancelImssRequest(Request $request)
+    {
+        $request->validate([
+            "request_cancel" => "required",
+        ]);
+        $currentUser = Auth::user();
+        $requestCancel = CancelImss::findOrFail($request->request_cancel);
+        $companyID = CompanyEmployee::where('user_id', $currentUser->id)->where('company_id', $requestCancel->company_id)->first('company_id');
+        if ($companyID) {
+            $companyID = $companyID->company_id;
+        }else {
+            return back()->with('error', 'Hubo un error, intentelo de nuevo');
+        }
+
+        if ($requestCancel->status) {
+            return back()->with('error', 'Ya esta procesada y no se puede eliminar');
+        }
+
+        $requestCancel->delete();
+
+        return back()->with('success', 'Solicitud eliminada');
+    }
+    /* IMSS */
 }
