@@ -55,6 +55,8 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="pro-edit"><a data-bs-target="#edit-password" data-bs-toggle="modal" class="edit-icon"
+                                href="#"><i class="fas fa-pencil-alt"></i></a></div>
                     </div>
                 </div>
             </div>
@@ -390,6 +392,44 @@
         </div>
     </div>
     <!-- /Delete file Modal -->
+
+    <!-- edit password info -->
+    <div id="edit-password" class="modal custom-modal fade" role="dialog">
+        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Editar Contraseña</h5>
+                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form action="{{ route('auth.resetPassword') }}" method="POST">
+                        @csrf
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Nueva contraseña</label>
+                                    <input class="form-control password" type="password" name="password">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Confirmar nueva contraseña</label>
+                                    <input class="form-control password" type="password" name="confirm_password">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="submit-section">
+                            <button class="btn btn-primary submit-btn">Actualizar</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /edit password info -->
+
     @include('modals.company')
 @endsection
 

@@ -10,6 +10,7 @@ Auth::routes();
 
 Route::get('/', [App\Http\Controllers\LoginCustomizedController::class, 'loginView'])->name('auth.loginView');
 Route::post('/login-customized', [App\Http\Controllers\LoginCustomizedController::class, 'login'])->name('auth.login');
+Route::post('/reset-password', [App\Http\Controllers\LoginCustomizedController::class, 'resetPassword'])->name('auth.resetPassword');
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 

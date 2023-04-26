@@ -43,4 +43,27 @@ class LoginCustomizedController extends Controller
         }
         return back()->with('error', 'Lo siento, las credenciales ingresadas son incorrectas. Por favor verifica la información');
     }
+
+    public function resetPassword(Request $request)
+    {
+        $request->validate(
+            [
+                'password' => 'required',
+                'confirm_password' => 'required',
+            ],
+            [
+                'password.required' => 'Es necesaria una contraseña',
+                'confirm_password.required' => 'Es necesaria una contraseña',
+            ]
+        );
+        if ($request->password != $request->confirm_password) {
+            return back()->with('error', 'Las contraseñas no son iguales');
+        }
+        $currentUser = Auth::user();
+        $currentUser->update([
+            'password' => bcrypt($request->password)
+        ]);
+        
+        return back()->with('success', 'La contraseña fue actualizada');
+    }
 }

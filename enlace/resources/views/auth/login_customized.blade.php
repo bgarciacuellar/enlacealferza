@@ -23,13 +23,13 @@
     <link rel="stylesheet" href="{{ asset('css/material.css') }}">
 
     <!-- Main CSS -->
-    <link rel="stylesheet" href="{{ asset('css/style.css')}}">
+    <link rel="stylesheet" href="{{ asset('css/style.css') }}">
 
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
-			<script src="assets/js/html5shiv.min.js"></script>
-			<script src="assets/js/respond.min.js"></script>
-		<![endif]-->
+   <script src="assets/js/html5shiv.min.js"></script>
+   <script src="assets/js/respond.min.js"></script>
+  <![endif]-->
 </head>
 
 <body class="account-page">
@@ -55,9 +55,9 @@
                                 <label>Correo electrónico</label>
                                 <input class="form-control" type="text" name="email">
                                 @error('email')
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
                                 @enderror
                             </div>
                             <div class="form-group">
@@ -65,17 +65,19 @@
                                     <div class="col">
                                         <label>Contraseña</label>
                                     </div>
-                                    {{-- <div class="col-auto">
-                                        <a class="text-muted" href="forgot-password.html">
-                                            Olvidaste tu Contraseña?
-                                        </a>
-                                    </div> --}}
+                                    {{-- @if (Route::has('password.request'))
+                                        <div class="col-auto">
+                                            <a class="text-muted" href="{{ route('password.request') }}">
+                                                Olvidaste tu Contraseña?
+                                            </a>
+                                        </div>
+                                    @endif --}}
                                 </div>
                                 <input class="form-control" type="password" name="password">
                                 @error('password')
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
                                 @enderror
                             </div>
                             <div class="form-group text-center">
@@ -85,10 +87,10 @@
                                 <p>Don't have an account yet? <a href="register.html">Register</a></p>
                             </div> --}}
                             @if (session('success'))
-                            <p>{{ session('success') }}</p>
+                                <p>{{ session('success') }}</p>
                             @endif
                             @if (session('error'))
-                            <p>{{ session('error') }}</p>
+                                <p>{{ session('error') }}</p>
                             @endif
                         </form>
                         <!-- /Account Form -->
@@ -100,13 +102,13 @@
     <!-- /Main Wrapper -->
 
     <!-- jQuery -->
-    <script src="{{ asset('js/jquery-3.6.0.min.js')}}"></script>
+    <script src="{{ asset('js/jquery-3.6.0.min.js') }}"></script>
 
     <!-- Bootstrap Core JS -->
-    <script src="{{ asset('js/bootstrap.bundle.min.js')}}"></script>
+    <script src="{{ asset('js/bootstrap.bundle.min.js') }}"></script>
 
     <!-- Custom JS -->
-    <script src="{{ asset('js/app_template.js')}}"></script>
+    <script src="{{ asset('js/app_template.js') }}"></script>
 
 </body>
 

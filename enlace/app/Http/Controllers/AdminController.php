@@ -72,7 +72,7 @@ class AdminController extends Controller
                 'name' => 'required',
                 'email' => 'required|unique:users,email',
                 'employee_id' => 'nullable',
-                'password' => 'nullable',
+                'password' => 'required',
                 'role' => 'required',
                 'last_name' => 'nullable',
             ],
