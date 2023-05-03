@@ -135,13 +135,14 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form action="{{ route('ticket.create') }}" method="POST" enctype="multipart/form-data">
+                    <form action="{{ route('ticket.create') }}" method="POST" id="create_ticket"
+                        enctype="multipart/form-data">
                         @csrf
                         <div class="row">
                             <div class="col-sm-6">
                                 <div class="form-group">
                                     <label class="col-form-label">Empresa<span class="text-danger">*</span></label>
-                                    <select class="form-control" name="company" required>
+                                    <select class="form-control create_ticket_company_id" name="company" required>
                                         <option value="">Selecciona una empresa</option>
                                         @foreach ($myCompanies as $myCompany)
                                             <option value="{{ $myCompany['id'] }}">{{ $myCompany['name'] }}</option>
@@ -159,7 +160,7 @@
                             <div class="col-sm-6">
                                 <div class="form-group">
                                     <label class="col-form-label">Tipo de nómina <span class="text-danger">*</span></label>
-                                    <select class="form-control" name="category" required>
+                                    <select class="form-control create_ticket_category" name="category" required>
                                         <option value="">Selecciona un tipo de nómina</option>
                                         @foreach ($myCompanies as $myCompany)
                                             @foreach ($myCompany['payrolls'] as $payroll)
@@ -208,41 +209,25 @@
         </div>
     </div>
 
-
-    <!-- Delete Employee Modal -->
-    <div class="modal custom-modal fade" id="delete_employee" role="dialog">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-body">
-                    <div class="form-header">
-                        <h3>Delete Employee</h3>
-                        <p>Are you sure want to delete?</p>
-                    </div>
-                    <div class="modal-btn delete-action">
-                        <form action="{{ route('admin.disableUser') }}" method="POST">
-                            @csrf
-                            <div class="row">
-                                <div class="col-6">
-                                    <input type="hidden" name="user_id" class="delete_user_id">
-                                    <button type="submit" class="btn btn-primary continue-btn">Deshabilitar</button>
-                                </div>
-                                <div class="col-6">
-                                    <a href="javascript:void(0);" data-bs-dismiss="modal"
-                                        class="btn btn-primary cancel-btn">Cancelar</a>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- /Delete Employee Modal -->
-
 @endsection
 
 @section('js')
     <script>
         let menuIcon = "topic";
+        $('.create_ticket_company_id').change(function() {
+            $.ajax({
+                url: "{{ route('ticket.getPayrollByCompany') }}",
+                method: 'POST',
+                data: $('#create_ticket').serialize(),
+            }).done(function(res) {
+                if (res) {
+                    let options = `<option value="">Selecciona un tipo de nómina</option>`;
+                    res.forEach(payroll =>
+                        options +=
+                        `<option value="${payroll.type}">${payroll.type+' - '+payroll.name}</option>`);
+                    $('.create_ticket_category').html(options);
+                }
+            });
+        });
     </script>
 @endsection

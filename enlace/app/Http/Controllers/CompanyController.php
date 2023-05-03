@@ -104,7 +104,7 @@ class CompanyController extends Controller
     public function details($id)
     {
         $roles = ['cliente', 'capturista', 'validador'];
-        $payrolls = PayrollType::all();
+        $payrolls = PayrollType::where('company_id', $id)->get();
         $company = Company::findOrFail($id);
         $paydaysArray = explode(',', $company->paydays);
         $paydaysArrayTrim = array();

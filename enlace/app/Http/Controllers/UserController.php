@@ -19,6 +19,11 @@ class UserController extends Controller
     
     public $paymentsPeriod = ['semanal', 'quincenal', 'mensual'];
 
+    function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     public function dashboard()
     {
         $usersArray = $this->getAlferzaUsers(true);

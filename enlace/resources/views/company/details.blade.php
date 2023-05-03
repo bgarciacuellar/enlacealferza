@@ -1,4 +1,9 @@
-@extends('partials.menu')
+@if (auth()->user()->hasRoles(['admin']))
+    {{ $menu = 'partials.menu' }}
+@else
+    {{ $menu = 'partials.menu-user' }}
+@endif
+@extends($menu)
 
 @section('title')
     Detalles de empresa

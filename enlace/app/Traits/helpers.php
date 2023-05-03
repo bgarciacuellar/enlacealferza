@@ -99,6 +99,34 @@ trait helpers
         return $statusConverted;
     }
 
+    public function statusButtons($status)
+    {
+        switch ($status) {
+            case 1:
+                $statusConverted = "Siguiente paso";
+                break;
+            case 2:
+                $statusConverted = "Siguiente paso";
+                break;
+            case 2.5:
+                $statusConverted = "Siguiente paso";
+                break;
+            case 3:
+                $statusConverted = "Siguiente paso";
+                break;
+            case 4:
+                $statusConverted = "Siguiente paso";
+                break;
+            case 5:
+                $statusConverted = "Siguiente paso";
+                break;
+            default:
+                $statusConverted = 'Siguiente paso';
+                break;
+        }
+        return $statusConverted;
+    }
+
     public function deleteFile($image, $route)
     {
         File::delete('storage/' . $route . '/' . $image);

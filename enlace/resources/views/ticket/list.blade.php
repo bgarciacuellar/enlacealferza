@@ -105,13 +105,14 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form action="{{ route('ticket.create') }}" method="POST" enctype="multipart/form-data">
+                    <form action="{{ route('ticket.create') }}" method="POST" id="create_ticket"
+                        enctype="multipart/form-data">
                         @csrf
                         <div class="row">
                             <div class="col-sm-6">
                                 <div class="form-group">
                                     <label class="col-form-label">Empresa<span class="text-danger">*</span></label>
-                                    <select class="form-control" name="company" required>
+                                    <select class="form-control create_ticket_company_id" name="company" required>
                                         <option value="">Selecciona una empresa</option>
                                         @foreach ($companies as $company)
                                             <option value="{{ $company->id }}">{{ $company->name }}</option>
@@ -129,7 +130,7 @@
                             <div class="col-sm-6">
                                 <div class="form-group">
                                     <label class="col-form-label">Tipo de nómina <span class="text-danger">*</span></label>
-                                    <select class="form-control" name="category" required>
+                                    <select class="form-control create_ticket_category" name="category" required>
                                         <option value="">Selecciona un tipo de nómina</option>
                                         @foreach ($payrolls as $payroll)
                                             <option value="{{ $payroll->type }}">
@@ -211,6 +212,22 @@
 
 @section('js')
     <script>
+        /* $('#customer_data').serialize() */
         let menuIcon = "topic";
+        $('.create_ticket_company_id').change(function() {
+            $.ajax({
+                url: "{{ route('ticket.getPayrollByCompany') }}",
+                method: 'POST',
+                data: $('#create_ticket').serialize(),
+            }).done(function(res) {
+                if (res) {
+                    let options = `<option value="">Selecciona un tipo de nómina</option>`;
+                    res.forEach(payroll =>
+                        options +=
+                        `<option value="${payroll.type}">${payroll.type+' - '+payroll.name}</option>`);
+                    $('.create_ticket_category').html(options);
+                }
+            });
+        });
     </script>
 @endsection

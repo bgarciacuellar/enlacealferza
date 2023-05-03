@@ -8,6 +8,11 @@ use Illuminate\Http\Request;
 
 class PayrollController extends Controller
 {
+    function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     public function list()
     {
         $payrolls = PayrollType::all();

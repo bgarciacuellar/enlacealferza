@@ -108,6 +108,9 @@ Route::post('/ticket/upload-preinvoice/{id}', [App\Http\Controllers\TicketContro
 
 Route::post('/ticket/upload-payroll-receipt/{id}', [App\Http\Controllers\TicketController::class, 'uploadPayrollReceipt'])
     ->name('ticket.uploadPayrollReceipt');
+    //helpers
+Route::post('/ticket/get-payroll-by-company/', [App\Http\Controllers\TicketController::class, 'getPayrollByCompany'])
+    ->name('ticket.getPayrollByCompany');
 
 // Company
 Route::get('/compania/lista', [App\Http\Controllers\CompanyController::class, 'list'])

@@ -34,7 +34,8 @@ class TicketController extends Controller
 
     function __construct()
     {
-        $this->middleware(['auth', 'roles:admin,ejecutivo'])->except('details', 'uploadFileToRecord', 'addComment', 'nextStep', 'lastStep', 'uploadPreinvoice');
+        $this->middleware('auth');
+        $this->middleware(['auth', 'roles:admin,ejecutivo'])->except('details', 'uploadFileToRecord', 'addComment', 'nextStep', 'lastStep', 'uploadPreinvoice', 'getPayrollByCompany');
     }
 
     public function list()
@@ -145,6 +146,7 @@ class TicketController extends Controller
     {
         $ticket = Ticket::findOrFail($ticketId);
         $ticket->statusString = $this->statusConvert($ticket->status);
+        $ticket->statusButton = $this->statusButtons($ticket->status);
         $company = Company::findOrFail($ticket->company);
         $payrolls = PayrollType::all();
         $credits = CompanyCredit::where('status', 1)->where('company_id', $ticket->company)->get();
@@ -508,5 +510,16 @@ class TicketController extends Controller
         // }
 
         return back()->with('success', 'Ticket Modificado');
+    }
+
+    //Get payrolls
+    public function getPayrollByCompany(Request $request){
+        $companyId = $request->company;
+
+        if ($request->ajax()) {
+        
+        $payrolls = PayrollType::where('company_id', $companyId)->get();
+        return  $payrolls;
+        }
     }
 }

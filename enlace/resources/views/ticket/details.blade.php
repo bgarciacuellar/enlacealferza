@@ -100,7 +100,7 @@
                     @if ($ticket->status < 5)
                         <form action="{{ route('ticket.nextStep', $ticket->id) }}" method="POST">
                             @csrf
-                            <button type="submit" class="btn btn-success">Siguiente estatus</button>
+                            <button type="submit" class="btn btn-success">{{ $ticket->statusButton }}</button>
                         </form>
                     @endif
                 </div>
