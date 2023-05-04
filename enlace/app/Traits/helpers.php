@@ -103,16 +103,16 @@ trait helpers
     {
         switch ($status) {
             case 1:
-                $statusConverted = "Siguiente paso";
+                $statusConverted = "Enviar incidencias";
                 break;
             case 2:
-                $statusConverted = "Siguiente paso";
+                $statusConverted = "Enviar cálculo de nómina ";
                 break;
             case 2.5:
-                $statusConverted = "Siguiente paso";
+                $statusConverted = "Paso anterior";
                 break;
             case 3:
-                $statusConverted = "Siguiente paso";
+                $statusConverted = "Autorizar nómina";
                 break;
             case 4:
                 $statusConverted = "Siguiente paso";

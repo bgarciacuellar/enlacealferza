@@ -462,17 +462,17 @@ class TicketController extends Controller
             'payroll_receipt' => $fileName,
         ]);
 
-        /* $employees = CompanyEmployee::where('company_id', $updateTicket->company)->get('user_id');
+        $employees = CompanyEmployee::where('company_id', $updateTicket->company)->get('user_id');
         $company = Company::where('id', $updateTicket->company)->first('name')->name;
 
-        $message = new PayrollReceiptEmail($currentUser->name, $updateTicket->id, $company, $updateTicket->category);
+        $message = new PayrollReceiptEmail($currentUser->name, $updateTicket->id, $company);
         
         $emails = [];
         foreach ($employees as $employee) {
             $employeeEmail = User::where('id', $employee->user_id)->first('email')->email;
             $emails[] = $employeeEmail;
         }
-        Mail::to($emails)->send($message); */
+        Mail::to($emails)->send($message);
 
         return back()->with('success', 'Archivo cargado');
     }

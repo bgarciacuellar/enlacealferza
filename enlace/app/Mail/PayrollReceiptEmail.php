@@ -10,7 +10,7 @@ use Illuminate\Queue\SerializesModels;
 class PayrollReceiptEmail extends Mailable
 {
     use Queueable, SerializesModels;
-    public $subject = "Recibos de nómina cargados";
+    public $subject = "🧾 Los recibos de nómina están listos | Enlace Alferza";
     public $name;
     public $ticket;
     public $company;
@@ -21,12 +21,11 @@ class PayrollReceiptEmail extends Mailable
      *
      * @return void
      */
-    public function __construct($name, $ticket, $company, $category)
+    public function __construct($name, $ticket, $company)
     {
         $this->name = $name;
         $this->ticket = $ticket;
         $this->company = $company;
-        $this->category = $category;
     }
 
     /**
