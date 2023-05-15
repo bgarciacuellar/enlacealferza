@@ -389,7 +389,8 @@
                                                                     style="padding:0;Margin:0;padding-top:5px;padding-bottom:15px">
                                                                     <h2
                                                                         style="Margin:0;line-height:24px;mso-line-height-rule:exactly;font-family:lato, 'helvetica neue', helvetica, arial, sans-serif;font-size:20px;font-style:normal;font-weight:bold;color:#0d2754">
-                                                                        <strong>Recibos de nómina </strong>
+                                                                        <strong>Se ha cargado un archivo al
+                                                                            ticket:&nbsp;&nbsp;{{ $ticket }}</strong>
                                                                     </h2>
                                                                 </td>
                                                             </tr>
@@ -398,16 +399,9 @@
                                                                     style="padding:0;Margin:0;padding-top:10px;padding-bottom:10px">
                                                                     <p
                                                                         style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:helvetica, 'helvetica neue', arial, verdana, sans-serif;line-height:23px;color:#555555;font-size:15px">
-                                                                        Ya se encuentran disponibles para su descarga
-                                                                        los recibos de nómina correspondientes al último
-                                                                        periodo de pago. <br><br> Por favor, accedan a
-                                                                        su
-                                                                        cuenta en nuestro sistema y diríjanse a la
-                                                                        sección correspondiente para descargar los
-                                                                        recibos. Recuerden que estos documentos son
-                                                                        importantes para llevar un registro adecuado de
-                                                                        sus finanzas y cumplir con sus obligaciones
-                                                                        fiscales.</p>
+                                                                        Le informamos de que se ha descargado un archivo
+                                                                        en
+                                                                        su ticket de incidencia activo.</p>
                                                                     <p
                                                                         style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:helvetica, 'helvetica neue', arial, verdana, sans-serif;line-height:23px;color:#555555;font-size:15px">
                                                                         <br>
@@ -424,7 +418,7 @@
                                                                     </p>
                                                                     <p
                                                                         style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:helvetica, 'helvetica neue', arial, verdana, sans-serif;line-height:23px;color:#555555;font-size:15px">
-                                                                        <strong>Cargado&nbsp;por:
+                                                                        <strong>Descargado&nbsp;por:
                                                                         </strong>{{ $name }}
                                                                     </p>
                                                                 </td>

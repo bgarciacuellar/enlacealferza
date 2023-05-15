@@ -16,16 +16,17 @@ class CreateTicketsTable extends Migration
         Schema::create('tickets', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('user_id');
-            $table->string('status');
-            $table->date('limit_date');
-            $table->string('category');
-            $table->string('company');
-            $table->string('payment_period');
+            $table->string('status')->nullable();
+            $table->date('limit_date')->nullable();
+            $table->string('category')->nullable();
+            $table->string('company')->nullable();
+            $table->string('payment_period')->nullable();
             $table->string('master_file')->nullable();
             $table->string('preinvoices')->nullable();
             $table->string('extraordinario_file')->nullable();
             $table->string('observations')->nullable();
             $table->string('payroll_receipt')->nullable();
+            $table->string('ticket_type')->default('nómina');
             $table->timestamps();
         });
     }

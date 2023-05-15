@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Mail\NewUserCreated;
+use App\Mail\RejectImssRegistration;
 use App\Models\CancelImss;
 use App\Models\Company;
 use App\Models\CompanyAdditionalAddress;
@@ -28,8 +29,8 @@ class CompanyController extends Controller
     function __construct()
     {
         $this->middleware(['auth', 'roles:admin,cliente,capturista,validador'])->only('updateFiles', 'deleteFiles');
-        $this->middleware(['auth', 'roles:admin,ejecutivo,nominista,finanzas,pagos,cobranza'])->only('details', 'registerImssDetails','registerImssAccepted', 'cancelImssDetails', 'cancelImssCanceled');
-        $this->middleware(['auth', 'roles:admin'])->except('updateFiles', 'deleteFiles', 'details', 'registerImssDetails', 'registerImssAccepted', 'cancelImssDetails', 'cancelImssCanceled');
+        $this->middleware(['auth', 'roles:admin,ejecutivo,nominista,finanzas,pagos,cobranza'])->only('details', 'registerImssDetails','registerImssAccepted', 'cancelImssDetails', 'cancelImssCanceled', 'registerImssDeny');
+        $this->middleware(['auth', 'roles:admin'])->except('updateFiles', 'deleteFiles', 'details', 'registerImssDetails', 'registerImssAccepted', 'cancelImssDetails', 'cancelImssCanceled', 'registerImssDeny');
     }
 
     public function list()
@@ -267,6 +268,7 @@ class CompanyController extends Controller
         $company = Company::findOrFail($companyId);
         
         $registerImss = RegisterImss::findOrFail($registerImssId);
+        $registerImss->register_date = Carbon::parse($registerImss->register_date);
         $registerImss->statusString = $registerImss->status ? $registerImss->status : 'En espera';
 
         return view('imss.registered.details', compact('company', 'registerImss'));
@@ -275,11 +277,39 @@ class CompanyController extends Controller
     public function registerImssAccepted($companyId, $registerImssId)
     {
         $registerImss = RegisterImss::where('id', $registerImssId)->where('company_id', $companyId)->firstOrFail();
+        
+        if ($registerImss->status == 'Alta Confirmada') {
+            return back()->with('error' , 'La alta ya ha sido confirmada');
+        }
+
+        if ($registerImss->status == 'Alta Aceptada') {
+            $registerImss->update([
+                "status" => 'Alta Confirmada'
+            ]);
+            /* $message = new RejectImssRegistration;
+        Mail::to($request->email)->send($message); */
+        }else{
+            $registerImss->update([
+                "status" => 'Alta Aceptada'
+            ]);
+            /* $message = new RejectImssRegistration;
+        Mail::to($request->email)->send($message); */
+        }
+
+        return back()->with('success', 'Aceptada');
+    }
+    public function registerImssDeny(Request $request, $companyId, $registerImssId)
+    {
+        $registerImss = RegisterImss::where('id', $registerImssId)->where('company_id', $companyId)->firstOrFail();
         $registerImss->update([
-            "status" => 'Autorizado'
+            "status" => 'Alta declinada',
+            "notes" => $request->notes,
         ]);
 
-        return back()->with('success', 'Autorizado');
+        /* $message = new RejectImssRegistration;
+        Mail::to($request->email)->send($message); */
+
+        return back()->with('success', 'Declinado');
     }
 
     public function cancelImssDetails($companyId, $cancelImssId)
@@ -298,6 +328,9 @@ class CompanyController extends Controller
         $cancelImss->update([
             "status" => 'Autorizado'
         ]);
+
+        /* $message = new RejectImssRegistration;
+        Mail::to($request->email)->send($message); */
 
         return back()->with('success', 'Autorizado');
     }

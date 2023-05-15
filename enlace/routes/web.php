@@ -111,6 +111,8 @@ Route::post('/ticket/upload-payroll-receipt/{id}', [App\Http\Controllers\TicketC
     //helpers
 Route::post('/ticket/get-payroll-by-company/', [App\Http\Controllers\TicketController::class, 'getPayrollByCompany'])
     ->name('ticket.getPayrollByCompany');
+Route::get('/ticket/send-dowloaded-catega-file-email/{companyId}/{ticketId}', [App\Http\Controllers\TicketController::class, 'downloadCategaFile'])
+    ->name('ticket.downloadCategaFile');
 
 // Company
 Route::get('/compania/lista', [App\Http\Controllers\CompanyController::class, 'list'])
@@ -136,6 +138,8 @@ Route::get('/compania/detalles/imss-alta/{companyid}/{registerImssId}', [App\Htt
     ->name('company.registerImssDetails');
 Route::post('/compania/detalles/imss-alta/register-imss-accept/{companyid}/{registerImssId}', [App\Http\Controllers\CompanyController::class, 'registerImssAccepted'])
     ->name('company.registerImssAccepted');
+Route::post('/compania/detalles/imss-alta/register-imss-deny/{companyid}/{registerImssId}', [App\Http\Controllers\CompanyController::class, 'registerImssDeny'])
+    ->name('company.registerImssDeny');
 Route::get('/compania/detalles/imss-baja/{companyid}/{registerImssId}', [App\Http\Controllers\CompanyController::class, 'cancelImssDetails'])
     ->name('company.cancelImssDetails');
 Route::post('/compania/detalles/imss-baja/cancel-imss-cancel/{companyid}/{cancelImssId}', [App\Http\Controllers\CompanyController::class, 'cancelImssCanceled'])
@@ -278,6 +282,8 @@ Route::group(
             ->name('imss.registerImssDetails');
         Route::post('/imss-register/{companyId}', [App\Http\Controllers\EmployeeController::class, 'registerImss'])
             ->name('imss.registerImss');
+        Route::post('/imss-register-update/{registerImssId}', [App\Http\Controllers\EmployeeController::class, 'updateRegisterImss'])
+            ->name('imss.updateRegisterImss');
         Route::post('/imss-register-delete', [App\Http\Controllers\EmployeeController::class, 'deleteRegisterImssRequest'])
             ->name('imss.deleteRegisterImssRequest');
         Route::get('/imss-bajas', [App\Http\Controllers\EmployeeController::class, 'cancelImssList'])

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\DownloadedCategaFile;
 use App\Mail\PaidTicket;
 use App\Mail\PayrollAuthorized;
 use App\Mail\PayrollDenied;
@@ -35,24 +36,24 @@ class TicketController extends Controller
     function __construct()
     {
         $this->middleware('auth');
-        $this->middleware(['auth', 'roles:admin,ejecutivo'])->except('details', 'uploadFileToRecord', 'addComment', 'nextStep', 'lastStep', 'uploadPreinvoice', 'getPayrollByCompany');
+        $this->middleware(['auth', 'roles:admin,ejecutivo'])->except('details', 'uploadFileToRecord', 'addComment', 'nextStep', 'lastStep', 'uploadPreinvoice', 'getPayrollByCompany', 'downloadCategaFile');
     }
 
     public function list()
     {
-        $ticketsArray = Ticket::where('status', '!=', '5')->get()->toArray();
+        $ticketsArray = Ticket::where('status', '!=', '5')->orderBy('id', 'desc')->get()->toArray();
         $companies = Company::all();
         $payrolls = PayrollType::all();
         $paymentsPeriod = $this->paymentsPeriod;
 
         $ticketsMap = function ($ticketItem) {
             $company = Company::where('id', $ticketItem['company'])->first();
-            $limit_date = Carbon::parse($ticketItem['limit_date']);
+            $created_at = Carbon::parse($ticketItem['created_at']);
             $status = $this->statusConvert($ticketItem['status']);
             return array(
                 "id" => $ticketItem['id'],
                 "category" => $ticketItem['category'],
-                "limit_date" => $limit_date->format('d/m/Y'),
+                "created_at" => $created_at->format('d/m/Y'),
                 "company" => $company->name,
                 "status" => $status,
             );
@@ -65,16 +66,16 @@ class TicketController extends Controller
 
     public function archivedList()
     {
-        $archivedTicketsArray = Ticket::where('status', 5)->get()->toArray();
+        $archivedTicketsArray = Ticket::where('status', 5)->orderBy('id', 'desc')->get()->toArray();
 
         $archivedTicketsMap = function ($archivedTicketItem) {
             $company = Company::where('id', $archivedTicketItem['company'])->first();
-            $limit_date = Carbon::parse($archivedTicketItem['limit_date']);
+            $created_at = Carbon::parse($archivedTicketItem['created_at']);
             $status = $this->statusConvert($archivedTicketItem['status']);
             return array(
                 "id" => $archivedTicketItem['id'],
                 "category" => $archivedTicketItem['category'],
-                "limit_date" => $limit_date->format('d/m/Y'),
+                "created_at" => $created_at->format('d/m/Y'),
                 "company" => $company->name,
                 "status" => $status,
             );
@@ -89,12 +90,13 @@ class TicketController extends Controller
     {
         $request->validate(
             [
-                'category' => 'required',
+                'category' => $request->ticket_type == 'nómina' ? 'required' : 'nullable',
                 'company' => 'required',
-                'limit_date' => 'required',
+                'limit_date' => $request->ticket_type == 'nómina' ? 'required' : 'nullable',
                 'comment' => 'nullable',
                 'master_file' => 'nullable',
                 'payment_period' => 'required',
+                'ticket_type' => 'required',
             ],
         );
 
@@ -107,12 +109,18 @@ class TicketController extends Controller
             'category' => $request->category,
             'company' => $request->company,
             'payment_period' => $request->payment_period,
+            'ticket_type' => $request->ticket_type    
         ]);
 
-        $fileFullName = pathinfo($request->file('master_file')->getClientOriginalName(), PATHINFO_FILENAME);
-        $fileExtension = pathinfo($request->file('master_file')->getClientOriginalName(), PATHINFO_EXTENSION);
-        $fileName = $fileFullName  . "_" . $ticketCreated->id . "." . $fileExtension;
-        $request->file('master_file')->storeAs('public/archivos_maestro', $fileName);
+        if ($request->hasFile('master_file')) {
+            $fileFullName = pathinfo($request->file('master_file')->getClientOriginalName(), PATHINFO_FILENAME);
+            $fileExtension = pathinfo($request->file('master_file')->getClientOriginalName(), PATHINFO_EXTENSION);
+            $fileName = $fileFullName  . "_" . $ticketCreated->id . "." . $fileExtension;
+            $request->file('master_file')->storeAs('public/archivos_maestro', $fileName);
+        }else {
+            $fileName = '';
+        }
+
 
         $ticketCreated->update([
             'master_file' => $fileName,
@@ -138,7 +146,6 @@ class TicketController extends Controller
         }
         Mail::to($emails)->send($message);
 
-        // Mail::to("socialmedia@alferza.mx")->send($message);
         return redirect()->route('ticket.details', $ticketCreated->id)->with('success', 'Ticket Creado');
     }
 
@@ -253,21 +260,26 @@ class TicketController extends Controller
 
     public function update(Request $request, $ticket)
     {
+        $updateTicket = Ticket::findOrFail($ticket);
         $request->validate(
             [
-                'category' => 'required',
-                'limit_date' => 'required',
+                'category' => $updateTicket->ticket_type == 'nómina' ? 'required' : 'nullable',
+                'limit_date' => $updateTicket->ticket_type == 'nómina' ? 'required' : 'nullable',
                 'payment_period' => 'required',
             ],
         );
 
-        $updateTicket = Ticket::findOrFail($ticket);
-
-        $updateTicket->update([
-            'category' => $request->category,
-            'limit_date' => $request->limit_date,
-            'payment_period' => $request->payment_period,
-        ]);
+        if($updateTicket->ticket_type == 'nómina'){
+            $updateTicket->update([
+                'category' => $request->category,
+                'limit_date' => $request->limit_date,
+                'payment_period' => $request->payment_period,
+            ]);
+        }else{
+            $updateTicket->update([
+                'payment_period' => $request->payment_period,
+            ]);
+        }
 
         return back()->with('success', 'Ticket Modificado');
     }
@@ -275,15 +287,20 @@ class TicketController extends Controller
     public function nextStep($id)
     {
         $ticket = Ticket::findOrFail($id);
-
-        if ($ticket->status == 2.5) {
+        if ($ticket->ticket_type == 'catega' && $ticket->status == 1) {
             $ticket->update([
-                'status' => 3,
+                'status' => 5,
             ]);
-        } else {
-            $ticket->update([
-                'status' => $ticket->status + 1,
-            ]);
+        }else {
+            if ($ticket->status == 2.5) {
+                $ticket->update([
+                    'status' => 3,
+                ]);
+            } else {
+                $ticket->update([
+                    'status' => $ticket->status + 1,
+                ]);
+            }
         }
 
         $userCreatedTicket = User::find($ticket->user_id);
@@ -512,7 +529,7 @@ class TicketController extends Controller
         return back()->with('success', 'Ticket Modificado');
     }
 
-    //Get payrolls
+    //AJAX jobs
     public function getPayrollByCompany(Request $request){
         $companyId = $request->company;
 
@@ -520,6 +537,21 @@ class TicketController extends Controller
         
         $payrolls = PayrollType::where('company_id', $companyId)->get();
         return  $payrolls;
+        }
+    }
+
+    public function downloadCategaFile(Request $request, $companyId, $ticketId){
+        $currentUser = Auth::user();
+            if ($request->ajax()) {
+            $employees = CompanyEmployee::where('company_id', $companyId)->get('user_id');
+            $company = Company::where('id', $companyId)->first('name')->name;
+
+            $message = new DownloadedCategaFile($currentUser->name, $ticketId, $company);
+            foreach ($employees as $employee) {
+                $employeeEmail = User::where('id', $employee->user_id)->first('email');
+                Mail::to($employeeEmail->email)->send($message);
+            }
+            return  'Se ha enviado un correo al cliente informado que se ha descargado el archivo';
         }
     }
 }

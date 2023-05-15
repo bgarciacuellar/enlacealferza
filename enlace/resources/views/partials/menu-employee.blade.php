@@ -287,13 +287,13 @@
                             home
                         </span>
                     </a>
-                    {{-- <a class="nav-link" id="v-pills-authentication-tab" title="IMSS" data-bs-toggle="pill"
+                    <a class="nav-link" id="v-pills-authentication-tab" title="IMSS" data-bs-toggle="pill"
                         href="#v-pills-authentication" role="tab" aria-controls="v-pills-authentication"
                         aria-selected="false">
                         <span class="material-icons-outlined">
                             perm_contact_calendar
                         </span>
-                    </a> --}}
+                    </a>
                     <a class="nav-link" id="v-pills-apps-tab" title="Alferza Jobs" href="https://www.alferzajobs.com/"
                         target="_blank">
                         <span class="material-icons-outlined">

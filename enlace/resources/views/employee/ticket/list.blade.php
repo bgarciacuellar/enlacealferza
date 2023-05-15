@@ -33,22 +33,24 @@
                         <table class="table table-striped custom-table datatable">
                             <thead>
                                 <tr>
+                                    <th style="width: 250px;">Número de ticket</th>
                                     <th>Tipo de nómina</th>
-                                    <th>Fecha limite de incidencia</th>
-                                    <th class="text-center">Estatus</th>
+                                    <th>Fecha de creación</th>
+                                    <th>Estatus</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @foreach ($tickets as $ticket)
                                     <tr>
                                         <td>
-                                            <a href="{{ route('employee.details', $ticket->id) }}">
-                                                {{ $ticket->category }}
+                                            <a href="{{ route('employee.details', $ticket['id']) }}">
+                                                # {{ $ticket['id'] }}
                                             </a>
                                         </td>
-                                        <td>{{ $ticket->limit_date->format('d/m/Y') }}</td>
+                                        <td>{{ $ticket->category ? $ticket->category : 'N/A' }}</td>
+                                        <td>{{ $ticket->created_at->format('d/m/Y') }}</td>
                                         <td>
-                                            <span class="role-info role-bg-one">{{ $ticket->statusString }}</span>
+                                            <span class="role-info role-bg-one">{{ $ticket['statusString'] }}</span>
                                         </td>
                                     </tr>
                                 @endforeach

@@ -93,6 +93,14 @@
                         enctype="multipart/form-data">
                         @csrf
                         <div class="row">
+                            <h3 class="pt-4 pb-2">Datos personales</h3>
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label class="col-form-label">Nombre del trabajador <span
+                                            class="text-danger">*</span></label>
+                                    <input class="form-control" name="user_name" type="text" required>
+                                </div>
+                            </div>
                             <div class="col-sm-6">
                                 <div class="form-group">
                                     <label class="col-form-label">Acta de nacimiento <span
@@ -108,53 +116,43 @@
                             </div>
                             <div class="col-sm-6">
                                 <div class="form-group">
-                                    <label class="col-form-label">Número de seguro social, constancia, no número <span
+                                    <label class="col-form-label">Constancia de seguro social <span
                                             class="text-danger">*</span></label>
                                     <input class="form-control" type="file" name="social_security_number" required>
                                 </div>
                             </div>
                             <div class="col-sm-6">
                                 <div class="form-group">
-                                    <label class="col-form-label">RFC, constancia, no número <span
+                                    <label class="col-form-label">Constancia de situación fiscal <span
                                             class="text-danger">*</span></label>
-                                    <input class="form-control" type="file" name="rfc" required>
+                                    <input class="form-control" type="file" name="certificate_tax_status" required>
                                 </div>
                             </div>
                             <div class="col-sm-6">
                                 <div class="form-group">
-                                    <label class="col-form-label">Comprobante de domicilio, no mayor a tres meses <span
+                                    <label class="col-form-label">Comprobante de domicilio (no mayor a tres meses) <span
                                             class="text-danger">*</span></label>
                                     <input class="form-control" type="file" name="proof_address" required>
                                 </div>
                             </div>
                             <div class="col-sm-6">
                                 <div class="form-group">
-                                    <label class="col-form-label">CURP <span class="text-danger">*</span></label>
+                                    <label class="col-form-label">Clave Única de Registro de Población (CURP) <span
+                                            class="text-danger">*</span></label>
                                     <input class="form-control" type="file" name="curp" required>
                                 </div>
                             </div>
                             <div class="col-sm-6">
                                 <div class="form-group">
-                                    <label class="col-form-label">Datos bancarios</label>
-                                    <input class="form-control" name="bank_data" type="text">
+                                    <label class="col-form-label">Correo electrónico <span
+                                            class="text-danger">*</span></label>
+                                    <input class="form-control" name="email" type="email" required>
                                 </div>
                             </div>
                             <div class="col-sm-6">
                                 <div class="form-group">
-                                    <label class="col-form-label">Retención de Infonavit </label>
-                                    <input class="form-control" name="infonavit_retention" type="text">
-                                </div>
-                            </div>
-                            <div class="col-sm-6">
-                                <div class="form-group">
-                                    <label class="col-form-label">Correo electrónico </label>
-                                    <input class="form-control" name="email" type="email">
-                                </div>
-                            </div>
-                            <div class="col-sm-6">
-                                <div class="form-group">
-                                    <label class="col-form-label">Teléfono </label>
-                                    <input class="form-control" name="phone_number" type="text">
+                                    <label class="col-form-label">Teléfono <span class="text-danger">*</span></label>
+                                    <input class="form-control" name="phone_number" type="text" required>
                                 </div>
                             </div>
                             <div class="col-sm-6">
@@ -163,16 +161,123 @@
                                     <input class="form-control" type="date" name="register_date" required>
                                 </div>
                             </div>
+                            <h3 class="pt-4 pb-2">Datos bancarios</h3>
                             <div class="col-sm-6">
                                 <div class="form-group">
-                                    <label class="col-form-label">Contacto de emergencia </label>
-                                    <input class="form-control" name="emergency_contact" type="text">
+                                    <label class="col-form-label">Nombre del banco <span
+                                            class="text-danger">*</span></label>
+                                    <input class="form-control" type="text" name="bank_name" required>
                                 </div>
                             </div>
                             <div class="col-sm-6">
                                 <div class="form-group">
-                                    <label class="col-form-label">Sueldo (IMSS) </label>
-                                    <input class="form-control" name="imss_salary" type="text">
+                                    <label class="col-form-label">Número de cuenta <span
+                                            class="text-danger">*</span></label>
+                                    <input class="form-control" type="number" name="bank_account" required>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label class="col-form-label">CLABE interbancaria <span
+                                            class="text-danger">*</span></label>
+                                    <input class="form-control" name="bank_clabe" type="number" required>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label class="col-form-label">Formato de banco</label>
+                                    <input class="form-control" name="bank_format" type="file">
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label class="col-form-label">Retención de Infonavit <span
+                                            class="text-danger">*</span></label>
+                                    <input class="form-control" name="infonavit_retention" type="file" required>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label class="col-form-label">¿Crédito de archivo?</label>
+                                    <input type="checkbox" name="file_credit_checkbox" class="add_file_credit">
+                                    <input class="form-control file_credit" type="file" name="file_credit"
+                                        style="display: none;">
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label class="col-form-label">¿Crédito FONACOT?</label>
+                                    <input type="checkbox" name="fonacot_credit_checkbox" class="add_fonacot_credit">
+                                    <input class="form-control fonacot_credit" type="file" name="fonacot_credit"
+                                        style="display: none;">
+                                </div>
+                            </div>
+                            <h3 class="pt-4 pb-2">Sueldos y salario</h3>
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label class="col-form-label">Sueldo mensual en IMSS <span
+                                            class="text-danger">*</span></label>
+                                    <input class="form-control" name="imss_monthly_salary" type="number" required>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label class="col-form-label">Salario real mensual <span
+                                            class="text-danger">*</span></label>
+                                    <input class="form-control" name="monthly_real_salary" type="number" required>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Periodo de pago <span class="text-danger">*</span></label>
+                                    <select class="form-control" name="payment_period" required>
+                                        <option value="">Selecciona un periodo de pago</option>
+                                        <option value="Semanal">Semanal</option>
+                                        <option value="Quincenal">Quincenal</option>
+                                        <option value="Catorcenal">Catorcenal</option>
+                                        <option value="Menusal">Menusal</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label class="col-form-label">Nombre de la nómina <span
+                                            class="text-danger">*</span></label>
+                                    <input class="form-control" name="payroll_name" type="text" required>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Tipo de alta <span class="text-danger">*</span></label>
+                                    <select class="form-control" name="register_type" required>
+                                        <option value="">Selecciona el tipo de alta</option>
+                                        <option value="Tradicional">Tradicional</option>
+                                        <option value="Mixto">Mixto</option>
+                                        <option value="Comisiones">Comisiones</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <h3 class="pt-4 pb-2">Contacto de emergencia</h3>
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label class="col-form-label">Nombre completo <span
+                                            class="text-danger">*</span></label>
+                                    <input class="form-control" name="emergency_contact_full_name" type="text"
+                                        required>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label class="col-form-label">Teléfono <span class="text-danger">*</span></label>
+                                    <input class="form-control" name="emergency_contact_phone_number" type="number"
+                                        required>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label class="col-form-label">Parentesco <span class="text-danger">*</span></label>
+                                    <input class="form-control" name="emergency_contact_relationship" type="text"
+                                        required>
                                 </div>
                             </div>
                             <div class="submit-section">
@@ -221,5 +326,21 @@
 @section('js')
     <script>
         let menuIcon = "authentication";
+        $(".add_file_credit").change(function() {
+            if ($(this).is(':checked')) {
+                $('.file_credit').show();
+                $('.file_credit').prop('required', true);
+            } else {
+                $('.file_credit').hide();
+            }
+        });
+        $(".add_fonacot_credit").change(function() {
+            if ($(this).is(':checked')) {
+                $('.fonacot_credit').show();
+                $('.fonacot_credit').prop('required', true);
+            } else {
+                $('.fonacot_credit').hide();
+            }
+        });
     </script>
 @endsection

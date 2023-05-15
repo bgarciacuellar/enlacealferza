@@ -34,9 +34,10 @@
                     <table class="table table-striped custom-table datatable">
                         <thead>
                             <tr>
-                                <th>Tipo de nómina</th>
-                                <th>Fecha limite de incidencia</th>
+                                <th style="width: 250px;">Número de ticket</th>
                                 <th class="text-nowrap">Empresa</th>
+                                <th>Tipo de nómina</th>
+                                <th>Fecha de creación</th>
                                 <th>Estatus</th>
                             </tr>
                         </thead>
@@ -45,11 +46,12 @@
                                 <tr>
                                     <td>
                                         <a href="{{ route('ticket.details', $archivedTicket['id']) }}">
-                                            {{ $archivedTicket['category'] }}
+                                            # {{ $archivedTicket['id'] }}
                                         </a>
                                     </td>
-                                    <td>{{ $archivedTicket['limit_date'] }}</td>
                                     <td>{{ $archivedTicket['company'] }}</td>
+                                    <td>{{ $archivedTicket['category'] ? $archivedTicket['category'] : 'N/A' }}</td>
+                                    <td>{{ $archivedTicket['created_at'] }}</td>
                                     <td>
                                         <span class="role-info role-bg-one">{{ $archivedTicket['status'] }}</span>
                                     </td>

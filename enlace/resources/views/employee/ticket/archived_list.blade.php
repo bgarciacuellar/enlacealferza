@@ -33,22 +33,24 @@
                         <table class="table table-striped custom-table datatable">
                             <thead>
                                 <tr>
+                                    <th style="width: 250px;">Número de ticket</th>
                                     <th>Tipo de nómina</th>
-                                    <th>Fecha limite de incidencia</th>
-                                    <th class="text-center">Estatus</th>
+                                    <th>Fecha de creación</th>
+                                    <th>Estatus</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @foreach ($archivedTickets as $archivedTicket)
                                     <tr>
                                         <td>
-                                            <a href="{{ route('ticket.details', $archivedTicket->id) }}">
-                                                {{ $archivedTicket->category }}
+                                            <a href="{{ route('employee.details', $archivedTicket['id']) }}">
+                                                # {{ $archivedTicket['id'] }}
                                             </a>
                                         </td>
-                                        <td>{{ $archivedTicket->limit_date->format('d/m/Y') }}</td>
+                                        <td>{{ $archivedTicket->category ? $archivedTicket->category : 'N/A' }}</td>
+                                        <td>{{ $archivedTicket->created_at->format('d/m/Y') }}</td>
                                         <td>
-                                            <span class="role-info role-bg-one">{{ $archivedTicket->statusString }}</span>
+                                            <span class="role-info role-bg-one">{{ $archivedTicket['statusString'] }}</span>
                                         </td>
                                     </tr>
                                 @endforeach

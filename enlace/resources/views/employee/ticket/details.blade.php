@@ -36,7 +36,8 @@
                                         </li>
                                         <li>
                                             <div class="title">Fecha Limite de incidencia:</div>
-                                            <div class="text">{{ $ticket->limit_date->format('d/m/Y') }}</div>
+                                            <div class="text">
+                                                {{ $ticket->limit_date ? $ticket->limit_date->format('d/m/Y') : '-' }}</div>
                                         </li>
                                         <li>
                                             <div class="title">Empresa:</div>
@@ -180,27 +181,30 @@
                 </div>
             </div>
             @if ($ticket->status == 4 || $ticket->status == 5)
-                <div class="row justify-content-center">
-                    <div class="col-6">
-                        <div class="card profile-box flex-fill">
-                            <div class="card-body">
-                                <h3 class="card-title text-center">Archivo Pre-factura</h3>
-                                <div class="row align-content-center" style=" max-height: 400px; overflow: auto;">
-                                    <div class="col-12 pb-3 text-center">
-                                        @if ($ticket->preinvoices)
-                                            <a href="{{ asset('storage/preinvoice/' . $ticket->preinvoices) }}"
-                                                target="_blank"><button class="btn btn-primary mt-3 submit-btn">Descargar <i
-                                                        class="fas fa-download"></i></button>
-                                            </a>
-                                        @else
-                                            <h2 class="ps-4 pt-4">No se ha subido ningún archivo</h2>
-                                        @endif
+                @if ($ticket->ticket_type == 'nómina')
+                    <div class="row justify-content-center">
+                        <div class="col-6">
+                            <div class="card profile-box flex-fill">
+                                <div class="card-body">
+                                    <h3 class="card-title text-center">Archivo Pre-factura</h3>
+                                    <div class="row align-content-center" style=" max-height: 400px; overflow: auto;">
+                                        <div class="col-12 pb-3 text-center">
+                                            @if ($ticket->preinvoices)
+                                                <a href="{{ asset('storage/preinvoice/' . $ticket->preinvoices) }}"
+                                                    target="_blank"><button
+                                                        class="btn btn-primary mt-3 submit-btn">Descargar <i
+                                                            class="fas fa-download"></i></button>
+                                                </a>
+                                            @else
+                                                <h2 class="ps-4 pt-4">No se ha subido ningún archivo</h2>
+                                            @endif
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
+                @endif
                 <div class="row justify-content-center">
                     <div class="col-6">
                         <div class="card profile-box flex-fill">

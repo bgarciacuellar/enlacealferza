@@ -441,15 +441,20 @@
                             <table class="table table-striped custom-table datatable">
                                 <thead>
                                     <tr>
-                                        <th>Estatus de incidencias</th>
-                                        <th>Fecha limite de incidencia</th>
+                                        <th>Número de ticket</th>
+                                        <th>Estatus</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @foreach ($incidents as $incident)
                                         <tr>
+                                            <td>
+                                                <a href="{{ route('ticket.details', $incident->id) }}">
+                                                    # {{ $incident->id }}
+                                                </a>
+                                            </td>
                                             <td>{{ $incident->statusString }}</td>
-                                            <td>{{ $incident->limit_date->format('d/m/Y') }}</td>
+                                            </td>
                                         </tr>
                                     @endforeach
                                 </tbody>
@@ -879,14 +884,14 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-sm-6">
+                            <div class="col-sm-6 payroll_type">
                                 <div class="form-group">
                                     <label class="col-form-label">Fecha limite de incidencia <span
                                             class="text-danger">*</span></label>
                                     <input class="form-control" type="date" name="limit_date">
                                 </div>
                             </div>
-                            <div class="col-sm-6">
+                            <div class="col-sm-6 payroll_type">
                                 <div class="form-group">
                                     <label class="col-form-label">Tipo de nómina <span
                                             class="text-danger">*</span></label>
@@ -918,6 +923,16 @@
                                     <label class="col-form-label">Archivo maestro <span
                                             class="text-danger">*</span></label>
                                     <input class="form-control" type="file" name="master_file" required>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label class="col-form-label">Seleccionar tipo de ticket <span
+                                            class="text-danger">*</span></label>
+                                    <select class="form-control ticket_type" name="ticket_type" required>
+                                        <option value="nómina">Nómina</option>
+                                        <option value="catega">Catega</option>
+                                    </select>
                                 </div>
                             </div>
                             <div class="col-sm-12">
@@ -1012,7 +1027,19 @@
                 $('.password').val('');
             }
         });
+        $(".ticket_type").change(function() {
+            if ($(this).val() == 'nómina') {
+                $('.payroll_type').show();
+                $('.payroll_type input').prop('required', true);
+                $('.payroll_type select').prop('required', true);
+            } else {
+                $('.payroll_type input').prop('required', false);
+                $('.payroll_type select').prop('required', false);
+                $('.payroll_type').hide();
+            }
+        });
     </script>
+
     <script>
         let menuIcon = "home";
     </script>

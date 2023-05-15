@@ -40,14 +40,19 @@
                                 </div>
                                 <div class="col-md-7">
                                     <ul class="personal-info">
-                                        <li>
-                                            <div class="title">Tipo de nómina:</div>
-                                            <div class="text"><a href="">{{ $ticket->category }}</a></div>
-                                        </li>
-                                        <li>
-                                            <div class="title">Fecha Limite de incidencia:</div>
-                                            <div class="text">{{ $ticket->limit_date->format('d/m/Y') }}</div>
-                                        </li>
+                                        @if ($ticket->category)
+                                            <li>
+                                                <div class="title">Tipo de nómina:</div>
+                                                <div class="text"><a href="">{{ $ticket->category }}</a></div>
+                                            </li>
+                                        @endif
+
+                                        @if ($ticket->limit_date)
+                                            <li>
+                                                <div class="title">Fecha Limite de incidencia:</div>
+                                                <div class="text">{{ $ticket->limit_date->format('d/m/Y') }}</div>
+                                            </li>
+                                        @endif
                                         <li>
                                             <div class="title">Empresa:</div>
                                             <div class="text">{{ $company->name }}</div>
@@ -143,7 +148,8 @@
                                                 {{ $ticketFileHistory['role'] }}</strong></span>
                                     </div>
                                     <div class="col-6 pb-3">
-                                        <a href="{{ asset('storage/incidencias/' . $ticketFileHistory['file']) }}"
+                                        <a class="download_catega_file"
+                                            href="{{ asset('storage/incidencias/' . $ticketFileHistory['file']) }}"
                                             target="_blank"><button class="btn btn-primary mt-3 submit-btn">Descargar <i
                                                     class="fas fa-download"></i></button>
                                         </a>
@@ -185,55 +191,59 @@
                 </div>
             </div>
             @if ($ticket->status >= 4)
-                <div class="row">
-                    <div class="col-6">
-                        <div class="card profile-box flex-fill">
-                            <div class="card-body">
-                                <h3 class="card-title">Archivo Pre-factura</h3>
-                                <div class="row align-content-center" style=" max-height: 400px; overflow: auto;">
-                                    {{-- <div class="col-6 align-self-center">
+                @if ($ticket->ticket_type == 'nómina')
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="card profile-box flex-fill">
+                                <div class="card-body">
+                                    <h3 class="card-title">Archivo Pre-factura</h3>
+                                    <div class="row align-content-center" style=" max-height: 400px; overflow: auto;">
+                                        {{-- <div class="col-6 align-self-center">
                                 <span> Creado el: <strong>{{ $ticketFileHistory['created_at'] }}</strong> por:
                                     <strong>{{ $ticketFileHistory['user_name'] }}</strong></span>
                             </div> --}}
-                                    <div class="col-6 pb-3">
-                                        @if ($ticket->preinvoices)
-                                            <a href="{{ asset('storage/preinvoice/' . $ticket->preinvoices) }}"
-                                                target="_blank"><button class="btn btn-primary mt-3 submit-btn">Descargar
-                                                    <i class="fas fa-download"></i></button>
-                                            </a>
-                                        @else
-                                            <h2 class="ps-4 pt-4">No se ha subido ningún archivo</h2>
-                                        @endif
+                                        <div class="col-6 pb-3">
+                                            @if ($ticket->preinvoices)
+                                                <a href="{{ asset('storage/preinvoice/' . $ticket->preinvoices) }}"
+                                                    target="_blank"><button
+                                                        class="btn btn-primary mt-3 submit-btn">Descargar
+                                                        <i class="fas fa-download"></i></button>
+                                                </a>
+                                            @else
+                                                <h2 class="ps-4 pt-4">No se ha subido ningún archivo</h2>
+                                            @endif
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="card profile-box flex-fill">
+                                <div class="card-body">
+                                    <h3 class="card-title">Archivo Pre-factura</h3>
+                                    <div class="row">
+                                        <div class="col-7">
+                                            @if ($ticket->status == 5)
+                                                <h3 class="text-center">Incidencia pagada</h3>
+                                            @else
+                                                <form action="{{ route('ticket.uploadPreinvoice', $ticket->id) }}"
+                                                    method="POST" enctype="multipart/form-data">
+                                                    @csrf
+                                                    <label class="col-form-label">Subir nuevo archivo<span
+                                                            class="text-danger">*</span></label>
+                                                    <input type="file" class="form-control" name="preinvoice"
+                                                        required>
+                                                    <button type="submit"
+                                                        class="btn btn-primary mt-3 submit-btn">Subir</button>
+                                                </form>
+                                            @endif
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="col-6">
-                        <div class="card profile-box flex-fill">
-                            <div class="card-body">
-                                <h3 class="card-title">Archivo Pre-factura</h3>
-                                <div class="row">
-                                    <div class="col-7">
-                                        @if ($ticket->status == 5)
-                                            <h3 class="text-center">Incidencia pagada</h3>
-                                        @else
-                                            <form action="{{ route('ticket.uploadPreinvoice', $ticket->id) }}"
-                                                method="POST" enctype="multipart/form-data">
-                                                @csrf
-                                                <label class="col-form-label">Subir nuevo archivo<span
-                                                        class="text-danger">*</span></label>
-                                                <input type="file" class="form-control" name="preinvoice" required>
-                                                <button type="submit"
-                                                    class="btn btn-primary mt-3 submit-btn">Subir</button>
-                                            </form>
-                                        @endif
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                @endif
                 <div class="row">
                     <div class="col-6">
                         <div class="card profile-box flex-fill">
@@ -657,29 +667,33 @@
                     <form action="{{ route('ticket.update', $ticket->id) }}" method="POST">
                         @csrf
                         <div class="row">
-                            <div class="col-sm-6">
-                                <div class="form-group">
-                                    <label class="col-form-label">Fecha limite de incidencia <span
-                                            class="text-danger">*</span></label>
-                                    <input class="form-control" type="date" name="limit_date" required>
+                            @if ($ticket->ticket_type == 'nómina')
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label class="col-form-label">Fecha limite de incidencia <span
+                                                class="text-danger">*</span></label>
+                                        <input class="form-control" type="date"
+                                            value="{{ $ticket->limit_date->format('Y-m-d') }}" name="limit_date"
+                                            required>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="col-sm-6">
-                                <div class="form-group">
-                                    <label class="col-form-label">Tipo de nómina <span
-                                            class="text-danger">*</span></label>
-                                    <select class="form-control" name="category" required>
-                                        <option value="">Selecciona una opción</option>
-                                        @foreach ($payrolls as $payroll)
-                                            <option value="{{ $payroll->type }}"
-                                                {{ $ticket->category == $payroll->type ? 'selected' : null }}>
-                                                {{ $payroll->type . ' - ' . $payroll->name }}
-                                            </option>
-                                        @endforeach
-                                    </select>
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label class="col-form-label">Tipo de nómina <span
+                                                class="text-danger">*</span></label>
+                                        <select class="form-control" name="category" required>
+                                            <option value="">Selecciona una opción</option>
+                                            @foreach ($payrolls as $payroll)
+                                                <option value="{{ $payroll->type }}"
+                                                    {{ $ticket->category == $payroll->type ? 'selected' : null }}>
+                                                    {{ $payroll->type . ' - ' . $payroll->name }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="col-sm-6">
+                            @endif
+                            <div class="col-sm-12">
                                 <div class="form-group">
                                     <label class="col-form-label">Periodo de pago <span
                                             class="text-danger">*</span></label>
@@ -1274,6 +1288,20 @@
 @endsection
 
 @section('js')
+    @if ($ticket->ticket_type == 'catega')
+        <script>
+            $('.download_catega_file').click(function() {
+                $.ajax({
+                    url: "{{ route('ticket.downloadCategaFile', [$company->id, $ticket->id]) }}",
+                    method: 'GET',
+                }).done(function(res) {
+                    if (res) {
+                        console.log(res)
+                    }
+                });
+            });
+        </script>
+    @endif
     <script>
         let menuIcon = "topic";
     </script>

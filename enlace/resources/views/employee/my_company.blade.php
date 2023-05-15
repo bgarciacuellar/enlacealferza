@@ -309,15 +309,19 @@
                             <table class="table table-striped custom-table datatable">
                                 <thead>
                                     <tr>
-                                        <th>Estatus de incidencias</th>
-                                        <th>Fecha limite de incidencia</th>
+                                        <th>Número de ticket</th>
+                                        <th>Estatus</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @foreach ($incidents as $incident)
                                         <tr>
+                                            <td>
+                                                <a href="{{ route('ticket.details', $incident->id) }}">
+                                                    # {{ $incident->id }}
+                                                </a>
+                                            </td>
                                             <td>{{ $incident->statusString }}</td>
-                                            <td>{{ $incident->limit_date->format('d/m/Y') }}</td>
                                         </tr>
                                     @endforeach
                                 </tbody>

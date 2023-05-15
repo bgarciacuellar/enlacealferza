@@ -65,9 +65,10 @@
                     <table class="table table-striped custom-table datatable">
                         <thead>
                             <tr>
-                                <th>Tipo de nómina</th>
-                                <th>Fecha limite de incidencia</th>
+                                <th style="width: 250px;">Número de ticket</th>
                                 <th class="text-nowrap">Empresa</th>
+                                <th>Tipo de nómina</th>
+                                <th>Fecha de creación</th>
                                 <th>Estatus</th>
                             </tr>
                         </thead>
@@ -76,11 +77,12 @@
                                 <tr>
                                     <td>
                                         <a href="{{ route('ticket.details', $ticket['id']) }}">
-                                            {{ $ticket['category'] }}
+                                            # {{ $ticket['id'] }}
                                         </a>
                                     </td>
-                                    <td>{{ $ticket['limit_date'] }}</td>
                                     <td>{{ $ticket['company'] }}</td>
+                                    <td>{{ $ticket['category'] ? $ticket['category'] : 'N/A' }}</td>
+                                    <td>{{ $ticket['created_at'] }}</td>
                                     <td>
                                         <span class="role-info role-bg-one">{{ $ticket['status'] }}</span>
                                     </td>
@@ -109,6 +111,16 @@
                         enctype="multipart/form-data">
                         @csrf
                         <div class="row">
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label class="col-form-label">Seleccionar tipo de ticket <span
+                                            class="text-danger">*</span></label>
+                                    <select class="form-control ticket_type" name="ticket_type" required>
+                                        <option value="nómina">Nómina</option>
+                                        <option value="catega">Catega</option>
+                                    </select>
+                                </div>
+                            </div>
                             <div class="col-sm-6">
                                 <div class="form-group">
                                     <label class="col-form-label">Empresa<span class="text-danger">*</span></label>
@@ -120,14 +132,14 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-sm-6">
+                            <div class="col-sm-6 payroll_type">
                                 <div class="form-group">
                                     <label class="col-form-label">Fecha limite de incidencia <span
                                             class="text-danger">*</span></label>
                                     <input class="form-control" type="date" name="limit_date" required>
                                 </div>
                             </div>
-                            <div class="col-sm-6">
+                            <div class="col-sm-6 payroll_type">
                                 <div class="form-group">
                                     <label class="col-form-label">Tipo de nómina <span class="text-danger">*</span></label>
                                     <select class="form-control create_ticket_category" name="category" required>
@@ -169,7 +181,7 @@
                         <div class="submit-section">
                             <button class="btn btn-primary cancel-btn" data-bs-dismiss="modal" aria-label="Close"
                                 type="button">Cancelar</button>
-                            <button type="submit" class="btn btn-primary submit-btn">Solicitar incidencias</button>
+                            <button type="submit" class="btn btn-primary submit-btn">Solicitar incidencia</button>
                         </div>
                     </form>
                 </div>
@@ -228,6 +240,17 @@
                     $('.create_ticket_category').html(options);
                 }
             });
+        });
+        $(".ticket_type").change(function() {
+            if ($(this).val() == 'nómina') {
+                $('.payroll_type').show();
+                $('.payroll_type input').prop('required', true);
+                $('.payroll_type select').prop('required', true);
+            } else {
+                $('.payroll_type input').prop('required', false);
+                $('.payroll_type select').prop('required', false);
+                $('.payroll_type').hide();
+            }
         });
     </script>
 @endsection

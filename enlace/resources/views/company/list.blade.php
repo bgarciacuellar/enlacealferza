@@ -68,7 +68,9 @@
                                 <th>Empresa</th>
                                 <th>Dirección</th>
                                 <th>Teléfono</th>
-                                <th class="no-sort">Eliminar</th>
+                                @if (auth()->user()->hasRoles(['admin']))
+                                    <th class="no-sort">Eliminar</th>
+                                @endif
                             </tr>
                         </thead>
                         <tbody>
@@ -85,11 +87,13 @@
                                     </td>
                                     <td>{{ $company['address'] }}</td>
                                     <td>{{ $company['phone_number'] }}</td>
-                                    <td>
-                                        <a href="#" data-bs-toggle="modal" data-bs-target="#delete_company"><i
-                                                onclick="getUserId({{ $company['id'] }}, 'delete_company')"
-                                                class="far fa-trash-alt"></i></a>
-                                    </td>
+                                    @if (auth()->user()->hasRoles(['admin']))
+                                        <td>
+                                            <a href="#" data-bs-toggle="modal" data-bs-target="#delete_company"><i
+                                                    onclick="getUserId({{ $company['id'] }}, 'delete_company')"
+                                                    class="far fa-trash-alt"></i></a>
+                                        </td>
+                                    @endif
                                 </tr>
                             @endforeach
                         </tbody>

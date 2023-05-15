@@ -19,9 +19,10 @@ trait helpers
         if (!file_exists($path)) {
             mkdir($path, 0777, true);
         }
+        $randomAlphanumeric = bin2hex(random_bytes(2));
         $imageFullName = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
         $imageExtension = pathinfo($file->getClientOriginalName(), PATHINFO_EXTENSION);
-        $imageName = $imageFullName  . "_" . $companyId . "." . $imageExtension;
+        $imageName = $imageFullName  . "_" . $companyId . '_' . $randomAlphanumeric . "." . $imageExtension;
 
         $file->storeAs('public/' . $route, $imageName);
         return $imageName;

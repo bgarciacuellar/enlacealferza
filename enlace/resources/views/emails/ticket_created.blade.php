@@ -436,7 +436,7 @@
                                                                     <p
                                                                         style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:helvetica, 'helvetica neue', arial, verdana, sans-serif;line-height:21px;color:#555555;font-size:14px">
                                                                         Si tiene problemas para hacer clic en el botón,
-                                                                        copie ypegue la siguiente URL en su
+                                                                        copie y pegue la siguiente URL en su
                                                                         navegador web:
                                                                         {{ route('employee.details', $ticket) }}</p>
                                                                 </td>
