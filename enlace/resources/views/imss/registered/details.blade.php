@@ -16,7 +16,7 @@
         <!-- Search Filter -->
         <div class="row filter-row">
             <div>
-                <h4>Status: <strong>{{ $registerImss->status }}</strong></h4>
+                <h4>Estatus: <strong>{{ $registerImss->status }}</strong></h4>
             </div>
             <div class="col-md-8 text-center m-auto">
                 @if (auth()->user()->hasRoles(['cliente', 'capturista', 'validador']))
@@ -597,7 +597,7 @@
                                 </form>
                             </div>
                             <div class="submit-section col-lg-6">
-                                <a href="#" data-bs-toggle="modal" data-bs-target="#deny_employee"><button
+                                <a href="#" data-bs-toggle="modal" data-bs-target="#deny_request"><button
                                         class="btn btn-primary cancel-btn" data-bs-dismiss="modal" aria-label="Close"
                                         type="button">Declinar alta</button></a>
                             </div>
@@ -630,7 +630,7 @@
     </div>
     <!-- /Page Content -->
     <!-- deny request Modal -->
-    <div class="modal custom-modal fade" id="deny_employee" role="dialog">
+    <div class="modal custom-modal fade" id="deny_request" role="dialog">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-body">

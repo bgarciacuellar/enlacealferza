@@ -17,9 +17,9 @@ class CreateCancelImssesTable extends Migration
             $table->id();
             $table->bigInteger('company_id');
             $table->string('name')->nullable();
-            $table->string('cancel_date')->nullable();
+            $table->string('cancellation_reason')->nullable();
+            $table->date('cancel_date')->nullable();
             $table->string('notes')->nullable();
-            $table->string('leave_receipt')->nullable();
             $table->string('status')->nullable();
             $table->timestamps();
         });

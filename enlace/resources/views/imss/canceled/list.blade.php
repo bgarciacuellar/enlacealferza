@@ -46,6 +46,7 @@
                             <tr>
                                 <th>Nombre</th>
                                 <th>Fecha de baja</th>
+                                <th>Motivo de baja</th>
                                 <th>Estatus</th>
                                 <th class="text-center">Eliminar</th>
                             </tr>
@@ -60,6 +61,7 @@
                                         </h2>
                                     </td>
                                     <td>{{ $cancelImss->cancel_date_formated }}</td>
+                                    <td>{{ $cancelImss->cancellation_reason }}</td>
                                     <td>{{ $cancelImss->statusString }}</td>
                                     <td class="text-end ico-sec">
                                         <a href="#" data-bs-toggle="modal"
@@ -106,15 +108,26 @@
                             </div>
                             <div class="col-sm-6">
                                 <div class="form-group">
-                                    <label class="col-form-label">Observación <span class="text-danger">*</span></label>
-                                    <textarea class="form-control" name="notes" type="text"></textarea>
-                                </div>
-                            </div>
-                            <div class="col-sm-6">
-                                <div class="form-group">
-                                    <label class="col-form-label">Comprobante de baja <span
-                                            class="text-danger">*</span></label>
-                                    <input class="form-control" name="leave_receipt" type="text">
+                                    <label class="col-form-label">Motivo de baja <span class="text-danger">*</span></label>
+                                    <select class="form-control" name="cancellation_reason" required>
+                                        <option value="">Selecciona un periodo de pago</option>
+                                        <option value="Separación voluntaria">Separación voluntaria</option>
+                                        <option value="Acumulación de faltas">Acumulación de faltas</option>
+                                        <option value="Despido justificado">Despido justificado</option>
+                                        <option value="Despido injustificado">Despido injustificado</option>
+                                        <option value="Fallecimiento">Fallecimiento</option>
+                                        <option value="Fin de contrato">Fin de contrato</option>
+                                        <option value="Término de proyecto">Término de proyecto</option>
+                                        <option value="Falta de probidad y honradez">Falta de probidad y honradez</option>
+                                        <option value="Cambio de razón social">Cambio de razón social</option>
+                                        <option value="Otras">Otras</option>
+                                        <option value="Días de pago pendientes en finiquito">Días de pago pendientes en
+                                            finiquito</option>
+                                        <option value="Gratificaciones en finiquito">Gratificaciones en finiquito</option>
+                                        <option value="Retenciones">Retenciones</option>
+                                        <option value="Observaciones">Observaciones</option>
+                                    </select>
+
                                 </div>
                             </div>
                             <div class="submit-section">

@@ -28,7 +28,7 @@ use Illuminate\Support\Facades\Mail;
 class EmployeeController extends Controller
 {
     use helpers;
-    public $paymentsPeriod = ['semanal', 'quincenal', 'mensual'];
+    public $paymentsPeriod = ['7 días', '14 días', '15 días', '30 días', 'indefinido'];
 
     function __construct()
     {
@@ -103,6 +103,7 @@ class EmployeeController extends Controller
     {
         $ticket = Ticket::findOrFail($ticketId);
         $ticket->statusString = $this->statusConvert($ticket->status);
+        $ticket->statusButton = $this->statusButtons($ticket->status);
         $company = Company::findOrFail($ticket->company);
 
         $ticketFileHistory = TicketFileHistory::where('ticket_id', $ticketId)->orderBy('id', 'DESC')->first();
@@ -499,8 +500,7 @@ class EmployeeController extends Controller
         $request->validate([
             "name" => "required",
             "cancel_date" => "required",
-            "notes" => "required",
-            "leave_receipt" => "required",
+            "cancellation_reason" => "required",
         ]);
 
         $currentUser = Auth::user();
@@ -515,11 +515,34 @@ class EmployeeController extends Controller
             'company_id' => $companyId,
             'name' => $request->name,
             'cancel_date' => $request->cancel_date,
-            'notes' => $request->notes,
-            'leave_receipt' => $request->leave_receipt,
+            'cancellation_reason' => $request->cancellation_reason,
         ]);
 
         return back()->with('success', 'Solicitud enviada');
+    }
+
+    public function updateCancelImss(Request $request, $cancelId)
+    {
+        $request->validate([
+            "name" => "required",
+            "cancel_date" => "required",
+            "cancellation_reason" => "required",
+        ]);
+
+        $currentUser = Auth::user();
+        $companyID = CompanyEmployee::where('user_id', $currentUser->id)->first('company_id');
+        $cancelImss = CancelImss::where('id', $cancelId)->where('company_id', $companyID->company_id)->firstOrFail();
+
+        $cancelImss->update([
+            'name' => $request->name,
+            'cancel_date' => $request->cancel_date,
+            'cancellation_reason' => $request->cancellation_reason,
+        ]);
+
+        /* $message = new ImssRegistrationUpdate;
+        Mail::to($request->email)->send($message); */
+
+        return back()->with('success', 'Solicitud actualizada');
     }
 
     public function deleteCancelImssRequest(Request $request)

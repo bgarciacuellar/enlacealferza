@@ -86,7 +86,8 @@
                                         <form action="{{ route('ticket.nextStep', $ticket->id) }}" method="POST"
                                             class="d-inline">
                                             @csrf
-                                            <button type="submit" class="btn btn-success">Siguiete paso</button>
+                                            <button type="submit"
+                                                class="btn btn-success">{{ $ticket->statusButton }}</button>
                                         </form>
                                     @endif
                                 </div>

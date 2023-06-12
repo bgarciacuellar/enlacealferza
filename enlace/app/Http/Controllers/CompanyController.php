@@ -24,13 +24,13 @@ use Illuminate\Support\Facades\Mail;
 class CompanyController extends Controller
 {
     use helpers;
-    public $paymentsPeriod = ['semanal', 'quincenal', 'mensual'];
+    public $paymentsPeriod = ['7 días', '14 días', '15 días', '30 días', 'indefinido'];
 
     function __construct()
     {
         $this->middleware(['auth', 'roles:admin,cliente,capturista,validador'])->only('updateFiles', 'deleteFiles');
-        $this->middleware(['auth', 'roles:admin,ejecutivo,nominista,finanzas,pagos,cobranza'])->only('details', 'registerImssDetails','registerImssAccepted', 'cancelImssDetails', 'cancelImssCanceled', 'registerImssDeny');
-        $this->middleware(['auth', 'roles:admin'])->except('updateFiles', 'deleteFiles', 'details', 'registerImssDetails', 'registerImssAccepted', 'cancelImssDetails', 'cancelImssCanceled', 'registerImssDeny');
+        $this->middleware(['auth', 'roles:admin,ejecutivo,nominista,finanzas,pagos,cobranza'])->only('details', 'registerImssDetails','registerImssAccepted', 'cancelImssDetails', 'registerImssDeny', 'cancelImssAccepted', 'cancelImssDeny');
+        $this->middleware(['auth', 'roles:admin'])->except('updateFiles', 'deleteFiles', 'details', 'registerImssDetails', 'registerImssAccepted', 'cancelImssDetails', 'registerImssDeny', 'cancelImssAccepted', 'cancelImssDeny');
     }
 
     public function list()
@@ -318,21 +318,48 @@ class CompanyController extends Controller
         
         $cancelsImss = CancelImss::findOrFail($cancelImssId);
         $cancelsImss->statusString = $cancelsImss->status ? $cancelsImss->status : 'En espera';
+        $cancelsImss->cancel_date = Carbon::parse($cancelsImss->cancel_date);
 
         return view('imss.canceled.details', compact('company', 'cancelsImss'));
     }
 
-    public function cancelImssCanceled($companyId, $cancelImssId)
+    public function cancelImssAccepted($companyId, $cancelImssId)
+    {
+        $cancelImss = CancelImss::where('id', $cancelImssId)->where('company_id', $companyId)->firstOrFail();
+        
+        if ($cancelImss->status == 'Baja Confirmada') {
+            return back()->with('error' , 'La baja ya ha sido confirmada');
+        }
+
+        if ($cancelImss->status == 'Baja Aceptada') {
+            $cancelImss->update([
+                "status" => 'Baja Confirmada'
+            ]);
+            /* $message = new RejectImssRegistration;
+        Mail::to($request->email)->send($message); */
+        }else{
+            $cancelImss->update([
+                "status" => 'Baja Aceptada'
+            ]);
+            /* $message = new RejectImssRegistration;
+        Mail::to($request->email)->send($message); */
+        }
+
+        return back()->with('success', 'Aceptada');
+    }
+
+    public function cancelImssDeny(Request $request, $companyId, $cancelImssId)
     {
         $cancelImss = CancelImss::where('id', $cancelImssId)->where('company_id', $companyId)->firstOrFail();
         $cancelImss->update([
-            "status" => 'Autorizado'
+            "status" => 'Baja declinada',
+            "notes" => $request->notes,
         ]);
 
         /* $message = new RejectImssRegistration;
         Mail::to($request->email)->send($message); */
 
-        return back()->with('success', 'Autorizado');
+        return back()->with('success', 'Declinado');
     }
     /* IMSS */
 
