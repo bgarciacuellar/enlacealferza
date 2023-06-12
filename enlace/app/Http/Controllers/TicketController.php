@@ -31,7 +31,7 @@ use Illuminate\Support\Facades\Mail;
 class TicketController extends Controller
 {
     use File, helpers;
-    public $paymentsPeriod = ['semanal', 'quincenal', 'mensual'];
+    public $paymentsPeriod = ['7 días', '14 días', '15 días', '30 días', 'indefinido'];
 
     function __construct()
     {
@@ -360,7 +360,7 @@ class TicketController extends Controller
                     $emails[] = $employeeEmail->email;
                 }
             }
-            Mail::to($emails)->send($message);
+            //Mail::to($emails)->send($message);
         }
 
         return back()->with('success', 'Siguiente Paso');

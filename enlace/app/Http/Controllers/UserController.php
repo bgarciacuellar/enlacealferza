@@ -17,7 +17,7 @@ class UserController extends Controller
 {
     use helpers;
     
-    public $paymentsPeriod = ['semanal', 'quincenal', 'mensual'];
+    public $paymentsPeriod = ['7 días', '14 días', '15 días', '30 días', 'indefinido'];
 
     function __construct()
     {
