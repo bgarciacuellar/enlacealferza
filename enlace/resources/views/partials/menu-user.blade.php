@@ -108,7 +108,7 @@
                             home
                         </span>
                     </a>
-                    <a class="nav-link" id="v-pills-projects-tab" title="Incidencias" data-bs-toggle="pill"
+                    <a class="nav-link" id="v-pills-projects-tab" title="Nóminas" data-bs-toggle="pill"
                         href="#v-pills-projects" role="tab" aria-controls="v-pills-projects" aria-selected="false">
                         <span class="material-icons-outlined">
                             topic
@@ -341,10 +341,10 @@
                     </div>
                     <div class="tab-pane fade" id="v-pills-projects" role="tabpanel"
                         aria-labelledby="v-pills-projects-tab">
-                        <p>Incidencias</p>
+                        <p>Nóminas</p>
                         <ul>
                             <li>
-                                <a href="{{ route('user.ticketList') }}">Incidencias</a>
+                                <a href="{{ route('user.ticketList') }}">Nóminas</a>
                             </li>
                         </ul>
                     </div>

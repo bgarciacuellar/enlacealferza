@@ -21,7 +21,7 @@
             </div>
             <div class="col-md-8 text-center m-auto">
                 @if (auth()->user()->hasRoles(['cliente', 'capturista', 'validador']))
-                    @if ($cancelsImss->status != 'Alta Confirmada')
+                    @if (!$cancelsImss->status || $cancelsImss->status == 'Baja declinada')
                         <form action="{{ route('imss.updateCancelImss', $cancelsImss->id) }}" method="POST"
                             enctype="multipart/form-data">
                             @csrf
@@ -93,6 +93,38 @@
                                 </select>
                             </div>
                         </div>
+                        <div class="title-custom col-sm-6">
+                            <div class="form-group">
+                                <label class="col-form-label">Cálculo de crédito</label>
+                                @if ($cancelsImss->settlement_calculation)
+                                    <div class="text-custom">
+                                        <a href="{{ asset('storage/imss/' . $cancelsImss->settlement_calculation) }}"
+                                            target="_blank" class="btn btn-primary mt-3 submit-btn">Descargar <i
+                                                class="fas fa-download"></i></a>
+                                    </div>
+                                @else
+                                    <div class="text-custom">
+                                        <p class="mb-0"> - </p>
+                                    </div>
+                                @endif
+                            </div>
+                        </div>
+                        <div class="title-custom col-sm-6">
+                            <div class="form-group">
+                                <label class="col-form-label">Comprobante de baja</label>
+                                @if ($cancelsImss->settlement_calculation)
+                                    <div class="text-custom">
+                                        <a href="{{ asset('storage/imss/' . $cancelsImss->settlement_calculation) }}"
+                                            target="_blank" class="btn btn-primary mt-3 submit-btn">Descargar <i
+                                                class="fas fa-download"></i></a>
+                                    </div>
+                                @else
+                                    <div class="text-custom">
+                                        <p class="mb-0"> - </p>
+                                    </div>
+                                @endif
+                            </div>
+                        </div>
                         @if ($cancelsImss->status == 'Baja declinada')
                             <h3 class="pt-4 pb-2">Comentarios</h3>
                             <div class="col-sm-12">
@@ -102,12 +134,26 @@
                                 </div>
                             </div>
                         @endif
-                        @if ($cancelsImss->status != 'Baja Confirmada')
+                        @if (!$cancelsImss->status || $cancelsImss->status == 'Baja declinada')
                             <div class="submit-section">
                                 <button type="submit" class="btn btn-primary submit-btn">Actualizar</button>
                             </div>
                     </div>
                     </form>
+                @endif
+                @if ($cancelsImss->status == 'Baja Aceptada')
+                    <div class="row">
+                        <div class="submit-section col-lg-6">
+                            <a href="#" data-bs-toggle="modal" data-bs-target="#accept_calculation_request"><button
+                                    class="btn btn-primary submit-btn" data-bs-dismiss="modal" aria-label="Close"
+                                    type="button">Cálculo aceptado</button></a>
+                        </div>
+                        <div class="submit-section col-lg-6">
+                            <a href="#" data-bs-toggle="modal" data-bs-target="#notes_request"><button
+                                    class="btn btn-primary cancel-btn" data-bs-dismiss="modal" aria-label="Close"
+                                    type="button">Observaciones</button></a>
+                        </div>
+                    </div>
                 @endif
             @else
                 <div class="row">
@@ -135,21 +181,48 @@
                             </div>
                         </div>
                     </div>
+                    @if ($cancelsImss->status == 'Observaciones')
+                        <h3 class="pt-4 pb-2">Observaciones</h3>
+                        <div class="col-sm-12">
+                            <div class="form-group">
+                                <label class="col-form-label"></label>
+                                <textarea class="form-control" cols="30" rows="10" disabled>{{ $cancelsImss->comment }}</textarea>
+                            </div>
+                            @if ($cancelsImss->comment_file)
+                                <div class="text-custom">
+                                    <a href="{{ asset('storage/imss/' . $cancelsImss->comment_file) }}" target="_blank"
+                                        class="btn btn-primary mt-3 submit-btn">Descargar <i
+                                            class="fas fa-download"></i></a>
+                                </div>
+                            @endif
+                        </div>
+                    @endif
                     @if ($cancelsImss->status != 'Baja Confirmada')
                         <div class="row">
                             <div class="submit-section col-lg-6">
-                                <form action="{{ route('company.cancelImssAccepted', [$company->id, $cancelsImss->id]) }}"
-                                    method="POST">
-                                    @csrf
-                                    <button type="submit"
-                                        class="btn btn-primary submit-btn">{{ $cancelsImss->status == 'Baja Aceptada' ? 'Confirmar baja' : 'Aceptar baja' }}</button>
-                                </form>
+                                @if ($cancelsImss->settlement_calculation && $cancelsImss->status == 'Baja Aceptada')
+                                    <button class="btn btn-primary submit-btn" data-bs-dismiss="modal" aria-label="Close"
+                                        type="button" disabled>Enviar
+                                        recibo de
+                                        baja</button>
+                                @elseif($cancelsImss->settlement_calculation && $cancelsImss->status == 'Cálculo aceptado')
+                                    <a href="#" data-bs-toggle="modal"
+                                        data-bs-target="#leave_receipt_request"><button class="btn btn-primary submit-btn"
+                                            data-bs-dismiss="modal" aria-label="Close" type="button">Enviar recibo de
+                                            baja</button></a>
+                                @else
+                                    <a href="#" data-bs-toggle="modal" data-bs-target="#accept_request"><button
+                                            class="btn btn-primary submit-btn" data-bs-dismiss="modal" aria-label="Close"
+                                            type="button">Aceptar baja</button></a>
+                                @endif
                             </div>
-                            <div class="submit-section col-lg-6">
-                                <a href="#" data-bs-toggle="modal" data-bs-target="#deny_request"><button
-                                        class="btn btn-primary cancel-btn" data-bs-dismiss="modal" aria-label="Close"
-                                        type="button">Declinar baja</button></a>
-                            </div>
+                            @if (!$cancelsImss->status)
+                                <div class="submit-section col-lg-6">
+                                    <a href="#" data-bs-toggle="modal" data-bs-target="#deny_request"><button
+                                            class="btn btn-primary cancel-btn" data-bs-dismiss="modal" aria-label="Close"
+                                            type="button">Declinar baja</button></a>
+                                </div>
+                            @endif
                         </div>
                     @endif
                 </div>
@@ -185,6 +258,137 @@
     </div>
     <!-- /Page Content -->
 
+    <!-- notes Modal -->
+    <div class="modal custom-modal fade" id="accept_calculation_request" role="dialog">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div class="form-header">
+                        <h3>Aceptar el cálculo de nómina</h3>
+                        <p>Aceptar el cálculo de nómina</p>
+                    </div>
+                    <div class="modal-btn delete-action">
+                        <form action="{{ route('imss.acceptCalculationCancelImss', $cancelsImss->id) }}" method="POST">
+                            @csrf
+                            <div class="row">
+                                <div class="col-6">
+                                    <button type="submit" class="btn btn-primary continue-btn">Enviar</button>
+                                </div>
+                                <div class="col-6">
+                                    <a href="javascript:void(0);" data-bs-dismiss="modal"
+                                        class="btn btn-primary cancel-btn">Cancelar</a>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /notes Modal -->
+
+    <!-- notes Modal -->
+    <div class="modal custom-modal fade" id="notes_request" role="dialog">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div class="form-header">
+                        <h3>Observaciones</h3>
+                        <p>Argegar observaciones y archivo para mejor comprensión</p>
+                    </div>
+                    <div class="modal-btn delete-action">
+                        <form action="{{ route('imss.sendCommentsCancelImss', $cancelsImss->id) }}" method="POST"
+                            method="POST" enctype="multipart/form-data">
+                            @csrf
+                            <div class="row">
+                                <div class="col-12">
+                                    <textarea class="form-control" name="comment" id="" cols="30" rows="10" required>{{ $cancelsImss->notes }}</textarea>
+                                </div>
+                                <div class="col-12">
+                                    <input type="file" class="form-control" name="comment_file" required>
+                                </div>
+                                <div class="col-6">
+                                    <button type="submit" class="btn btn-primary continue-btn">Enviar</button>
+                                </div>
+                                <div class="col-6">
+                                    <a href="javascript:void(0);" data-bs-dismiss="modal"
+                                        class="btn btn-primary cancel-btn">Cancelar</a>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /notes Modal -->
+
+    <!-- leave_receipt request Modal -->
+    <div class="modal custom-modal fade" id="leave_receipt_request" role="dialog">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div class="form-header">
+                        <h3>Enviar el comprobante de baja</h3>
+                        <p>Es obligatorio enviar el comprobante de baja para finalizar el trámite</p>
+                    </div>
+                    <div class="modal-btn delete-action">
+                        <form action="{{ route('company.cancelImssAccepted', [$company->id, $cancelsImss->id]) }}"
+                            method="POST" enctype="multipart/form-data">
+                            @csrf
+                            <div class="row">
+                                <div class="col-12">
+                                    <input type="file" class="form-control" name="leave_receipt" required>
+                                </div>
+                                <div class="col-6">
+                                    <button type="submit" class="btn btn-primary continue-btn">Enviar</button>
+                                </div>
+                                <div class="col-6">
+                                    <a href="javascript:void(0);" data-bs-dismiss="modal"
+                                        class="btn btn-primary cancel-btn">Cancelar</a>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /leave_receipt request Modal -->
+
+    <!-- accept request Modal -->
+    <div class="modal custom-modal fade" id="accept_request" role="dialog">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div class="form-header">
+                        <h3>Enviar el cálculo de finiquito</h3>
+                        <p>Es obligatorio enviar el cálculo de finiquito para aceptar la baja</p>
+                    </div>
+                    <div class="modal-btn delete-action">
+                        <form action="{{ route('company.cancelImssAccepted', [$company->id, $cancelsImss->id]) }}"
+                            method="POST" enctype="multipart/form-data">
+                            @csrf
+                            <div class="row">
+                                <div class="col-12">
+                                    <input type="file" class="form-control" name="settlement_calculation" required>
+                                </div>
+                                <div class="col-6">
+                                    <button type="submit" class="btn btn-primary continue-btn">Enviar</button>
+                                </div>
+                                <div class="col-6">
+                                    <a href="javascript:void(0);" data-bs-dismiss="modal"
+                                        class="btn btn-primary cancel-btn">Cancelar</a>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /accept request Modal -->
+
     <!-- deny request Modal -->
     <div class="modal custom-modal fade" id="deny_request" role="dialog">
         <div class="modal-dialog modal-dialog-centered">
@@ -196,7 +400,7 @@
                     </div>
                     <div class="modal-btn delete-action">
                         <form action="{{ route('company.cancelImssDeny', [$company->id, $cancelsImss->id]) }}"
-                            method="POST">
+                            method="POST" enctype="multipart/form-data">
                             @csrf
                             <div class="row">
                                 <div class="col-12">
@@ -217,7 +421,6 @@
         </div>
     </div>
     <!-- /deny request Modal -->
-
 @endsection
 
 @section('js')

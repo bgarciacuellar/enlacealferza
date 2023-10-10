@@ -432,7 +432,7 @@
                 <div class="col-md-6 d-flex">
                     <div class="card profile-box flex-fill">
                         <div class="card-body">
-                            <h3 class="card-title">Incidencias
+                            <h3 class="card-title">Nóminas
                                 @if (auth()->user()->hasRoles(['admin']))
                                     <a href="#" class="edit-icon" data-bs-toggle="modal"
                                         data-bs-target="#create_incident"><i class="fas fa-plus-circle"></i></a>
@@ -867,7 +867,7 @@
         <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Solicitar Incidencias</h5>
+                    <h5 class="modal-title">Solicitar nóminas</h5>
                     <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                         <i class="fas fa-times"></i>
                     </button>
@@ -886,7 +886,7 @@
                             </div>
                             <div class="col-sm-6 payroll_type">
                                 <div class="form-group">
-                                    <label class="col-form-label">Fecha limite de incidencia <span
+                                    <label class="col-form-label">Fecha limite de nómina <span
                                             class="text-danger">*</span></label>
                                     <input class="form-control" type="date" name="limit_date">
                                 </div>
@@ -946,7 +946,7 @@
                         <div class="submit-section">
                             <button class="btn btn-primary cancel-btn" data-bs-dismiss="modal" aria-label="Close"
                                 type="button">Cancelar</button>
-                            <button type="submit" class="btn btn-primary submit-btn">Solicitar incidencias</button>
+                            <button type="submit" class="btn btn-primary submit-btn">Solicitar nóminas</button>
                         </div>
                     </form>
                 </div>

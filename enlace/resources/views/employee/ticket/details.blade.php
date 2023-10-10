@@ -1,7 +1,7 @@
 @extends('partials.menu-employee')
 
 @section('title')
-    Detalles de incidencias
+    Detalles de nóminas
 @endsection
 
 @section('content')
@@ -35,7 +35,7 @@
                                             <div class="text"><a href="">{{ $ticket->category }}</a></div>
                                         </li>
                                         <li>
-                                            <div class="title">Fecha Limite de incidencia:</div>
+                                            <div class="title">Fecha Limite de nómina:</div>
                                             <div class="text">
                                                 {{ $ticket->limit_date ? $ticket->limit_date->format('d/m/Y') : '-' }}</div>
                                         </li>
@@ -73,15 +73,21 @@
                                 <div class="col-12">
                                     <h4>Estatus actual: <strong>{{ $ticket->statusString }}</strong></h4>
                                     @if (
-                                        $ticket->status == 3 &&
-                                            auth()->user()->hasRoles(['cliente', 'validador']))
-                                        <button class="btn btn-success" data-bs-toggle="modal"
+                                        ($ticket->status == 3 &&
+                                            auth()->user()->hasRoles(['cliente', 'validador'])) ||
+                                            ($ticket->status == 5 &&
+                                                auth()->user()->hasRoles(['cliente', 'validador'])))
+                                        <button class="btn btn-orange" data-bs-toggle="modal"
                                             data-bs-target="#step_back">Agregar observaciones</button>
                                     @endif
                                     @if (
                                         ($ticket->status == 1 &&
                                             auth()->user()->hasRoles(['cliente', 'capturista'])) ||
                                             ($ticket->status == 3 &&
+                                                auth()->user()->hasRoles(['cliente', 'validador'])) ||
+                                            ($ticket->status == 5 &&
+                                                auth()->user()->hasRoles(['cliente', 'validador'])) ||
+                                            ($ticket->status == 7 &&
                                                 auth()->user()->hasRoles(['cliente', 'validador'])))
                                         <form action="{{ route('ticket.nextStep', $ticket->id) }}" method="POST"
                                             class="d-inline">
@@ -117,7 +123,6 @@
     </div>
 
     <div class="tab-content">
-
         <!-- Profile Info Tab -->
         <div id="emp_profile" class="pro-overview tab-pane fade show active">
             <div class="row">
@@ -181,9 +186,9 @@
                     </div>
                 </div>
             </div>
-            @if ($ticket->status == 4 || $ticket->status == 5)
-                @if ($ticket->ticket_type == 'nómina')
-                    <div class="row justify-content-center">
+            @if ($ticket->status >= 4)
+                <div class="row justify-content-center">
+                    @if ($ticket->ticket_type == 'nómina')
                         <div class="col-6">
                             <div class="card profile-box flex-fill">
                                 <div class="card-body">
@@ -204,18 +209,16 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
-                @endif
-                <div class="row justify-content-center">
+                    @endif
                     <div class="col-6">
                         <div class="card profile-box flex-fill">
                             <div class="card-body">
                                 <h3 class="card-title text-center">Recibos de nómina</h3>
                                 <div class="row align-content-center" style=" max-height: 400px; overflow: auto;">
                                     {{-- <div class="col-6 align-self-center">
-                                <span> Creado el: <strong>{{ $ticketFileHistory['created_at'] }}</strong> por:
-                                    <strong>{{ $ticketFileHistory['user_name'] }}</strong></span>
-                            </div> --}}
+                                    <span> Creado el: <strong>{{ $ticketFileHistory['created_at'] }}</strong> por:
+                                        <strong>{{ $ticketFileHistory['user_name'] }}</strong></span>
+                                </div> --}}
                                     <div class="col-12 pb-3 text-center">
                                         @if ($ticket->payroll_receipt)
                                             <a href="{{ asset('storage/payroll_receipt/' . $ticket->payroll_receipt) }}"
@@ -232,245 +235,55 @@
                     </div>
                 </div>
             @endif
-            {{-- <div class="row">
-            <div class="col-md-6 d-flex">
-                <div class="card profile-box flex-fill">
-                    <div class="card-body">
-                        <h3 class="card-title">Personal Informations <a href="#" class="edit-icon"
-                                data-bs-toggle="modal" data-bs-target="#personal_info_modal"><i
-                                    class="fas fa-pencil-alt"></i></a></h3>
-                        <ul class="personal-info">
-                            <li>
-                                <div class="title">Passport No.</div>
-                                <div class="text">9876543210</div>
-                            </li>
-                            <li>
-                                <div class="title">Passport Exp Date.</div>
-                                <div class="text">9876543210</div>
-                            </li>
-                            <li>
-                                <div class="title">Tel</div>
-                                <div class="text"><a href="">9876543210</a></div>
-                            </li>
-                            <li>
-                                <div class="title">Nationality</div>
-                                <div class="text">Indian</div>
-                            </li>
-                            <li>
-                                <div class="title">Religion</div>
-                                <div class="text">Christian</div>
-                            </li>
-                            <li>
-                                <div class="title">Marital status</div>
-                                <div class="text">Married</div>
-                            </li>
-                            <li>
-                                <div class="title">Employment of spouse</div>
-                                <div class="text">No</div>
-                            </li>
-                            <li>
-                                <div class="title">No. of children</div>
-                                <div class="text">2</div>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-6 d-flex">
-                <div class="card profile-box flex-fill">
-                    <div class="card-body">
-                        <h3 class="card-title">Emergency Contact <a href="#" class="edit-icon" data-bs-toggle="modal"
-                                data-bs-target="#emergency_contact_modal"><i class="fas fa-pencil-alt"></i></a></h3>
-                        <h5 class="section-title">Primary</h5>
-                        <ul class="personal-info">
-                            <li>
-                                <div class="title">Name</div>
-                                <div class="text">John Doe</div>
-                            </li>
-                            <li>
-                                <div class="title">Relationship</div>
-                                <div class="text">Father</div>
-                            </li>
-                            <li>
-                                <div class="title">Phone </div>
-                                <div class="text">9876543210, 9876543210</div>
-                            </li>
-                        </ul>
-                        <hr>
-                        <h5 class="section-title">Secondary</h5>
-                        <ul class="personal-info">
-                            <li>
-                                <div class="title">Name</div>
-                                <div class="text">Karen Wills</div>
-                            </li>
-                            <li>
-                                <div class="title">Relationship</div>
-                                <div class="text">Brother</div>
-                            </li>
-                            <li>
-                                <div class="title">Phone </div>
-                                <div class="text">9876543210, 9876543210</div>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-6 d-flex">
-                <div class="card profile-box flex-fill">
-                    <div class="card-body">
-                        <h3 class="card-title">Bank information</h3>
-                        <ul class="personal-info">
-                            <li>
-                                <div class="title">Bank name</div>
-                                <div class="text">ICICI Bank</div>
-                            </li>
-                            <li>
-                                <div class="title">Bank account No.</div>
-                                <div class="text">159843014641</div>
-                            </li>
-                            <li>
-                                <div class="title">IFSC Code</div>
-                                <div class="text">ICI24504</div>
-                            </li>
-                            <li>
-                                <div class="title">PAN No</div>
-                                <div class="text">TC000Y56</div>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-6 d-flex">
-                <div class="card profile-box flex-fill">
-                    <div class="card-body">
-                        <h3 class="card-title">Family Informations <a href="#" class="edit-icon" data-bs-toggle="modal"
-                                data-bs-target="#family_info_modal"><i class="fas fa-pencil-alt"></i></a></h3>
-                        <div class="table-responsive">
-                            <table class="table table-nowrap">
-                                <thead>
-                                    <tr>
-                                        <th>Name</th>
-                                        <th>Relationship</th>
-                                        <th>Date of Birth</th>
-                                        <th>Phone</th>
-                                        <th></th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>Leo</td>
-                                        <td>Brother</td>
-                                        <td>Feb 16th, 2019</td>
-                                        <td>9876543210</td>
-                                        <td class="text-end">
-                                            <div class="dropdown dropdown-action">
-                                                <a aria-expanded="false" data-bs-toggle="dropdown"
-                                                    class="action-icon dropdown-toggle" href="#"><i
-                                                        class="material-icons">more_vert</i></a>
-                                                <div class="dropdown-menu dropdown-menu-right">
-                                                    <a href="#" class="dropdown-item"><i class="fa fa-pencil m-r-5"></i>
-                                                        Edit</a>
-                                                    <a href="#" class="dropdown-item"><i
-                                                            class="fa fa-trash-o m-r-5"></i> Delete</a>
-                                                </div>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
+            @if ($ticket->status >= 7)
+                <div class="row">
+                    @if ($ticket->ticket_type == 'nómina')
+                        <div class="col-6">
+                            <div class="card profile-box flex-fill">
+                                <div class="card-body">
+                                    <h3 class="card-title text-center">Comprobante de pago de la pre-factura</h3>
+                                    <div class="row align-content-center" style=" max-height: 400px; overflow: auto;">
+                                        <div class="col-12 pb-3 text-center">
+                                            @if ($ticket->payment_receipt)
+                                                <a href="{{ asset('storage/payment_receipt/' . $ticket->payment_receipt) }}"
+                                                    target="_blank"><button
+                                                        class="btn btn-primary mt-3 submit-btn">Descargar <i
+                                                            class="fas fa-download"></i></button>
+                                                </a>
+                                            @else
+                                                <h2 class="ps-4 pt-4">No se ha subido ningún archivo</h2>
+                                            @endif
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-6 d-flex">
-                <div class="card profile-box flex-fill">
-                    <div class="card-body">
-                        <h3 class="card-title">Education Informations <a href="#" class="edit-icon"
-                                data-bs-toggle="modal" data-bs-target="#education_info"><i
-                                    class="fas fa-pencil-alt"></i></a></h3>
-                        <div class="experience-box">
-                            <ul class="experience-list">
-                                <li>
-                                    <div class="experience-user">
-                                        <div class="before-circle"></div>
-                                    </div>
-                                    <div class="experience-content">
-                                        <div class="timeline-content">
-                                            <a href="#/" class="name">International College of Arts and
-                                                Science (UG)</a>
-                                            <div>Bsc Computer Science</div>
-                                            <span class="time">2000 - 2003</span>
+                    @endif
+                    @if ($ticket->status == 7)
+                        <div class="col-6">
+                            <div class="card profile-box flex-fill">
+                                <div class="card-body">
+                                    <h3 class="card-title">Comprobante de pago de la pre-factura</h3>
+                                    <div class="row">
+                                        <div class="col-7">
+                                            <form action="{{ route('ticket.uploadPaymentReceipt', $ticket->id) }}"
+                                                method="POST" enctype="multipart/form-data">
+                                                @csrf
+                                                <label class="col-form-label">Subir nuevo comprobante<span
+                                                        class="text-danger">*</span></label>
+                                                <input type="file" class="form-control" name="payment_receipt"
+                                                    required>
+                                                <button type="submit"
+                                                    class="btn btn-primary mt-3 submit-btn">Subir</button>
+                                            </form>
                                         </div>
                                     </div>
-                                </li>
-                                <li>
-                                    <div class="experience-user">
-                                        <div class="before-circle"></div>
-                                    </div>
-                                    <div class="experience-content">
-                                        <div class="timeline-content">
-                                            <a href="#/" class="name">International College of Arts and
-                                                Science (PG)</a>
-                                            <div>Msc Computer Science</div>
-                                            <span class="time">2000 - 2003</span>
-                                        </div>
-                                    </div>
-                                </li>
-                            </ul>
+                                </div>
+                            </div>
                         </div>
-                    </div>
+                    @endif
                 </div>
-            </div>
-            <div class="col-md-6 d-flex">
-                <div class="card profile-box flex-fill">
-                    <div class="card-body">
-                        <h3 class="card-title">Experience <a href="#" class="edit-icon" data-bs-toggle="modal"
-                                data-bs-target="#experience_info"><i class="fas fa-pencil-alt"></i></a></h3>
-                        <div class="experience-box">
-                            <ul class="experience-list">
-                                <li>
-                                    <div class="experience-user">
-                                        <div class="before-circle"></div>
-                                    </div>
-                                    <div class="experience-content">
-                                        <div class="timeline-content">
-                                            <a href="#/" class="name">Web Designer at Zen Corporation</a>
-                                            <span class="time">Jan 2013 - Present (5 years 2 months)</span>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="experience-user">
-                                        <div class="before-circle"></div>
-                                    </div>
-                                    <div class="experience-content">
-                                        <div class="timeline-content">
-                                            <a href="#/" class="name">Web Designer at Ron-tech</a>
-                                            <span class="time">Jan 2013 - Present (5 years 2 months)</span>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="experience-user">
-                                        <div class="before-circle"></div>
-                                    </div>
-                                    <div class="experience-content">
-                                        <div class="timeline-content">
-                                            <a href="#/" class="name">Web Designer at Dalt Technology</a>
-                                            <span class="time">Jan 2013 - Present (5 years 2 months)</span>
-                                        </div>
-                                    </div>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div> --}}
+            @endif
         </div>
         <!-- /Profile Info Tab -->
 
@@ -488,6 +301,12 @@
                                             <strong>{{ $ticketComment['user_name'] . ' - ' . $ticketComment['created_at'] }}:
                                             </strong>
                                             {{ $ticketComment['comment'] }}
+                                            @if ($ticketComment['file'])
+                                                <div class="col-6 pb-3">
+                                                    <a href="{{ asset('storage/payroll_observation/' . $ticketComment['file']) }}"
+                                                        target="_blank"> Descargar <i class="fas fa-download"></i></a>
+                                                </div>
+                                            @endif
                                         <div style="height: 2px; background:#7870704c"></div>
                                         </p>
                                     @endforeach
@@ -562,82 +381,6 @@
         <!-- /Bank Statutory Tab -->
 
     </div>
-
-    <!-- /Page Content -->
-
-    <!-- Profile Modal -->
-    {{-- <div id="edit_ticket" class="modal custom-modal fade" role="dialog">
-    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Editar Ticket</h5>
-                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
-            <div class="modal-body">
-                <form action="{{ route('ticket.update', $ticket->id) }}" method="POST">
-                    @csrf
-                    <div class="row">
-                        <div class="col-sm-6">
-                            <div class="form-group">
-                                <label class="col-form-label">Titulo <span class="text-danger">*</span></label>
-                                <input class="form-control" name="title" type="text" value="{{ $ticket->title }}">
-                            </div>
-                        </div>
-                        <div class="col-sm-6">
-                            <div class="form-group">
-                                <label class="col-form-label">Estatus <span class="text-danger">*</span></label>
-                                <select class="form-control" name="status">
-                                    <option value="">Selecciona una opción</option>
-                                    <option value="abierto" {{ $ticket->status == "abierto" ? "selected" : null
-                                        }}>Abierto</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-sm-6">
-                            <div class="form-group">
-                                <label class="col-form-label">Prioridad <span class="text-danger">*</span></label>
-                                <select class="form-control" name="priority" id="">
-                                    <option value="">Selecciona una opción</option>
-                                    <option value="normal" {{ $ticket->priority == "normal" ? "selected" : null
-                                        }}>Normal</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-sm-6">
-                            <div class="form-group">
-                                <label class="col-form-label">Categoría <span class="text-danger">*</span></label>
-                                <select class="form-control" name="category" id="">
-                                    <option value="">Selecciona una opción</option>
-                                    <option value="incidencia" {{ $ticket->category == "incidencia" ? "selected" : null
-                                        }}>
-                                        Incidencia</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-sm-6">
-                            <div class="form-group">
-                                <label class="col-form-label">Empresa<span class="text-danger">*</span></label>
-                                <select class="form-control" name="company" id="">
-                                    <option value="{{ $company->name }}">{{ $company->name }}</option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="submit-section">
-                        <button class="btn btn-primary cancel-btn" data-bs-dismiss="modal"
-                            aria-label="Close">Cancelar</button>
-                        <button type="submit" class="btn btn-primary submit-btn">Editar</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-</div> --}}
-    <!-- /Profile Modal -->
-
     <!-- Personal Info Modal -->
     <div id="personal_info_modal" class="modal custom-modal fade" role="dialog">
         <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
@@ -810,7 +553,7 @@
     </div>
     <!-- /Family Info Modal -->
 
-    <!-- Emergency Contact Modal -->
+    <!-- step back Modal -->
     <div id="step_back" class="modal custom-modal fade" role="dialog">
         <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
             <div class="modal-content">
@@ -828,9 +571,11 @@
                                 de forma oportuna.</p>
                             <div class="row">
                                 <div class="col-11 justify-content-center">
-                                    <form action="{{ route('ticket.lastStep', $ticket->id) }}" method="POST">
+                                    <form action="{{ route('ticket.lastStep', $ticket->id) }}" method="POST"
+                                        enctype="multipart/form-data">
                                         @csrf
                                         <textarea name="comment" class="form-control" cols="30" rows="10" required></textarea>
+                                        <input type="file" class="form-control" name="file">
                                         <button type="submit" class="btn btn-primary mt-3 submit-btn">Envíar</button>
                                     </form>
                                 </div>
@@ -841,7 +586,7 @@
             </div>
         </div>
     </div>
-    <!-- /Emergency Contact Modal -->
+    <!-- /step back Modal -->
 
     <!-- Education Modal -->
     <div id="education_info" class="modal custom-modal fade" role="dialog">

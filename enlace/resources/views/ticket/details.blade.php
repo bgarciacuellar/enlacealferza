@@ -8,7 +8,7 @@
 
 
 @section('title')
-    Detalles de incidencias
+    Detalles de nóminas
 @endsection
 
 @section('content')
@@ -49,7 +49,7 @@
 
                                         @if ($ticket->limit_date)
                                             <li>
-                                                <div class="title">Fecha Limite de incidencia:</div>
+                                                <div class="title">Fecha Limite de nómina:</div>
                                                 <div class="text">{{ $ticket->limit_date->format('d/m/Y') }}</div>
                                             </li>
                                         @endif
@@ -101,13 +101,19 @@
                         <div class="pro-edit"><a data-bs-target="#edit_ticket" data-bs-toggle="modal" class="edit-icon"
                                 href="#"><i class="fas fa-pencil-alt"></i></a></div>
                     </div>
-                    <h4>Estatus actual: <strong>{{ $ticket->statusString }}</strong></h4>
-                    @if ($ticket->status < 5)
-                        <form action="{{ route('ticket.nextStep', $ticket->id) }}" method="POST">
-                            @csrf
-                            <button type="submit" class="btn btn-success">{{ $ticket->statusButton }}</button>
-                        </form>
-                    @endif
+                    <div class="col-12">
+                        <h4>Estatus actual: <strong>{{ $ticket->statusString }}</strong></h4>
+                        @if ($ticket->status >= 8 && $ticket->status < 10)
+                            <button class="btn btn-orange" data-bs-toggle="modal" data-bs-target="#step_back">Agregar
+                                observaciones</button>
+                        @endif
+                        @if ($ticket->status < 10)
+                            <form action="{{ route('ticket.nextStep', $ticket->id) }}" method="POST" class="d-inline">
+                                @csrf
+                                <button type="submit" class="btn btn-success">{{ $ticket->statusButton }}</button>
+                            </form>
+                        @endif
+                    </div>
                 </div>
             </div>
         </div>
@@ -164,13 +170,6 @@
                         <div class="card-body">
                             <h3 class="card-title">Archivo</h3>
                             <div class="row">
-                                {{-- <div class="col-4 offset-lg-1 align-self-center text-center">
-                                <div>
-                                    <i class="fas fa-file-download" style="font-size: 50px;"></i>
-                                    <button class="btn btn-primary mt-3 submit-btn">Descargar <i
-                                            class="fas fa-download"></i></button>
-                                </div>
-                            </div> --}}
                                 <div class="col-7">
                                     @if (count($ticketFilesHistory) > 0)
                                         <form action="{{ route('ticket.uploadFile', $ticket->id) }}" method="POST"
@@ -224,7 +223,7 @@
                                     <div class="row">
                                         <div class="col-7">
                                             @if ($ticket->status == 5)
-                                                <h3 class="text-center">Incidencia pagada</h3>
+                                                <h3 class="text-center">Nómina pagada</h3>
                                             @else
                                                 <form action="{{ route('ticket.uploadPreinvoice', $ticket->id) }}"
                                                     method="POST" enctype="multipart/form-data">
@@ -250,10 +249,6 @@
                             <div class="card-body">
                                 <h3 class="card-title">Recibos de nómina</h3>
                                 <div class="row align-content-center" style=" max-height: 400px; overflow: auto;">
-                                    {{-- <div class="col-6 align-self-center">
-                                <span> Creado el: <strong>{{ $ticketFileHistory['created_at'] }}</strong> por:
-                                    <strong>{{ $ticketFileHistory['user_name'] }}</strong></span>
-                            </div> --}}
                                     <div class="col-6 pb-3">
                                         @if ($ticket->payroll_receipt)
                                             <a href="{{ asset('storage/payroll_receipt/' . $ticket->payroll_receipt) }}"
@@ -289,10 +284,82 @@
                     </div>
                 </div>
             @endif
+            @if ($ticket->status >= 7)
+                <div class="row ">
+                    @if ($ticket->ticket_type == 'nómina')
+                        <div class="col-6">
+                            <div class="card profile-box flex-fill">
+                                <div class="card-body">
+                                    <h3 class="card-title text-center">Comprobante de pago de la pre-factura</h3>
+                                    <div class="row align-content-center" style=" max-height: 400px; overflow: auto;">
+                                        <div class="col-12 pb-3 text-center">
+                                            @if ($ticket->payment_receipt)
+                                                <a href="{{ asset('storage/payment_receipt/' . $ticket->payment_receipt) }}"
+                                                    target="_blank"><button
+                                                        class="btn btn-primary mt-3 submit-btn">Descargar <i
+                                                            class="fas fa-download"></i></button>
+                                                </a>
+                                            @else
+                                                <h2 class="ps-4 pt-4">No se ha subido ningún archivo</h2>
+                                            @endif
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    @endif
+                </div>
+            @endif
+            @if ($ticket->status >= 8)
+                <div class="row ">
+                    @if ($ticket->ticket_type == 'nómina')
+                        <div class="col-6">
+                            <div class="card profile-box flex-fill">
+                                <div class="card-body">
+                                    <h3 class="card-title text-center">Kardex</h3>
+                                    <div class="row align-content-center" style=" max-height: 400px; overflow: auto;">
+                                        <div class="col-12 pb-3 text-center">
+                                            @if ($ticket->kardex)
+                                                <a href="{{ asset('storage/kardex/' . $ticket->kardex) }}"
+                                                    target="_blank"><button
+                                                        class="btn btn-primary mt-3 submit-btn">Descargar <i
+                                                            class="fas fa-download"></i></button>
+                                                </a>
+                                            @else
+                                                <h2 class="ps-4 pt-4">No se ha subido ningún archivo</h2>
+                                            @endif
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="card profile-box flex-fill">
+                                <div class="card-body">
+                                    <h3 class="card-title">Kardex</h3>
+                                    <div class="row">
+                                        <div class="col-7">
+                                            <form action="{{ route('ticket.uploadKardex', $ticket->id) }}" method="POST"
+                                                enctype="multipart/form-data">
+                                                @csrf
+                                                <label class="col-form-label">Subir kardex<span
+                                                        class="text-danger">*</span></label>
+                                                <input type="file" class="form-control" name="kardex" required>
+                                                <button type="submit"
+                                                    class="btn btn-primary mt-3 submit-btn">Subir</button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    @endif
+                </div>
+            @endif
         </div>
         <!-- /Profile Info Tab -->
 
-        <!-- Projects Tab -->
+        <!-- comments Tab -->
         <div class="tab-pane fade" id="emp_projects">
             <div class="row">
                 <div class="col-6">
@@ -306,6 +373,12 @@
                                             <strong>{{ $ticketComment['user_name'] . ' - ' . $ticketComment['created_at'] }}:
                                             </strong>
                                             {{ $ticketComment['comment'] }}
+                                            @if ($ticketComment['file'])
+                                                <div class="col-6 pb-3">
+                                                    <a href="{{ asset('storage/payroll_observation/' . $ticketComment['file']) }}"
+                                                        target="_blank"> Descargar <i class="fas fa-download"></i></a>
+                                                </div>
+                                            @endif
                                         <div style="height: 2px; background:#7870704c"></div>
                                         </p>
                                     @endforeach
@@ -331,296 +404,6 @@
                     </div>
                 </div>
             </div>
-            {{-- <div class="row">
-            <div class="col-lg-4 col-sm-6 col-md-4 col-xl-3">
-                <div class="card">
-                    <div class="card-body">
-                        <div class="dropdown profile-action">
-                            <a aria-expanded="false" data-bs-toggle="dropdown" class="action-icon dropdown-toggle"
-                                href="#"><i class="material-icons">more_vert</i></a>
-                            <div class="dropdown-menu dropdown-menu-right">
-                                <a data-bs-target="#edit_project" data-bs-toggle="modal" href="#"
-                                    class="dropdown-item"><i class="fa fa-pencil m-r-5"></i> Edit</a>
-                                <a data-bs-target="#delete_project" data-bs-toggle="modal" href="#"
-                                    class="dropdown-item"><i class="fa fa-trash-o m-r-5"></i> Delete</a>
-                            </div>
-                        </div>
-                        <h4 class="project-title"><a href="project-view.html">Office Management</a></h4>
-                        <small class="block text-ellipsis m-b-15">
-                            <span class="text-xs">1</span> <span class="text-muted">open tasks, </span>
-                            <span class="text-xs">9</span> <span class="text-muted">tasks completed</span>
-                        </small>
-                        <p class="text-muted">Lorem Ipsum is simply dummy text of the printing and
-                            typesetting industry. When an unknown printer took a galley of type and
-                            scrambled it...
-                        </p>
-                        <div class="pro-deadline m-b-15">
-                            <div class="sub-title">
-                                Deadline:
-                            </div>
-                            <div class="text-muted">
-                                17 Apr 2019
-                            </div>
-                        </div>
-                        <div class="project-members m-b-15">
-                            <div>Project Leader :</div>
-                            <ul class="team-members">
-                                <li>
-                                    <a href="#" data-bs-toggle="tooltip" title="Jeffery Lalor"><img alt=""
-                                            src="assets/img/profiles/avatar-16.jpg"></a>
-                                </li>
-                            </ul>
-                        </div>
-                        <div class="project-members m-b-15">
-                            <div>Team :</div>
-                            <ul class="team-members">
-                                <li>
-                                    <a href="#" data-bs-toggle="tooltip" title="John Doe"><img alt=""
-                                            src="assets/img/profiles/avatar-02.jpg"></a>
-                                </li>
-                                <li>
-                                    <a href="#" data-bs-toggle="tooltip" title="Richard Miles"><img alt=""
-                                            src="assets/img/profiles/avatar-09.jpg"></a>
-                                </li>
-                                <li>
-                                    <a href="#" data-bs-toggle="tooltip" title="John Smith"><img alt=""
-                                            src="assets/img/profiles/avatar-10.jpg"></a>
-                                </li>
-                                <li>
-                                    <a href="#" data-bs-toggle="tooltip" title="Mike Litorus"><img alt=""
-                                            src="assets/img/profiles/avatar-05.jpg"></a>
-                                </li>
-                                <li>
-                                    <a href="#" class="all-users">+15</a>
-                                </li>
-                            </ul>
-                        </div>
-                        <p class="m-b-5">Progress <span class="text-success float-end">40%</span></p>
-                        <div class="progress progress-xs mb-0">
-                            <div style="width: 40%" title="" data-bs-toggle="tooltip" role="progressbar"
-                                class="progress-bar bg-success" data-original-title="40%"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-lg-4 col-sm-6 col-md-4 col-xl-3">
-                <div class="card">
-                    <div class="card-body">
-                        <div class="dropdown profile-action">
-                            <a aria-expanded="false" data-bs-toggle="dropdown" class="action-icon dropdown-toggle"
-                                href="#"><i class="material-icons">more_vert</i></a>
-                            <div class="dropdown-menu dropdown-menu-right">
-                                <a data-bs-target="#edit_project" data-bs-toggle="modal" href="#"
-                                    class="dropdown-item"><i class="fa fa-pencil m-r-5"></i> Edit</a>
-                                <a data-bs-target="#delete_project" data-bs-toggle="modal" href="#"
-                                    class="dropdown-item"><i class="fa fa-trash-o m-r-5"></i> Delete</a>
-                            </div>
-                        </div>
-                        <h4 class="project-title"><a href="project-view.html">Project Management</a></h4>
-                        <small class="block text-ellipsis m-b-15">
-                            <span class="text-xs">2</span> <span class="text-muted">open tasks, </span>
-                            <span class="text-xs">5</span> <span class="text-muted">tasks completed</span>
-                        </small>
-                        <p class="text-muted">Lorem Ipsum is simply dummy text of the printing and
-                            typesetting industry. When an unknown printer took a galley of type and
-                            scrambled it...
-                        </p>
-                        <div class="pro-deadline m-b-15">
-                            <div class="sub-title">
-                                Deadline:
-                            </div>
-                            <div class="text-muted">
-                                17 Apr 2019
-                            </div>
-                        </div>
-                        <div class="project-members m-b-15">
-                            <div>Project Leader :</div>
-                            <ul class="team-members">
-                                <li>
-                                    <a href="#" data-bs-toggle="tooltip" title="Jeffery Lalor"><img alt=""
-                                            src="assets/img/profiles/avatar-16.jpg"></a>
-                                </li>
-                            </ul>
-                        </div>
-                        <div class="project-members m-b-15">
-                            <div>Team :</div>
-                            <ul class="team-members">
-                                <li>
-                                    <a href="#" data-bs-toggle="tooltip" title="John Doe"><img alt=""
-                                            src="assets/img/profiles/avatar-02.jpg"></a>
-                                </li>
-                                <li>
-                                    <a href="#" data-bs-toggle="tooltip" title="Richard Miles"><img alt=""
-                                            src="assets/img/profiles/avatar-09.jpg"></a>
-                                </li>
-                                <li>
-                                    <a href="#" data-bs-toggle="tooltip" title="John Smith"><img alt=""
-                                            src="assets/img/profiles/avatar-10.jpg"></a>
-                                </li>
-                                <li>
-                                    <a href="#" data-bs-toggle="tooltip" title="Mike Litorus"><img alt=""
-                                            src="assets/img/profiles/avatar-05.jpg"></a>
-                                </li>
-                                <li>
-                                    <a href="#" class="all-users">+15</a>
-                                </li>
-                            </ul>
-                        </div>
-                        <p class="m-b-5">Progress <span class="text-success float-end">40%</span></p>
-                        <div class="progress progress-xs mb-0">
-                            <div style="width: 40%" title="" data-bs-toggle="tooltip" role="progressbar"
-                                class="progress-bar bg-success" data-original-title="40%"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-lg-4 col-sm-6 col-md-4 col-xl-3">
-                <div class="card">
-                    <div class="card-body">
-                        <div class="dropdown profile-action">
-                            <a aria-expanded="false" data-bs-toggle="dropdown" class="action-icon dropdown-toggle"
-                                href="#"><i class="material-icons">more_vert</i></a>
-                            <div class="dropdown-menu dropdown-menu-right">
-                                <a data-bs-target="#edit_project" data-bs-toggle="modal" href="#"
-                                    class="dropdown-item"><i class="fa fa-pencil m-r-5"></i> Edit</a>
-                                <a data-bs-target="#delete_project" data-bs-toggle="modal" href="#"
-                                    class="dropdown-item"><i class="fa fa-trash-o m-r-5"></i> Delete</a>
-                            </div>
-                        </div>
-                        <h4 class="project-title"><a href="project-view.html">Video Calling App</a></h4>
-                        <small class="block text-ellipsis m-b-15">
-                            <span class="text-xs">3</span> <span class="text-muted">open tasks, </span>
-                            <span class="text-xs">3</span> <span class="text-muted">tasks completed</span>
-                        </small>
-                        <p class="text-muted">Lorem Ipsum is simply dummy text of the printing and
-                            typesetting industry. When an unknown printer took a galley of type and
-                            scrambled it...
-                        </p>
-                        <div class="pro-deadline m-b-15">
-                            <div class="sub-title">
-                                Deadline:
-                            </div>
-                            <div class="text-muted">
-                                17 Apr 2019
-                            </div>
-                        </div>
-                        <div class="project-members m-b-15">
-                            <div>Project Leader :</div>
-                            <ul class="team-members">
-                                <li>
-                                    <a href="#" data-bs-toggle="tooltip" title="Jeffery Lalor"><img alt=""
-                                            src="assets/img/profiles/avatar-16.jpg"></a>
-                                </li>
-                            </ul>
-                        </div>
-                        <div class="project-members m-b-15">
-                            <div>Team :</div>
-                            <ul class="team-members">
-                                <li>
-                                    <a href="#" data-bs-toggle="tooltip" title="John Doe"><img alt=""
-                                            src="assets/img/profiles/avatar-02.jpg"></a>
-                                </li>
-                                <li>
-                                    <a href="#" data-bs-toggle="tooltip" title="Richard Miles"><img alt=""
-                                            src="assets/img/profiles/avatar-09.jpg"></a>
-                                </li>
-                                <li>
-                                    <a href="#" data-bs-toggle="tooltip" title="John Smith"><img alt=""
-                                            src="assets/img/profiles/avatar-10.jpg"></a>
-                                </li>
-                                <li>
-                                    <a href="#" data-bs-toggle="tooltip" title="Mike Litorus"><img alt=""
-                                            src="assets/img/profiles/avatar-05.jpg"></a>
-                                </li>
-                                <li>
-                                    <a href="#" class="all-users">+15</a>
-                                </li>
-                            </ul>
-                        </div>
-                        <p class="m-b-5">Progress <span class="text-success float-end">40%</span></p>
-                        <div class="progress progress-xs mb-0">
-                            <div style="width: 40%" title="" data-bs-toggle="tooltip" role="progressbar"
-                                class="progress-bar bg-success" data-original-title="40%"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-lg-4 col-sm-6 col-md-4 col-xl-3">
-                <div class="card">
-                    <div class="card-body">
-                        <div class="dropdown profile-action">
-                            <a aria-expanded="false" data-bs-toggle="dropdown" class="action-icon dropdown-toggle"
-                                href="#"><i class="material-icons">more_vert</i></a>
-                            <div class="dropdown-menu dropdown-menu-right">
-                                <a data-bs-target="#edit_project" data-bs-toggle="modal" href="#"
-                                    class="dropdown-item"><i class="fa fa-pencil m-r-5"></i> Edit</a>
-                                <a data-bs-target="#delete_project" data-bs-toggle="modal" href="#"
-                                    class="dropdown-item"><i class="fa fa-trash-o m-r-5"></i> Delete</a>
-                            </div>
-                        </div>
-                        <h4 class="project-title"><a href="project-view.html">Hospital Administration</a>
-                        </h4>
-                        <small class="block text-ellipsis m-b-15">
-                            <span class="text-xs">12</span> <span class="text-muted">open tasks, </span>
-                            <span class="text-xs">4</span> <span class="text-muted">tasks completed</span>
-                        </small>
-                        <p class="text-muted">Lorem Ipsum is simply dummy text of the printing and
-                            typesetting industry. When an unknown printer took a galley of type and
-                            scrambled it...
-                        </p>
-                        <div class="pro-deadline m-b-15">
-                            <div class="sub-title">
-                                Deadline:
-                            </div>
-                            <div class="text-muted">
-                                17 Apr 2019
-                            </div>
-                        </div>
-                        <div class="project-members m-b-15">
-                            <div>Project Leader :</div>
-                            <ul class="team-members">
-                                <li>
-                                    <a href="#" data-bs-toggle="tooltip" title="Jeffery Lalor"><img alt=""
-                                            src="assets/img/profiles/avatar-16.jpg"></a>
-                                </li>
-                            </ul>
-                        </div>
-                        <div class="project-members m-b-15">
-                            <div>Team :</div>
-                            <ul class="team-members">
-                                <li>
-                                    <a href="#" data-bs-toggle="tooltip" title="John Doe"><img alt=""
-                                            src="assets/img/profiles/avatar-02.jpg"></a>
-                                </li>
-                                <li>
-                                    <a href="#" data-bs-toggle="tooltip" title="Richard Miles"><img alt=""
-                                            src="assets/img/profiles/avatar-09.jpg"></a>
-                                </li>
-                                <li>
-                                    <a href="#" data-bs-toggle="tooltip" title="John Smith"><img alt=""
-                                            src="assets/img/profiles/avatar-10.jpg"></a>
-                                </li>
-                                <li>
-                                    <a href="#" data-bs-toggle="tooltip" title="Mike Litorus"><img alt=""
-                                            src="assets/img/profiles/avatar-05.jpg"></a>
-                                </li>
-                                <li>
-                                    <a href="#" class="all-users">+15</a>
-                                </li>
-                            </ul>
-                        </div>
-                        <p class="m-b-5">Progress <span class="text-success float-end">40%</span></p>
-                        <div class="progress progress-xs mb-0">
-                            <div style="width: 40%" title="" data-bs-toggle="tooltip" role="progressbar"
-                                class="progress-bar bg-success" data-original-title="40%"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div> --}}
         </div>
         <!-- /Projects Tab -->
 
@@ -670,7 +453,7 @@
                             @if ($ticket->ticket_type == 'nómina')
                                 <div class="col-sm-6">
                                     <div class="form-group">
-                                        <label class="col-form-label">Fecha limite de incidencia <span
+                                        <label class="col-form-label">Fecha limite de nómina <span
                                                 class="text-danger">*</span></label>
                                         <input class="form-control" type="date"
                                             value="{{ $ticket->limit_date->format('Y-m-d') }}" name="limit_date"
@@ -945,346 +728,40 @@
     </div>
     <!-- /Family Info Modal -->
 
-    <!-- Emergency Contact Modal -->
-    <div id="emergency_contact_modal" class="modal custom-modal fade" role="dialog">
+    <!-- step back Modal -->
+    <div id="step_back" class="modal custom-modal fade" role="dialog">
         <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Personal Information</h5>
+                    <h5 class="modal-title">Comentario</h5>
                     <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                         <i class="fas fa-times"></i>
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form>
-                        <div class="card">
-                            <div class="card-body">
-                                <h3 class="card-title">Primary Contact</h3>
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label>Name <span class="text-danger">*</span></label>
-                                            <input type="text" class="form-control">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label>Relationship <span class="text-danger">*</span></label>
-                                            <input class="form-control" type="text">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label>Phone <span class="text-danger">*</span></label>
-                                            <input class="form-control" type="text">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label>Phone 2</label>
-                                            <input class="form-control" type="text">
-                                        </div>
-                                    </div>
+                    <div class="card">
+                        <div class="card-body">
+                            <h3 class="card-title">Agregar Comentario</h3>
+                            <p class="">Por favor, anexe las observaciones correspondientes y serán atendidas
+                                de forma oportuna.</p>
+                            <div class="row">
+                                <div class="col-11 justify-content-center">
+                                    <form action="{{ route('ticket.lastStep', $ticket->id) }}" method="POST"
+                                        enctype="multipart/form-data">
+                                        @csrf
+                                        <textarea name="comment" class="form-control" cols="30" rows="10" required></textarea>
+                                        <input type="file" class="form-control" name="file">
+                                        <button type="submit" class="btn btn-primary mt-3 submit-btn">Envíar</button>
+                                    </form>
                                 </div>
                             </div>
                         </div>
-
-                        <div class="card">
-                            <div class="card-body">
-                                <h3 class="card-title">Primary Contact</h3>
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label>Name <span class="text-danger">*</span></label>
-                                            <input type="text" class="form-control">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label>Relationship <span class="text-danger">*</span></label>
-                                            <input class="form-control" type="text">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label>Phone <span class="text-danger">*</span></label>
-                                            <input class="form-control" type="text">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label>Phone 2</label>
-                                            <input class="form-control" type="text">
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="submit-section">
-                            <button class="btn btn-primary submit-btn">Submit</button>
-                        </div>
-                    </form>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-    <!-- /Emergency Contact Modal -->
-
-    <!-- Education Modal -->
-    <div id="education_info" class="modal custom-modal fade" role="dialog">
-        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title"> Education Informations</h5>
-                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                        <i class="fas fa-times"></i>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <form>
-                        <div class="form-scroll">
-                            <div class="card">
-                                <div class="card-body">
-                                    <h3 class="card-title">Education Informations <a href="javascript:void(0);"
-                                            class="delete-icon"><i class="far fa-trash-alt"></i></a></h3>
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <div class="form-group form-focus focused">
-                                                <input type="text" value="Oxford University"
-                                                    class="form-control floating">
-                                                <label class="focus-label">Institution</label>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="form-group form-focus focused">
-                                                <input type="text" value="Computer Science"
-                                                    class="form-control floating">
-                                                <label class="focus-label">Subject</label>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="form-group form-focus focused">
-                                                <div class="cal-icon">
-                                                    <input type="text" value="01/06/2002"
-                                                        class="form-control floating datetimepicker">
-                                                </div>
-                                                <label class="focus-label">Starting Date</label>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="form-group form-focus focused">
-                                                <div class="cal-icon">
-                                                    <input type="text" value="31/05/2006"
-                                                        class="form-control floating datetimepicker">
-                                                </div>
-                                                <label class="focus-label">Complete Date</label>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="form-group form-focus focused">
-                                                <input type="text" value="BE Computer Science"
-                                                    class="form-control floating">
-                                                <label class="focus-label">Degree</label>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="form-group form-focus focused">
-                                                <input type="text" value="Grade A" class="form-control floating">
-                                                <label class="focus-label">Grade</label>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="card">
-                                <div class="card-body">
-                                    <h3 class="card-title">Education Informations <a href="javascript:void(0);"
-                                            class="delete-icon"><i class="far fa-trash-alt"></i></a></h3>
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <div class="form-group form-focus focused">
-                                                <input type="text" value="Oxford University"
-                                                    class="form-control floating">
-                                                <label class="focus-label">Institution</label>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="form-group form-focus focused">
-                                                <input type="text" value="Computer Science"
-                                                    class="form-control floating">
-                                                <label class="focus-label">Subject</label>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="form-group form-focus focused">
-                                                <div class="cal-icon">
-                                                    <input type="text" value="01/06/2002"
-                                                        class="form-control floating datetimepicker">
-                                                </div>
-                                                <label class="focus-label">Starting Date</label>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="form-group form-focus focused">
-                                                <div class="cal-icon">
-                                                    <input type="text" value="31/05/2006"
-                                                        class="form-control floating datetimepicker">
-                                                </div>
-                                                <label class="focus-label">Complete Date</label>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="form-group form-focus focused">
-                                                <input type="text" value="BE Computer Science"
-                                                    class="form-control floating">
-                                                <label class="focus-label">Degree</label>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="form-group form-focus focused">
-                                                <input type="text" value="Grade A" class="form-control floating">
-                                                <label class="focus-label">Grade</label>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="add-more">
-                                        <a href="javascript:void(0);"><i class="fa fa-plus-circle"></i> Add More</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="submit-section">
-                            <button class="btn btn-primary submit-btn">Submit</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- /Education Modal -->
-
-    <!-- Experience Modal -->
-    <div id="experience_info" class="modal custom-modal fade" role="dialog">
-        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Experience Informations</h5>
-                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                        <i class="fas fa-times"></i>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <form>
-                        <div class="form-scroll">
-                            <div class="card">
-                                <div class="card-body">
-                                    <h3 class="card-title">Experience Informations <a href="javascript:void(0);"
-                                            class="delete-icon"><i class="far fa-trash-alt"></i></a></h3>
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <div class="form-group form-focus">
-                                                <input type="text" class="form-control floating"
-                                                    value="Digital Devlopment Inc">
-                                                <label class="focus-label">Company Name</label>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="form-group form-focus">
-                                                <input type="text" class="form-control floating"
-                                                    value="United States">
-                                                <label class="focus-label">Location</label>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="form-group form-focus">
-                                                <input type="text" class="form-control floating"
-                                                    value="Web Developer">
-                                                <label class="focus-label">Job Position</label>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="form-group form-focus">
-                                                <div class="cal-icon">
-                                                    <input type="text" class="form-control floating datetimepicker"
-                                                        value="01/07/2007">
-                                                </div>
-                                                <label class="focus-label">Period From</label>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="form-group form-focus">
-                                                <div class="cal-icon">
-                                                    <input type="text" class="form-control floating datetimepicker"
-                                                        value="08/06/2018">
-                                                </div>
-                                                <label class="focus-label">Period To</label>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="card">
-                                <div class="card-body">
-                                    <h3 class="card-title">Experience Informations <a href="javascript:void(0);"
-                                            class="delete-icon"><i class="far fa-trash-alt"></i></a></h3>
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <div class="form-group form-focus">
-                                                <input type="text" class="form-control floating"
-                                                    value="Digital Devlopment Inc">
-                                                <label class="focus-label">Company Name</label>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="form-group form-focus">
-                                                <input type="text" class="form-control floating"
-                                                    value="United States">
-                                                <label class="focus-label">Location</label>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="form-group form-focus">
-                                                <input type="text" class="form-control floating"
-                                                    value="Web Developer">
-                                                <label class="focus-label">Job Position</label>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="form-group form-focus">
-                                                <div class="cal-icon">
-                                                    <input type="text" class="form-control floating datetimepicker"
-                                                        value="01/07/2007">
-                                                </div>
-                                                <label class="focus-label">Period From</label>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="form-group form-focus">
-                                                <div class="cal-icon">
-                                                    <input type="text" class="form-control floating datetimepicker"
-                                                        value="08/06/2018">
-                                                </div>
-                                                <label class="focus-label">Period To</label>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="add-more">
-                                        <a href="javascript:void(0);"><i class="fa fa-plus-circle"></i> Add More</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="submit-section">
-                            <button class="btn btn-primary submit-btn">Submit</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- /Experience Modal -->
+    <!-- /step back Modal -->
 @endsection
 
 @section('js')

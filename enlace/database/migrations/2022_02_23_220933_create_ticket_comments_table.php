@@ -18,6 +18,7 @@ class CreateTicketCommentsTable extends Migration
             $table->bigInteger('user_id');
             $table->bigInteger('ticket_id');
             $table->longText('comment');
+            $table->string('file')->nullable();
             $table->timestamps();
         });
     }

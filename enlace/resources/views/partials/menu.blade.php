@@ -114,7 +114,7 @@
                             people
                         </span>
                     </a>
-                    <a class="nav-link" id="v-pills-projects-tab" title="incidencias" data-bs-toggle="pill"
+                    <a class="nav-link" id="v-pills-projects-tab" title="nóminas" data-bs-toggle="pill"
                         href="#v-pills-projects" role="tab" aria-controls="v-pills-projects"
                         aria-selected="false">
                         <span class="material-icons-outlined">
@@ -164,13 +164,13 @@
                     </div>
                     <div class="tab-pane fade" id="v-pills-projects" role="tabpanel"
                         aria-labelledby="v-pills-projects-tab">
-                        <p>Incidencias</p>
+                        <p>Nóminas</p>
                         <ul>
                             <li>
-                                <a href="{{ route('ticket.list') }}">Incidencias</a>
+                                <a href="{{ route('ticket.list') }}">Nóminas</a>
                             </li>
                             <li>
-                                <a href="{{ route('ticket.archivedList') }}">Incidencias
+                                <a href="{{ route('ticket.archivedList') }}">Nóminas
                                     Archivadas</a>
                             </li>
                             <li>

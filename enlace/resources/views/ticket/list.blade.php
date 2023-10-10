@@ -1,7 +1,7 @@
 @extends('partials.menu')
 
 @section('title')
-    Incidencias
+    Nóminas
 @endsection
 
 @section('content')
@@ -36,7 +36,7 @@
             <div class="col-md-4">
                 <div class="add-emp-section">
                     <a href="#" class="btn btn-success btn-add-emp" data-bs-toggle="modal"
-                        data-bs-target="#create_incident"><i class="fas fa-plus"></i> Solicitar Incidencias</a>
+                        data-bs-target="#create_incident"><i class="fas fa-plus"></i> Solicitar Nóminas</a>
                 </div>
             </div>
         </div>
@@ -101,7 +101,7 @@
         <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Solicitar Incidencias</h5>
+                    <h5 class="modal-title">Solicitar nóminas</h5>
                     <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                         <i class="fas fa-times"></i>
                     </button>
@@ -134,7 +134,7 @@
                             </div>
                             <div class="col-sm-6 payroll_type">
                                 <div class="form-group">
-                                    <label class="col-form-label">Fecha limite de incidencia <span
+                                    <label class="col-form-label">Fecha limite de nómina <span
                                             class="text-danger">*</span></label>
                                     <input class="form-control" type="date" name="limit_date" required>
                                 </div>
@@ -181,7 +181,7 @@
                         <div class="submit-section">
                             <button class="btn btn-primary cancel-btn" data-bs-dismiss="modal" aria-label="Close"
                                 type="button">Cancelar</button>
-                            <button type="submit" class="btn btn-primary submit-btn">Solicitar incidencia</button>
+                            <button type="submit" class="btn btn-primary submit-btn">Solicitar nómina</button>
                         </div>
                     </form>
                 </div>

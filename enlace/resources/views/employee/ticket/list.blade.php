@@ -1,7 +1,7 @@
 @extends('partials.menu-employee')
 
 @section('title')
-    Incidencias
+    Nóminas
 @endsection
 
 @section('content')

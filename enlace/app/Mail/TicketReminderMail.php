@@ -10,7 +10,7 @@ use Illuminate\Queue\SerializesModels;
 class TicketReminderMail extends Mailable
 {
     use Queueable, SerializesModels;
-    public $subject = "Recordatorio para subir incidencia";
+    public $subject = "Recordatorio para subir nómina";
     public $name;
     public $ticket;
     public $company;

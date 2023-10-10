@@ -26,7 +26,7 @@ class SendTicketReminder extends Command
      *
      * @var string
      */
-    protected $description = 'Enviar correo de recordatorio (desde 5,4,3,2 días antes) si no se ha cargado ningun archivo a la incidencia';
+    protected $description = 'Enviar correo de recordatorio (desde 5,4,3,2 días antes) si no se ha cargado ningun archivo a la nómina';
 
     /**
      * Create a new command instance.

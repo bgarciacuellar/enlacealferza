@@ -399,7 +399,7 @@
                                                                     style="padding:0;Margin:0;padding-top:10px;padding-bottom:10px">
                                                                     <p
                                                                         style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:helvetica, 'helvetica neue', arial, verdana, sans-serif;line-height:23px;color:#555555;font-size:15px">
-                                                                        Le informamos que se ha generado una incidencia
+                                                                        Le informamos que se ha generado una nómina
                                                                         en la plataforma Enlace, con los siguientes
                                                                         datos last day:</p>
                                                                     <p

@@ -400,7 +400,7 @@
                                                                     <p
                                                                         style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:helvetica, 'helvetica neue', arial, verdana, sans-serif;line-height:23px;color:#555555;font-size:15px">
                                                                         Le informamos de que se ha cargado un archivo en
-                                                                        su ticket de incidencia activo. El
+                                                                        su ticket de nómina activo. El
                                                                         archivo adjunto que contiene los detalles
                                                                         específicos de este ticket.</p>
                                                                     <p

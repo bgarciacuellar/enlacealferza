@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Mail\Anniversary;
 use App\Mail\Announcement;
 use App\Models\AdditionalUserInfo;
 use App\Models\User;
@@ -45,13 +46,16 @@ class SendAnniversaryMail extends Command
     {
         $users = User::where('is_active', 1)->whereIn("role", $this->usersRoles)->get();
         $today = Carbon::now()->format('d-m');
+        $currentYear = Carbon::now()->format('Y');
         foreach ($users as $user) {
             $userAdditionalInfo = AdditionalUserInfo::where('user_id', $user->id)->first();
             if ($userAdditionalInfo) {
                 if ($userAdditionalInfo->entry_date) {
                     $entryDate = Carbon::parse($userAdditionalInfo->entry_date)->format('d-m');
                     if ($today == $entryDate) {
-                        $message = new Announcement('Feliz Aniversario');
+                        $entryYear = Carbon::parse($userAdditionalInfo->entry_date)->format('Y');
+                        $anniversaryAmount = $entryYear < $currentYear ? $currentYear - $entryYear : 0;
+                        $message = new Anniversary($user->name, $userAdditionalInfo->position, $anniversaryAmount, $gift);
                         Mail::to($user->email)->send($message);
                     }
                 }

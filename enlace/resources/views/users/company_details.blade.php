@@ -303,12 +303,12 @@
                 <div class="col-md-6 d-flex">
                     <div class="card profile-box flex-fill">
                         <div class="card-body">
-                            <h3 class="card-title">Incidencias </h3>
+                            <h3 class="card-title">Nóminas </h3>
                             <table class="table table-striped custom-table datatable">
                                 <thead>
                                     <tr>
-                                        <th>Estatus de incidencias</th>
-                                        <th>Fecha limite de incidencia</th>
+                                        <th>Estatus de nóminas</th>
+                                        <th>Fecha limite de nóminas</th>
                                     </tr>
                                 </thead>
                                 <tbody>

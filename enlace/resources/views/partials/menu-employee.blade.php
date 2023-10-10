@@ -313,10 +313,10 @@
                                 <a href="{{ route('employee.myCompany') }}">Mi empresa</a>
                             </li>
                             <li>
-                                <a href="{{ route('employee.tiketsList') }}">Incidencias</a>
+                                <a href="{{ route('employee.tiketsList') }}">Nóminas</a>
                             </li>
                             <li>
-                                <a href="{{ route('employee.archivedTicketsList') }}">Incidencias
+                                <a href="{{ route('employee.archivedTicketsList') }}">Nóminas
                                     Archivadas</a>
                             </li>
                         </ul>

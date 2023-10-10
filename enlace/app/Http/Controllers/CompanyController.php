@@ -135,8 +135,8 @@ class CompanyController extends Controller
         $additionalsPhoneNumbers = CompanyAdditionalPhoneNumber::where('company_id', $id)->get();
         $additionalsContacts = CompanyAdditionalContact::where('company_id', $id)->get();
 
-        $registersImss = RegisterImss::where('company_id', $id)->get();
-        $cancelsImss = CancelImss::where('company_id', $id)->get();
+        $registersImss = RegisterImss::where('company_id', $id)->orderBy('id', 'DESC')->get();
+        $cancelsImss = CancelImss::where('company_id', $id)->orderBy('id', 'DESC')->get();
         foreach ($cancelsImss as $cancelImss) {
             $cancelImss->cancel_date_formated = Carbon::parse($cancelImss->cancel_date)->format('d/m/Y');
         }
@@ -323,23 +323,40 @@ class CompanyController extends Controller
         return view('imss.canceled.details', compact('company', 'cancelsImss'));
     }
 
-    public function cancelImssAccepted($companyId, $cancelImssId)
+    public function cancelImssAccepted(Request $request, $companyId, $cancelImssId)
     {
+        $request->validate([
+            "settlement_calculation" => "nullable",
+            "leave_receipt" => "nullable"
+        ]);
+
         $cancelImss = CancelImss::where('id', $cancelImssId)->where('company_id', $companyId)->firstOrFail();
         
         if ($cancelImss->status == 'Baja Confirmada') {
             return back()->with('error' , 'La baja ya ha sido confirmada');
         }
 
-        if ($cancelImss->status == 'Baja Aceptada') {
+        if ($cancelImss->status == 'Cálculo aceptado') {
+            if ($request->hasFile('leave_receipt')) {
+                $leaveReceipt = $this->uploadCompanyFile($request->file('leave_receipt'), 'imss', $cancelImss->company_id);
+            } else {
+                $leaveReceipt = '';
+            }
             $cancelImss->update([
-                "status" => 'Baja Confirmada'
+                "status" => 'Baja Confirmada',
+                "leave_receipt" => $leaveReceipt
             ]);
             /* $message = new RejectImssRegistration;
         Mail::to($request->email)->send($message); */
         }else{
+            if ($request->hasFile('settlement_calculation')) {
+                $settlementCalculation = $this->uploadCompanyFile($request->file('settlement_calculation'), 'imss', $cancelImss->company_id);
+            } else {
+                $settlementCalculation = '';
+            }
             $cancelImss->update([
-                "status" => 'Baja Aceptada'
+                "status" => 'Baja Aceptada',
+                "settlement_calculation" => $settlementCalculation
             ]);
             /* $message = new RejectImssRegistration;
         Mail::to($request->email)->send($message); */

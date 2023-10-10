@@ -121,6 +121,7 @@ class EmployeeController extends Controller
                 "id" => $ticketCommentItem['id'],
                 "user_name" => $user ? $user->name : "Usuario de alferza",
                 "comment" => $ticketCommentItem['comment'],
+                "file" => $ticketCommentItem['file'],
                 "created_at" => $createdAt->format('d/m/Y H:i'),
             );
         };
@@ -161,7 +162,7 @@ class EmployeeController extends Controller
         $currentUser = Auth::user();
         $companyID = CompanyEmployee::where('user_id', $currentUser->id)->first('company_id')->company_id;
         $company = Company::findOrFail($companyID);
-        $registersImss = RegisterImss::where('company_id', $companyID)->get();
+        $registersImss = RegisterImss::where('company_id', $companyID)->orderBy('id', 'DESC')->get();
         foreach ($registersImss as $registerImss) {
             $registerImss->statusString = $registerImss->status ? $registerImss->status : 'En espera';
             $registerImss->register_date_formated = Carbon::parse($registerImss->register_date)->format('d/m/Y');
@@ -474,7 +475,7 @@ class EmployeeController extends Controller
         $currentUser = Auth::user();
         $companyID = CompanyEmployee::where('user_id', $currentUser->id)->first('company_id')->company_id;
         $company = Company::findOrFail($companyID);
-        $cancelsImss = CancelImss::where('company_id', $companyID)->get();
+        $cancelsImss = CancelImss::where('company_id', $companyID)->orderBy('id', 'DESC')->get();
         foreach ($cancelsImss as $cancelImss) {
             $cancelImss->statusString = $cancelImss->status ? $cancelImss->status : 'En espera';
             $cancelImss->cancel_date_formated = Carbon::parse($cancelImss->cancel_date)->format('d/m/Y');
@@ -543,6 +544,54 @@ class EmployeeController extends Controller
         Mail::to($request->email)->send($message); */
 
         return back()->with('success', 'Solicitud actualizada');
+    }
+
+    public function sendCommentsCancelImss(Request $request, $cancelId)
+    {
+        $request->validate([
+            "comment" => "required",
+            "comment_file" => "nullable",
+        ]);
+
+        $currentUser = Auth::user();
+        $companyID = CompanyEmployee::where('user_id', $currentUser->id)->first('company_id');
+        $cancelImss = CancelImss::where('id', $cancelId)->where('company_id', $companyID->company_id)->firstOrFail();
+
+        if ($request->hasFile('comment_file')) {
+            $commentFile = $this->uploadCompanyFile($request->file('comment_file'), 'imss', $cancelImss->company_id);
+        } else {
+            $commentFile = '';
+        }
+
+        $cancelImss->update([
+            'comment' => $request->comment,
+            'comment_file' => $commentFile,
+            'comment_status' => 1,
+            'status' => 'Observaciones',
+        ]);
+
+        /* $message = new ImssRegistrationUpdate;
+        Mail::to($request->email)->send($message); */
+
+        return back()->with('success', 'Observación enviada');
+    }
+
+    public function acceptCalculationCancelImss(Request $request, $cancelId)
+    {
+
+        $currentUser = Auth::user();
+        $companyID = CompanyEmployee::where('user_id', $currentUser->id)->first('company_id');
+        $cancelImss = CancelImss::where('id', $cancelId)->where('company_id', $companyID->company_id)->firstOrFail();
+
+        $cancelImss->update([
+            'comment_status' => 0,
+            'status' => 'Cálculo aceptado',
+        ]);
+
+        /* $message = new ImssRegistrationUpdate;
+        Mail::to($request->email)->send($message); */
+
+        return back()->with('success', 'Cálculo aceptado');
     }
 
     public function deleteCancelImssRequest(Request $request)

@@ -7,24 +7,19 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
-class PayrollDenied extends Mailable
+class Anniversary extends Mailable
 {
     use Queueable, SerializesModels;
-    public $subject = "Re-ajuste de nómina";
+    public $subject = "¡Celebrando tu aniversario y agradeciendo tu dedicación!";
     public $name;
-    public $ticket;
-    public $company;
-
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct($name, $ticket, $company)
+    public function __construct()
     {
-        $this->name = $name;
-        $this->ticket = $ticket;
-        $this->company = $company;
+        //
     }
 
     /**
@@ -34,6 +29,6 @@ class PayrollDenied extends Mailable
      */
     public function build()
     {
-        return $this->view('emails.payroll_denied');
+        return $this->view('view.name');
     }
 }

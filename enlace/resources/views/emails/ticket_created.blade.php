@@ -389,7 +389,7 @@
                                                                     style="padding:0;Margin:0;padding-top:5px;padding-bottom:15px">
                                                                     <h2
                                                                         style="Margin:0;line-height:24px;mso-line-height-rule:exactly;font-family:lato, 'helvetica neue', helvetica, arial, sans-serif;font-size:20px;font-style:normal;font-weight:bold;color:#0d2754">
-                                                                        <strong>Nuevo ticket de incidencia
+                                                                        <strong>Nuevo ticket de nómina
                                                                             creado</strong>
                                                                     </h2>
                                                                 </td>
@@ -399,7 +399,7 @@
                                                                     style="padding:0;Margin:0;padding-top:10px;padding-bottom:10px">
                                                                     <p
                                                                         style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:helvetica, 'helvetica neue', arial, verdana, sans-serif;line-height:23px;color:#555555;font-size:15px">
-                                                                        Le informamos que se ha generado una incidencia
+                                                                        Le informamos que se ha generado una nómina
                                                                         en la plataforma Enlace,&nbsp;con
                                                                         los siguientes datos:</p>
                                                                     <p

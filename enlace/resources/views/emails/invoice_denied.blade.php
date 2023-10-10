@@ -389,8 +389,8 @@
                                                                     style="padding:0;Margin:0;padding-top:5px;padding-bottom:15px">
                                                                     <h2
                                                                         style="Margin:0;line-height:24px;mso-line-height-rule:exactly;font-family:lato, 'helvetica neue', helvetica, arial, sans-serif;font-size:20px;font-style:normal;font-weight:bold;color:#0d2754">
-                                                                        <strong>Se ha cargado un archivo al
-                                                                            ticket:&nbsp;&nbsp;{{ $ticket }}</strong>
+                                                                        <strong>Se necesitan realizar correcciones en la
+                                                                            pre-factura.</strong>
                                                                     </h2>
                                                                 </td>
                                                             </tr>
@@ -399,10 +399,11 @@
                                                                     style="padding:0;Margin:0;padding-top:10px;padding-bottom:10px">
                                                                     <p
                                                                         style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:helvetica, 'helvetica neue', arial, verdana, sans-serif;line-height:23px;color:#555555;font-size:15px">
-                                                                        Le informamos de que se ha cargado un archivo en
-                                                                        su ticket de nómina activo. El
-                                                                        archivo adjunto que contiene los detalles
-                                                                        específicos de este ticket.</p>
+                                                                        Le informamos que la pre-factura no ha sido
+                                                                        aprobada.
+                                                                        Por favor conéctese a la plataforma
+                                                                        para ver los comentarios del cliente y realizar
+                                                                        los ajustes correspondientes.</p>
                                                                     <p
                                                                         style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:helvetica, 'helvetica neue', arial, verdana, sans-serif;line-height:23px;color:#555555;font-size:15px">
                                                                         <br>
@@ -414,13 +415,11 @@
                                                                     </p>
                                                                     <p
                                                                         style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:helvetica, 'helvetica neue', arial, verdana, sans-serif;line-height:23px;color:#555555;font-size:15px">
-                                                                        <strong>Empresa:
-                                                                        </strong>{{ $company }}<br><strong>Nómina:</strong>&nbsp;{{ $category }}
+                                                                        <strong>Empresa: </strong>{{ $company }}
                                                                     </p>
                                                                     <p
                                                                         style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:helvetica, 'helvetica neue', arial, verdana, sans-serif;line-height:23px;color:#555555;font-size:15px">
-                                                                        <strong>Cargado&nbsp;por:
-                                                                        </strong>{{ $name }}
+                                                                        <strong>Creado por: </strong>{{ $name }}
                                                                     </p>
                                                                 </td>
                                                             </tr>
@@ -428,7 +427,7 @@
                                                                 <td align="center" style="padding:30px;Margin:0"><span
                                                                         class="es-button-border"
                                                                         style="border-style:solid;border-color:#0d2754;background:#0d2754;border-width:0px;display:inline-block;border-radius:10px;width:auto"><a
-                                                                            href="{{ route('employee.details', $ticket) }}"
+                                                                            href="{{ route('ticket.details', $ticket) }}"
                                                                             class="es-button es-button-1"
                                                                             style="mso-style-priority:100 !important;text-decoration:none;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;color:#FFFFFF;font-size:14px;border-style:solid;border-color:#0d2754;border-width:15px 60px;display:inline-block;background:#0d2754;border-radius:10px;font-family:arial, 'helvetica neue', helvetica, sans-serif;font-weight:bold;font-style:normal;line-height:17px;width:auto;text-align:center">Ir
                                                                             al ticket</a></span></td>
@@ -441,7 +440,7 @@
                                                                         Si tiene problemas para hacer clic en el botón,
                                                                         copie y pegue la siguiente URL en su
                                                                         navegador web:
-                                                                        {{ route('employee.details', $ticket) }}</p>
+                                                                        {{ route('ticket.details', $ticket) }}</p>
                                                                 </td>
                                                             </tr>
                                                         </table>

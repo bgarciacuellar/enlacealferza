@@ -76,7 +76,7 @@ Version      : 3.6
 ========================================*/
 
 /*Actualizado*/
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap'); 
+@import url("https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap");
 
 @font-face {
     font-family: "Material Icons";
@@ -89,7 +89,6 @@ Version      : 3.6
         url(../fonts/MaterialIcons-Regular.ttf) format("truetype");
 }
 
-
 /*-----------------
 	0. Root Global
 -----------------------*/
@@ -101,7 +100,7 @@ Version      : 3.6
     --hue-color: 201;
     /*Purple 250 - Green 142 - Blue 230 - Pink 340*/
     /* HSL color mode */
-    --first-color: #3265CB; /*Actualizado*/
+    --first-color: #3265cb; /*Actualizado*/
     /* --first-color-second: #234158;
     --first-color-alt: #42b595; */
     --first-color-hover: #2d5ab6; /*Actualizado*/
@@ -111,14 +110,14 @@ Version      : 3.6
     --text-color-light: hsl(var(--hue-color), 8%, 65%);
     --input-color: #0a1925;
     --icon: #8793af;
-    --button: #3265CB;
+    --button: #3265cb;
     --button-hover: #2d5ab6;
     --body-color: #ffffff;
     --container-color: #ffffff;
     --scroll-bar-color: hsl(var(--hue-color), 12%, 90%);
     --scroll-thumb-color: hsl(var(--hue-color), 12%, 80%);
     /*========== Font and typography ==========*/
-    --body-font: 'DM Sans', sans-serif;
+    --body-font: "DM Sans", sans-serif;
     --big-font-size: 2rem;
     --h1-font-size: 1.5rem;
     --h2-font-size: 1.25rem;
@@ -152,7 +151,7 @@ html {
     height: 100%;
 }
 body {
-    font-family: 'DM Sans', sans-serif;
+    font-family: "DM Sans", sans-serif;
     font-size: 0.9375rem;
     color: var(--text-color);
     background-color: #f7f7f7;
@@ -165,7 +164,7 @@ h3,
 h4,
 h5,
 h6 {
-    font-family: 'DM Sans', sans-serif;
+    font-family: "DM Sans", sans-serif;
     margin-top: 0;
     font-weight: 500;
 }
@@ -658,7 +657,7 @@ table.table th {
 }
 .btn-success {
     background-color: #55ce63 !important;
-    border: 1px solid #55ce63 !important; 
+    border: 1px solid #55ce63 !important;
 }
 .btn-success:hover,
 .btn-success:focus,
@@ -1762,7 +1761,7 @@ label {
     border-radius: 50%;
 }
 
-.title-page{
+.title-page {
     padding: 1rem !important;
 }
 
@@ -3861,12 +3860,12 @@ table.dataTable > thead .sorting_desc_disabled:after {
     font-size: 18px;
     color: #000;
     margin-bottom: 10px;
-    font-family: 'DM Sans', sans-serif;
+    font-family: "DM Sans", sans-serif;
     text-align: center;
 }
 .emp-card .user-img-sec h5 {
     color: #000;
-    font-family: 'DM Sans', sans-serif;
+    font-family: "DM Sans", sans-serif;
 }
 .emp-card .user-img-sec h6 {
     color: #fff;
@@ -4146,12 +4145,12 @@ table.dataTable tr > td a.avatar > img {
 .fc-toolbar h2 {
     font-size: 18px;
     font-weight: 500;
-    font-family: 'DM Sans', sans-serif;
+    font-family: "DM Sans", sans-serif;
     line-height: 30px;
     text-transform: uppercase;
 }
 .fc-day-grid-event .fc-time {
-    font-family: 'DM Sans', sans-serif;
+    font-family: "DM Sans", sans-serif;
 }
 .fc-day {
     background: #fff;
@@ -4274,12 +4273,12 @@ table.dataTable tr > td a.avatar > img {
 .fc-basic-view td.fc-week-number span {
     padding-right: 8px;
     font-weight: 700;
-    font-family: 'DM Sans', sans-serif;
+    font-family: "DM Sans", sans-serif;
 }
 .fc-basic-view td.fc-day-number {
     padding-right: 8px;
     font-weight: 700;
-    font-family: 'DM Sans', sans-serif;
+    font-family: "DM Sans", sans-serif;
 }
 .event-form .input-group .form-control {
     height: 40px;
@@ -8194,14 +8193,14 @@ ul.comment-list li ul.children {
     font-size: 18px;
     color: #ff8b63;
     margin-top: 15px;
-    font-family: 'DM Sans', sans-serif;
+    font-family: "DM Sans", sans-serif;
 }
 .user-img-sec h5 {
     font-weight: 500;
     font-size: 14px;
     color: #717171;
     margin: 0;
-    font-family: 'DM Sans', sans-serif;
+    font-family: "DM Sans", sans-serif;
 }
 .user-img-sec .dropdown {
     position: absolute;
@@ -11004,3 +11003,10 @@ span.userrole-info {
 }
 
 /* Custom */
+.btn-orange {
+    background: #ffbc34;
+    color: #fff;
+}
+.btn-orange:hover {
+    color: #fff;
+}

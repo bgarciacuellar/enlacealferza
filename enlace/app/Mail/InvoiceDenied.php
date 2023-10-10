@@ -7,14 +7,13 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
-class PayrollDenied extends Mailable
+class InvoiceDenied extends Mailable
 {
     use Queueable, SerializesModels;
-    public $subject = "Re-ajuste de nómina";
+    public $subject = "Re-ajuste de pre-factura";
     public $name;
     public $ticket;
     public $company;
-
     /**
      * Create a new message instance.
      *
@@ -34,6 +33,6 @@ class PayrollDenied extends Mailable
      */
     public function build()
     {
-        return $this->view('emails.payroll_denied');
+        return $this->view('emails.invoice_denied');
     }
 }

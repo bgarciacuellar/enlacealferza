@@ -10,7 +10,7 @@ use Illuminate\Queue\SerializesModels;
 class UploadedIncident extends Mailable
 {
     use Queueable, SerializesModels;
-    public $subject = "Incidencia cargada";
+    public $subject = "Nómina cargada";
     public $name;
     public $ticket;
     public $company;

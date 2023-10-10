@@ -108,6 +108,10 @@ Route::post('/ticket/upload-preinvoice/{id}', [App\Http\Controllers\TicketContro
 
 Route::post('/ticket/upload-payroll-receipt/{id}', [App\Http\Controllers\TicketController::class, 'uploadPayrollReceipt'])
     ->name('ticket.uploadPayrollReceipt');
+Route::post('/ticket/upload-payment-receipt/{id}', [App\Http\Controllers\TicketController::class, 'uploadPaymentReceipt'])
+    ->name('ticket.uploadPaymentReceipt');
+Route::post('/ticket/upload-kardex/{id}', [App\Http\Controllers\TicketController::class, 'uploadKardex'])
+    ->name('ticket.uploadKardex');
     //helpers
 Route::post('/ticket/get-payroll-by-company/', [App\Http\Controllers\TicketController::class, 'getPayrollByCompany'])
     ->name('ticket.getPayrollByCompany');
@@ -296,6 +300,10 @@ Route::group(
             ->name('imss.cancelImss');
         Route::post('/imss-cancel-update/{cancelImssId}', [App\Http\Controllers\EmployeeController::class, 'updateCancelImss'])
                 ->name('imss.updateCancelImss');
+        Route::post('/imss-cancel-send-comment/{cancelImssId}', [App\Http\Controllers\EmployeeController::class, 'sendCommentsCancelImss'])
+                ->name('imss.sendCommentsCancelImss');
+        Route::post('/imss-cancel-accept-calculation/{cancelImssId}', [App\Http\Controllers\EmployeeController::class, 'acceptCalculationCancelImss'])
+                ->name('imss.acceptCalculationCancelImss');
         Route::post('/imss-cancel-delete', [App\Http\Controllers\EmployeeController::class, 'deleteCancelImssRequest'])
             ->name('imss.deleteCancelImssRequest');
     }
