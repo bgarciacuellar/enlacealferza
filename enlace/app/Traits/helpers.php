@@ -103,12 +103,15 @@ trait helpers
                 $statusConverted = "Enviar comprobante";
                 break;
             case 8:
-                $statusConverted = "Dispersión de nómina solicitada";
+                $statusConverted = "Confirmar de recibido";
                 break;
             case 9:
-                $statusConverted = "Enviar kardex";
+                $statusConverted = "Dispersión de nómina solicitada";
                 break;
             case 10:
+                $statusConverted = "Enviar kardex";
+                break;
+            case 11:
                 $statusConverted = "Nómina completada";
                 break;
             default:
@@ -149,12 +152,15 @@ trait helpers
                 $statusConverted = "Enviar comprobante de pago";
                 break;
             case 8:
-                $statusConverted = "Dispersión en proceso";
+                $statusConverted = "Confirmar";
                 break;
             case 9:
-                $statusConverted = "Kardex";
+                $statusConverted = "Dispersión en proceso";
                 break;
             case 10:
+                $statusConverted = "Kardex";
+                break;
+            case 11:
                 $statusConverted = "-";
                 break;
             default:

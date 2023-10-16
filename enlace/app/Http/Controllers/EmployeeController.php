@@ -78,7 +78,7 @@ class EmployeeController extends Controller
         $currentUser = Auth::user();
         $companyID = CompanyEmployee::where('user_id', $currentUser->id)->first('company_id')->company_id;
         $company = Company::findOrFail($companyID);
-        $tickets = Ticket::where('company', $companyID)->where('status', '!=', 5)->orderBy('id', 'desc')->get();
+        $tickets = Ticket::where('company', $companyID)->where('is_archived', 0)->orderBy('id', 'desc')->get();
         foreach ($tickets as $ticket) {
             $ticket->statusString = $this->statusConvert($ticket->status);
         }
@@ -91,7 +91,7 @@ class EmployeeController extends Controller
         $currentUser = Auth::user();
         $companyID = CompanyEmployee::where('user_id', $currentUser->id)->first('company_id')->company_id;
         $company = Company::findOrFail($companyID);
-        $archivedTickets = Ticket::where('company', $companyID)->where('status', 5)->orderBy('id', 'desc')->get();
+        $archivedTickets = Ticket::where('company', $companyID)->where('is_archived', 1)->orderBy('id', 'desc')->get();
         foreach ($archivedTickets as $ticket) {
             $ticket->statusString = $this->statusConvert($ticket->status);
         }

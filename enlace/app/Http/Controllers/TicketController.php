@@ -42,7 +42,7 @@ class TicketController extends Controller
 
     public function list()
     {
-        $ticketsArray = Ticket::where('status', '!=', '7')->orderBy('id', 'desc')->get()->toArray();
+        $ticketsArray = Ticket::where('is_archived', 0)->orderBy('id', 'desc')->get()->toArray();
         $companies = Company::all();
         $payrolls = PayrollType::all();
         $paymentsPeriod = $this->paymentsPeriod;
@@ -67,7 +67,7 @@ class TicketController extends Controller
 
     public function archivedList()
     {
-        $archivedTicketsArray = Ticket::where('status', 5)->orderBy('id', 'desc')->get()->toArray();
+        $archivedTicketsArray = Ticket::where('is_archived', 1)->orderBy('id', 'desc')->get()->toArray();
 
         $archivedTicketsMap = function ($archivedTicketItem) {
             $company = Company::where('id', $archivedTicketItem['company'])->first();
@@ -421,8 +421,20 @@ class TicketController extends Controller
                 }
             } */    
             //Mail::to($emails)->send($message);
-            return back()->with('success', 'Dispersión');
+            return back()->with('success', 'Confirmación enviada');
         } elseif ($ticket->status == 10) {
+            /* $employees = CompanyEmployee::where('company_id', $ticket->company)->get('user_id');
+            $message = new PayrollAuthorized($userNameCreatedTicket, $ticket->id, $company);
+            $emails = [];
+            foreach ($employees as $employee) {
+                $employeeEmail = User::where('id', $employee->user_id)->first('email');
+                if ($employeeEmail) {
+                    $emails[] = $employeeEmail->email;
+                }
+            } */    
+            //Mail::to($emails)->send($message);
+            return back()->with('success', 'Dispersión');
+        }elseif ($ticket->status == 11) {
             /* $employees = CompanyEmployee::where('company_id', $ticket->company)->get('user_id');
             $message = new PayrollAuthorized($userNameCreatedTicket, $ticket->id, $company);
             $emails = [];
@@ -455,7 +467,7 @@ class TicketController extends Controller
             $ticket->update([
                 'status' => 4.5,
             ]);
-        }elseif ($ticket->status == 8 || $ticket->status == 9) {
+        }elseif ($ticket->status == 9 || $ticket->status == 10) {
             return back()->with('success', 'Hubo un error, intentalo de nuevo');
         }
 

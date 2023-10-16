@@ -30,7 +30,7 @@ class AdminController extends Controller
     public function dashboard()
     {
         $companies = Company::where('is_active', 1)->count();
-        $tickets = Ticket::where('status', '<', 5)->get()->count();
+        $tickets = Ticket::where('is_archived', 0)->get()->count();
         $usersArray = $this->getAlferzaUsers(true);
         $currentYear = Carbon::now()->format('Y');
         $months = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];

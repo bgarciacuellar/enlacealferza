@@ -103,11 +103,11 @@
                     </div>
                     <div class="col-12">
                         <h4>Estatus actual: <strong>{{ $ticket->statusString }}</strong></h4>
-                        @if ($ticket->status >= 8 && $ticket->status < 10)
+                        @if ($ticket->status >= 9 && $ticket->status < 11)
                             <button class="btn btn-orange" data-bs-toggle="modal" data-bs-target="#step_back">Agregar
                                 observaciones</button>
                         @endif
-                        @if ($ticket->status < 10)
+                        @if ($ticket->status < 11)
                             <form action="{{ route('ticket.nextStep', $ticket->id) }}" method="POST" class="d-inline">
                                 @csrf
                                 <button type="submit" class="btn btn-success">{{ $ticket->statusButton }}</button>
@@ -310,7 +310,7 @@
                     @endif
                 </div>
             @endif
-            @if ($ticket->status >= 8)
+            @if ($ticket->status >= 9)
                 <div class="row ">
                     @if ($ticket->ticket_type == 'nómina')
                         <div class="col-6">
@@ -749,7 +749,13 @@
                                     <form action="{{ route('ticket.lastStep', $ticket->id) }}" method="POST"
                                         enctype="multipart/form-data">
                                         @csrf
-                                        <textarea name="comment" class="form-control" cols="30" rows="10" required></textarea>
+                                        <select class="form-control" name="comment" required>
+                                            <option value="">Selecciona una opción</option>
+                                            <option value="Ide Solicitan">Ide Solicitan</option>
+                                            <option value="Mov. $ limite">Mov. $ limite</option>
+                                            <option value="Error general.">Error general.</option>
+                                        </select>
+                                        {{-- <textarea name="comment" class="form-control" cols="30" rows="10" required></textarea> --}}
                                         <input type="file" class="form-control" name="file">
                                         <button type="submit" class="btn btn-primary mt-3 submit-btn">Envíar</button>
                                     </form>
