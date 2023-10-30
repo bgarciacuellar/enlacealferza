@@ -104,6 +104,7 @@ class EmployeeController extends Controller
         $ticket = Ticket::findOrFail($ticketId);
         $ticket->statusString = $this->statusConvert($ticket->status);
         $ticket->statusButton = $this->statusButtons($ticket->status);
+        $ticket->statusDescription = $this->statusDescription($ticket->status);
         $company = Company::findOrFail($ticket->company);
 
         $ticketFileHistory = TicketFileHistory::where('ticket_id', $ticketId)->orderBy('id', 'DESC')->first();

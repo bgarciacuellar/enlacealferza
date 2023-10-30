@@ -423,6 +423,12 @@
         </script>
     @endif
 
+    <script>
+        $(document).ready(function() {
+            $('[data-bs-toggle="tooltip"]').tooltip();
+        });
+    </script>
+
     @yield('js')
 
 </body>

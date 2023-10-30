@@ -24,8 +24,6 @@
                                             {{ $ticketowner ? $ticketowner->name . ' ' . $ticketownerAdditionalInfo->last_name : 'Usuario de alferza' }}
                                             <br> {{ $ticketowner ? $ticketownerAdditionalInfo->work_area : '' }}
                                         </h6>
-                                        {{-- <small class="text-muted">{{ $ticketownerAdditionalInfo->position }}</small>
-                                    <div class="staff-id">ID : {{ $ticketowner->employee_id }}</div> --}}
                                     </div>
                                 </div>
                                 <div class="col-md-7">
@@ -55,28 +53,18 @@
                                                         target="_blank"> Descargar <i class="fas fa-download"></i></a></div>
                                             </li>
                                         @endif
-                                        {{-- <li>
-                                        <div class="title">Reports to:</div>
-                                        <div class="text">
-                                            <div class="avatar-box">
-                                                <div class="avatar avatar-xs">
-                                                    <img src="assets/img/profiles/avatar-16.jpg" alt="">
-                                                </div>
-                                            </div>
-                                            <a href="profile.html">
-                                                Jeffery Lalor
-                                            </a>
-                                        </div>
-                                    </li> --}}
                                     </ul>
                                 </div>
                                 <div class="col-12">
-                                    <h4>Estatus actual: <strong>{{ $ticket->statusString }}</strong></h4>
+                                    <h4>Estatus actual: <strong>{{ $ticket->statusString }}</strong>
+                                        @if ($ticket->statusDescription != '-')
+                                            <i class="fas fa-exclamation-circle" data-bs-toggle="tooltip"
+                                                data-placement="top" title="{{ $ticket->statusDescription }}"></i>
+                                        @endif
+                                    </h4>
                                     @if (
-                                        ($ticket->status == 3 &&
-                                            auth()->user()->hasRoles(['cliente', 'validador'])) ||
-                                            ($ticket->status == 5 &&
-                                                auth()->user()->hasRoles(['cliente', 'validador'])))
+                                        $ticket->status == 3 &&
+                                            auth()->user()->hasRoles(['cliente', 'validador']))
                                         <button class="btn btn-orange" data-bs-toggle="modal"
                                             data-bs-target="#step_back">Agregar observaciones</button>
                                     @endif
@@ -85,9 +73,9 @@
                                             auth()->user()->hasRoles(['cliente', 'capturista'])) ||
                                             ($ticket->status == 3 &&
                                                 auth()->user()->hasRoles(['cliente', 'validador'])) ||
-                                            ($ticket->status == 5 &&
+                                            ($ticket->status == 4 &&
                                                 auth()->user()->hasRoles(['cliente', 'validador'])) ||
-                                            ($ticket->status == 7 &&
+                                            ($ticket->status == 5 &&
                                                 auth()->user()->hasRoles(['cliente', 'validador'])))
                                         <form action="{{ route('ticket.nextStep', $ticket->id) }}" method="POST"
                                             class="d-inline">
@@ -151,24 +139,25 @@
                         @endif
                     </div>
                 </div>
-                <div class="col-6">
-                    <div class="card profile-box flex-fill">
-                        <div class="card-body">
-                            <h3 class="card-title">Archivo</h3>
-                            <div class="row">
-                                {{-- <div class="col-4 offset-lg-1 align-self-center text-center">
+                @if (
+                    ($ticket->status == 1 &&
+                        auth()->user()->hasRoles(['cliente', 'capturista'])) ||
+                        ($ticket->status == 3 &&
+                            auth()->user()->hasRoles(['cliente', 'validador'])))
+                    <div class="col-6">
+                        <div class="card profile-box flex-fill">
+                            <div class="card-body">
+                                <h3 class="card-title">Archivo</h3>
+                                <div class="row">
+                                    {{-- <div class="col-4 offset-lg-1 align-self-center text-center">
                                 <div>
                                     <i class="fas fa-file-download" style="font-size: 50px;"></i>
                                     <button class="btn btn-primary mt-3 submit-btn">Descargar <i
                                             class="fas fa-download"></i></button>
                                 </div>
                             </div> --}}
-                                <div class="col-7">
-                                    @if (
-                                        ($ticket->status == 1 &&
-                                            auth()->user()->hasRoles(['cliente', 'capturista'])) ||
-                                            ($ticket->status == 3 &&
-                                                auth()->user()->hasRoles(['cliente', 'validador'])))
+
+                                    <div class="col-7">
                                         <form action="{{ route('ticket.uploadFile', $ticket->id) }}" method="POST"
                                             enctype="multipart/form-data">
                                             @csrf
@@ -177,71 +166,20 @@
                                             <input type="file" class="form-control" name="file">
                                             <button type="submit" class="btn btn-primary mt-3 submit-btn">Subir</button>
                                         </form>
-                                    @else
-                                        <h3 class="text-center">En espera del siguiente archivo</h3>
-                                    @endif
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
+                @endif
             </div>
-            @if ($ticket->status >= 4)
-                <div class="row justify-content-center">
-                    @if ($ticket->ticket_type == 'nómina')
-                        <div class="col-6">
-                            <div class="card profile-box flex-fill">
-                                <div class="card-body">
-                                    <h3 class="card-title text-center">Archivo Pre-factura</h3>
-                                    <div class="row align-content-center" style=" max-height: 400px; overflow: auto;">
-                                        <div class="col-12 pb-3 text-center">
-                                            @if ($ticket->preinvoices)
-                                                <a href="{{ asset('storage/preinvoice/' . $ticket->preinvoices) }}"
-                                                    target="_blank"><button
-                                                        class="btn btn-primary mt-3 submit-btn">Descargar <i
-                                                            class="fas fa-download"></i></button>
-                                                </a>
-                                            @else
-                                                <h2 class="ps-4 pt-4">No se ha subido ningún archivo</h2>
-                                            @endif
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    @endif
-                    <div class="col-6">
-                        <div class="card profile-box flex-fill">
-                            <div class="card-body">
-                                <h3 class="card-title text-center">Recibos de nómina</h3>
-                                <div class="row align-content-center" style=" max-height: 400px; overflow: auto;">
-                                    {{-- <div class="col-6 align-self-center">
-                                    <span> Creado el: <strong>{{ $ticketFileHistory['created_at'] }}</strong> por:
-                                        <strong>{{ $ticketFileHistory['user_name'] }}</strong></span>
-                                </div> --}}
-                                    <div class="col-12 pb-3 text-center">
-                                        @if ($ticket->payroll_receipt)
-                                            <a href="{{ asset('storage/payroll_receipt/' . $ticket->payroll_receipt) }}"
-                                                target="_blank"><button class="btn btn-primary mt-3 submit-btn">Descargar
-                                                    <i class="fas fa-download"></i></button>
-                                            </a>
-                                        @else
-                                            <h2 class="ps-4 pt-4">No se ha subido ningún archivo</h2>
-                                        @endif
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            @endif
-            @if ($ticket->status >= 7)
+            @if ($ticket->status >= 5)
                 <div class="row">
                     @if ($ticket->ticket_type == 'nómina')
                         <div class="col-6">
                             <div class="card profile-box flex-fill">
                                 <div class="card-body">
-                                    <h3 class="card-title text-center">Comprobante de pago de la pre-factura</h3>
+                                    <h3 class="card-title text-center">Comprobante de pago</h3>
                                     <div class="row align-content-center" style=" max-height: 400px; overflow: auto;">
                                         <div class="col-12 pb-3 text-center">
                                             @if ($ticket->payment_receipt)
@@ -259,11 +197,11 @@
                             </div>
                         </div>
                     @endif
-                    @if ($ticket->status == 7)
+                    @if ($ticket->status == 5)
                         <div class="col-6">
                             <div class="card profile-box flex-fill">
                                 <div class="card-body">
-                                    <h3 class="card-title">Comprobante de pago de la pre-factura</h3>
+                                    <h3 class="card-title">Comprobante de pago</h3>
                                     <div class="row">
                                         <div class="col-7">
                                             <form action="{{ route('ticket.uploadPaymentReceipt', $ticket->id) }}"
@@ -276,6 +214,28 @@
                                                 <button type="submit"
                                                     class="btn btn-primary mt-3 submit-btn">Subir</button>
                                             </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    @endif
+                    @if ($ticket->status >= 7)
+                        <div class="col-6">
+                            <div class="card profile-box flex-fill">
+                                <div class="card-body">
+                                    <h3 class="card-title text-center">Kardex</h3>
+                                    <div class="row align-content-center" style=" max-height: 400px; overflow: auto;">
+                                        <div class="col-12 pb-3 text-center">
+                                            @if ($ticket->kardex)
+                                                <a href="{{ asset('storage/kardex/' . $ticket->kardex) }}"
+                                                    target="_blank" class="download_kardex"><button
+                                                        class="btn btn-primary mt-3 submit-btn">Descargar <i
+                                                            class="fas fa-download"></i></button>
+                                                </a>
+                                            @else
+                                                <h2 class="ps-4 pt-4">No se ha subido ningún archivo</h2>
+                                            @endif
                                         </div>
                                     </div>
                                 </div>
@@ -846,6 +806,20 @@
 @endsection
 
 @section('js')
+    @if ($ticket->ticket_type == 'nómina')
+        <script>
+            $('.download_kardex').click(function() {
+                $.ajax({
+                    url: "{{ route('ticket.downloadKardex', [$company->id, $ticket->id]) }}",
+                    method: 'GET',
+                }).done(function(result) {
+                    if (result) {
+                        //console.log(result);
+                    }
+                });
+            });
+        </script>
+    @endif
     <script>
         let menuIcon = "home";
     </script>

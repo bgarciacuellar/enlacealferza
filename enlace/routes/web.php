@@ -117,6 +117,8 @@ Route::post('/ticket/get-payroll-by-company/', [App\Http\Controllers\TicketContr
     ->name('ticket.getPayrollByCompany');
 Route::get('/ticket/send-dowloaded-catega-file-email/{companyId}/{ticketId}', [App\Http\Controllers\TicketController::class, 'downloadCategaFile'])
     ->name('ticket.downloadCategaFile');
+Route::get('/ticket/send-dowloaded-kardex-email/{companyId}/{ticketId}', [App\Http\Controllers\TicketController::class, 'downloadKardex'])
+    ->name('ticket.downloadKardex');
 
 // Company
 Route::get('/compania/lista', [App\Http\Controllers\CompanyController::class, 'list'])

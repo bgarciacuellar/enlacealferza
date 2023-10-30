@@ -102,12 +102,18 @@
                                 href="#"><i class="fas fa-pencil-alt"></i></a></div>
                     </div>
                     <div class="col-12">
-                        <h4>Estatus actual: <strong>{{ $ticket->statusString }}</strong></h4>
-                        @if ($ticket->status >= 9 && $ticket->status < 11)
+                        <h4>Estatus actual:
+                            <strong>{{ $ticket->statusString }}</strong>
+                            @if ($ticket->statusDescription != '-')
+                                <i class="fas fa-exclamation-circle" data-bs-toggle="tooltip" data-placement="top"
+                                    title="{{ $ticket->statusDescription }}"></i>
+                            @endif
+                        </h4>
+                        @if ($ticket->status >= 7 && $ticket->status <= 8)
                             <button class="btn btn-orange" data-bs-toggle="modal" data-bs-target="#step_back">Agregar
                                 observaciones</button>
                         @endif
-                        @if ($ticket->status < 11)
+                        @if ($ticket->status < 9)
                             <form action="{{ route('ticket.nextStep', $ticket->id) }}" method="POST" class="d-inline">
                                 @csrf
                                 <button type="submit" class="btn btn-success">{{ $ticket->statusButton }}</button>
@@ -165,84 +171,34 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-6">
-                    <div class="card profile-box flex-fill">
-                        <div class="card-body">
-                            <h3 class="card-title">Archivo</h3>
-                            <div class="row">
-                                <div class="col-7">
-                                    @if (count($ticketFilesHistory) > 0)
-                                        <form action="{{ route('ticket.uploadFile', $ticket->id) }}" method="POST"
-                                            enctype="multipart/form-data">
-                                            @csrf
-                                            <label class="col-form-label">Subir nuevo archivo<span
-                                                    class="text-danger">*</span></label>
-                                            <input type="file" class="form-control" name="file" required>
-                                            <button type="submit" class="btn btn-primary mt-3 submit-btn">Subir</button>
-                                        </form>
-                                    @else
-                                        <h3 class="text-center">En espera de que el cliente suba su archivo</h3>
-                                    @endif
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            @if ($ticket->status >= 4)
-                @if ($ticket->ticket_type == 'nómina')
-                    <div class="row">
-                        <div class="col-6">
-                            <div class="card profile-box flex-fill">
-                                <div class="card-body">
-                                    <h3 class="card-title">Archivo Pre-factura</h3>
-                                    <div class="row align-content-center" style=" max-height: 400px; overflow: auto;">
-                                        {{-- <div class="col-6 align-self-center">
-                                <span> Creado el: <strong>{{ $ticketFileHistory['created_at'] }}</strong> por:
-                                    <strong>{{ $ticketFileHistory['user_name'] }}</strong></span>
-                            </div> --}}
-                                        <div class="col-6 pb-3">
-                                            @if ($ticket->preinvoices)
-                                                <a href="{{ asset('storage/preinvoice/' . $ticket->preinvoices) }}"
-                                                    target="_blank"><button
-                                                        class="btn btn-primary mt-3 submit-btn">Descargar
-                                                        <i class="fas fa-download"></i></button>
-                                                </a>
-                                            @else
-                                                <h2 class="ps-4 pt-4">No se ha subido ningún archivo</h2>
-                                            @endif
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-6">
-                            <div class="card profile-box flex-fill">
-                                <div class="card-body">
-                                    <h3 class="card-title">Archivo Pre-factura</h3>
-                                    <div class="row">
-                                        <div class="col-7">
-                                            @if ($ticket->status == 5)
-                                                <h3 class="text-center">Nómina pagada</h3>
-                                            @else
-                                                <form action="{{ route('ticket.uploadPreinvoice', $ticket->id) }}"
-                                                    method="POST" enctype="multipart/form-data">
-                                                    @csrf
-                                                    <label class="col-form-label">Subir nuevo archivo<span
-                                                            class="text-danger">*</span></label>
-                                                    <input type="file" class="form-control" name="preinvoice"
-                                                        required>
-                                                    <button type="submit"
-                                                        class="btn btn-primary mt-3 submit-btn">Subir</button>
-                                                </form>
-                                            @endif
-                                        </div>
+                @if ($ticket->status <= 4)
+                    <div class="col-6">
+                        <div class="card profile-box flex-fill">
+                            <div class="card-body">
+                                <h3 class="card-title">Archivo</h3>
+                                <div class="row">
+                                    <div class="col-7">
+                                        @if (count($ticketFilesHistory) > 0)
+                                            <form action="{{ route('ticket.uploadFile', $ticket->id) }}" method="POST"
+                                                enctype="multipart/form-data">
+                                                @csrf
+                                                <label class="col-form-label">Subir nuevo archivo<span
+                                                        class="text-danger">*</span></label>
+                                                <input type="file" class="form-control" name="file" required>
+                                                <button type="submit"
+                                                    class="btn btn-primary mt-3 submit-btn">Subir</button>
+                                            </form>
+                                        @else
+                                            <h3 class="text-center">En espera de que el cliente suba su archivo</h3>
+                                        @endif
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 @endif
+            </div>
+            @if ($ticket->status >= 4)
                 <div class="row">
                     <div class="col-6">
                         <div class="card profile-box flex-fill">
@@ -263,34 +219,38 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-6">
-                        <div class="card profile-box flex-fill">
-                            <div class="card-body">
-                                <h3 class="card-title">Recibos de nómina</h3>
-                                <div class="row">
-                                    <div class="col-7">
-                                        <form action="{{ route('ticket.uploadPayrollReceipt', $ticket->id) }}"
-                                            method="POST" enctype="multipart/form-data">
-                                            @csrf
-                                            <label class="col-form-label">Subir nuevos recibos de nómina<span
-                                                    class="text-danger">*</span></label>
-                                            <input type="file" class="form-control" name="payroll_receipt" required>
-                                            <button type="submit" class="btn btn-primary mt-3 submit-btn">Subir</button>
-                                        </form>
+                    @if ($ticket->status <= 4)
+                        <div class="col-6">
+                            <div class="card profile-box flex-fill">
+                                <div class="card-body">
+                                    <h3 class="card-title">Recibos de nómina</h3>
+                                    <div class="row">
+                                        <div class="col-7">
+                                            <form action="{{ route('ticket.uploadPayrollReceipt', $ticket->id) }}"
+                                                method="POST" enctype="multipart/form-data">
+                                                @csrf
+                                                <label class="col-form-label">Subir nuevos recibos de nómina<span
+                                                        class="text-danger">*</span></label>
+                                                <input type="file" class="form-control" name="payroll_receipt"
+                                                    required>
+                                                <button type="submit"
+                                                    class="btn btn-primary mt-3 submit-btn">Subir</button>
+                                            </form>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    @endif
                 </div>
             @endif
-            @if ($ticket->status >= 7)
+            @if ($ticket->status >= 6)
                 <div class="row ">
                     @if ($ticket->ticket_type == 'nómina')
                         <div class="col-6">
                             <div class="card profile-box flex-fill">
                                 <div class="card-body">
-                                    <h3 class="card-title text-center">Comprobante de pago de la pre-factura</h3>
+                                    <h3 class="card-title text-center">Comprobante de pago</h3>
                                     <div class="row align-content-center" style=" max-height: 400px; overflow: auto;">
                                         <div class="col-12 pb-3 text-center">
                                             @if ($ticket->payment_receipt)
@@ -310,7 +270,7 @@
                     @endif
                 </div>
             @endif
-            @if ($ticket->status >= 9)
+            @if ($ticket->status >= 7)
                 <div class="row ">
                     @if ($ticket->ticket_type == 'nómina')
                         <div class="col-6">
@@ -768,6 +728,9 @@
         </div>
     </div>
     <!-- /step back Modal -->
+    <button type="button" class="btn btn-secondary" data-bs-toggle="tooltip" data-bs-placement="top"
+        title="Tooltip on top">dasdas</button>
+
 @endsection
 
 @section('js')

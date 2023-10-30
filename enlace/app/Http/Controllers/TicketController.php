@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Mail\DownloadedCategaFile;
+use App\Mail\DownloadedKardexFile;
 use App\Mail\InvoiceDenied;
 use App\Mail\PaidTicket;
 use App\Mail\PayrollAuthorized;
@@ -37,7 +38,7 @@ class TicketController extends Controller
     function __construct()
     {
         $this->middleware('auth');
-        $this->middleware(['auth', 'roles:admin,ejecutivo'])->except('details', 'uploadFileToRecord', 'addComment', 'nextStep', 'lastStep', 'uploadPreinvoice', 'getPayrollByCompany', 'downloadCategaFile', 'uploadPaymentReceipt');
+        $this->middleware(['auth', 'roles:admin,ejecutivo'])->except('details', 'uploadFileToRecord', 'addComment', 'nextStep', 'lastStep', 'uploadPreinvoice', 'getPayrollByCompany', 'downloadCategaFile', 'uploadPaymentReceipt', 'downloadKardex');
     }
 
     public function list()
@@ -155,6 +156,7 @@ class TicketController extends Controller
         $ticket = Ticket::findOrFail($ticketId);
         $ticket->statusString = $this->statusConvert($ticket->status);
         $ticket->statusButton = $this->statusButtons($ticket->status);
+        $ticket->statusDescription = $this->statusDescription($ticket->status);
         $company = Company::findOrFail($ticket->company);
         $payrolls = PayrollType::all();
         $credits = CompanyCredit::where('status', 1)->where('company_id', $ticket->company)->get();
@@ -190,7 +192,7 @@ class TicketController extends Controller
 
         $ticketowner = User::where('id', $ticket->user_id)->first();
         $ticketownerAdditionalInfo = AdditionalUserInfo::where('user_id', $ticket->user_id)->first();
-
+        
         return view('ticket.details', compact('ticket', 'ticketComments', 'ticketFilesHistory', 'ticketowner', 'ticketownerAdditionalInfo', 'company', 'payrolls', 'paymentsPeriod', 'credits'));
     }
 
@@ -294,15 +296,11 @@ class TicketController extends Controller
                 'status' => 5,
             ]);
         }else {
-            if ($ticket->status == 2.5) {
+            if (str_contains($ticket->status, '.')) {
                 $ticket->update([
-                    'status' => 3,
+                    'status' => $ticket->status + .5,
                 ]);
-            } elseif ($ticket->status == 4.5) {
-                $ticket->update([
-                    'status' => 5,
-                ]);
-            }else {
+            } else {
                 $ticket->update([
                     'status' => $ticket->status + 1,
                 ]);
@@ -313,7 +311,7 @@ class TicketController extends Controller
         $userNameCreatedTicket = $userCreatedTicket ? $userCreatedTicket->name : "Usuario de alferza";
         $company = Company::where('id', $ticket->company)->first('name')->name;
 
-        if ($ticket->status == 2) {
+        if ($ticket->status == 1.5) {
             $users = CompanyOnCharge::where('company_id', $ticket->company)->get('user_id');
             $message = new UploadedIncident($userNameCreatedTicket, $ticket->id, $company, $ticket->category);
             $emails = [];
@@ -328,6 +326,18 @@ class TicketController extends Controller
             }
             Mail::to($emails)->send($message);
             return back()->with('success', 'Incidencia cargada');
+        } elseif ($ticket->status == 2) {
+            /* $employees = CompanyEmployee::where('company_id', $ticket->company)->get('user_id');
+            $message = new PayrollAuthorized($userNameCreatedTicket, $ticket->id, $company);
+            $emails = [];
+            foreach ($employees as $employee) {
+                $employeeEmail = User::where('id', $employee->user_id)->first('email');
+                if ($employeeEmail) {
+                    $emails[] = $employeeEmail->email;
+                }
+            } */    
+            //Mail::to($emails)->send($message);
+            return back()->with('success', 'Incidencia filtrada cargada');
         } elseif ($ticket->status == 3) {
             $employees = CompanyEmployee::where('company_id', $ticket->company)->get('user_id');
             $message = new UploadedPayroll($userNameCreatedTicket, $ticket->id, $company);
@@ -357,20 +367,22 @@ class TicketController extends Controller
                 }
             }
             Mail::to($emails)->send($message);
+            $ticket->update([
+                'status' => $ticket->status + 1,
+            ]);
             return back()->with('success', 'Nómina autorizada');
         } elseif ($ticket->status == 5) {
-            $employees = CompanyEmployee::where('company_id', $ticket->company)->get('user_id');
+            /* $employees = CompanyEmployee::where('company_id', $ticket->company)->get('user_id');
             $message = new PayrollAuthorized($userNameCreatedTicket, $ticket->id, $company);
-            /* $message = new UploadedPayroll($userNameCreatedTicket, $ticket->id, $company); */
             $emails = [];
             foreach ($employees as $employee) {
                 $employeeEmail = User::where('id', $employee->user_id)->first('email');
                 if ($employeeEmail) {
                     $emails[] = $employeeEmail->email;
                 }
-            }
+            } */    
             //Mail::to($emails)->send($message);
-            return back()->with('success', 'Pre-factura enviada');
+            return back()->with('success', 'Comprobante enviado');
         } elseif ($ticket->status == 6) {
             /* $employees = CompanyEmployee::where('company_id', $ticket->company)->get('user_id');
             $message = new PayrollAuthorized($userNameCreatedTicket, $ticket->id, $company);
@@ -382,10 +394,7 @@ class TicketController extends Controller
                 }
             } */    
             //Mail::to($emails)->send($message);
-            $ticket->update([
-                'status' => $ticket->status + 1,
-            ]);
-            return back()->with('success', 'Pre-factura autorizada');
+            return back()->with('success', 'Comprobante enviado');
         } elseif ($ticket->status == 7) {
             /* $employees = CompanyEmployee::where('company_id', $ticket->company)->get('user_id');
             $message = new PayrollAuthorized($userNameCreatedTicket, $ticket->id, $company);
@@ -397,7 +406,7 @@ class TicketController extends Controller
                 }
             } */    
             //Mail::to($emails)->send($message);
-            return back()->with('success', 'Comprobante enviado');
+            return back()->with('success', 'Confirmación enviada');
         } elseif ($ticket->status == 8) {
             /* $employees = CompanyEmployee::where('company_id', $ticket->company)->get('user_id');
             $message = new PayrollAuthorized($userNameCreatedTicket, $ticket->id, $company);
@@ -409,32 +418,8 @@ class TicketController extends Controller
                 }
             } */    
             //Mail::to($emails)->send($message);
-            return back()->with('success', 'Comprobante enviado');
-        } elseif ($ticket->status == 9) {
-            /* $employees = CompanyEmployee::where('company_id', $ticket->company)->get('user_id');
-            $message = new PayrollAuthorized($userNameCreatedTicket, $ticket->id, $company);
-            $emails = [];
-            foreach ($employees as $employee) {
-                $employeeEmail = User::where('id', $employee->user_id)->first('email');
-                if ($employeeEmail) {
-                    $emails[] = $employeeEmail->email;
-                }
-            } */    
-            //Mail::to($emails)->send($message);
-            return back()->with('success', 'Confirmación enviada');
-        } elseif ($ticket->status == 10) {
-            /* $employees = CompanyEmployee::where('company_id', $ticket->company)->get('user_id');
-            $message = new PayrollAuthorized($userNameCreatedTicket, $ticket->id, $company);
-            $emails = [];
-            foreach ($employees as $employee) {
-                $employeeEmail = User::where('id', $employee->user_id)->first('email');
-                if ($employeeEmail) {
-                    $emails[] = $employeeEmail->email;
-                }
-            } */    
-            //Mail::to($emails)->send($message);
             return back()->with('success', 'Dispersión');
-        }elseif ($ticket->status == 11) {
+        } elseif ($ticket->status == 9) {
             /* $employees = CompanyEmployee::where('company_id', $ticket->company)->get('user_id');
             $message = new PayrollAuthorized($userNameCreatedTicket, $ticket->id, $company);
             $emails = [];
@@ -463,11 +448,7 @@ class TicketController extends Controller
             $ticket->update([
                 'status' => 2.5,
             ]);
-        }elseif ($ticket->status == 5) {
-            $ticket->update([
-                'status' => 4.5,
-            ]);
-        }elseif ($ticket->status == 9 || $ticket->status == 10) {
+        }elseif ($ticket->status == 7 || $ticket->status == 8) {
             return back()->with('success', 'Hubo un error, intentalo de nuevo');
         }
 
@@ -747,6 +728,21 @@ class TicketController extends Controller
                 Mail::to($employeeEmail->email)->send($message);
             }
             return  'Se ha enviado un correo al cliente informado que se ha descargado el archivo';
+        }
+    }
+    public function downloadKardex(Request $request, $companyId, $ticketId){
+        $currentUser = Auth::user();
+            if ($request->ajax()) {
+            $users = CompanyOnCharge::where('company_id', $companyId)->get('user_id');
+            $company = Company::where('id', $companyId)->first('name')->name;
+
+            $message = new DownloadedKardexFile($currentUser->name, $ticketId, $company);
+            foreach ($users as $user) {
+                $employeeEmail = User::where('id', $user->user_id)->first('email');
+                Mail::to($employeeEmail->email)->send($message);
+            }
+            return response('Kardex descargado', 200)
+                  ->header('Content-Type', 'text/plain');
         }
     }
 }

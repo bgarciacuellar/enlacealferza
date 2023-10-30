@@ -76,7 +76,10 @@ trait helpers
     {
         switch ($status) {
             case 1:
-                $statusConverted = "Cargar nóminas";
+                $statusConverted = "Cargar incidencias";
+                break;
+            case 1.5:
+                $statusConverted = "Filtrado de incidencias";
                 break;
             case 2:
                 $statusConverted = "Cálculo de nómina";
@@ -88,30 +91,21 @@ trait helpers
                 $statusConverted = "Autorización";
                 break;
             case 4:
-                $statusConverted = "Nómina Autorizada";
-                break;
-            case 4.5:
-                $statusConverted = "Observaciones de pre-factura en revisión";
+                $statusConverted = "Nómina Autorizada (Créditos)";
                 break;
             case 5:
-                $statusConverted = "Autorización de pre-factura";
+                $statusConverted = "Nómina Autorizada";
                 break;
             case 6:
-                $statusConverted = "-";
-                break;
-            case 7:
-                $statusConverted = "Enviar comprobante";
-                break;
-            case 8:
                 $statusConverted = "Confirmar de recibido";
                 break;
-            case 9:
+            case 7:
                 $statusConverted = "Dispersión de nómina solicitada";
                 break;
-            case 10:
+            case 8:
                 $statusConverted = "Enviar kardex";
                 break;
-            case 11:
+            case 9:
                 $statusConverted = "Nómina completada";
                 break;
             default:
@@ -125,7 +119,10 @@ trait helpers
     {
         switch ($status) {
             case 1:
-                $statusConverted = "Enviar nómina";
+                $statusConverted = "Enviar incidencias";
+                break;
+            case 1.5:
+                $statusConverted = "Enviar incidencias filtradas";
                 break;
             case 2:
                 $statusConverted = "Enviar cálculo de nómina";
@@ -137,34 +134,71 @@ trait helpers
                 $statusConverted = "Autorizar nómina";
                 break;
             case 4:
-                $statusConverted = "Enviar pre-factura";
-                break;
-            case 4.5:
-                $statusConverted = "Enviar pre-factura corregida";
+                $statusConverted = "Créditos";
                 break;
             case 5:
-                $statusConverted = "Autorizar pre-factura";
+                $statusConverted = "Enviar comprobante de pago";
+                break;
+            case 6:
+                $statusConverted = "Confirmar comprobante de pago";
+                break;
+            case 7:
+                $statusConverted = "Dispersión en proceso";
+                break;
+            case 8:
+                $statusConverted = "Kardex";
+                break;
+            case 9:
+                $statusConverted = "-";
+                break;
+            default:
+                $statusConverted = 'Siguiente paso';
+                break;
+        }
+        return $statusConverted;
+    }
+
+    public function statusDescription($status)
+    {
+        switch ($status) {
+            case 1:
+                $statusConverted = "-";
+                break;
+            case 1.5:
+                $statusConverted = "-";
+                break;
+            case 2:
+                $statusConverted = "-";
+                break;
+            case 2.5:
+                $statusConverted = "-";
+                break;
+            case 3:
+                $statusConverted = "-";
+                break;
+            case 4:
+                $statusConverted = "-";
+                break;
+            case 5:
+                $statusConverted = "-";
                 break;
             case 6:
                 $statusConverted = "-";
                 break;
             case 7:
-                $statusConverted = "Enviar comprobante de pago";
+                $statusConverted = "-";
                 break;
             case 8:
-                $statusConverted = "Confirmar";
+                $statusConverted = "-";
                 break;
             case 9:
-                $statusConverted = "Dispersión en proceso";
+                $statusConverted = "-";
                 break;
             case 10:
-                $statusConverted = "Kardex";
-                break;
-            case 11:
                 $statusConverted = "-";
                 break;
             default:
-                $statusConverted = 'Siguiente paso';
+                $statusConverted = '-';
                 break;
         }
         return $statusConverted;

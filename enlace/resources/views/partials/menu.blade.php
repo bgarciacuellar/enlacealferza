@@ -174,7 +174,7 @@
                                     Archivadas</a>
                             </li>
                             <li>
-                                <a href="{{ route('payroll.list') }}">Nóminas</a>
+                                <a href="{{ route('payroll.list') }}">Tipo de nóminas</a>
                             </li>
                         </ul>
                     </div>
@@ -269,6 +269,9 @@
     <script>
         $('.modal-select').select2({
             dropdownParent: $('.modal-to-select2')
+        });
+        $(document).ready(function() {
+            $('[data-bs-toggle="tooltip"]').tooltip();
         });
     </script>
 
