@@ -728,8 +728,6 @@
         </div>
     </div>
     <!-- /step back Modal -->
-    <button type="button" class="btn btn-secondary" data-bs-toggle="tooltip" data-bs-placement="top"
-        title="Tooltip on top">dasdas</button>
 
 @endsection
 
