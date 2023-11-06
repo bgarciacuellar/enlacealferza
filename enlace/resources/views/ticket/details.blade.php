@@ -109,6 +109,14 @@
                                     title="{{ $ticket->statusDescription }}"></i>
                             @endif
                         </h4>
+                        @if ($ticket->status != 1 && !str_contains($ticket->status, '.'))
+                            <button class="btn btn-secondary" data-bs-toggle="modal"
+                                data-bs-target="#step_back_no_feedback">Regresar</button>
+                        @endif
+                        @if ($ticket->status == 1.5 || $ticket->status == 1.7)
+                            <button class="btn btn-secondary" data-bs-toggle="modal"
+                                data-bs-target="#step_back_no_feedback">Regresar</button>
+                        @endif
                         @if ($ticket->status >= 7 && $ticket->status <= 8)
                             <button class="btn btn-orange" data-bs-toggle="modal" data-bs-target="#step_back">Agregar
                                 observaciones</button>
@@ -718,6 +726,37 @@
                                         {{-- <textarea name="comment" class="form-control" cols="30" rows="10" required></textarea> --}}
                                         <input type="file" class="form-control" name="file">
                                         <button type="submit" class="btn btn-primary mt-3 submit-btn">Envíar</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /step back Modal -->
+
+    <!-- step back with no feedback Modal -->
+    <div id="step_back_no_feedback" class="modal custom-modal fade" role="dialog">
+        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    {{-- <h5 class="modal-title">Regresar</h5> --}}
+                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="card">
+                        <div class="card-body">
+                            <h3 class="card-title">¿Estas seguro que quieres regresar al punto anterior?</h3>
+                            {{-- <p class="">Regrese al punto anterior solo si es necesario.</p> --}}
+                            <div class="row">
+                                <div class="col-11 justify-content-center">
+                                    <form action="{{ route('ticket.lastStepNoFeedback', $ticket->id) }}" method="POST">
+                                        @csrf
+                                        <button type="submit" class="btn btn-primary mt-3 submit-btn">Regresar</button>
                                     </form>
                                 </div>
                             </div>

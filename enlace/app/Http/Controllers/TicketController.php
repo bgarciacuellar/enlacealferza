@@ -38,7 +38,7 @@ class TicketController extends Controller
     function __construct()
     {
         $this->middleware('auth');
-        $this->middleware(['auth', 'roles:admin,ejecutivo'])->except('details', 'uploadFileToRecord', 'addComment', 'nextStep', 'lastStep', 'uploadPreinvoice', 'getPayrollByCompany', 'downloadCategaFile', 'uploadPaymentReceipt', 'downloadKardex');
+        $this->middleware(['auth', 'roles:admin,ejecutivo'])->except('details', 'uploadFileToRecord', 'addComment', 'nextStep', 'lastStep', 'uploadPreinvoice', 'getPayrollByCompany', 'downloadCategaFile', 'uploadPaymentReceipt', 'downloadKardex', 'uploadNominalPayment');
     }
 
     public function list()
@@ -296,11 +296,19 @@ class TicketController extends Controller
                 'status' => 5,
             ]);
         }else {
-            if (str_contains($ticket->status, '.')) {
+            if ((str_contains($ticket->status, '.') && $ticket->status != 1.5 && $ticket->status != 1.7) || $ticket->status == 1) {
                 $ticket->update([
                     'status' => $ticket->status + .5,
                 ]);
-            } else {
+            } elseif ($ticket->status == 1.5) {
+                $ticket->update([
+                    'status' => 1.7,
+                ]);
+            } elseif ($ticket->status == 1.7) {
+                $ticket->update([
+                    'status' => 2,
+                ]);
+            }else {
                 $ticket->update([
                     'status' => $ticket->status + 1,
                 ]);
@@ -326,6 +334,21 @@ class TicketController extends Controller
             }
             Mail::to($emails)->send($message);
             return back()->with('success', 'Incidencia cargada');
+        } elseif ($ticket->status == 1.7) {
+            /* $users = CompanyOnCharge::where('company_id', $ticket->company)->get('user_id');
+            $message = new UploadedIncident($userNameCreatedTicket, $ticket->id, $company, $ticket->category);
+            $emails = [];
+            foreach ($users as $user) {
+                $employeeEmail = User::where('id', $user->user_id)->where('role', 'nominista')->first('email');
+                if (!$employeeEmail) {
+                    $employeeEmail = User::where('id', $user->user_id)->where('role', 'ejecutivo')->first('email');
+                }
+                if ($employeeEmail) {
+                    $emails[] = $employeeEmail->email;
+                }
+            }
+            Mail::to($emails)->send($message); */
+            return back()->with('success', 'Incidencia filtrada cargada');
         } elseif ($ticket->status == 2) {
             /* $employees = CompanyEmployee::where('company_id', $ticket->company)->get('user_id');
             $message = new PayrollAuthorized($userNameCreatedTicket, $ticket->id, $company);
@@ -337,7 +360,7 @@ class TicketController extends Controller
                 }
             } */    
             //Mail::to($emails)->send($message);
-            return back()->with('success', 'Incidencia filtrada cargada');
+            return back()->with('success', 'Pre cálculo de nómina enviado');
         } elseif ($ticket->status == 3) {
             $employees = CompanyEmployee::where('company_id', $ticket->company)->get('user_id');
             $message = new UploadedPayroll($userNameCreatedTicket, $ticket->id, $company);
@@ -493,6 +516,38 @@ class TicketController extends Controller
         return back()->with('success', 'Observaciones enviadas');
     }
 
+    public function lastStepNoFeedback(Request $request, $id)
+    {
+        $ticket = Ticket::findOrFail($id);
+        if ($ticket->status == 1.5) {
+            $ticket->update([
+                'status' => 1,
+            ]);
+            return back()->with('success', 'Paso anterior');
+        }
+        if ($ticket->status == 1.7) {
+            $ticket->update([
+                'status' => 1.5,
+            ]);
+            return back()->with('success', 'Paso anterior');
+        }
+        if ($ticket->status == 2) {
+            $ticket->update([
+                'status' => 1.7,
+            ]);
+            return back()->with('success', 'Paso anterior');
+        }
+        if (str_contains($ticket->status, '.')) {
+            return back()->with('error', 'Hubo un error, intentalo de nuevo');
+        }
+
+        $ticket->update([
+            'status' => $ticket->status - 1,
+        ]);
+
+        return back()->with('success', 'Paso anterior');
+    }
+
     public function uploadPreinvoice(Request $request, $ticket)
     {
         $request->validate(
@@ -608,6 +663,51 @@ class TicketController extends Controller
 
         $updateTicket->update([
             'payment_receipt' => $fileName,
+        ]);
+
+        /*$employees = CompanyEmployee::where('company_id', $updateTicket->company)->get('user_id');
+        $company = Company::where('id', $updateTicket->company)->first('name')->name;
+
+        $message = new PayrollReceiptEmail($currentUser->name, $updateTicket->id, $company);
+        
+        $emails = [];
+        foreach ($employees as $employee) {
+            $employeeEmail = User::where('id', $employee->user_id)->first('email')->email;
+            $emails[] = $employeeEmail;
+        }
+        Mail::to($emails)->send($message); */
+
+        return back()->with('success', 'Archivo cargado');
+    }
+
+    public function uploadNominalPayment(Request $request, $ticket)
+    {
+        $request->validate(
+            [
+                'nominal_payment' => 'required',
+            ],
+        );
+
+        $updateTicket = Ticket::findOrFail($ticket);
+        $currentUser = Auth::user();
+
+        $path = storage_path('app/public/nominal_payment');
+        if (!file_exists($path)) {
+            mkdir($path, 0777, true);
+        }
+
+        $fileFullName = pathinfo($request->file('nominal_payment')->getClientOriginalName(), PATHINFO_FILENAME);
+        $fileExtension = pathinfo($request->file('nominal_payment')->getClientOriginalName(), PATHINFO_EXTENSION);
+        $fileName = $fileFullName  . "_" . $updateTicket->id . "." . $fileExtension;
+
+        $request->file('nominal_payment')->storeAs('public/nominal_payment', $fileName);
+
+        if ($updateTicket->nominal_payment) {
+            $this->deleteFile($updateTicket->nominal_payment, 'nominal_payment');
+        }
+
+        $updateTicket->update([
+            'nominal_payment' => $fileName,
         ]);
 
         /*$employees = CompanyEmployee::where('company_id', $updateTicket->company)->get('user_id');

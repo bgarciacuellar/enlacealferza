@@ -81,6 +81,9 @@ trait helpers
             case 1.5:
                 $statusConverted = "Filtrado de incidencias";
                 break;
+            case 1.7:
+                $statusConverted = "Pre cálculo de nómina";
+                break;
             case 2:
                 $statusConverted = "Cálculo de nómina";
                 break;
@@ -123,6 +126,9 @@ trait helpers
                 break;
             case 1.5:
                 $statusConverted = "Enviar incidencias filtradas";
+                break;
+            case 1.7:
+                $statusConverted = "Enviar pre cálculo de nómina";
                 break;
             case 2:
                 $statusConverted = "Enviar cálculo de nómina";

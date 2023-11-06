@@ -103,13 +103,21 @@ Route::post('/ticket/next-step/{id}', [App\Http\Controllers\TicketController::cl
 Route::post('/ticket/last-step/{id}', [App\Http\Controllers\TicketController::class, 'lastStep'])
     ->name('ticket.lastStep');
 
+Route::post('/ticket/last-step-no-feedback/{id}', [App\Http\Controllers\TicketController::class, 'lastStepNoFeedback'])
+    ->name('ticket.lastStepNoFeedback');
+
 Route::post('/ticket/upload-preinvoice/{id}', [App\Http\Controllers\TicketController::class, 'uploadPreinvoice'])
     ->name('ticket.uploadPreinvoice');
 
 Route::post('/ticket/upload-payroll-receipt/{id}', [App\Http\Controllers\TicketController::class, 'uploadPayrollReceipt'])
     ->name('ticket.uploadPayrollReceipt');
+
 Route::post('/ticket/upload-payment-receipt/{id}', [App\Http\Controllers\TicketController::class, 'uploadPaymentReceipt'])
     ->name('ticket.uploadPaymentReceipt');
+
+Route::post('/ticket/upload-nominal-payment/{id}', [App\Http\Controllers\TicketController::class, 'uploadNominalPayment'])
+    ->name('ticket.uploadNominalPayment');
+
 Route::post('/ticket/upload-kardex/{id}', [App\Http\Controllers\TicketController::class, 'uploadKardex'])
     ->name('ticket.uploadKardex');
     //helpers

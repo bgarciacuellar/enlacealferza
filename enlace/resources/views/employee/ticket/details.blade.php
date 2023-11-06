@@ -196,29 +196,72 @@
                                 </div>
                             </div>
                         </div>
-                    @endif
-                    @if ($ticket->status == 5)
+                        @if ($ticket->status == 5)
+                            <div class="col-6">
+                                <div class="card profile-box flex-fill">
+                                    <div class="card-body">
+                                        <h3 class="card-title">Comprobante de pago</h3>
+                                        <div class="row">
+                                            <div class="col-7">
+                                                <form action="{{ route('ticket.uploadPaymentReceipt', $ticket->id) }}"
+                                                    method="POST" enctype="multipart/form-data">
+                                                    @csrf
+                                                    <label class="col-form-label">Subir nuevo comprobante<span
+                                                            class="text-danger">*</span></label>
+                                                    <input type="file" class="form-control" name="payment_receipt"
+                                                        required>
+                                                    <button type="submit"
+                                                        class="btn btn-primary mt-3 submit-btn">Subir</button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        @endif
                         <div class="col-6">
                             <div class="card profile-box flex-fill">
                                 <div class="card-body">
-                                    <h3 class="card-title">Comprobante de pago</h3>
-                                    <div class="row">
-                                        <div class="col-7">
-                                            <form action="{{ route('ticket.uploadPaymentReceipt', $ticket->id) }}"
-                                                method="POST" enctype="multipart/form-data">
-                                                @csrf
-                                                <label class="col-form-label">Subir nuevo comprobante<span
-                                                        class="text-danger">*</span></label>
-                                                <input type="file" class="form-control" name="payment_receipt"
-                                                    required>
-                                                <button type="submit"
-                                                    class="btn btn-primary mt-3 submit-btn">Subir</button>
-                                            </form>
+                                    <h3 class="card-title text-center">Pago nominal</h3>
+                                    <div class="row align-content-center" style=" max-height: 400px; overflow: auto;">
+                                        <div class="col-12 pb-3 text-center">
+                                            @if ($ticket->nominal_payment)
+                                                <a href="{{ asset('storage/nominal_payment/' . $ticket->nominal_payment) }}"
+                                                    target="_blank"><button
+                                                        class="btn btn-primary mt-3 submit-btn">Descargar <i
+                                                            class="fas fa-download"></i></button>
+                                                </a>
+                                            @else
+                                                <h2 class="ps-4 pt-4">No se ha subido ningún archivo</h2>
+                                            @endif
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
+                        @if ($ticket->status == 5)
+                            <div class="col-6">
+                                <div class="card profile-box flex-fill">
+                                    <div class="card-body">
+                                        <h3 class="card-title">Pago nominal</h3>
+                                        <div class="row">
+                                            <div class="col-7">
+                                                <form action="{{ route('ticket.uploadNominalPayment', $ticket->id) }}"
+                                                    method="POST" enctype="multipart/form-data">
+                                                    @csrf
+                                                    <label class="col-form-label">Subir nuevo pago nominal<span
+                                                            class="text-danger">*</span></label>
+                                                    <input type="file" class="form-control" name="nominal_payment"
+                                                        required>
+                                                    <button type="submit"
+                                                        class="btn btn-primary mt-3 submit-btn">Subir</button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        @endif
                     @endif
                     @if ($ticket->status >= 7)
                         <div class="col-6">

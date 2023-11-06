@@ -28,6 +28,7 @@ class CreateTicketsTable extends Migration
             $table->string('payroll_receipt')->nullable();
             $table->string('payment_receipt')->nullable();
             $table->string('kardex')->nullable();
+            $table->string('nominal_payment')->nullable();
             $table->string('ticket_type')->default('nómina');
             $table->integer('is_archived')->default(0);
             $table->timestamps();
