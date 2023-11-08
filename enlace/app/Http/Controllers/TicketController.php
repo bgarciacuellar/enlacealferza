@@ -453,6 +453,9 @@ class TicketController extends Controller
                 }
             } */    
             //Mail::to($emails)->send($message);
+            $ticket->update([
+                'is_archived' => 1,
+            ]);
             return back()->with('success', 'Kardex enviado');
         }
     }
