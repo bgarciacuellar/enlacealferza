@@ -296,7 +296,7 @@ class TicketController extends Controller
                 'status' => 5,
             ]);
         }else {
-            if ((str_contains($ticket->status, '.') && $ticket->status != 1.5 && $ticket->status != 1.7) || $ticket->status == 1) {
+            if ((str_contains($ticket->status, '.') && $ticket->status != 1.5 && $ticket->status != 1.7 && $ticket->status != 2.3) || $ticket->status == 1) {
                 $ticket->update([
                     'status' => $ticket->status + .5,
                 ]);
@@ -307,6 +307,14 @@ class TicketController extends Controller
             } elseif ($ticket->status == 1.7) {
                 $ticket->update([
                     'status' => 2,
+                ]);
+            } elseif ($ticket->status == 2) {
+                $ticket->update([
+                    'status' => 2.3 ,
+                ]);
+            } elseif ($ticket->status == 2.3) {
+                $ticket->update([
+                    'status' => 3 ,
                 ]);
             }else {
                 $ticket->update([
@@ -361,6 +369,18 @@ class TicketController extends Controller
             } */    
             //Mail::to($emails)->send($message);
             return back()->with('success', 'Pre cálculo de nómina enviado');
+        }elseif ($ticket->status == 2.3) {
+            /* $employees = CompanyEmployee::where('company_id', $ticket->company)->get('user_id');
+            $message = new PayrollAuthorized($userNameCreatedTicket, $ticket->id, $company);
+            $emails = [];
+            foreach ($employees as $employee) {
+                $employeeEmail = User::where('id', $employee->user_id)->first('email');
+                if ($employeeEmail) {
+                    $emails[] = $employeeEmail->email;
+                }
+            } */    
+            //Mail::to($emails)->send($message);
+            return back()->with('success', 'Nómina a finanzas');
         } elseif ($ticket->status == 3) {
             $employees = CompanyEmployee::where('company_id', $ticket->company)->get('user_id');
             $message = new UploadedPayroll($userNameCreatedTicket, $ticket->id, $company);

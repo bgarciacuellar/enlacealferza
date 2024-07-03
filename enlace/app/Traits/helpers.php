@@ -87,6 +87,9 @@ trait helpers
             case 2:
                 $statusConverted = "Cálculo de nómina";
                 break;
+            case 2.3:
+                $statusConverted = "En finanzas";
+                break;
             case 2.5:
                 $statusConverted = "Observaciones en revisión";
                 break;
@@ -132,6 +135,9 @@ trait helpers
                 break;
             case 2:
                 $statusConverted = "Enviar cálculo de nómina";
+                break;
+            case 2.3:
+                $statusConverted = "Envio de nómina";
                 break;
             case 2.5:
                 $statusConverted = "Enviar cálculo de nómina corregido";

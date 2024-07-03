@@ -156,7 +156,7 @@
         <!-- Profile Info Tab -->
         <div id="emp_profile" class="pro-overview tab-pane fade show active">
             <div class="row">
-                <div class="col-6">
+                <div class="col-lg-6">
                     <div class="card profile-box flex-fill">
                         <div class="card-body">
                             <h3 class="card-title">Historial de archivos</h3>
@@ -180,7 +180,7 @@
                     </div>
                 </div>
                 @if ($ticket->status <= 4)
-                    <div class="col-6">
+                    <div class="col-lg-6">
                         <div class="card profile-box flex-fill">
                             <div class="card-body">
                                 <h3 class="card-title">Archivo</h3>
@@ -205,8 +205,121 @@
                         </div>
                     </div>
                 @endif
+                @if ($ticket->status >= 4)
+                    <div class="col-lg-6">
+                        <div class="card profile-box flex-fill">
+                            <div class="card-body">
+                                <h3 class="card-title">Recibos de nómina</h3>
+                                <div class="row align-content-center" style=" max-height: 400px; overflow: auto;">
+                                    <div class="col-6 pb-3">
+                                        @if ($ticket->payroll_receipt)
+                                            <a href="{{ asset('storage/payroll_receipt/' . $ticket->payroll_receipt) }}"
+                                                target="_blank"><button class="btn btn-primary mt-3 submit-btn">Descargar
+                                                    <i class="fas fa-download"></i></button>
+                                            </a>
+                                        @else
+                                            <h2 class="ps-4 pt-4">No se ha subido ningún archivo</h2>
+                                        @endif
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    @if ($ticket->status <= 4)
+                        <div class="col-lg-6">
+                            <div class="card profile-box flex-fill">
+                                <div class="card-body">
+                                    <h3 class="card-title">Recibos de nómina</h3>
+                                    <div class="row">
+                                        <div class="col-7">
+                                            <form action="{{ route('ticket.uploadPayrollReceipt', $ticket->id) }}"
+                                                method="POST" enctype="multipart/form-data">
+                                                @csrf
+                                                <label class="col-form-label">Subir nuevos recibos de nómina<span
+                                                        class="text-danger">*</span></label>
+                                                <input type="file" class="form-control" name="payroll_receipt"
+                                                    required>
+                                                <button type="submit"
+                                                    class="btn btn-primary mt-3 submit-btn">Subir</button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    @endif
+                @endif
+                @if ($ticket->status >= 6)
+                    @if ($ticket->ticket_type == 'nómina')
+                        <div class="col-lg-6">
+                            <div class="card profile-box flex-fill">
+                                <div class="card-body">
+                                    <h3 class="card-title text-center">Comprobante de pago</h3>
+                                    <div class="row align-content-center" style=" max-height: 400px; overflow: auto;">
+                                        <div class="col-12 pb-3 text-center">
+                                            @if ($ticket->payment_receipt)
+                                                <a href="{{ asset('storage/payment_receipt/' . $ticket->payment_receipt) }}"
+                                                    target="_blank"><button
+                                                        class="btn btn-primary mt-3 submit-btn">Descargar <i
+                                                            class="fas fa-download"></i></button>
+                                                </a>
+                                            @else
+                                                <h2 class="ps-4 pt-4">No se ha subido ningún archivo</h2>
+                                            @endif
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6"></div>
+                    @endif
+                @endif
+                @if ($ticket->status >= 7)
+                    @if ($ticket->ticket_type == 'nómina')
+                        <div class="col-lg-6">
+                            <div class="card profile-box flex-fill">
+                                <div class="card-body">
+                                    <h3 class="card-title text-center">Kardex</h3>
+                                    <div class="row align-content-center" style=" max-height: 400px; overflow: auto;">
+                                        <div class="col-12 pb-3 text-center">
+                                            @if ($ticket->kardex)
+                                                <a href="{{ asset('storage/kardex/' . $ticket->kardex) }}"
+                                                    target="_blank"><button
+                                                        class="btn btn-primary mt-3 submit-btn">Descargar <i
+                                                            class="fas fa-download"></i></button>
+                                                </a>
+                                            @else
+                                                <h2 class="ps-4 pt-4">No se ha subido ningún archivo</h2>
+                                            @endif
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="card profile-box flex-fill">
+                                <div class="card-body">
+                                    <h3 class="card-title">Kardex</h3>
+                                    <div class="row">
+                                        <div class="col-7">
+                                            <form action="{{ route('ticket.uploadKardex', $ticket->id) }}" method="POST"
+                                                enctype="multipart/form-data">
+                                                @csrf
+                                                <label class="col-form-label">Subir kardex<span
+                                                        class="text-danger">*</span></label>
+                                                <input type="file" class="form-control" name="kardex" required>
+                                                <button type="submit"
+                                                    class="btn btn-primary mt-3 submit-btn">Subir</button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    @endif
+                @endif
             </div>
-            @if ($ticket->status >= 4)
+            {{-- @if ($ticket->status >= 4)
                 <div class="row">
                     <div class="col-6">
                         <div class="card profile-box flex-fill">
@@ -251,8 +364,8 @@
                         </div>
                     @endif
                 </div>
-            @endif
-            @if ($ticket->status >= 6)
+            @endif --}}
+            {{-- @if ($ticket->status >= 6)
                 <div class="row ">
                     @if ($ticket->ticket_type == 'nómina')
                         <div class="col-6">
@@ -277,8 +390,8 @@
                         </div>
                     @endif
                 </div>
-            @endif
-            @if ($ticket->status >= 7)
+            @endif --}}
+            {{-- @if ($ticket->status >= 7)
                 <div class="row ">
                     @if ($ticket->ticket_type == 'nómina')
                         <div class="col-6">
@@ -323,7 +436,7 @@
                         </div>
                     @endif
                 </div>
-            @endif
+            @endif --}}
         </div>
         <!-- /Profile Info Tab -->
 
